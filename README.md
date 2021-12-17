@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://mars2d.cn/logo.png" width="300px" />
+<img src="https://cdn.jsdelivr.net/gh/muyao1987/cdn/mars2d.cn/logo.png" width="300px" />
 </p>
 
 <p align="center">基于 Vue3.x 的 mars2d🌎功能示例 </p>
@@ -109,7 +109,7 @@ npm run build
 ### 运行效果  
  [在线体验](http://mars2d.cn/example)  
 
- ![image](http://mars2d.cn/img/example.jpg)
+ ![image](https://cdn.jsdelivr.net/gh/muyao1987/cdn/mars2d.cn/xm/example/1.jpg)
 
 
  
