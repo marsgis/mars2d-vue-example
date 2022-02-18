@@ -1,0 +1,13 @@
+#centerDiv {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+}
+#centerDivEx {
+  position: absolute;
+  right: 0px;
+  border: 1px solid #ccc;
+  top: 0px;
+  bottom: 0px;
+  width: 50%;
+}

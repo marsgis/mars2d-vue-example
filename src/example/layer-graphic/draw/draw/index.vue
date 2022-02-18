@@ -1,0 +1,93 @@
+<template>
+  <mars-pannel :visible="true" right="10" top="10">
+    <div class="f-mb">
+      <layer-state />
+    </div>
+
+    <div class="f-mb">
+      <data-manage />
+      <div class="save-file">
+        <a-space>
+          <mars-button @click="onClickSaveKml">另存KML</mars-button>
+          <mars-button @click="onClickSaveWKT">另存WKT</mars-button>
+        </a-space>
+      </div>
+    </div>
+
+    <a-space>
+      <span>图上标绘：</span>
+      <mars-button @click="drawMarker">图标点</mars-button>
+      <mars-button @click="drawPoint">点</mars-button>
+      <mars-button @click="drawLabel">文字</mars-button>
+      <mars-button @click="drawDivMarker">DIV点</mars-button>
+
+      <mars-button @click="drawPolyline">线</mars-button>
+      <mars-button @click="drawCurveLine">自由线</mars-button>
+      <mars-button @click="drawPolygon">面</mars-button>
+      <mars-button @click="drawCircle">圆</mars-button>
+
+      <mars-button @click="drawRectangle">矩形</mars-button>
+      <mars-button @click="drawImage">图片</mars-button>
+    </a-space>
+  </mars-pannel>
+</template>
+
+<script setup lang="ts">
+import { ref } from "vue"
+import LayerState from "@/components/mars-sample/layer-state.vue"
+import DataManage from "@/components/mars-sample/data-manage.vue"
+import * as mapWork from "./map.js"
+
+const drawMarker = () => {
+  mapWork.drawMarker()
+}
+
+const drawPoint = () => {
+  mapWork.drawPoint()
+}
+
+const drawLabel = () => {
+  mapWork.drawLabel()
+}
+
+const drawDivMarker = () => {
+  mapWork.drawDivMarker()
+}
+
+const drawPolyline = () => {
+  mapWork.drawPolyline()
+}
+
+const drawCurveLine = () => {
+  mapWork.drawCurveLine()
+}
+
+const drawPolygon = () => {
+  mapWork.drawPolygon()
+}
+const drawCircle = () => {
+  mapWork.drawCircle()
+}
+const drawRectangle = () => {
+  mapWork.drawRectangle()
+}
+
+const drawImage = () => {
+  mapWork.drawImage()
+}
+
+const onClickSaveKml = () => {
+  mapWork.onClickSaveKml()
+}
+
+const onClickSaveWKT = () => {
+  mapWork.onClickSaveWKT()
+}
+</script>
+
+<style scoped lang="less">
+.save-file {
+  margin-left: 62px;
+  margin-top: 10px;
+}
+</style>

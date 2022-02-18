@@ -1,0 +1,58 @@
+#centerDivJJ {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.stree {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+}
+
+#centerDiv2D {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.streetimg .text {
+  display: block;
+  margin-top: 48px;
+  margin-left: 18px;
+}
+
+/* 兼容屏幕大小 美观显示状态栏信息 */
+@media screen and (max-width: 2400px) {
+  .mars3d-locationbar-content > div {
+    margin-right: 15px;
+  }
+}
+@media screen and (max-width: 2000px) {
+  .cesium-performanceDisplay-ms,
+  .cesium-performanceDisplay-fps,
+  .mars3d-locationbar-content > .hide1000 {
+    display: none;
+  }
+  .mars3d-locationbar-content > div {
+    margin-right: 10px;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .mars3d-locationbar-content > .hide700 {
+    display: none;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .mars3d-locationbar {
+    display: none;
+  }
+}

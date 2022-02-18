@@ -1,0 +1,137 @@
+/*
+* index页面css
+*/
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+  font-size: 14px;
+  background: #000;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  line-height: 1.6;
+  color: #76838f;
+  background-color: #fff;
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  color: #62a8ea;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: #89bceb;
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline: none;
+  outline-offset: -2px;
+}
+
+figure {
+  margin: 0;
+}
+
+img {
+  vertical-align: middle;
+}
+
+#centerDiv2D {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  border: none;
+  overflow: hidden;
+  position: relative;
+}
+
+/**infoview浮动面板*/
+.infoview {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: 1px solid rgba(128, 128, 128, 0.5);
+  color: #000;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+  z-index: 19870101;
+}
+/* .infoview-right {
+  left: auto;
+  right: 10px;
+} */
+
+.infoview > div {
+  margin-top: 5px;
+}
+
+.info-tips {
+  margin: 5px 10px 20px 10px;
+}
+
+.map-control-bar {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+}
+
+/*弹出层皮肤*/
+.layui-layer-title {
+  background-color: #1e9fff !important;
+  color: #fff !important;
+}
+
+.slider-selection {
+  background-image: linear-gradient(to bottom, #86b9e6 0, #86b9e6 100%);
+}
+
+
+/*解决问题：https://github.com/Leaflet/Leaflet/issues/3575**/
+.leaflet-tile-container img {
+  width: 257px !important;
+  height: 257px !important;
+}

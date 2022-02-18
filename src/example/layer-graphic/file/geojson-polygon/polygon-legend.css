@@ -1,0 +1,28 @@
+.legend-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 5000;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+  background: rgba(238, 240, 237, 0.9);
+}
+
+.legend-title {
+  text-align: center;
+}
+
+.legend-item {
+  line-height: 28px;
+  margin: 3px 0;
+}
+
+.legend-color {
+  padding: 2px 20px;
+  opacity: 0.6;
+}
+
+.legend-des {
+  margin-left: 5px;
+}

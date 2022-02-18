@@ -1,0 +1,73 @@
+.tipBox {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 240px;
+  height: 260px;
+}
+
+.tipHeader {
+  width: 255px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background-color: #372d83;
+}
+
+.tipBodyFirstPart {
+  width: 100%;
+  line-height: 10px;
+  text-align: left;
+  padding: 10px 0 5px 15px;
+  background-color: #465996;
+}
+.tipBodySecondPart {
+  width: 100%;
+  min-height: 5px;
+  text-align: left;
+  padding: 5px 0 10px 15px;
+  background-color: #465996;
+}
+.tipBodySecondPart table {
+  width: 100%;
+}
+.tipBodySecondPart table tr td:not(:first-child) {
+  text-align: center;
+  font-size: 13px;
+}
+
+.triangle-left {
+  position: absolute;
+  top: 15px;
+  left: -15px;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-right: 15px solid #372d83;
+  border-bottom: 5px solid transparent;
+}
+
+.legendContent {
+  position: fixed;
+  top: 3px;
+  right: 1px;
+  color: #e9e9e9;
+  text-shadow: 2px 2px 2px #000;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.legendContent ul {
+  margin: 0;
+  padding: 0;
+}
+.legendContent li {
+  margin: 3px 9px;
+  line-height: 22px;
+  float: left;
+}
+.legendContent span.round {
+  width: 8px;
+  height: 8px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 6px;
+}

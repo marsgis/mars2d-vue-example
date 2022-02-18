@@ -1,0 +1,280 @@
+{
+  "label": {
+    "name": "文字",
+    "style": [
+      { "name": "text", "label": "内容", "type": "textarea", "defval": "文字" },
+      { "name": "opacity", "label": "透明度", "type": "slider", "defval": 1 },
+
+      { "name": "color", "label": "颜色", "type": "color", "defval": "#0081c2" },
+      { "name": "font_size", "label": "字体大小", "type": "number", "defval": 30 },
+      {
+        "name": "font_family",
+        "label": "字体",
+        "type": "combobox",
+        "defval": "黑体",
+        "data": [
+          { "text": "黑体", "value": "黑体" },
+          { "text": "宋体", "value": "宋体" },
+          { "text": "楷体", "value": "楷体" },
+          { "text": "微软雅黑", "value": "微软雅黑" }
+        ]
+      },
+      {
+        "name": "font_style",
+        "label": "是否斜体",
+        "type": "combobox",
+        "defval": "normal",
+        "data": [
+          { "text": "是", "value": "italic" },
+          { "text": "否", "value": "normal" }
+        ]
+      },
+      {
+        "name": "font_weight",
+        "label": "是否加粗",
+        "type": "combobox",
+        "defval": "normal",
+        "data": [
+          { "text": "是", "value": "bold" },
+          { "text": "否", "value": "normal" }
+        ]
+      },
+      { "name": "background", "label": "是否背景", "type": "radio", "defval": false, "impact": ["background_color"] },
+      { "name": "background_color", "label": "背景颜色", "type": "color", "defval": "#ccc" },
+
+      { "name": "border", "label": "是否边框", "type": "radio", "defval": false, "impact": ["border_color", "border_width", "border_style"] },
+      { "name": "border_color", "label": "边框颜色", "type": "color", "defval": "#5928de" },
+      { "name": "border_width", "label": "边框宽度", "type": "number", "defval": 3 },
+      {
+        "name": "border_style",
+        "label": "边框样式",
+        "type": "combobox",
+        "defval": "solid",
+        "data": [
+          { "text": "实线", "value": "solid" },
+          { "text": "双实线", "value": "double" },
+          { "text": "3D凹槽", "value": "groove" },
+          { "text": "菱形", "value": "ridge" },
+          { "text": "3D凹", "value": "inset" },
+          { "text": "3D凸", "value": "outset" }
+        ]
+      }
+    ]
+  },
+  "marker": {
+    "name": "点标记",
+    "style": [
+      { "name": "image", "label": "图标", "type": "label", "defval": "" },
+      { "name": "opacity", "label": "透明度", "type": "slider", "defval": 1 },
+      { "name": "width", "label": "宽度", "type": "number", "defval": 30 },
+      { "name": "height", "label": "高度", "type": "number", "defval": 30 },
+      {
+        "name": "horizontalOrigin",
+        "label": "横向对齐",
+        "type": "combobox",
+        "defval": 0,
+        "data": [
+          { "text": "左边", "value": 1 },
+          { "text": "居中", "value": 0 },
+          { "text": "右边", "value": -1 }
+        ]
+      },
+      {
+        "name": "verticalOrigin",
+        "label": "垂直对齐",
+        "type": "combobox",
+        "defval": 0,
+        "data": [
+          { "text": "顶部", "value": -1 },
+          { "text": "居中", "value": 0 },
+          { "text": "底部", "value": 1 }
+        ]
+      }
+    ]
+  },
+  "divGraphic": {
+    "name": "DIV点",
+    "style": [
+      { "name": "opacity", "label": "透明度", "type": "slider", "defval": 1 },
+      {
+        "name": "horizontalOrigin",
+        "label": "横向对齐",
+        "type": "combobox",
+        "defval": 0,
+        "data": [
+          { "text": "左边", "value": 1 },
+          { "text": "居中", "value": 0 },
+          { "text": "右边", "value": -1 }
+        ]
+      },
+      {
+        "name": "verticalOrigin",
+        "label": "垂直对齐",
+        "type": "combobox",
+        "defval": 0,
+        "data": [
+          { "text": "顶部", "value": -1 },
+          { "text": "居中", "value": 0 },
+          { "text": "底部", "value": 1 }
+        ]
+      }
+    ]
+  },
+  "fontGraphic": {
+    "name": "字体图标点",
+    "style": [
+      { "name": "opacity", "label": "透明度", "type": "slider", "defval": 1 },
+
+      { "name": "size", "label": "大小", "type": "number", "defval": 50 },
+      { "name": "color", "label": "颜色", "type": "color", "defval": "#000000" },
+      { "name": "iconClass", "label": "字体class", "type": "hidden", "defval": "fa fa-crosshairs" },
+      {
+        "name": "horizontalOrigin",
+        "label": "横向对齐",
+        "type": "combobox",
+        "defval": 0,
+        "data": [
+          { "text": "左边", "value": 1 },
+          { "text": "居中", "value": 0 },
+          { "text": "右边", "value": -1 }
+        ]
+      },
+      {
+        "name": "verticalOrigin",
+        "label": "垂直对齐",
+        "type": "combobox",
+        "defval": 0,
+        "data": [
+          { "text": "顶部", "value": -1 },
+          { "text": "居中", "value": 0 },
+          { "text": "底部", "value": 1 }
+        ]
+      }
+    ]
+  },
+  "point": {
+    "name": "点",
+    "style": [
+      { "name": "pixelSize", "label": "大小", "type": "number", "defval": 6 },
+      { "name": "color", "label": "颜色", "type": "color", "defval": "#3388ff" },
+      { "name": "opacity", "label": "透明度", "type": "slider", "defval": 1 },
+      { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineColor", "outlineWidth", "outlineOpacity"] },
+      { "name": "outlineColor", "label": "边框颜色", "type": "color", "defval": "#3388ff" },
+      { "name": "outlineWidth", "label": "边框宽度", "type": "number", "defval": 2 },
+      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 }
+    ]
+  },
+  "polyline": {
+    "name": "线",
+    "style": [
+      { "name": "color", "label": "颜色", "type": "color", "defval": "#3388ff" },
+      { "name": "opacity", "label": "透明度", "type": "slider", "defval": 1 },
+      { "name": "width", "label": "线宽", "type": "number", "defval": 3 },
+      {
+        "name": "dashArray",
+        "label": "线型",
+        "type": "combobox",
+        "defval": "",
+        "data": [
+          { "text": "实线", "value": "" },
+          { "text": "虚线", "value": "5, 10" },
+          { "text": "虚点线", "value": "1, 5" },
+          { "text": "点画线1", "value": "5, 5, 1, 5" },
+          { "text": "点画线2", "value": "15, 10, 5, 10" }
+        ]
+      },
+      { "name": "offset", "label": "平行偏移", "type": "number", "defval": 0 }
+    ]
+  },
+  "polygon": {
+    "name": "面",
+    "style": [
+      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["fillColor", "fillOpacity"] },
+      { "name": "fillColor", "label": "填充颜色", "type": "color", "defval": "#3388ff" },
+      { "name": "fillOpacity", "label": "填充透明度", "type": "slider", "defval": 0.3 },
+
+      { "name": "outline", "label": "是否边框", "type": "radio", "defval": true, "impact": ["outlineColor", "outlineWidth", "outlineOpacity","dashArray"] },
+      { "name": "outlineColor", "label": "边框颜色", "type": "color", "defval": "#3388ff" },
+      { "name": "outlineWidth", "label": "边框宽度", "type": "number", "defval": 2 },
+      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 },
+      {
+        "name": "dashArray",
+        "label": "线型",
+        "type": "combobox",
+        "defval": "",
+        "data": [
+          { "text": "实线", "value": "" },
+          { "text": "虚线", "value": "5, 10" },
+          { "text": "虚点线", "value": "1, 5" },
+          { "text": "点画线1", "value": "5, 5, 1, 5" },
+          { "text": "点画线2", "value": "15, 10, 5, 10" }
+        ]
+      }
+    ]
+  },
+  "rectangle": {
+    "name": "矩形",
+    "style": [
+      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["fillColor", "fillOpacity"] },
+      { "name": "fillColor", "label": "填充颜色", "type": "color", "defval": "#3388ff" },
+      { "name": "fillOpacity", "label": "填充透明度", "type": "slider", "defval": 0.3 },
+
+      { "name": "outline", "label": "是否边框", "type": "radio", "defval": true, "impact": ["outlineColor", "outlineWidth", "outlineOpacity","dashArray"] },
+      { "name": "outlineColor", "label": "边框颜色", "type": "color", "defval": "#3388ff" },
+      { "name": "outlineWidth", "label": "边框宽度", "type": "number", "defval": 2 },
+      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 },
+      {
+        "name": "dashArray",
+        "label": "线型",
+        "type": "combobox",
+        "defval": "",
+        "data": [
+          { "text": "实线", "value": "" },
+          { "text": "虚线", "value": "5, 10" },
+          { "text": "虚点线", "value": "1, 5" },
+          { "text": "点画线1", "value": "5, 5, 1, 5" },
+          { "text": "点画线2", "value": "15, 10, 5, 10" }
+        ]
+      }
+    ]
+  },
+  "circle": {
+    "name": "圆",
+    "style": [
+      { "name": "radius", "label": "半径", "type": "number", "defval": 0 },
+
+
+      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["fillColor", "fillOpacity"] },
+      { "name": "fillColor", "label": "填充颜色", "type": "color", "defval": "#3388ff" },
+      { "name": "fillOpacity", "label": "填充透明度", "type": "slider", "defval": 0.3 },
+
+      { "name": "outline", "label": "是否边框", "type": "radio", "defval": true, "impact": ["outlineColor", "outlineWidth", "outlineOpacity","dashArray"] },
+      { "name": "outlineColor", "label": "边框颜色", "type": "color", "defval": "#3388ff" },
+      { "name": "outlineWidth", "label": "边框宽度", "type": "number", "defval": 2 },
+      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 },
+      {
+        "name": "dashArray",
+        "label": "线型",
+        "type": "combobox",
+        "defval": "",
+        "data": [
+          { "text": "实线", "value": "" },
+          { "text": "虚线", "value": "5, 10" },
+          { "text": "虚点线", "value": "1, 5" },
+          { "text": "点画线1", "value": "5, 5, 1, 5" },
+          { "text": "点画线2", "value": "15, 10, 5, 10" }
+        ]
+      },
+
+      { "name": "startAngle", "label": "开始角度", "type": "number", "defval": 0 },
+      { "name": "stopAngle", "label": "结束角度", "type": "number", "defval": 360 }
+    ]
+  },
+  "image": {
+    "name": "图片",
+    "style": [
+      { "name": "url", "label": "路径", "type": "label", "defval": "" },
+      { "name": "opacity", "label": "透明度", "type": "slider", "defval": 1 }
+    ]
+  }
+}

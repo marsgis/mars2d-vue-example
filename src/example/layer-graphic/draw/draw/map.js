@@ -1,0 +1,287 @@
+import * as mars2d from "mars2d"
+
+let map // mars2d.Map三维地图对象
+export let graphicLayer
+
+// 事件对象，用于抛出事件给vue
+export const eventTarget = new mars2d.BaseClass()
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars2d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+
+  graphicLayer = new mars2d.layer.GraphicLayer({
+    hasEdit: true,
+    isAutoEditing: true // 绘制完成后是否自动激活编辑
+  })
+  map.addLayer(graphicLayer)
+
+  // 绑定标绘相关事件监听(可以自行加相关代码实现业务需求，此处主要做示例)
+  graphicLayer.on(mars2d.EventType.drawStart, function (e) {
+    console.log("开始绘制", e)
+  })
+  graphicLayer.on(mars2d.EventType.drawAddPoint, function (e) {
+    console.log("绘制过程中增加了点", e)
+  })
+  graphicLayer.on(mars2d.EventType.drawRemovePoint, function (e) {
+    console.log("绘制过程中删除了点", e)
+  })
+
+  graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
+    console.log("创建完成", e)
+  })
+
+  graphicLayer.on(mars2d.EventType.editStart, function (e) {
+    console.log("开始编辑", e)
+    eventTarget.fire("graphicEditor-start", e)
+    // startEditing(e.graphic)
+  })
+
+  graphicLayer.on(mars2d.EventType.editMovePoint, function (e) {
+    console.log("编辑修改了点", e)
+    // startEditing(e.graphic)
+    eventTarget.fire("graphicEditor-start", e)
+  })
+  graphicLayer.on(mars2d.EventType.editRemovePoint, function (e) {
+    console.log("编辑删除了点", e)
+
+    // startEditing(e.graphic)
+    eventTarget.fire("graphicEditor-start", e)
+  })
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function drawPoint() {
+  graphicLayer.startDraw({
+    type: "point",
+    style: {
+      pixelSize: 8,
+      color: "#000dfc"
+    }
+  })
+}
+
+export function drawMarker() {
+  graphicLayer.startDraw({
+    type: "marker",
+    style: {
+      image: "img/marker/mark1.png",
+      width: 32,
+      height: 44
+    }
+  })
+}
+
+export function drawLabel() {
+  graphicLayer.startDraw({
+    type: "label",
+    style: {
+      text: "Mars2D平台",
+      color: "#000dfc",
+      font_size: 25,
+      font_family: "楷体"
+    }
+  })
+}
+
+export function drawDivMarker() {
+  graphicLayer.startDraw({
+    type: "divGraphic",
+    style: {
+      html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
+          <div class="marsTiltPanel-wrap">
+              <div class="area">
+                  <div class="arrow-lt"></div>
+                  <div class="b-t"></div>
+                  <div class="b-r"></div>
+                  <div class="b-b"></div>
+                  <div class="b-l"></div>
+                  <div class="arrow-rb"></div>
+                  <div class="label-wrap">
+                      <div class="title">火星水厂</div>
+                      <div class="label-content">
+                          <div class="data-li">
+                              <div class="data-label">实时流量：</div>
+                              <div class="data-value"><span id="lablLiuliang" class="label-num">39</span><span class="label-unit">m³/s</span>
+                              </div>
+                          </div>
+                          <div class="data-li">
+                              <div class="data-label">水池液位：</div>
+                              <div class="data-value"><span id="lablYeWei"  class="label-num">10.22</span><span class="label-unit">m</span>
+                              </div>
+                          </div>
+                          <div class="data-li">
+                              <div class="data-label">水泵状态：</div>
+                              <div class="data-value">
+                                <span id="lablSBZT1"  class="label-tag data-value-status-1" alt="中间状态">1号</span>
+                                <span id="lablSBZT2"  class="label-tag data-value-status-0" alt="关闭状态">2号</span>
+                               </div>
+                          </div>
+                          <div class="data-li">
+                              <div class="data-label">出水阀门：</div>
+                              <div class="data-value">
+                                <span id="lablCSFM1"   class="label-tag data-value-status-1" alt="中间状态">1号</span>
+                                <span id="lablCSFM2"   class="label-tag data-value-status-2" alt="打开状态">2号</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="b-t-l"></div>
+              <div class="b-b-r"></div>
+          </div>
+          <div class="arrow" ></div>
+      </div>`,
+      horizontalOrigin: mars2d.HorizontalOrigin.LEFT,
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
+    }
+  })
+}
+
+export function drawPolyline() {
+  graphicLayer.startDraw({
+    type: "polyline",
+    style: {
+      width: 3,
+      color: "#000dfc"
+    }
+  })
+}
+
+export function drawCurveLine() {
+  graphicLayer.startDraw({
+    type: "brushLine",
+    style: {
+      width: 3,
+      color: "#000dfc"
+    }
+  })
+}
+
+export function drawPolygon() {
+  graphicLayer.startDraw({
+    type: "polygon",
+    style: {
+      fill: true,
+      fillColor: "#000dfc",
+      fillOpacity: 0.3,
+      outline: true,
+      outlineWidth: 2,
+      outlineColor: "#254dc4",
+      outlineOpacity: 1
+    }
+  })
+}
+
+export function drawRectangle() {
+  graphicLayer.startDraw({
+    type: "rectangle",
+    style: {
+      fill: true,
+      fillColor: "#000dfc",
+      fillOpacity: 0.3,
+      outline: true,
+      outlineWidth: 2,
+      outlineColor: "#254dc4",
+      outlineOpacity: 1
+    }
+  })
+}
+
+export function drawImage() {
+  graphicLayer.startDraw({
+    type: "image",
+    style: {
+      url: "img/simple/gugong.jpg",
+      opacity: 1
+    }
+  })
+}
+
+export function drawCircle() {
+  graphicLayer.startDraw({
+    type: "circle",
+    style: {
+      fill: true,
+      fillColor: "#000dfc",
+      fillOpacity: 0.3,
+      outline: true,
+      outlineWidth: 2,
+      outlineColor: "#254dc4",
+      outlineOpacity: 1
+    }
+  })
+}
+
+export function onClickSaveKml() {
+  if (graphicLayer.length === 0) {
+    window.layer.msg("当前没有标注任何数据，无需保存！")
+    return
+  }
+  const strResult = toKML()
+  mars2d.Util.downloadFile("我的标注.kml", strResult)
+}
+
+export function onClickSaveWKT() {
+  if (graphicLayer.length === 0) {
+    window.layer.msg("当前没有标注任何数据，无需保存！")
+    return
+  }
+  const strResult = toWKT()
+  mars2d.Util.downloadFile("我的标注wkt.txt", JSON.stringify(strResult))
+}
+
+function toKML() {
+  let geojsonObject = graphicLayer.toGeoJSON()
+  if (geojsonObject == null) {
+    return null
+  }
+
+  geojsonObject = mars2d.Util.clone(geojsonObject)
+
+  const kml = kgUtil.toKml(geojsonObject, {
+    name: "Mars2D标绘数据",
+    documentName: "Mars2D标绘数据文件",
+    documentDescription: "标绘数据 by mars2d.cn",
+    simplestyle: true
+  })
+
+  return kml
+}
+
+function toWKT() {
+  let geojsonObject = graphicLayer.toGeoJSON()
+  if (geojsonObject == null) {
+    return null
+  }
+  geojsonObject = mars2d.Util.clone(geojsonObject)
+
+  const arrWKT = []
+  let index = 0
+  geojsonObject.features.forEach((feature) => {
+    const attr = feature.properties
+    const style = feature.properties.style
+
+    const wkt = Terraformer.WKT.convert(feature.geometry) // geojson转换WKT格式 ,terraformer库
+    arrWKT.push({
+      id: ++index,
+      name: attr.name || "",
+      remark: attr.remark || "",
+      style: style,
+      wkt: wkt
+    })
+  })
+  return arrWKT
+}

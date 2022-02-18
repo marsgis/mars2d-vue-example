@@ -1,0 +1,68 @@
+.gdpViewPopup .leaflet-popup-content-wrapper,
+.gdpViewPopup .leaflet-popup-tip {
+  background: none;
+  box-shadow: none;
+}
+.gdpViewPopup a.leaflet-popup-close-button {
+  position: absolute;
+  right: -395px;
+  top: -291px;
+  width: 30px;
+  height: 40px;
+  font-size: 25px;
+  color: white;
+  border: none;
+  background-color: #1f3f8e !important;
+}
+
+.gdpView {
+  min-width: 90px;
+  min-height: 35px;
+  position: absolute;
+  left: 16px;
+  bottom: 31px;
+  cursor: default;
+  border-radius: 4px;
+  opacity: 0.96;
+  border: 1px solid rgba(35, 40, 44, 0.226);
+  box-shadow: 0px 2px 21px 0px rgba(35, 40, 44, 0.226);
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: rgba(2, 79, 128, 0.425);
+}
+
+.gdpView::before {
+  content: "";
+  width: calc(100% + 22px);
+  height: 39px;
+  position: absolute;
+  bottom: -39px;
+  left: -22px;
+  background: url(/img/marker/popupLbl.png) 0px 0px no-repeat;
+  background-position: 0px 0px;
+}
+
+.gdpCharts {
+  width: 470px;
+  height: 275px;
+  text-align: center;
+  padding: 1px;
+  font-size: 14px;
+  font-family: "MicrosoftYaHei";
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 33px;
+  /* border: 1px solid #ffffff4f; */
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.gdpCharts::before {
+  content: "";
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  background-color: #1f3f8e;
+}

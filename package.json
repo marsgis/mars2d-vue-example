@@ -1,0 +1,83 @@
+{
+  "name": "mars2d-vue-example",
+  "version": "3.0.0",
+  "description": "在Vue3技术栈下的Mars2D平台 功能示例 演示项目",
+  "scripts": {
+    "serve": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "build-tsc": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint ./src/**/*.{js,jsx,vue,ts,tsx} --fix"
+  },
+  "dependencies": {
+    "@iconify/vue": "^3.1.3",
+    "ant-design-vue": "3.0.0-beta.9",
+    "axios": "^0.25.0",
+    "core-js": "^3.20.3",
+    "dayjs": "^1.10.7",
+    "echarts": "^5.2.2",
+    "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
+    "mars-editor": "^2.4.0",
+    "mars2d": "^3.0.6",
+    "monaco-editor": "^0.29.1",
+    "nprogress": "^0.2.0",
+    "serve": "^13.0.2",
+    "split.js": "^1.6.4",
+    "standard": "^16.0.4",
+    "uuid": "^8.3.2",
+    "vue": "^3.2.30",
+    "vue-color-kit": "^1.0.5",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.10",
+    "@vitejs/plugin-vue": "^2.1.0",
+    "@vue/eslint-config-typescript": "^10.0.0",
+    "consola": "^2.15.3",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "eslint-plugin-vue": "^8.3.0",
+    "fs-extra": "^10.0.0",
+    "less": "^4.1.2",
+    "rollup-plugin-copy": "^3.4.0",
+    "serve-static": "^1.14.2",
+    "standard": "^16.0.4",
+    "typescript": "^4.5.5",
+    "unplugin-vue-components": "^0.17.13",
+    "vite": "^2.8.0",
+    "vite-babel-plugin": "^0.0.2",
+    "vite-plugin-eslint": "^1.3.0",
+    "vite-plugin-mars3d": "^1.1.1",
+    "vite-plugin-monaco-editor": "^1.0.10",
+    "vite-plugin-style-import": "^2.0.0",
+    "vue-tsc": "^0.31.1"
+  },
+  "engines": {
+    "node": ">=14.18.0",
+    "npm": "^7.23.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marsgis/mars2d-vue-example.git"
+  },
+  "bugs": {
+    "url": "https://github.com/marsgis/mars2d-vue-example/issues",
+    "email": "wh@marsgis.cn"
+  },
+  "keywords": [
+    "marsgis",
+    "mars2d",
+    "cesium",
+    "vue",
+    "vue3",
+    "gis",
+    "webgis"
+  ],
+  "author": "火星科技",
+  "license": "Apache-2.0",
+  "homepage": "http://mars2d.cn"
+}

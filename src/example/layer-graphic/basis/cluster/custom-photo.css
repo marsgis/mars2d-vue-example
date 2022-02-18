@@ -1,0 +1,36 @@
+.myclusterLayer {
+  width: 40px;
+  height: 40px;
+  background-color: greenyellow;
+  text-align: center;
+  font-size: 24px;
+}
+
+.mars2d-marker-photo {
+  border: 2px solid #fff;
+  box-shadow: 3px 3px 10px #888;
+}
+
+.mars2d-marker-photo div {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.mars2d-marker-photo b {
+  position: absolute;
+  top: -6px;
+  right: -11px;
+  color: #555;
+  background-color: #fff;
+  border-radius: 8px;
+  height: 15px;
+  min-width: 15px;
+  line-height: 15px;
+  text-align: center;
+  padding: 1px;
+  box-shadow: 0 3px 14px rgb(0 0 0 / 40%);
+  font-size: 12px;
+}

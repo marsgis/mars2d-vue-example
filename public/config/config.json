@@ -1,0 +1,140 @@
+﻿{
+  "mars2d": {
+    "zoom": 13,
+    "center": { "lng": 117.240601, "lat": 31.827107 },
+    "minZoom": 2,
+    "maxZoom": 18,
+    "centerAutoLevel": 15,
+    "controls": {
+      "scale": true,
+      "locationBar": {
+        "crs": "CGCS2000_GK_Zone_3",
+        "template": "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>横{crsx}  纵{crsy}</div> <div>层级:{level}</div>"
+      },
+      "layers": { "position": "topleft" },
+      "zoom": { "position": "bottomright" },
+      "toolBar": { "position": "bottomright" }
+    },
+    "basemaps": [
+      {
+        "id": 10,
+        "name": "地图底图",
+        "type": "group"
+      },
+      {
+        "pid": 10,
+        "name": "天地图电子",
+        "type": "group",
+        "layers": [
+          {
+            "name": "底图",
+            "type": "tdt",
+            "layer": "vec_d",
+            "key": ["ad5bee3fe473a639887fa9d57a670c6e"]
+          },
+          {
+            "name": "注记",
+            "type": "tdt",
+            "layer": "vec_z",
+            "key": ["ad5bee3fe473a639887fa9d57a670c6e"]
+          }
+        ]
+      },
+      {
+        "pid": 10,
+        "name": "天地图卫星",
+        "type": "group",
+        "layers": [
+          {
+            "name": "底图",
+            "type": "tdt",
+            "layer": "img_d",
+            "key": ["ad5bee3fe473a639887fa9d57a670c6e"]
+          },
+          {
+            "name": "注记",
+            "type": "tdt",
+            "layer": "img_z",
+            "key": ["ad5bee3fe473a639887fa9d57a670c6e"]
+          }
+        ]
+      },
+      {
+        "id": 2021,
+        "pid": 10,
+        "name": "高德地图",
+        "type": "gaode",
+        "layer": "vec",
+        "show": true
+      },
+      {
+        "pid": 10,
+        "name": "高德卫星",
+        "type": "group",
+        "icon": "img/basemaps/googleimage.png",
+        "layers": [
+          {
+            "name": "底图",
+            "type": "gaode",
+            "layer": "img_d"
+          },
+          {
+            "name": "注记",
+            "type": "gaode",
+            "layer": "img_z"
+          }
+        ]
+      },
+      {
+        "pid": 10,
+        "name": "ArcGIS地图",
+        "type": "tile",
+        "url": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/{z}/{y}/{x}",
+        "chinaCRS": "GCJ02"
+      },
+      {
+        "pid": 10,
+        "name": "ArcGIS卫星",
+        "type": "arcgis",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
+      },
+      {
+        "pid": 10,
+        "name": "OSM地图",
+        "type": "xyz",
+        "url": "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "subdomains": "abc"
+      },
+      {
+        "pid": 10,
+        "name": "深色地图",
+        "type": "mapbox",
+        "username": "marsgis",
+        "styleId": "cki0a2mtc2vyo1bqu76p8ks8m"
+      },
+      {
+        "pid": 10,
+        "name": "灰色地图",
+        "type": "arcgis",
+        "url": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetGray/MapServer",
+        "chinaCRS": "GCJ02"
+      },
+      {
+        "id": 2017,
+        "pid": 10,
+        "name": "蓝色地图",
+        "type": "arcgis",
+        "url": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+        "chinaCRS": "GCJ02"
+      }
+    ],
+    "operationallayers": [
+      {
+        "id": 20,
+        "name": "辅助图层",
+        "type": "group"
+      },
+      { "pid":20,"name": "经纬网", "type": "graticule" }
+    ]
+  }
+}
