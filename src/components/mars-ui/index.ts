@@ -1,7 +1,7 @@
 /**
  * 统一导出公共组件, 按需初始化ant-design-vue
  * @copyright 火星科技 mars3d.cn
- * @author 木遥 2021-11-01
+ * @author 木遥 2022-01-01
  */
 import { App } from "vue"
 import MarsSelect from "./mars-select/index.vue"
@@ -23,8 +23,6 @@ import MarsAlert, { $alert as marsAlert } from "./mars-alert/"
 import MarsNotify, { $notify as marsNotify } from "./mars-notify"
 import MarsLoading, { $hideLoading as marsHideLoading, $showLoading as marsShowLoading } from "./mars-loading"
 import MarsTree from "./mars-tree"
-import MarsMenu from "./mars-menu"
-import MarsSteps from "./mars-steps"
 import {
   AutoComplete,
   Button,
@@ -131,8 +129,6 @@ export default function (app: App, config: Record<string, any> = {}): App {
   app.use(Divider)
   app.use(Card)
   app.use(Image)
-  app.use(MarsMenu)
-  app.use(MarsSteps)
 
   components.forEach((comp) => {
     app.component(comp.name, comp)

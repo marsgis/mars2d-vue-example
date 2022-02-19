@@ -9,7 +9,7 @@ function initMap() {
     control: {
       // 以下是Leaflet所支持的控件相关的options
       scale: true,
-      zoom: { position: "bottomright" },
+      zoom: { position: "bottomleft" },
       layers: { position: "topleft" },
 
       // 以下是mars2d.control定义的控件
@@ -18,7 +18,7 @@ function initMap() {
         crs: "CGCS2000_GK_Zone_3",
         template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>横{crsx}  纵{crsy}</div> <div>层级:{level}</div>"
       },
-      toolBar: { position: "bottomright" }
+      toolBar: { position: "bottomleft" }
     },
     basemaps: [
       {

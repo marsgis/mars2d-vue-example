@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog title="图层管理" width="280" :min-width="200" top="80" bottom="40" left="50">
+  <mars-dialog title="图层" width="280" :min-width="250" top="50" bottom="40" right="10">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="node">
         <mars-dropdown :trigger="['contextmenu']">
@@ -14,7 +14,6 @@
           </template>
         </mars-dropdown>
         <span v-if="node.hasOpacity" v-show="node.checked" class="tree-slider">
-          <!-- <mars-slider v-model:value="node.data.opacity" :min="0" :step="1" :max="100" @change="opcityChange(node)" /> -->
           <mars-slider v-model:value="opacityObj[node.id]" :min="0" :step="1" :max="100" @change="opcityChange(node)" />
         </span>
       </template>
@@ -25,7 +24,7 @@
 import { onUnmounted, nextTick, reactive, ref } from "vue"
 import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
 import * as mapWork from "./map"
-import { useWidget } from "@/widgets/common/store/widget"
+import { useWidget } from "@mars/widgets/common/store/widget"
 
 const { activate, disable } = useWidget()
 
@@ -98,7 +97,9 @@ const checkedChange = (keys: string[], e: any) => {
     }
     if (keys.indexOf(e.node.id) !== -1) {
       layer.show = true
-      layer.flyTo()
+      if (layer.flyTo) {
+        layer.flyTo()
+      }
     } else {
       layer.show = false
     }
@@ -179,7 +180,9 @@ const onContextMenuClick = (node: any, type: string) => {
 function flyTo(item: any) {
   if (item.checked) {
     const layer = layersObj[item.id]
-    layer.flyTo()
+    if (layer && layer.flyTo) {
+      layer.flyTo()
+    }
   }
 }
 
@@ -188,10 +191,14 @@ function initTree() {
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i] // 创建图层
 
+    if (!layer._hasMapInit && layer.pid === -1) {
+      layer.pid = 99 // 示例中创建的图层都放到99分组下面
+    }
+
     if (layer && layer.pid === -1) {
       const node: any = reactive({
         index: i,
-        title: layer.name,
+        title: layer.name || `未命名(${layer.type})`,
         key: layer.id,
         id: layer.id,
         pId: layer.pid,
@@ -229,7 +236,7 @@ function findChild(parent: any, list: any[]) {
     .map((item: any, i: number) => {
       const node: any = {
         index: i,
-        title: item.name,
+        title: item.name || `未命名(${item.type})`,
         key: item.id,
         id: item.id,
         pId: item.pid,

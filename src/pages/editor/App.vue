@@ -2,7 +2,7 @@
   <a-spin :spinning="loading" wrapperClassName="global-spin">
     <mars-editor ref="editorRef" :id="id" :full-name="name">
       <div class="mars-main-view" id="mars-main-view">
-        <mars-operation @childMounted="onChildMounted" />
+        <main-operation @childMounted="onChildMounted" />
 
         <template v-if="mapLoaded">
           <template v-for="comp in widgets" :key="comp.key">
@@ -22,8 +22,8 @@
 <script setup lang="ts">
 import { getQueryString } from "@mars/utils/mars-util"
 import { getCurrentInstance, ref, provide } from "vue"
-import MarsOperation from "@mars/components/mars-work/mars-operation.vue"
-import { useWidget, Widget } from "@/widgets/common/store/widget"
+import MainOperation from "@mars/components/mars-work/main-operation.vue"
+import { useWidget, Widget } from "@mars/widgets/common/store/widget"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
 

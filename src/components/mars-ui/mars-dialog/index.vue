@@ -18,13 +18,7 @@
           </div>
         </div>
       </div>
-      <div
-        v-for="handle in actualHandles"
-        :key="handle"
-        class="handle"
-        :class="['handle-' + handle]"
-        @mousedown="handleDown(handle, $event)"
-      >
+      <div v-for="handle in actualHandles" :key="handle" class="handle" :class="['handle-' + handle]" @mousedown="handleDown(handle, $event)">
         <slot :name="handle"></slot>
       </div>
     </div>
@@ -34,7 +28,7 @@
 /**
  * dislog弹框
  * @copyright 火星科技 mars3d.cn
- * @author 火星吴彦祖 2021-12-30
+ * @author 火星吴彦祖 2022-02-19
  */
 import { computed, onMounted, onUnmounted, ref } from "vue"
 import { getConfig } from "../index"
@@ -83,7 +77,7 @@ const props = withDefaults(defineProps<Props>(), {
   minHeight: 100,
   maxWidth: 1000,
   maxHeight: 1000,
-  zIndex: 200
+  zIndex: 900
 })
 
 const mergeProps = computed(() => {
@@ -228,6 +222,8 @@ function mousedown(event: any) {
   const maxLeft = warpper!.offsetWidth - pb.offsetWidth
   const maxTop = warpper!.offsetHeight - pb.offsetHeight
 
+  pb.style.height = antoUnit(pb.offsetHeight) // 处理没有height的情况
+
   addEvent(document.documentElement, "mousemove", toPointerPosition)
   addEvent(document.documentElement, "mouseup", handleUp)
 
@@ -339,24 +335,25 @@ export default {
 <style lang="less" scoped>
 .pannel-model {
   position: absolute;
-  padding: 0 5px 10px 10px;
+  padding: 0;
   border-radius: 4px;
-  border: 1px solid #4db3ff70;
+  border: 1px solid @border-color-base;
   z-index: 100;
   background: linear-gradient(to left, #4db3ff, #4db3ff) left top no-repeat, linear-gradient(to bottom, #4db3ff, #4db3ff) left top no-repeat,
     linear-gradient(to left, #4db3ff, #4db3ff) right top no-repeat, linear-gradient(to bottom, #4db3ff, #4db3ff) right top no-repeat,
     linear-gradient(to left, #4db3ff, #4db3ff) left bottom no-repeat, linear-gradient(to bottom, #4db3ff, #4db3ff) left bottom no-repeat,
     linear-gradient(to left, #4db3ff, #4db3ff) right bottom no-repeat, linear-gradient(to left, #4db3ff, #4db3ff) right bottom no-repeat;
   background-size: 1px 20px, 20px 1px, 1px 20px, 20px 1px;
-  background-color: rgba(20, 20, 20, 0.5);
+  background-color: @background-base;
 }
 .pannel-model__header {
   height: 40px;
   line-height: 40px;
   cursor: move;
   overflow: hidden;
-  border-bottom: 1px solid #3b4d5e;
-  color: #fff;
+  border-bottom: 1px solid @border-color-ordinary;
+  background-color: @collapse-header-color;
+  color: @mars-basecolor-reverse;
   .icon {
     vertical-align: middle;
     margin-right: 5px;
@@ -375,6 +372,7 @@ export default {
 .pannel-model__body {
   width: 100%;
   height: calc(100% - 40px);
+  padding: 0 5px 10px 5px;
   overflow: hidden;
 }
 .content {
@@ -396,7 +394,7 @@ export default {
     bottom: 0;
     display: flex;
     align-items: center;
-    background: rgb(64, 65, 70);
+    background: @background-base;
   }
 }
 

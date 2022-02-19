@@ -227,7 +227,7 @@ export function drawCircle() {
 
 export function onClickSaveKml() {
   if (graphicLayer.length === 0) {
-    window.layer.msg("当前没有标注任何数据，无需保存！")
+    globalMsg("当前没有标注任何数据，无需保存！")
     return
   }
   const strResult = toKML()
@@ -236,10 +236,11 @@ export function onClickSaveKml() {
 
 export function onClickSaveWKT() {
   if (graphicLayer.length === 0) {
-    window.layer.msg("当前没有标注任何数据，无需保存！")
+    globalMsg("当前没有标注任何数据，无需保存！")
     return
   }
   const strResult = toWKT()
+  console.log("strResult", strResult)
   mars2d.Util.downloadFile("我的标注wkt.txt", JSON.stringify(strResult))
 }
 

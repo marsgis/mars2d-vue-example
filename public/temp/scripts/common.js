@@ -2,7 +2,7 @@
 
 const vueGlobal = window.parent || window
 
-vueGlobal.mars2d = mars2d
+vueGlobal.mars2d = mars2d// widget中使用
 
 function init() {
   // 读取 config.json 配置文件
@@ -26,7 +26,7 @@ init()
 function globalInitMap(options) {
   if (window.mapOptions) {
     if (typeof window.mapOptions === "function") {
-      options = window.mapOptions(options)
+      options = window.mapOptions(options) || options
     } else {
       window.mapOptions = options = mars2d.Util.merge(options, window.mapOptions)
     }

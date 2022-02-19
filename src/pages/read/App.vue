@@ -5,7 +5,7 @@
         <div id="centerDiv2D">
           <div id="mars2dContainer" class="mars2d-container"></div>
         </div>
-        <mars-operation v-if="showPannel" @childMounted="onChildMounted" />
+        <main-operation v-if="showPannel" @childMounted="onChildMounted" />
 
         <template v-if="mapLoaded">
           <template v-for="comp in widgets" :key="comp.key">
@@ -25,16 +25,16 @@
 <script setup lang="ts">
 /**
  * 渲染主入口
- * @copyright 火星科技 mars2d.cn
- * @author 火星吴彦祖 2021-12-30
+ * @copyright 火星科技 mars3d.cn
+ * @author 火星吴彦祖 2022-02-19
  */
 import zhCN from "ant-design-vue/es/locale/zh_CN"
 import { getCurrentInstance, onMounted, provide, ref } from "vue"
 import { ConfigProvider } from "ant-design-vue"
 import { getQueryString } from "@mars/utils/mars-util"
-import MarsOperation from "@mars/components/mars-work/mars-operation.vue"
+import MainOperation from "@mars/components/mars-work/main-operation.vue"
 import { getResourcesByLibs, loadScript, LoadSource, getCompConfig } from "mars-editor"
-import { useWidget, Widget } from "@/widgets/common/store/widget"
+import { useWidget, Widget } from "@mars/widgets/common/store/widget"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
 

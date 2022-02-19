@@ -3,7 +3,7 @@ import Application from "./App.vue"
 import { getQueryString } from "@mars/utils/mars-util"
 import { useEditor } from "mars-editor"
 import MarsUIInstall from "@mars/components/mars-ui"
-import { injectState, key } from "@/widgets/common/store/widget"
+import { injectState, key } from "@mars/widgets/common/store/widget"
 import store from "@mars/widgets/widget-store"
 
 // https跳转处理

@@ -20,7 +20,7 @@ export function onMounted(mapInstance) {
   map = mapInstance
 
   const control = new mars2d.control.ToolBar({
-    position: "bottomright",
+    position: "bottomleft",
     onGoLocate: onGoLocate
   })
   map.addControl(control)

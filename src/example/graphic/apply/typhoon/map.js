@@ -37,8 +37,6 @@ let selectTyphoon // 当前选择的台风
 
 // 勾选台风
 export function selectOneTyphoon(row) {
-  // stopPlay()
-
   const id = row.id
   if (!typhoonListObj[id]) {
     typhoonListObj[id] = new Typhoon({ ...row }, map)
@@ -54,9 +52,7 @@ export function selectOneTyphoon(row) {
 // 取消勾选台风
 export function unSelectOneTyphoon(id) {
   const typhoon = typhoonListObj[id]
-  if (typhoon === selectTyphoon) {
-    // $("#typhoonPath").hide()
-  }
+
   if (typhoon) {
     typhoon.show = false
   }

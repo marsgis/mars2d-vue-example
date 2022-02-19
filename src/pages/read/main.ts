@@ -2,7 +2,7 @@ import { createApp } from "vue"
 import Application from "./App.vue"
 import MarsUIInstall from "@mars/components/mars-ui"
 import { setConfig } from "mars-editor"
-import { injectState, key } from "@/widgets/common/store/widget"
+import { injectState, key } from "@mars/widgets/common/store/widget"
 import store from "@mars/widgets/widget-store"
 
 // https跳转处理

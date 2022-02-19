@@ -16,7 +16,6 @@ module.exports = {
     globalNotify: "readonly",
     showLoading: "readonly",
     hideLoading: "readonly",
-    toggleWidget: "readonly",
 
     Cesium: "readonly",
     mars3d: "readonly",

@@ -428,7 +428,7 @@
           {
             "name": "GeoJson大数据面(Canvas合并渲染)",
             "main": "layer-graphic/file/geojson-canvas",
-            "libs": ["mars2d", "canvasGeojson"],
+            "libs": ["mars2d", "CanvasGeojsonLayer"],
             "date": "2022-02-15"
           },
           {
@@ -673,7 +673,8 @@
           {
             "name": "标绘（绘制点、线、面、圆、矩形等）",
             "main": "layer-graphic/draw/draw",
-            "resources": ["/lib/kml/kml-geojson.js"],
+            "libs":["mars2d","terraformer"],
+            "resources": ["/lib/kml/kml-geojson.js","/temp/styles/divGraphic.css"],
             "usePannel": true
           },
           {

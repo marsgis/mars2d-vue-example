@@ -16,7 +16,7 @@ export const mapOptions = {
       style: { left: "10px", bottom: "0" }
     },
     layers: { position: "topleft" },
-    zoom: { position: "bottomright" }
+    zoom: { position: "bottomleft" }
   },
   basemaps: [
     {

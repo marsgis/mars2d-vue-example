@@ -11,8 +11,8 @@ export const mapOptions = {
       template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>层级:{level}</div>"
     },
     // 按钮
-    zoom: { position: "bottomright" },
-    toolBar: { position: "bottomright", item: ["home", "location", "fullscreen"] }
+    zoom: { position: "bottomleft" },
+    toolBar: { position: "bottomleft", item: ["home", "location", "fullscreen"] }
   }
 }
 export function onMounted(mapInstance) {

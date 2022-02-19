@@ -1,10 +1,10 @@
 /**
- * index页面的widget配置
+ * 功能示例 的 widget配置（更多请参考基础项目Vue版）
  * @copyright 火星科技 mars2d.cn
- * @author 火星吴彦祖 2021-12-30
+ * @author 火星吴彦祖 2022-02-19
  */
 import { defineAsyncComponent, markRaw } from "vue"
-import { WidgetState } from "@/widgets/common/store/widget"
+import { WidgetState } from "@mars/widgets/common/store/widget"
 import { StoreOptions } from "vuex"
 
 const store: StoreOptions<WidgetState> = {
@@ -16,12 +16,38 @@ const store: StoreOptions<WidgetState> = {
         autoDisable: true
       },
       {
+        component: markRaw(defineAsyncComponent(() => import("@mars/widgets/basic/manage-basemap/index.vue"))),
+        name: "manage-basemap",
+        group: "manage"
+      },
+      {
         component: markRaw(defineAsyncComponent(() => import("@mars/widgets/basic/manage-layers/index.vue"))),
         name: "manage-layers",
-        group: "manage"
+        group: "manage",
+        disableOther: ["roamfly"]
+      },
+
+      {
+        component: markRaw(defineAsyncComponent(() => import("@mars/widgets/basic/graphic-editor/index.vue"))),
+        name: "graphic-editor",
+        meta: {
+          props: {
+            position: {
+              left: 50,
+              top: 10,
+              bottom: 50
+            }
+          }
+        }
+      },
+      {
+        component: markRaw(defineAsyncComponent(() => import("@mars/widgets/basic/tools-button/index.vue"))),
+        name: "tools-button",
+        disableOther: false,
+        autoDisable: false
       }
     ],
-    openAtStart: []
+    openAtStart: ["tools-button"]
   }
 }
 

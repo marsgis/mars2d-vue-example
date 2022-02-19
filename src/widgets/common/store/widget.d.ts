@@ -3,10 +3,10 @@ import { InjectionKey, ComputedRef } from "vue"
 
 /**
  * store 状态管理
- * @copyright 火星科技 mars3d.cn
- * @author 火星吴彦祖 2021-12-30
+ * @copyright 火星科技 mars2d.cn
+ * @author 火星吴彦祖 2022-02-19
  */
-declare module "@/widgets/common/store/widget" {
+declare module "@mars/widgets/common/store/widget" {
   // 为 store state 声明类型
   export interface DefaultOption {
     autoDisable?: boolean

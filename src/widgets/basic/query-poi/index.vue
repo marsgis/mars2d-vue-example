@@ -51,7 +51,7 @@ import { $message, $alert } from "@mars/components/mars-ui/index"
 // 启用map.ts生命周期
 useLifecycle(mapWork)
 
-const storageName = "mars3d_queryGaodePOI"
+const storageName = "mars2d_queryGaodePOI"
 const siteListShow = ref(false)
 
 // 各类数据
@@ -214,6 +214,7 @@ function addHistory(data: any) {
   width: 186px;
 }
 .query-site-allcount {
+  color:  @mars-basecolor;
   position: absolute;
   bottom: 11px;
   left: 15px;

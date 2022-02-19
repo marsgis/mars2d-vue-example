@@ -11,7 +11,8 @@ window.configLibs = {
     "leaflet/leaflet.css",
     "leaflet/leaflet.js",
     "mars2d/mars2d.css",
-    "mars2d/mars2d.js"
+    "mars2d/mars2d.js",
+    "mars2d/plugins/esri/mars2d-esri.js" //非必须，加载arcgis图层时需要
   ],
   "mars2d-esri": [
     //arcgis服务支持插件
@@ -39,7 +40,7 @@ window.configLibs = {
     "mars2d/thirdParty/OSMBuildings/OSMBuildings-Leaflet.debug.js",
     "mars2d/thirdParty/OSMBuildings/OSMBuildings-Leaflet.js"
   ],
-  canvasGeojson: [
+  CanvasGeojsonLayer: [
     // 大数据Canvas合并渲染 插件
     "mars2d/thirdParty/canvasGeojson/leaflet-canvas-geojson.js"
   ],

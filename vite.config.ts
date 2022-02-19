@@ -35,7 +35,7 @@ export default ({ mode }: ConfigEnv) => {
       extensions: [".js", ".ts", ".jsx", ".tsx", ".json"]
     },
     optimizeDeps: {
-      include: ["@/widgets/common/store/widget"]
+      include: ["@mars/widgets/common/store/widget"]
     },
     json: {
       // 支持从 .json 文件中进行按名导入

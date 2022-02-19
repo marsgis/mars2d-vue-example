@@ -200,15 +200,15 @@ export function bindGraphicDemo2() {
   })
 
   const innerHtml = `<table style="width:280px;">
-            <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindPopup局部刷新</th></tr>
-            <tr><td >说明：</td><td >Popup鼠标单击信息弹窗 </td></tr>
+            <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindTooltip局部刷新</th></tr>
+            <tr><td >说明：</td><td >Tooltip鼠标单击信息弹窗 </td></tr>
             <tr><td >方式：</td><td >可以绑定任意html </td></tr>
-            <tr><td >备注：</td><td >我是graphic上绑定的Popup</td></tr>
+            <tr><td >备注：</td><td >我是graphic上绑定的Tooltip</td></tr>
             <tr><td >时间：</td><td id="tdTime"></td></tr>
             <tr><td colspan="4" style="text-align:right;cursor: pointer;"><a href="javascript:showXQ()">更多</a></td></tr>
           </table>`
-  // 绑定Popup
-  graphic.bindPopup(innerHtml, { offsetY: -30 }).openPopup()
+  // 绑定Tooltip
+  graphic.bindTooltip(innerHtml, { offsetY: -30 }).openTooltip()
 }
 
 

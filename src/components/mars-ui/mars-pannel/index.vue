@@ -16,7 +16,7 @@
 /**
  * pannel面板
  * @copyright 火星科技 mars3d.cn
- * @author 火星吴彦祖 2021-12-30
+ * @author 火星吴彦祖 2022-02-19
  */
 import { onMounted, ref, computed } from "vue"
 import { getConfig } from "../index"
@@ -55,7 +55,7 @@ const props = withDefaults(defineProps<Props>(), {
   warpper: "app",
   visible: false,
   closeable: false,
-  zIndex: 200
+  zIndex: 900
 })
 
 const mergeProps = computed(() => {

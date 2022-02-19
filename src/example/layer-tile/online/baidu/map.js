@@ -14,8 +14,8 @@ export const mapOptions = {
       template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>横{crsx}  纵{crsy}</div> <div>层级:{level}</div>"
     },
     layers: { position: "topleft" },
-    zoom: { position: "bottomright" },
-    toolBar: { position: "bottomright" }
+    zoom: { position: "bottomleft" },
+    toolBar: { position: "bottomleft" }
   },
   basemaps: [
     {

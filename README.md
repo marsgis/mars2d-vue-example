@@ -155,7 +155,7 @@ mars2d-vue-example
 │   └───temp            示例的公共基础代码
 │───.eslintrc.js        eslint配置文件
 │─── package.json       项目配置信息
-└─── vite.config.js     vite 配置文件
+└─── vite.config.ts     vite 配置文件
 └─── index.html         列表页入口
 └─── editor.html        编辑器页面入口
 ```
@@ -179,7 +179,7 @@ mars2d-vue-example
   "name": "天地图地形",
   "main": "terrain/terrainTDT",
   "usePannel": true,
-  "libs": ["mars2d", "mars2d-tdt"],
+  "libs": ["mars2d", "mars2d-esri"],
   "thumbnail": "b10_terrain_tdt.jpg"
 }
 ```
@@ -289,11 +289,9 @@ hideLoading(type) // 关闭loading
 最简模板如下:
 ```html
 <template>
-  <mars-pannel :visible="true" right="10" top="10"> </mars-pannel>
+  <mars-pannel> </mars-pannel>
 </template>
 <script lang="ts" setup>
-  import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-  const mapWork = window.mapWork
 </script>
 <style scoped lang="less"></style>
 ```

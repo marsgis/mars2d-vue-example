@@ -25,7 +25,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加控件
-  L.control.zoom({ position: "bottomright" }).addTo(map)
+  L.control.zoom({ position: "bottomleft" }).addTo(map)
   L.control.scale({ metric: true, imperial: false }).addTo(map)
 
   // 添加底图

@@ -26,9 +26,9 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加控件
-  L.control.zoom({ position: "bottomright" }).addTo(map)
+  L.control.zoom({ position: "bottomleft" }).addTo(map)
   L.control.scale({ metric: true, imperial: false }).addTo(map)
-  // L.control.toolbar({ item: ["home", "location", "fullscreen"], position: "bottomright" }).addTo(map);
+  // L.control.toolbar({ item: ["home", "location", "fullscreen"], position: "bottomleft" }).addTo(map);
 
   // 添加底图
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)

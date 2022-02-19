@@ -13,8 +13,8 @@ export const mapOptions = function (option) {
       locationBar: {
         template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>层级:{level}</div>"
       },
-      zoom: { position: "bottomright" },
-      toolBar: { position: "bottomright" }
+      zoom: { position: "bottomleft" },
+      toolBar: { position: "bottomleft" }
     }
   }
   return option

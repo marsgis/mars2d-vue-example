@@ -60,7 +60,7 @@ function showData(geojsonData) {
       let inhtml = "<table>"
       const attr = features[0].geojson.properties
       for (const col in attr) {
-        const showval = mars2d.Util.trim(attr[col])
+        const showval = mars2d.Util.trim(String(attr[col]))
         if (showval === null || showval === "" || showval === "Null" || showval === "Unknown" || showval === "0" || showval.length === 0) {
           continue
         }
