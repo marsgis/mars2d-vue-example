@@ -16,7 +16,7 @@ window.configLibs = {
   ],
   "mars2d-esri": [
     //arcgis服务支持插件
-    "mars2d/plugins/esri/mars2d-esri.js"
+    // "mars2d/plugins/esri/mars2d-esri.js"
   ],
   "mars2d-mapv": [
     //mapv支持插件

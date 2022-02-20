@@ -18,10 +18,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  expImg = new mars2d.thing.ExpImg({
-    id: "centerDiv2D" // 导出的div的id
-  })
-
+  expImg = new mars2d.thing.ExpImg()
   map.addThing(expImg)
 }
 

@@ -212,21 +212,6 @@
             "date": "2022-02-14"
           },
           {
-            "name": "arcgis瓦片",
-            "main": "layer-tile/type/arcgis-cache",
-            "date": "2022-02-14"
-          },
-          {
-            "name": "arcgis瓦片(自定义坐标系)",
-            "main": "layer-tile/type/arcgis-cache-proj4",
-            "date": "2022-02-14"
-          },
-          {
-            "name": "arcgis紧凑型瓦片",
-            "main": "layer-tile/type/arcgis-compact",
-            "date": "2022-02-14"
-          },
-          {
             "name": "OGC WMS服务",
             "main": "layer-tile/type/wms",
             "date": "2022-02-14"
@@ -248,6 +233,21 @@
             "main": "layer-tile/type/arcgis-image",
             "date": "2022-02-14",
             "libs": ["mars2d", "mars2d-esri"]
+          },
+          {
+            "name": "arcgis离线瓦片",
+            "main": "layer-tile/type/arcgis-cache",
+            "date": "2022-02-14"
+          },
+          {
+            "name": "arcgis离线瓦片(自定义坐标系)",
+            "main": "layer-tile/type/arcgis-cache-proj4",
+            "date": "2022-02-14"
+          },
+          {
+            "name": "arcgis紧凑型瓦片",
+            "main": "layer-tile/type/arcgis-compact",
+            "date": "2022-02-14"
           }
         ]
       },

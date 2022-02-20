@@ -6,12 +6,10 @@
 
     <div class="f-mb">
       <data-manage />
-      <div class="save-file">
-        <a-space>
+        <a-space  class="save-file">
           <mars-button @click="onClickSaveKml">另存KML</mars-button>
           <mars-button @click="onClickSaveWKT">另存WKT</mars-button>
         </a-space>
-      </div>
     </div>
 
     <a-space>
@@ -87,7 +85,6 @@ const onClickSaveWKT = () => {
 
 <style scoped lang="less">
 .save-file {
-  margin-left: 62px;
-  margin-top: 10px;
+  margin-left: 10px;
 }
 </style>

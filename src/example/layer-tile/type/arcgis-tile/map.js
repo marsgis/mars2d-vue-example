@@ -56,11 +56,11 @@ export function onMounted(mapInstance) {
 
   // 添加底图 [需要引用mars2d-esri插件]
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
-  /* const layer = new mars2d.layer.ArcGisTileLayer({
-    url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-    chinaCRS: mars2d.ChinaCRS.GCJ02
-  })
-  map.addLayer(layer) */
+  // const layer = new mars2d.layer.ArcGisTileLayer({
+  //   url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+  //   chinaCRS: mars2d.ChinaCRS.GCJ02
+  // })
+  // map.addLayer(layer)
 }
 
 /**

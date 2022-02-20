@@ -208,7 +208,7 @@ export function bindGraphicDemo2() {
             <tr><td colspan="4" style="text-align:right;cursor: pointer;"><a href="javascript:showXQ()">更多</a></td></tr>
           </table>`
   // 绑定Tooltip
-  graphic.bindTooltip(innerHtml, { offsetY: -30 }).openTooltip()
+  graphic.bindTooltip(innerHtml, { interactive: true }).openTooltip()
 }
 
 

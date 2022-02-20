@@ -230,27 +230,12 @@ export function onClickSaveKml() {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
   }
-  const strResult = toKML()
-  mars2d.Util.downloadFile("我的标注.kml", strResult)
-}
-
-export function onClickSaveWKT() {
-  if (graphicLayer.length === 0) {
-    globalMsg("当前没有标注任何数据，无需保存！")
-    return
-  }
-  const strResult = toWKT()
-  console.log("strResult", strResult)
-  mars2d.Util.downloadFile("我的标注wkt.txt", JSON.stringify(strResult))
-}
-
-function toKML() {
   let geojsonObject = graphicLayer.toGeoJSON()
   if (geojsonObject == null) {
     return null
   }
-
   geojsonObject = mars2d.Util.clone(geojsonObject)
+  console.log("geojson数据为", geojsonObject)
 
   const kml = kgUtil.toKml(geojsonObject, {
     name: "Mars2D标绘数据",
@@ -259,10 +244,14 @@ function toKML() {
     simplestyle: true
   })
 
-  return kml
+  mars2d.Util.downloadFile("我的标注.kml", kml)
 }
 
-function toWKT() {
+export function onClickSaveWKT() {
+  if (graphicLayer.length === 0) {
+    globalMsg("当前没有标注任何数据，无需保存！")
+    return
+  }
   let geojsonObject = graphicLayer.toGeoJSON()
   if (geojsonObject == null) {
     return null
@@ -284,5 +273,10 @@ function toWKT() {
       wkt: wkt
     })
   })
-  return arrWKT
+  console.log("wkt数据为", arrWKT)
+
+  mars2d.Util.downloadFile("我的标注wkt.txt", JSON.stringify(arrWKT))
 }
+
+
+

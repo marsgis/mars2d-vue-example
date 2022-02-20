@@ -9,7 +9,7 @@
       <mars-button @click="onBindGraphicDemo2">Graphic上局部刷新</mars-button>
     </a-space>
   </mars-pannel>
-  <mars-dialog width="100%" left="0" top="70" bottom="40" title="查看历史" v-model:visible="showLayer">
+  <mars-dialog width="100%" left="100" right="100" top="100" bottom="100" title="查看详情" v-model:visible="showLayer">
     <iframe src="http://marsgis.cn/" frameborder="0"></iframe>
   </mars-dialog>
 </template>

@@ -11,7 +11,7 @@ export function onMounted(mapInstance) {
   map.closeSmallTooltip()
 
   map.on(mars2d.EventType.mousemove, (event) => {
-    map.openSmallTooltip(event.latlng, "可以放任意html信息")
+    map.openSmallTooltip(event.containerPoint, "可以放任意html信息")
   })
 
   // 启用/禁用

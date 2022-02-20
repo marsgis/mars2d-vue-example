@@ -1,8 +1,9 @@
 
+/* eslint-disable */
 /*!
  * Mars2D地理信息平台
  * 版本信息：v3.0.7
- * 编译日期：2022-02-19 21:50:44
+ * 编译日期：2022-02-20 16:47:15
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-1
  */
@@ -492,7 +493,7 @@ export enum VerticalOrigin {
 /**
  * 鼠标经纬度等信息状态栏,
  * 一般在页面下侧区域
- * @param options - 参数对象，包括以下：
+ * @param [options] - 参数对象，包括以下：
  * @param [options.template] - 展示的内容格式化字符串,
  * 支持以下模版配置：
  * 【鼠标所在位置】 经度:{lng}， 纬度:{lat}，
@@ -508,7 +509,7 @@ export enum VerticalOrigin {
  * @param [options.style.right] - css定位right位置
  */
 export class LocationBar extends leaflet.Control {
-    constructor(options: {
+    constructor(options?: {
         template?: string;
         latDecimal?: number;
         crs?: string | CRS;
@@ -529,31 +530,31 @@ export class LocationBar extends leaflet.Control {
 
 /**
  * 地图切换控件，支持与三维地图、全景切换。
- * @param options - 参数对象，包括以下：
+ * @param [options] - 参数对象，包括以下：
  * @param [options.selected = MapSwichType.Vec] - 默认选择的类型
  * @param [options.hasPano = false] - 是否存在全景按钮
  */
 export class MapSwich extends leaflet.Control {
-    constructor(options: {
+    constructor(options?: {
         selected?: MapSwichType;
         hasPano?: boolean;
     });
     /**
      * 绑定指定类型事件监听器
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(types: string | EventType, fn: (...params: any[]) => any, context: any): void;
+    on(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType, fn: (...params: any[]) => any, context: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
@@ -561,28 +562,28 @@ export class MapSwich extends leaflet.Control {
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
 }
 
 /**
  * 鹰眼地图
- * @param options - 参数对象，包括以下：
+ * @param [options] - 参数对象，包括以下：
  * @param [options.mapOptions] - 扩展鹰眼地图的构造参数选项。
  * @param [options.minimized = false] - 默认展示时是否最小化
  * @param [options.position = 'bottomright'] - 位置参数,标准Leaflet.Control，与所有其他控件一样使用
@@ -600,7 +601,7 @@ export class MapSwich extends leaflet.Control {
  * @param [options.shadowRectOptions = { color: "#0000ff", weight: 1, opacity: 0.1, fill: false }] - 通过传入Path.Options对象来设置瞄准阴影矩形的样式。
  */
 export class OverviewMap extends leaflet.Control {
-    constructor(options: {
+    constructor(options?: {
         mapOptions?: Map.Options;
         minimized?: boolean;
         position?: string;
@@ -621,7 +622,7 @@ export class OverviewMap extends leaflet.Control {
 
 /**
  * 地图导航控件（鱼骨形状）
- * @param options - 参数对象，包括以下：
+ * @param [options] - 参数对象，包括以下：
  * @param [options.style] - 可以CSS样式，如:
  * @param [options.style.top] - css定位top位置, 如 top: '10px'
  * @param [options.style.bottom] - css定位bottom位置
@@ -633,7 +634,7 @@ export class OverviewMap extends leaflet.Control {
  * @param [options.streetLevel] - 按指定的地图级别，在滑动条上创建“街道”标记，比如14
  */
 export class Slider extends leaflet.Control {
-    constructor(options: {
+    constructor(options?: {
         style?: {
             top?: string;
             bottom?: string;
@@ -667,45 +668,45 @@ export class SmallTooltip extends BaseClass {
     updateContent(labelText: {
         text: string;
         subtext?: string;
-    }): SmallTooltip;
+    }): any | SmallTooltip;
     /**
      * 更新信息窗口的位置
      * @param pos - 位置
      * @returns 当前对象本身,可以链式调用
      */
-    updatePosition(pos: leaflet.Point): SmallTooltip;
+    updatePosition(pos: leaflet.Point): any | SmallTooltip;
     /**
      * 增加错误样式
      * @returns 当前对象本身,可以链式调用
      */
-    showAsError(): SmallTooltip;
+    showAsError(): any | SmallTooltip;
     /**
      * 移除错误样式
      * @returns 当前对象本身,可以链式调用
      */
-    removeError(): SmallTooltip;
+    removeError(): any | SmallTooltip;
     /**
      * 打开弹窗
      * @param latLng - 弹窗位置
      * @param message - 提示消息
      * @returns 无
      */
-    open(latLng: leaflet.LatLng, message: string): void;
+    open(latLng: leaflet.Point | leaflet.LatLng, message: string): any | void;
     /**
      * 关闭弹窗
      * @returns 无
      */
-    close(): void;
+    close(): any | void;
     /**
      * 销毁当前控件
      * @returns 无
      */
-    destroy(): void;
+    destroy(): any | void;
 }
 
 /**
  * 内置的多个按钮工具栏
- * @param options - 参数对象，包括以下：
+ * @param [options] - 参数对象，包括以下：
  * @param [options.position = "bottomleft"] - 控件的位置
  * @param [options.item = ["home", "location", "fullscreen"]] - 显示的按钮配置,支持配置的值："home", "location", "fullscreen","clear"
  * @param [options.center] - 自定义home默认区域的中心点
@@ -716,7 +717,7 @@ export class SmallTooltip extends BaseClass {
  * @param [options.onClear] - “清除所有操作”按钮回调方法
  */
 export class ToolBar extends leaflet.Control {
-    constructor(options: {
+    constructor(options?: {
         position?: string;
         item?: string[];
         center?: leaflet.LatLng;
@@ -751,74 +752,79 @@ export class ToolButton extends leaflet.Control {
 
 /**
  * 基础类
- * @param options - 参数名称
+ * @param [options] - 参数名称
  */
 export class BaseClass {
-    constructor(options: any);
+    constructor(options?: any);
+    /**
+     * 当前类的构造参数
+     */
+    readonly options: any;
     /**
      * 销毁当前对象
      * @param [noDel = false] - false:会自动delete释放所有属性，true：不delete绑定的变量
      * @returns 无
      */
-    destroy(noDel?: boolean): void;
+    destroy(noDel?: boolean): any | void;
     /**
-     * 绑定指定类型事件监听器
+     * 绑定指定类型事件监听器,
+     * 支持在监听中调用 event.stopPropagation(); 组织事件冒泡
      * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [fn] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身,可以链式调用
      */
-    on(types: EventType | EventType[], fn: (...params: any[]) => any, context: any): BaseClass;
+    on(types: EventType | string | EventType[], fn?: (...params: any[]) => any, context?: any): any | BaseClass;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [types] - 事件类型,未传值时解绑所有事件
+     * @param [fn] - 绑定的监听器回调方法,未传值时解绑所有指定类型对应事件
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身,可以链式调用
      */
-    off(types: EventType | EventType[], fn: (...params: any[]) => any, context: any): BaseClass;
+    off(types?: EventType | string | EventType[], fn?: (...params: any[]) => any, context?: any): any | BaseClass;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 当前对象本身,可以链式调用
      */
-    fire(type: EventType, data: any, propagate?: BaseClass): BaseClass;
+    fire(type: EventType | string, data?: any, propagate?: BaseClass | any): any | BaseClass;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: EventType, propagate?: BaseClass): boolean;
+    listens(type: EventType | string, propagate?: BaseClass): any | boolean;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
      * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [fn] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身,可以链式调用
      */
-    once(types: EventType | EventType[], fn: (...params: any[]) => any, context: any): BaseClass;
+    once(types: EventType | string | EventType[], fn?: (...params: any[]) => any, context?: any): any | BaseClass;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): BaseClass;
+    addEventParent(obj: any): any | BaseClass;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): BaseClass;
+    removeEventParent(obj: any): any | BaseClass;
     /**
      * 是否绑定了抛出事件到指定父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    hasEventParent(obj: any): BaseClass;
+    hasEventParent(obj: any): any | BaseClass;
 }
 
 export namespace BaseThing {
@@ -840,16 +846,16 @@ export namespace BaseThing {
 
 /**
  * Thing对象(如分析、量算类等) 的基类
- * @param options - 参数对象，包括以下：
+ * @param [options] - 参数对象，包括以下：
  * @param [options.id = uuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
- * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到map中。
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
 export class BaseThing extends BaseClass {
-    constructor(options: {
+    constructor(options?: {
         id?: string | number;
         enabled?: boolean;
-        stopPropagation?: boolean;
+        eventParent?: BaseClass | boolean;
     });
     /**
      * 内置唯一标识ID
@@ -876,37 +882,68 @@ export class BaseThing extends BaseClass {
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): BaseThing;
+    addTo(map: Map | any): any | BaseThing;
     /**
      * 从地图上移除，同map.removeThing
-     * @param destroy - 是否调用destroy释放
+     * @param [destroy] - 是否调用destroy释放
      * @returns 无
      */
-    remove(destroy: boolean): void;
+    remove(destroy?: boolean): any | void;
     /**
      * 对象添加到地图前创建一些对象的钩子方法，
      * 只会调用一次
      * @returns 无
      */
-    _mountedHook(): void;
+    _mountedHook(): any | void;
     /**
      * 对象添加到地图上的创建钩子方法，
      * 每次add时都会调用
      * @returns 无
      */
-    _addedHook(): void;
+    _addedHook(): any | void;
     /**
      * 对象从地图上移除的创建钩子方法，
      * 每次remove时都会调用
      * @returns 无
      */
-    _removedHook(): void;
+    _removedHook(): any | void;
+    /**
+     * 当前类的构造参数
+     */
+    readonly options: any;
     /**
      * 销毁当前对象
      * @param [noDel = false] - false:会自动delete释放所有属性，true：不delete绑定的变量
      * @returns 无
      */
-    destroy(noDel?: boolean): void;
+    destroy(noDel?: boolean): any | void;
+}
+
+/**
+ * 全局JsDoc变量 (只是注释使用，非mars2d变量)
+ */
+namespace Globe {
+    /**
+     * Popup或Tooltip配置的数组方式对象
+     * @property field - 字段名称
+     * @property name - 显示的对应自定义名称
+     * @property [type] - 默认为label文本，也可以支持：'button'按钮，'html' html内容。
+     * @property [callback] - 当type为'button'按钮时，单击后触发的事件。
+     * @property [html] - 当type为'html'时，对于拼接的html内容。
+     * @property [format] - 使用window上有效的格式化js方法名称或function回调方法，来格式化字符串值。
+     * @property [unit] - 追加的计量单位值。
+     * @property [className] - 自定义样式名称
+     */
+    type getTemplateHtml_template = {
+        field: string;
+        name: string;
+        type?: string;
+        callback?: string;
+        html?: string;
+        format?: string | ((...params: any[]) => any);
+        unit?: string;
+        className?: string;
+    };
 }
 
 /**
@@ -919,6 +956,7 @@ export class BaseThing extends BaseClass {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class BrushLine extends Polyline {
     constructor(options: {
@@ -929,6 +967,7 @@ export class BrushLine extends Polyline {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -942,6 +981,7 @@ export class BrushLine extends Polyline {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class CanvasImage extends leaflet.Path {
     constructor(options: {
@@ -952,163 +992,164 @@ export class CanvasImage extends leaflet.Path {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
      */
-    redraw(): CanvasImage;
+    redraw(): any | CanvasImage;
     /**
      * 将线移动到所有路径层的顶部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): CanvasImage;
+    bringToFront(): any | CanvasImage;
     /**
      * 将线移动到所有路径层的底部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): CanvasImage;
+    bringToBack(): any | CanvasImage;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): CanvasImage;
+    addTo(map: Map | any): any | CanvasImage;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): CanvasImage;
+    remove(): any | CanvasImage;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): CanvasImage;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | CanvasImage;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): CanvasImage;
+    unbindPopup(): any | CanvasImage;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): CanvasImage;
+    openPopup(latlng?: leaflet.LatLng): any | CanvasImage;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): CanvasImage;
+    closePopup(): any | CanvasImage;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): CanvasImage;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | CanvasImage;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): CanvasImage;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | CanvasImage;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): CanvasImage;
+    unbindTooltip(): any | CanvasImage;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): CanvasImage;
+    openTooltip(latlng?: leaflet.LatLng): any | CanvasImage;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): CanvasImage;
+    closeTooltip(): any | CanvasImage;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): CanvasImage;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | CanvasImage;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): CanvasImage;
+    addEventParent(obj: any): any | CanvasImage;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): CanvasImage;
+    removeEventParent(obj: any): any | CanvasImage;
     /**
      * 内置唯一标识ID
      */
@@ -1142,39 +1183,39 @@ export class CanvasImage extends leaflet.Path {
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
      */
-    setStyle(newStyle: any): CanvasImage;
+    setStyle(newStyle: any | any): any | CanvasImage;
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
-    toGeoJSON(options?: {
+    toGeoJSON(options?: any | {
         precision?: number;
-    }): any;
+    }): any | any;
     /**
      * 设置图片URL
      * @param url - 图片URL
      * @returns 当前对象本身，可以链式调用
      */
-    setUrl(url: string): CanvasImage;
+    setUrl(url: string): any | CanvasImage;
     /**
      * 用传递的LatLngBounds边界重绘图片
      * @param bounds - 边界
      * @returns 当前对象本身，可以链式调用
      */
-    setBounds(bounds: leaflet.LatLngBounds): CanvasImage;
+    setBounds(bounds: leaflet.LatLngBounds): any | CanvasImage;
     /**
      * 获取线的矩形边界
      * @returns 当前对象本身，可以链式调用
      */
-    getBounds(): CanvasImage;
+    getBounds(): any | CanvasImage;
     /**
      * 获取指定坐标的颜色值
      * @param latnlg - 坐标
      * @returns 颜色值，如 rgba(255,0,0,0.5)
      */
-    getRgba(latnlg: leaflet.LatLng): string;
+    getRgba(latnlg: leaflet.LatLng): any | string;
 }
 
 export namespace Circle {
@@ -1202,6 +1243,8 @@ export namespace Circle {
      * @property [noClip = false] - 边框中，禁用折线裁剪
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
      */
     type StyleOptions = {
         radius: number;
@@ -1226,6 +1269,8 @@ export namespace Circle {
         noClip?: boolean;
         interactive?: boolean;
         renderer?: leaflet.Renderer;
+        highlight?: Circle.StyleOptions;
+        label?: Label.StyleOptions;
     };
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
@@ -1270,6 +1315,7 @@ export namespace Circle {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class Circle extends leaflet.Circle {
     constructor(options: {
@@ -1280,190 +1326,191 @@ export class Circle extends leaflet.Circle {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 返回半径值
      * @returns 半径值
      */
-    getRadius(): number;
+    getRadius(): any | number;
     /**
      * 修改半径值
      * @param radius - 半径值
      * @returns 当前对象本身，可以链式调用
      */
-    setRadius(radius: number): Circle;
+    setRadius(radius: number): any | Circle;
     /**
      * 返回圆的中心位置
      * @returns 经纬度对象
      */
-    getLatLng(): leaflet.LatLng;
+    getLatLng(): any | leaflet.LatLng;
     /**
      * 修改中心位置
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: leaflet.LatLng): Circle;
+    setLatLng(latlng: leaflet.LatLng): any | Circle;
     /**
      * 获取圆的矩形边界
      * @returns 矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
      */
-    redraw(): Circle;
+    redraw(): any | Circle;
     /**
      * 将圆移动到所有路径层的顶部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): Circle;
+    bringToFront(): any | Circle;
     /**
      * 将圆移动到所有路径层的底部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): Circle;
+    bringToBack(): any | Circle;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): Circle;
+    addTo(map: Map | any): any | Circle;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): Circle;
+    remove(): any | Circle;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): Circle;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Circle;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): Circle;
+    unbindPopup(): any | Circle;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): Circle;
+    openPopup(latlng?: leaflet.LatLng): any | Circle;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): Circle;
+    closePopup(): any | Circle;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): Circle;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Circle;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): Circle;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Circle;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): Circle;
+    unbindTooltip(): any | Circle;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): Circle;
+    openTooltip(latlng?: leaflet.LatLng): any | Circle;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): Circle;
+    closeTooltip(): any | Circle;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): Circle;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Circle;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): Circle;
+    addEventParent(obj: any): any | Circle;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): Circle;
+    removeEventParent(obj: any): any | Circle;
     /**
      * 内置唯一标识ID
      */
@@ -1529,22 +1576,22 @@ export class Circle extends leaflet.Circle {
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
      */
-    setStyle(newStyle: any): Circle;
+    setStyle(newStyle: any | any): any | Circle;
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
-    toGeoJSON(options?: {
+    toGeoJSON(options?: any | {
         precision?: number;
-    }): any;
+    }): any | any;
     /**
      * 判断指定坐标是否在当前圆内
      * @param latlng - 坐标
      * @returns 是否在圆内
      */
-    isInPoly(latlng: leaflet.LatLng): boolean;
+    isInPoly(latlng: leaflet.LatLng): any | boolean;
 }
 
 export namespace DivBoderLabel {
@@ -1593,6 +1640,7 @@ export namespace DivBoderLabel {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class DivBoderLabel extends DivGraphic {
     constructor(options: {
@@ -1603,6 +1651,7 @@ export class DivBoderLabel extends DivGraphic {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -1620,6 +1669,8 @@ export namespace DivGraphic {
      * @property [riseOnHover = false] - 如果为true，当您将鼠标悬停在其上时，标记将会放在其他顶部。
      * @property [riseOffset = 250] - 用于riseOnHover功能的z-index偏移量。
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
      */
     type StyleOptions = {
         html: string;
@@ -1633,6 +1684,8 @@ export namespace DivGraphic {
         riseOnHover?: boolean;
         riseOffset?: number;
         interactive?: boolean;
+        highlight?: DivGraphic.StyleOptions;
+        label?: Label.StyleOptions;
     };
 }
 
@@ -1646,6 +1699,7 @@ export namespace DivGraphic {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class DivGraphic extends Marker {
     constructor(options: {
@@ -1656,6 +1710,7 @@ export class DivGraphic extends Marker {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -1693,6 +1748,7 @@ export namespace DivLightPoint {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class DivLightPoint extends DivGraphic {
     constructor(options: {
@@ -1703,6 +1759,7 @@ export class DivLightPoint extends DivGraphic {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -1750,6 +1807,7 @@ export namespace DivUpLabel {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class DivUpLabel extends DivGraphic {
     constructor(options: {
@@ -1760,250 +1818,317 @@ export class DivUpLabel extends DivGraphic {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
 /**
  * 标绘处理类 基类
+ * @param [options.id] - 矢量数据id标识
  */
 export class BaseDraw extends leaflet.Handler {
+    constructor();
     /**
      * 销毁当前对象
      * @returns 无
      */
-    destroy(): void;
+    destroy(): any | void;
 }
 
 /**
  * 点状对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class BaseSimpleShape extends BaseDraw {
+    constructor();
 }
 
 /**
  * 面积测量 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawAreaMeasure extends DrawPolygon {
+    constructor();
 }
 
 /**
  * 自由绘制线 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawBrushLine extends BaseSimpleShape {
+    constructor();
 }
 
 /**
  * 圆  对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawCircle extends BaseSimpleShape {
+    constructor();
 }
 
 /**
  * 测量长度 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawDistanceMeasure extends DrawPolyline {
+    constructor();
 }
 
 /**
  * DIV点 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawDivGraphic extends DrawMarker {
+    constructor();
 }
 
 /**
  * 椭圆 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawEllipse extends BaseSimpleShape {
+    constructor();
 }
 
 /**
  * FontMarker注记点 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawFontGraphic extends DrawMarker {
+    constructor();
 }
 
 /**
  * 矩形图片 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawImage extends DrawRectangle {
+    constructor();
 }
 
 /**
  * 文字注记 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawLabel extends DrawMarker {
+    constructor();
 }
 
 /**
  * 图标点 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawMarker extends BaseDraw {
+    constructor();
 }
 
 /**
  * 像素点 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawPoint extends DrawMarker {
+    constructor();
 }
 
 /**
  * 面  对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawPolygon extends DrawPolyline {
+    constructor();
 }
 
 /**
  * 线 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawPolyline extends BaseDraw {
+    constructor();
 }
 
 /**
  * 矩形 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawRectangle extends BaseSimpleShape {
+    constructor();
 }
 
 /**
  * 军事标绘 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class BaseDrawPlot extends DrawPolygon {
+    constructor();
 }
 
 /**
  * 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawAttackArrow extends BaseDrawPlot {
+    constructor();
 }
 
 /**
  * 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawAttackArrowPW extends BaseDrawPlot {
+    constructor();
 }
 
 /**
  * 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawAttackArrowYW extends BaseDrawPlot {
+    constructor();
 }
 
 /**
  * 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawCloseVurve extends BaseDrawPlot {
+    constructor();
 }
 
 /**
  * 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawDoubleArrow extends BaseDrawPlot {
+    constructor();
 }
 
 /**
  * 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawFineArrow extends BaseDrawPlot {
+    constructor();
 }
 
 /**
  * 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawFineArrowYW extends BaseDrawPlot {
+    constructor();
 }
 
 /**
  * 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawGatheringPlace extends BaseDrawPlot {
+    constructor();
 }
 
 /**
  * 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
  */
 export class DrawStraightArrow extends BaseDrawPlot {
+    constructor();
 }
 
 /**
  * 矢量对象 编辑处理基类，内部使用
+ * @param [options.id] - 矢量数据id标识
  */
 export class BaseEditSimpleShape extends leaflet.Handler {
+    constructor();
     /**
      * 开始编辑
      * @returns 当前对象本身，可以链式调用
      */
-    enable(): BaseEditSimpleShape;
+    enable(): any | BaseEditSimpleShape;
     /**
      * 停止编辑
      * @returns 当前对象本身，可以链式调用
      */
-    disable(): BaseEditSimpleShape;
+    disable(): any | BaseEditSimpleShape;
     /**
      * 更新所有编辑点marker
      * @returns 当前对象本身，可以链式调用
      */
-    updateMarkers(): BaseEditSimpleShape;
+    updateMarkers(): any | BaseEditSimpleShape;
 }
 
 /**
  * 圆 编辑处理类，内部使用
+ * @param [options.id] - 矢量数据id标识
  */
 export class EditCircle extends EditCircleMarker {
+    constructor();
 }
 
 /**
  * 像素圆点 编辑处理类，内部使用
+ * @param [options.id] - 矢量数据id标识
  */
 export class EditCircleMarker extends BaseEditSimpleShape {
+    constructor();
 }
 
 /**
  * 椭圆 编辑处理类，内部使用
+ * @param [options.id] - 矢量数据id标识
  */
 export class EditEllipse extends EditCircleMarker {
+    constructor();
 }
 
 /**
  * Maerk点 编辑处理类，内部使用
+ * @param [options.id] - 矢量数据id标识
  */
 export class EditMarker extends leaflet.Handler {
+    constructor();
     /**
      * 开始编辑
      * @returns 当前对象本身，可以链式调用
      */
-    enable(): BaseEditSimpleShape;
+    enable(): any | BaseEditSimpleShape;
     /**
      * 停止编辑
      * @returns 当前对象本身，可以链式调用
      */
-    disable(): BaseEditSimpleShape;
+    disable(): any | BaseEditSimpleShape;
 }
 
 /**
  * 线面对象 编辑处理类，内部使用
+ * @param [options.id] - 矢量数据id标识
  */
 export class EditPoly extends leaflet.Handler {
+    constructor();
     /**
      * 开始编辑
      * @returns 当前对象本身，可以链式调用
      */
-    enable(): BaseEditSimpleShape;
+    enable(): any | BaseEditSimpleShape;
     /**
      * 停止编辑
      * @returns 当前对象本身，可以链式调用
      */
-    disable(): BaseEditSimpleShape;
+    disable(): any | BaseEditSimpleShape;
     /**
      * 更新所有编辑点marker
      * @returns 当前对象本身，可以链式调用
      */
-    updateMarkers(): BaseEditSimpleShape;
+    updateMarkers(): any | BaseEditSimpleShape;
 }
 
 /**
  * 矩形 编辑处理类，内部使用
+ * @param [options.id] - 矢量数据id标识
  */
 export class EditRectangle extends BaseEditSimpleShape {
+    constructor();
 }
 
 export namespace Ellipse {
@@ -2030,6 +2155,8 @@ export namespace Ellipse {
      * @property [noClip = false] - 边框中，禁用折线裁剪
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
      */
     type StyleOptions = {
         semiMinorAxis: number;
@@ -2053,6 +2180,8 @@ export namespace Ellipse {
         noClip?: boolean;
         interactive?: boolean;
         renderer?: leaflet.Renderer;
+        highlight?: Ellipse.StyleOptions;
+        label?: Label.StyleOptions;
     };
 }
 
@@ -2066,6 +2195,7 @@ export namespace Ellipse {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class Ellipse extends leaflet.Path {
     constructor(options: {
@@ -2076,163 +2206,164 @@ export class Ellipse extends leaflet.Path {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
      */
-    redraw(): Ellipse;
+    redraw(): any | Ellipse;
     /**
      * 将圆移动到所有路径层的顶部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): Ellipse;
+    bringToFront(): any | Ellipse;
     /**
      * 将圆移动到所有路径层的底部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): Ellipse;
+    bringToBack(): any | Ellipse;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): Ellipse;
+    addTo(map: Map | any): any | Ellipse;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): Ellipse;
+    remove(): any | Ellipse;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): Ellipse;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Ellipse;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): Ellipse;
+    unbindPopup(): any | Ellipse;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): Ellipse;
+    openPopup(latlng?: leaflet.LatLng): any | Ellipse;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): Ellipse;
+    closePopup(): any | Ellipse;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): Ellipse;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Ellipse;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): Ellipse;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Ellipse;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): Ellipse;
+    unbindTooltip(): any | Ellipse;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): Ellipse;
+    openTooltip(latlng?: leaflet.LatLng): any | Ellipse;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): Ellipse;
+    closeTooltip(): any | Ellipse;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): Ellipse;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Ellipse;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): Ellipse;
+    addEventParent(obj: any): any | Ellipse;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): Ellipse;
+    removeEventParent(obj: any): any | Ellipse;
     /**
      * 内置唯一标识ID
      */
@@ -2282,32 +2413,32 @@ export class Ellipse extends leaflet.Path {
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
      */
-    setStyle(newStyle: Ellipse.StyleOptions): Ellipse;
+    setStyle(newStyle: any | Ellipse.StyleOptions): any | Ellipse;
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
-    toGeoJSON(options?: {
+    toGeoJSON(options?: any | {
         precision?: number;
-    }): any;
+    }): any | any;
     /**
      * 获取矩形边界
      * @returns 矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 修改椭圆中心位置
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: leaflet.LatLng): Ellipse;
+    setLatLng(latlng: leaflet.LatLng): any | Ellipse;
     /**
      * 返回椭圆的中心位置
      * @returns 经纬度对象
      */
-    getLatLng(): leaflet.LatLng;
+    getLatLng(): any | leaflet.LatLng;
 }
 
 export namespace FontGraphic {
@@ -2348,6 +2479,7 @@ export namespace FontGraphic {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class FontGraphic extends DivGraphic {
     constructor(options: {
@@ -2358,6 +2490,7 @@ export class FontGraphic extends DivGraphic {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -2368,12 +2501,16 @@ export namespace Image {
      * @property [opacity = 1] - 瓦片的不透明度。
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [crossOrigin = false] - 如果为true，则所有图块将其crossOrigin属性设置为“*”。如果要访问像素数据，则需要这样做。
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
      */
     type StyleOptions = {
         url: string;
         opacity?: number;
         interactive?: boolean;
         crossOrigin?: boolean;
+        highlight?: Image.StyleOptions;
+        label?: Label.StyleOptions;
     };
 }
 
@@ -2387,6 +2524,7 @@ export namespace Image {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class Image extends Rectangle {
     constructor(options: {
@@ -2397,25 +2535,26 @@ export class Image extends Rectangle {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 更新图片范围边界
      * @param latLngBounds - 矩形边界
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latLngBounds: leaflet.LatLngBounds | leaflet.LatLng[]): Image;
+    setLatLngs(latLngBounds: leaflet.LatLngBounds | leaflet.LatLng[]): any | Image;
     /**
      * 更新不透明度
      * @param opacity - 透明度
      * @returns 当前对象本身，可以链式调用
      */
-    setOpacity(opacity: number): Image;
+    setOpacity(opacity: number): any | Image;
     /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
      */
-    setStyle(newStyle: Image.StyleOptions): Image;
+    setStyle(newStyle: any | Image.StyleOptions): any | Image;
 }
 
 export namespace Label {
@@ -2444,6 +2583,7 @@ export namespace Label {
      * @property [riseOnHover = false] - 如果为true，当您将鼠标悬停在其上时，标记将会放在其他顶部。
      * @property [riseOffset = 250] - 用于riseOnHover功能的z-index偏移量。
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
      */
     type StyleOptions = {
         text?: string;
@@ -2469,6 +2609,7 @@ export namespace Label {
         riseOnHover?: boolean;
         riseOffset?: number;
         interactive?: boolean;
+        highlight?: Label.StyleOptions;
     };
 }
 
@@ -2482,6 +2623,7 @@ export namespace Label {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class Label extends DivGraphic {
     constructor(options: {
@@ -2492,6 +2634,7 @@ export class Label extends DivGraphic {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 文本内容
@@ -2533,6 +2676,8 @@ export namespace Marker {
      * @property [pulseColor = "red"] - pulse动画点的背景颜色
      * @property [pulseShadowColor = "red"] - pulse动画点的shadow颜色
      * @property [pulseDuration = 1] - pulse动画点单次动画时长（单位：秒）
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
      */
     type StyleOptions = {
         image: string;
@@ -2566,6 +2711,8 @@ export namespace Marker {
         pulseColor?: boolean;
         pulseShadowColor?: boolean;
         pulseDuration?: boolean;
+        highlight?: Marker.StyleOptions;
+        label?: Label.StyleOptions;
     };
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
@@ -2621,6 +2768,7 @@ export namespace Marker {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class Marker extends leaflet.Marker {
     constructor(options: {
@@ -2631,171 +2779,172 @@ export class Marker extends leaflet.Marker {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 返回图标点的LatLng经纬度对象
      * @returns 经纬度对象
      */
-    getLatLng(): leaflet.LatLng;
+    getLatLng(): any | leaflet.LatLng;
     /**
      * 修改位置
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: leaflet.LatLng): Marker;
+    setLatLng(latlng: leaflet.LatLng): any | Marker;
     /**
      * 改变zIndex顺序
      * @param offset - zIndex顺序
      * @returns 当前对象本身，可以链式调用
      */
-    setZIndexOffset(offset: number): Marker;
+    setZIndexOffset(offset: number): any | Marker;
     /**
      * 改变透明度
      * @param opacity - 透明度
      * @returns 当前对象本身，可以链式调用
      */
-    setOpacity(opacity: number): Marker;
+    setOpacity(opacity: number): any | Marker;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): Marker;
+    addTo(map: Map | any): any | Marker;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): Marker;
+    remove(): any | Marker;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): Marker;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Marker;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): Marker;
+    unbindPopup(): any | Marker;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): Marker;
+    openPopup(latlng?: leaflet.LatLng): any | Marker;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): Marker;
+    closePopup(): any | Marker;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): Marker;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Marker;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): Marker;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Marker;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): Marker;
+    unbindTooltip(): any | Marker;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): Marker;
+    openTooltip(latlng?: leaflet.LatLng): any | Marker;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): Marker;
+    closeTooltip(): any | Marker;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): Marker;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Marker;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): Marker;
+    addEventParent(obj: any): any | Marker;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): Marker;
+    removeEventParent(obj: any): any | Marker;
     /**
      * 内置唯一标识ID
      */
@@ -2845,22 +2994,22 @@ export class Marker extends leaflet.Marker {
      * @param angle - 旋转角度（度数值，0-360度）
      * @returns 当前对象本身，可以链式调用
      */
-    setRotationAngle(angle: number): Marker;
+    setRotationAngle(angle: number): any | Marker;
     /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
      */
-    setStyle(newStyle: Marker.StyleOptions): Marker;
+    setStyle(newStyle: any | Marker.StyleOptions): any | Marker;
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
-    toGeoJSON(options?: {
+    toGeoJSON(options?: any | {
         precision?: number;
-    }): any;
+    }): any | any;
 }
 
 /**
@@ -2870,12 +3019,14 @@ export class Marker extends leaflet.Marker {
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
  * @param [options.label] - 测量结果文本的样式
+ * @param [options.id] - 矢量数据id标识
  */
 export class AreaMeasure extends Polygon {
     constructor(options: {
         style: Polygon.StyleOptions;
         attr?: any;
         label?: Label.StyleOptions;
+        id?: string | number;
     });
     /**
      * 测量结果
@@ -2886,7 +3037,7 @@ export class AreaMeasure extends Polygon {
      * @param unit - 计量单位,{@link MeasureUtil#formatArea} 可选值：计量单位，可选值：auto、m、km、mu、ha 。auto时根据面积值自动选用m或km
      * @returns 无
      */
-    updateText(unit: string): void;
+    updateText(unit: string): any | void;
 }
 
 /**
@@ -2896,12 +3047,14 @@ export class AreaMeasure extends Polygon {
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
  * @param [options.label] - 测量结果文本的样式
+ * @param [options.id] - 矢量数据id标识
  */
 export class DistanceMeasure extends Polyline {
     constructor(options: {
         style: Polyline.StyleOptions;
         attr?: any;
         label?: Label.StyleOptions;
+        id?: string | number;
     });
     /**
      * 测量结果
@@ -2912,7 +3065,7 @@ export class DistanceMeasure extends Polyline {
      * @param unit - 计量单位,{@link MeasureUtil#formatDistance} 可选值：auto、m、km、mile、zhang 等。auto时根据距离值自动选用k或km
      * @returns 无
      */
-    updateText(unit: string): void;
+    updateText(unit: string): any | void;
 }
 
 /**
@@ -2928,6 +3081,7 @@ export class DistanceMeasure extends Polyline {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class MovingMarker extends Marker {
     constructor(options: {
@@ -2942,6 +3096,7 @@ export class MovingMarker extends Marker {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 是否在运动中
@@ -2963,37 +3118,37 @@ export class MovingMarker extends Marker {
      * 开始运动
      * @returns 当前对象本身，可以链式调用
      */
-    start(): MovingMarker;
+    start(): any | MovingMarker;
     /**
      * 继续运动
      * @returns 当前对象本身，可以链式调用
      */
-    resume(): MovingMarker;
+    resume(): any | MovingMarker;
     /**
      * 暂停运动
      * @returns 当前对象本身，可以链式调用
      */
-    pause(): MovingMarker;
+    pause(): any | MovingMarker;
     /**
      * 停止运动
      * @param [elapsedTime = 0] - 延迟时间
      * @returns 当前对象本身，可以链式调用
      */
-    stop(elapsedTime?: number): MovingMarker;
+    stop(elapsedTime?: number): any | MovingMarker;
     /**
      * 在轨迹尾部，添加新的坐标点
      * @param latlng - 坐标点
      * @param duration - 时长，单位 毫秒
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng, duration: number): MovingMarker;
+    addLatLng(latlng: leaflet.LatLng, duration: number): any | MovingMarker;
     /**
      * 移动到新的位置
      * @param latlng - 坐标点
      * @param duration - 时长，单位 毫秒
      * @returns 当前对象本身，可以链式调用
      */
-    moveTo(latlng: leaflet.LatLng, duration: number): MovingMarker;
+    moveTo(latlng: leaflet.LatLng, duration: number): any | MovingMarker;
 }
 
 /**
@@ -3006,6 +3161,7 @@ export class MovingMarker extends Marker {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class AttackArrow extends BasePlot {
     constructor(options: {
@@ -3016,6 +3172,7 @@ export class AttackArrow extends BasePlot {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -3029,6 +3186,7 @@ export class AttackArrow extends BasePlot {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class AttackArrowPW extends BasePlot {
     constructor(options: {
@@ -3039,6 +3197,7 @@ export class AttackArrowPW extends BasePlot {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -3052,6 +3211,7 @@ export class AttackArrowPW extends BasePlot {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class AttackArrowYW extends BasePlot {
     constructor(options: {
@@ -3062,6 +3222,7 @@ export class AttackArrowYW extends BasePlot {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -3075,6 +3236,7 @@ export class AttackArrowYW extends BasePlot {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class BasePlot extends Polygon {
     constructor(options: {
@@ -3085,13 +3247,14 @@ export class BasePlot extends Polygon {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 向矢量对象添加一个给定点。
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng): Polygon;
+    addLatLng(latlng: leaflet.LatLng): any | Polygon;
 }
 
 /**
@@ -3104,6 +3267,7 @@ export class BasePlot extends Polygon {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class CloseVurve extends BasePlot {
     constructor(options: {
@@ -3114,6 +3278,7 @@ export class CloseVurve extends BasePlot {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -3127,6 +3292,7 @@ export class CloseVurve extends BasePlot {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class DoubleArrow extends BasePlot {
     constructor(options: {
@@ -3137,6 +3303,7 @@ export class DoubleArrow extends BasePlot {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -3150,6 +3317,7 @@ export class DoubleArrow extends BasePlot {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class FineArrow extends BasePlot {
     constructor(options: {
@@ -3160,6 +3328,7 @@ export class FineArrow extends BasePlot {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -3173,6 +3342,7 @@ export class FineArrow extends BasePlot {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class FineArrowYW extends BasePlot {
     constructor(options: {
@@ -3183,6 +3353,7 @@ export class FineArrowYW extends BasePlot {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -3196,6 +3367,7 @@ export class FineArrowYW extends BasePlot {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class GatheringPlace extends BasePlot {
     constructor(options: {
@@ -3206,6 +3378,7 @@ export class GatheringPlace extends BasePlot {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -3219,6 +3392,7 @@ export class GatheringPlace extends BasePlot {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class StraightArrow extends BasePlot {
     constructor(options: {
@@ -3229,6 +3403,7 @@ export class StraightArrow extends BasePlot {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
 }
 
@@ -3245,6 +3420,8 @@ export namespace Point {
      * @property [outlineWidth = 2] - 边框宽度
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
      */
     type StyleOptions = {
         pixelSize: number;
@@ -3257,6 +3434,8 @@ export namespace Point {
         outlineWidth?: number;
         interactive?: boolean;
         renderer?: leaflet.Renderer;
+        highlight?: Point.StyleOptions;
+        label?: Label.StyleOptions;
     };
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
@@ -3301,6 +3480,7 @@ export namespace Point {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class Point extends leaflet.CircleMarker {
     constructor(options: {
@@ -3311,190 +3491,191 @@ export class Point extends leaflet.CircleMarker {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 返回半径值
      * @returns 半径值
      */
-    getRadius(): number;
+    getRadius(): any | number;
     /**
      * 修改半径值
      * @param radius - 半径值
      * @returns 当前对象本身，可以链式调用
      */
-    setRadius(radius: number): Point;
+    setRadius(radius: number): any | Point;
     /**
      * 返回圆的LatLng经纬度对象
      * @returns 经纬度对象
      */
-    getLatLng(): leaflet.LatLng;
+    getLatLng(): any | leaflet.LatLng;
     /**
      * 修改位置
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: leaflet.LatLng): Point;
+    setLatLng(latlng: leaflet.LatLng): any | Point;
     /**
      * 获取线的矩形边界
      * @returns 矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
      */
-    redraw(): Point;
+    redraw(): any | Point;
     /**
      * 将线移动到所有路径层的顶部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): Point;
+    bringToFront(): any | Point;
     /**
      * 将线移动到所有路径层的底部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): Point;
+    bringToBack(): any | Point;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): Point;
+    addTo(map: Map | any): any | Point;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): Point;
+    remove(): any | Point;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): Point;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Point;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): Point;
+    unbindPopup(): any | Point;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): Point;
+    openPopup(latlng?: leaflet.LatLng): any | Point;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): Point;
+    closePopup(): any | Point;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): Point;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Point;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): Point;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Point;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): Point;
+    unbindTooltip(): any | Point;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): Point;
+    openTooltip(latlng?: leaflet.LatLng): any | Point;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): Point;
+    closeTooltip(): any | Point;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): Point;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Point;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): Point;
+    addEventParent(obj: any): any | Point;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): Point;
+    removeEventParent(obj: any): any | Point;
     /**
      * 内置唯一标识ID
      */
@@ -3536,16 +3717,16 @@ export class Point extends leaflet.CircleMarker {
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
      */
-    setStyle(newStyle: Point.StyleOptions): Point;
+    setStyle(newStyle: any | Point.StyleOptions): any | Point;
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
-    toGeoJSON(options?: {
+    toGeoJSON(options?: any | {
         precision?: number;
-    }): any;
+    }): any | any;
 }
 
 export namespace Polygon {
@@ -3569,6 +3750,8 @@ export namespace Polygon {
      * @property [noClip = false] - 边框中，禁用折线裁剪
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
      */
     type StyleOptions = {
         fill?: boolean;
@@ -3589,6 +3772,8 @@ export namespace Polygon {
         noClip?: boolean;
         interactive?: boolean;
         renderer?: leaflet.Renderer;
+        highlight?: Polygon.StyleOptions;
+        label?: Label.StyleOptions;
     };
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
@@ -3633,6 +3818,7 @@ export namespace Polygon {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class Polygon extends leaflet.Polygon {
     constructor(options: {
@@ -3643,185 +3829,186 @@ export class Polygon extends leaflet.Polygon {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 返回矢量对象的坐标点的数组，或者在多矢量对象的情况下返回嵌套的点阵列。
      * @returns 经纬度数组
      */
-    getLatLngs(): leaflet.LatLng[];
+    getLatLngs(): any | leaflet.LatLng[];
     /**
      * 用给定的地理位置数组代替更新矢量对象中的所有点。
      * @param latlngs - 经纬度数组
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latlngs: leaflet.LatLng[]): Polygon;
+    setLatLngs(latlngs: leaflet.LatLng[]): any | Polygon;
     /**
      * 向矢量对象添加一个给定点。
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng): Polygon;
+    addLatLng(latlng: leaflet.LatLng): any | Polygon;
     /**
      * 获取线的矩形边界
      * @returns 矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
      */
-    redraw(): Polygon;
+    redraw(): any | Polygon;
     /**
      * 将线移动到所有路径层的顶部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): Polygon;
+    bringToFront(): any | Polygon;
     /**
      * 将线移动到所有路径层的底部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): Polygon;
+    bringToBack(): any | Polygon;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): Polygon;
+    addTo(map: Map | any): any | Polygon;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): Polygon;
+    remove(): any | Polygon;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): Polygon;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Polygon;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): Polygon;
+    unbindPopup(): any | Polygon;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): Polygon;
+    openPopup(latlng?: leaflet.LatLng): any | Polygon;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): Polygon;
+    closePopup(): any | Polygon;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): Polygon;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Polygon;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): Polygon;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Polygon;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): Polygon;
+    unbindTooltip(): any | Polygon;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): Polygon;
+    openTooltip(latlng?: leaflet.LatLng): any | Polygon;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): Polygon;
+    closeTooltip(): any | Polygon;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): Polygon;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Polygon;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): Polygon;
+    addEventParent(obj: any): any | Polygon;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): Polygon;
+    removeEventParent(obj: any): any | Polygon;
     /**
      * 内置唯一标识ID
      */
@@ -3863,22 +4050,22 @@ export class Polygon extends leaflet.Polygon {
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
      */
-    setStyle(newStyle: Polygon.StyleOptions): Polygon;
+    setStyle(newStyle: any | Polygon.StyleOptions): any | Polygon;
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
-    toGeoJSON(options?: {
+    toGeoJSON(options?: any | {
         precision?: number;
-    }): any;
+    }): any | any;
     /**
      * 判断指定坐标是否在当前面内
      * @param latlng - 坐标
      * @returns 是否在面内
      */
-    isInPoly(latlng: leaflet.LatLng): boolean;
+    isInPoly(latlng: leaflet.LatLng): any | boolean;
 }
 
 export namespace Polyline {
@@ -3897,6 +4084,8 @@ export namespace Polyline {
      * @property [noClip = false] - 禁用折线裁剪
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
      */
     type StyleOptions = {
         color?: string;
@@ -3912,6 +4101,8 @@ export namespace Polyline {
         noClip?: boolean;
         interactive?: boolean;
         renderer?: leaflet.Renderer;
+        highlight?: Polyline.StyleOptions;
+        label?: Label.StyleOptions;
     };
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
@@ -3957,6 +4148,7 @@ export namespace Polyline {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class Polyline extends leaflet.Polyline {
     constructor(options: {
@@ -3967,185 +4159,186 @@ export class Polyline extends leaflet.Polyline {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 返回折线的坐标点的数组，或者在多折线的情况下返回嵌套的点阵列。
      * @returns 经纬度数组
      */
-    getLatLngs(): leaflet.LatLng[];
+    getLatLngs(): any | leaflet.LatLng[];
     /**
      * 用给定的地理位置数组代替更新折线中的所有点。
      * @param latlngs - 经纬度数组
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latlngs: leaflet.LatLng[]): Polyline;
+    setLatLngs(latlngs: leaflet.LatLng[]): any | Polyline;
     /**
      * 向折线添加一个给定点。 默认情况下，在多折线的情况下，将折线的第一个线添加，但可以通过将特定的线作为LatLng数组（您可以使用之前访问getLatLngs）来覆盖。
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng): Polyline;
+    addLatLng(latlng: leaflet.LatLng): any | Polyline;
     /**
      * 获取线的矩形边界
      * @returns 矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
      */
-    redraw(): Polyline;
+    redraw(): any | Polyline;
     /**
      * 将线移动到所有路径层的顶部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): Polyline;
+    bringToFront(): any | Polyline;
     /**
      * 将线移动到所有路径层的底部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): Polyline;
+    bringToBack(): any | Polyline;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): Polyline;
+    addTo(map: Map | any): any | Polyline;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): Polyline;
+    remove(): any | Polyline;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): Polyline;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Polyline;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): Polyline;
+    unbindPopup(): any | Polyline;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): Polyline;
+    openPopup(latlng?: leaflet.LatLng): any | Polyline;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): Polyline;
+    closePopup(): any | Polyline;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): Polyline;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Polyline;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): Polyline;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Polyline;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): Polyline;
+    unbindTooltip(): any | Polyline;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): Polyline;
+    openTooltip(latlng?: leaflet.LatLng): any | Polyline;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): Polyline;
+    closeTooltip(): any | Polyline;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): Polyline;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Polyline;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): Polyline;
+    addEventParent(obj: any): any | Polyline;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): Polyline;
+    removeEventParent(obj: any): any | Polyline;
     /**
      * 内置唯一标识ID
      */
@@ -4187,22 +4380,22 @@ export class Polyline extends leaflet.Polyline {
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
      */
-    setStyle(newStyle: Polyline.StyleOptions): Polyline;
+    setStyle(newStyle: any | Polyline.StyleOptions): any | Polyline;
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
-    toGeoJSON(options?: {
+    toGeoJSON(options?: any | {
         precision?: number;
-    }): any;
+    }): any | any;
     /**
      * 设置线的偏移值，常用于平行线
      * @param offset - 偏移值
      * @returns 当前对象本身，可以链式调用
      */
-    setOffset(offset: number): Polyline;
+    setOffset(offset: number): any | Polyline;
 }
 
 export namespace Rectangle {
@@ -4226,6 +4419,8 @@ export namespace Rectangle {
      * @property [noClip = false] - 边框中，禁用折线裁剪
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
      */
     type StyleOptions = {
         fill?: boolean;
@@ -4246,6 +4441,8 @@ export namespace Rectangle {
         noClip?: boolean;
         interactive?: boolean;
         renderer?: leaflet.Renderer;
+        highlight?: Rectangle.StyleOptions;
+        label?: Label.StyleOptions;
     };
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
@@ -4290,6 +4487,7 @@ export namespace Rectangle {
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
  */
 export class Rectangle extends leaflet.Rectangle {
     constructor(options: {
@@ -4300,191 +4498,192 @@ export class Rectangle extends leaflet.Rectangle {
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
         tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
     });
     /**
      * 用传递的LatLngBounds边界重绘矩形。
      * @param latLngBounds - 边界
      * @returns 当前对象本身，可以链式调用
      */
-    setBounds(latLngBounds: leaflet.LatLngBounds): Rectangle;
+    setBounds(latLngBounds: leaflet.LatLngBounds): any | Rectangle;
     /**
      * 返回矢量对象的坐标点的数组，或者在多矢量对象的情况下返回嵌套的点阵列。
      * @returns 经纬度数组
      */
-    getLatLngs(): leaflet.LatLng[];
+    getLatLngs(): any | leaflet.LatLng[];
     /**
      * 用给定的地理位置数组代替更新矢量对象中的所有点。
      * @param latlngs - 经纬度数组
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latlngs: leaflet.LatLng[]): Rectangle;
+    setLatLngs(latlngs: leaflet.LatLng[]): any | Rectangle;
     /**
      * 向矢量对象添加一个给定点。
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng): Rectangle;
+    addLatLng(latlng: leaflet.LatLng): any | Rectangle;
     /**
      * 获取线的矩形边界
      * @returns 矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
      */
-    redraw(): Rectangle;
+    redraw(): any | Rectangle;
     /**
      * 将线移动到所有路径层的顶部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): Rectangle;
+    bringToFront(): any | Rectangle;
     /**
      * 将线移动到所有路径层的底部
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): Rectangle;
+    bringToBack(): any | Rectangle;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): Rectangle;
+    addTo(map: Map | any): any | Rectangle;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): Rectangle;
+    remove(): any | Rectangle;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): Rectangle;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Rectangle;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): Rectangle;
+    unbindPopup(): any | Rectangle;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): Rectangle;
+    openPopup(latlng?: leaflet.LatLng): any | Rectangle;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): Rectangle;
+    closePopup(): any | Rectangle;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): Rectangle;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Rectangle;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): Rectangle;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Rectangle;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): Rectangle;
+    unbindTooltip(): any | Rectangle;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): Rectangle;
+    openTooltip(latlng?: leaflet.LatLng): any | Rectangle;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): Rectangle;
+    closeTooltip(): any | Rectangle;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): Rectangle;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Rectangle;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): Rectangle;
+    addEventParent(obj: any): any | Rectangle;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): Rectangle;
+    removeEventParent(obj: any): any | Rectangle;
     /**
      * 内置唯一标识ID
      */
@@ -4530,22 +4729,22 @@ export class Rectangle extends leaflet.Rectangle {
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
      */
-    setStyle(newStyle: Rectangle.StyleOptions): Rectangle;
+    setStyle(newStyle: any | Rectangle.StyleOptions): any | Rectangle;
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
-    toGeoJSON(options?: {
+    toGeoJSON(options?: any | {
         precision?: number;
-    }): any;
+    }): any | any;
     /**
      * 判断指定坐标是否在当前矩形内
      * @param latlng - 坐标
      * @returns 是否在矩形内
      */
-    isInPoly(latlng: leaflet.LatLng): boolean;
+    isInPoly(latlng: leaflet.LatLng): any | boolean;
 }
 
 /**
@@ -4567,7 +4766,7 @@ export class CanvasMarkerLayer extends leaflet.Layer {
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): CanvasMarkerLayer;
+    remove(): any | CanvasMarkerLayer;
     /**
      * 内置唯一标识ID
      */
@@ -4593,43 +4792,43 @@ export class CanvasMarkerLayer extends leaflet.Layer {
      * @param marker - 图标点矢量对象
      * @returns 当前对象本身，可以链式调用
      */
-    addGraphic(marker: Marker): CanvasMarkerLayer;
+    addGraphic(marker: Marker): any | CanvasMarkerLayer;
     /**
      * 添加 图标点矢量对象数组 到本图层
      * @param markers - 图标点矢量对象数组
      * @returns 当前对象本身，可以链式调用
      */
-    addGraphics(markers: Marker[]): CanvasMarkerLayer;
+    addGraphics(markers: Marker[]): any | CanvasMarkerLayer;
     /**
      * 移除指定矢量对象
      * @param marker - 指定矢量对象
      * @param [redraw = true] - 是否重绘
      * @returns 当前对象本身，可以链式调用
      */
-    removeGraphic(marker: Marker, redraw?: boolean): CanvasMarkerLayer;
+    removeGraphic(marker: Marker, redraw?: boolean): any | CanvasMarkerLayer;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): CanvasMarkerLayer;
+    addTo(map: Map | any): any | CanvasMarkerLayer;
     /**
      * 清除图层内所有矢量数据
      * @returns 无
      */
-    clear(): void;
+    clear(): any | void;
     /**
      * 增加绑定鼠标单击事件
      * @param listener - 事件方法
      * @returns 当前对象本身，可以链式调用
      */
-    addOnClickListener(listener: (...params: any[]) => any): CanvasMarkerLayer;
+    addOnClickListener(listener: (...params: any[]) => any): any | CanvasMarkerLayer;
     /**
      * 增加绑定鼠标移入事件
      * @param listener - 事件方法
      * @returns 当前对象本身，可以链式调用
      */
-    addOnHoverListener(listener: (...params: any[]) => any): CanvasMarkerLayer;
+    addOnHoverListener(listener: (...params: any[]) => any): any | CanvasMarkerLayer;
 }
 
 export namespace ClusterLayer {
@@ -4707,7 +4906,7 @@ export class ClusterLayer extends leaflet.Layer {
      * @param marker - 标记
      * @returns 可见父项（自身或包含在其中的群集当前在地图上可见）。 如果标记及其父集合当前不可见，则返回null（它们不在可见视点附近）
      */
-    getVisibleParent(marker: Marker): Marker;
+    getVisibleParent(marker: Marker): any | Marker;
     /**
      * 如果您已自定义群集图标以使用所包含标记中的某些数据，并且之后数据发生更改，请使用此方法强制刷新群集图标。
      * @example
@@ -4721,181 +4920,181 @@ export class ClusterLayer extends leaflet.Layer {
      * @param [markers] - 标记
      * @returns 当前对象本身，可以链式调用
      */
-    refreshClusters(markers?: Marker | Marker[]): ClusterLayer;
+    refreshClusters(markers?: Marker | Marker[]): any | ClusterLayer;
     /**
      * 缩放以显示给定的标记（如果需要的话，spiderfying），当标记在地图上可见时调用回调。
      * @param marker - 标记
      * @param callback - 标记
      * @returns 当前对象本身，可以链式调用
      */
-    zoomToShowLayer(marker: Marker, callback: (...params: any[]) => any): ClusterLayer;
+    zoomToShowLayer(marker: Marker, callback: (...params: any[]) => any): any | ClusterLayer;
     /**
      * 将图层置于所有图层之上
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): ClusterLayer;
+    bringToFront(): any | ClusterLayer;
     /**
      * 将图层置于所有图层之下
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): ClusterLayer;
+    bringToBack(): any | ClusterLayer;
     /**
      * 获取图层矩形边界
      * @returns 矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 将图层内的矢量数据转为GeoJSON格式对象
      * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。
      */
-    toGeoJSON(): any;
+    toGeoJSON(): any | any;
     /**
      * 调用setZIndex此组中包含的每个图层，传递z-index。
      * @param zIndex - 图层顺序值
      * @returns 当前对象本身，可以链式调用
      */
-    setZIndex(zIndex: number): ClusterLayer;
+    setZIndex(zIndex: number): any | ClusterLayer;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): ClusterLayer;
+    addTo(map: Map | any): any | ClusterLayer;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): ClusterLayer;
+    remove(): any | ClusterLayer;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): ClusterLayer;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | ClusterLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): ClusterLayer;
+    unbindPopup(): any | ClusterLayer;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): ClusterLayer;
+    openPopup(latlng?: leaflet.LatLng): any | ClusterLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): ClusterLayer;
+    closePopup(): any | ClusterLayer;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): ClusterLayer;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | ClusterLayer;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): ClusterLayer;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | ClusterLayer;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): ClusterLayer;
+    unbindTooltip(): any | ClusterLayer;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): ClusterLayer;
+    openTooltip(latlng?: leaflet.LatLng): any | ClusterLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): ClusterLayer;
+    closeTooltip(): any | ClusterLayer;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): ClusterLayer;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | ClusterLayer;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): ClusterLayer;
+    addEventParent(obj: any): any | ClusterLayer;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): ClusterLayer;
+    removeEventParent(obj: any): any | ClusterLayer;
     /**
      * 内置唯一标识ID
      */
@@ -4921,31 +5120,31 @@ export class ClusterLayer extends leaflet.Layer {
      * @param graphic - 图标点矢量对象
      * @returns 当前对象本身，可以链式调用
      */
-    addGraphic(graphic: Marker): ClusterLayer;
+    addGraphic(graphic: Marker): any | ClusterLayer;
     /**
      * 移除指定矢量对象
      * @param graphic - 指定矢量对象
      * @returns 当前对象本身，可以链式调用
      */
-    removeGraphic(graphic: Marker): ClusterLayer;
+    removeGraphic(graphic: Marker): any | ClusterLayer;
     /**
      * 是否包含Graphic矢量数据
      * @param graphic - 矢量数据
      * @returns 是否包含
      */
-    hasGraphic(graphic: any): boolean;
+    hasGraphic(graphic: any): any | boolean;
     /**
      * 遍历所有矢量数据并将其作为参数传递给回调函数
      * @param method - 回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身,可以链式调用
      */
-    eachGraphic(method: (...params: any[]) => any, context: any): ClusterLayer;
+    eachGraphic(method: (...params: any[]) => any, context?: any): any | ClusterLayer;
     /**
      * 清除图层内所有矢量数据
      * @returns 无
      */
-    clear(): void;
+    clear(): any | void;
     /**
      * 执行平滑的飞行动画，移动缩放地图范围至指定的数据范围
      * @param [options] - 定位参数，包括:
@@ -4968,7 +5167,7 @@ export class ClusterLayer extends leaflet.Layer {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-    }): ClusterLayer;
+    }): any | ClusterLayer;
 }
 
 /**
@@ -5017,7 +5216,7 @@ export class DayNightLayer extends leaflet.Polygon {
      * @param date - 时间
      * @returns 当前对象本身，可以链式调用
      */
-    setTime(date: Date): DayNightLayer;
+    setTime(date: Date): any | DayNightLayer;
 }
 
 export namespace GeoJsonLayer {
@@ -5069,14 +5268,7 @@ export namespace GeoJsonLayer {
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
  * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
- * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板，当为数组时支持：
- * @param options.popup.field - 字段名称
- * @param options.popup.name - 显示的对应自定义名称
- * @param [options.popup.type] - 默认为label文本，也可以支持：'button'按钮，'html' html内容。
- * @param [options.popup.callback] - 当type为'button'按钮时，单击后触发的事件。
- * @param [options.popup.html] - 当type为'html'时，对于拼接的html内容。
- * @param [options.popup.format] - 使用window上有效的格式化js方法名称或function回调方法，来格式化字符串值。
- * @param [options.popup.unit] - 追加的计量单位 或 其他字符串后缀。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
  * @param [options.popupOptions] - popup弹窗时的配置参数,还包括：
  * @param [options.popupOptions.title] - 固定的标题名称
  * @param [options.popupOptions.titleField] - 标题对应的属性字段名称
@@ -5105,27 +5297,19 @@ export class GeoJsonLayer extends GraphicLayer {
         queryParameters?: any;
         headers?: any;
         symbol?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
             styleOptions: any;
             styleField?: string;
             styleFieldOptions?: any;
             callback?: (...params: any[]) => any;
         };
-        popup?: {
-            field: string;
-            name: string;
-            type?: string;
-            callback?: string;
-            html?: string;
-            format?: string | ((...params: any[]) => any);
-            unit?: string;
-        };
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | any[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -5152,12 +5336,12 @@ export class GeoJsonLayer extends GraphicLayer {
         data?: any;
         类参数?: any;
         通用参数?: any;
-    }): GeoJsonLayer;
+    }): any | GeoJsonLayer;
     /**
      * 将图层内的矢量数据转为GeoJSON格式对象
      * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。
      */
-    toGeoJSON(): any;
+    toGeoJSON(): any | any;
 }
 
 export namespace GraphicLayer {
@@ -5235,14 +5419,7 @@ export namespace GraphicLayer {
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
  * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
- * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板，当为数组时支持：
- * @param options.popup.field - 字段名称
- * @param options.popup.name - 显示的对应自定义名称
- * @param [options.popup.type] - 默认为label文本，也可以支持：'button'按钮，'html' html内容。
- * @param [options.popup.callback] - 当type为'button'按钮时，单击后触发的事件。
- * @param [options.popup.html] - 当type为'html'时，对于拼接的html内容。
- * @param [options.popup.format] - 使用window上有效的格式化js方法名称或function回调方法，来格式化字符串值。
- * @param [options.popup.unit] - 追加的计量单位 或 其他字符串后缀。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
  * @param [options.popupOptions] - popup弹窗时的配置参数,还包括：
  * @param [options.popupOptions.title] - 固定的标题名称
  * @param [options.popupOptions.titleField] - 标题对应的属性字段名称
@@ -5265,27 +5442,19 @@ export class GraphicLayer extends leaflet.FeatureGroup {
         isAutoEditing?: boolean;
         isContinued?: boolean;
         symbol?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
             styleOptions: any;
             styleField?: string;
             styleFieldOptions?: any;
             callback?: (...params: any[]) => any;
         };
-        popup?: {
-            field: string;
-            name: string;
-            type?: string;
-            callback?: string;
-            html?: string;
-            format?: string | ((...params: any[]) => any);
-            unit?: string;
-        };
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | any[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -5302,163 +5471,163 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * 将图层置于所有图层之上
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): GraphicLayer;
+    bringToFront(): any | GraphicLayer;
     /**
      * 将图层置于所有图层之下
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): GraphicLayer;
+    bringToBack(): any | GraphicLayer;
     /**
      * 获取图层矩形边界
      * @returns 矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 将图层内的矢量数据转为GeoJSON格式对象
      * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。
      */
-    toGeoJSON(): any;
+    toGeoJSON(): any | any;
     /**
      * 调用setZIndex此组中包含的每个图层，传递z-index。
      * @param zIndex - 图层顺序值
      * @returns 当前对象本身，可以链式调用
      */
-    setZIndex(zIndex: number): GraphicLayer;
+    setZIndex(zIndex: number): any | GraphicLayer;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): GraphicLayer;
+    addTo(map: Map | any): any | GraphicLayer;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): GraphicLayer;
+    remove(): any | GraphicLayer;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): GraphicLayer;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | GraphicLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): GraphicLayer;
+    unbindPopup(): any | GraphicLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): GraphicLayer;
+    closePopup(): any | GraphicLayer;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): GraphicLayer;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | GraphicLayer;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): GraphicLayer;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | GraphicLayer;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): GraphicLayer;
+    unbindTooltip(): any | GraphicLayer;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): GraphicLayer;
+    openTooltip(latlng?: leaflet.LatLng): any | GraphicLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): GraphicLayer;
+    closeTooltip(): any | GraphicLayer;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): GraphicLayer;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | GraphicLayer;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): GraphicLayer;
+    addEventParent(obj: any): any | GraphicLayer;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): GraphicLayer;
+    removeEventParent(obj: any): any | GraphicLayer;
     /**
      * 内置唯一标识ID
      */
@@ -5486,7 +5655,7 @@ export class GraphicLayer extends leaflet.FeatureGroup {
     /**
      * 是否自动激活编辑（true时，单击后自动激活编辑）
      */
-    readonly hasEdit: boolean;
+    hasEdit: boolean;
     /**
      * 是否正在绘制中
      */
@@ -5508,42 +5677,42 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * @param graphic - 待添加的矢量数据 或 矢量数据构造参数
      * @returns 矢量数据
      */
-    addGraphic(graphic: leaflet.Layer | any | leaflet.Layer[]): leaflet.Layer | leaflet.Layer[];
+    addGraphic(graphic: leaflet.Layer | any | leaflet.Layer[]): any | leaflet.Layer | leaflet.Layer[];
     /**
      * 移除Graphic矢量数据
      * @param graphic - 矢量数据
      * @returns 当前对象本身，可以链式调用
      */
-    removeGraphic(graphic: leaflet.Layer): GraphicLayer;
+    removeGraphic(graphic: leaflet.Layer): any | GraphicLayer;
     /**
      * 是否包含Graphic矢量数据
      * @param graphic - 矢量数据
      * @returns 是否包含
      */
-    hasGraphic(graphic: any): boolean;
+    hasGraphic(graphic: any): any | boolean;
     /**
      * 遍历所有矢量数据并将其作为参数传递给回调函数
      * @param method - 回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身,可以链式调用
      */
-    eachGraphic(method: (...params: any[]) => any, context: any): GraphicLayer;
+    eachGraphic(method: (...params: any[]) => any, context?: any): any | GraphicLayer;
     /**
      * 获取图层内 所有矢量数据
      * @returns 矢量数据数组
      */
-    getGraphics(): leaflet.Layer[];
+    getGraphics(): any | leaflet.Layer[];
     /**
      * 根据id或uuid取矢量数据对象
      * @param id - 矢量数据id或uuid
      * @returns 矢量数据对象
      */
-    getGraphicById(id: number): leaflet.Layer;
+    getGraphicById(id: number | string): any | leaflet.Layer;
     /**
      * 清除图层内所有矢量数据
      * @returns 无
      */
-    clear(): void;
+    clear(): any | void;
     /**
      * 绑定右键菜单
      * @example
@@ -5615,22 +5784,22 @@ export class GraphicLayer extends leaflet.FeatureGroup {
         iconCls?: string;
         show?: ((...params: any[]) => any) | boolean;
         callback?: (...params: any[]) => any;
-    }[]): GraphicLayer;
+    }[]): any | GraphicLayer;
     /**
      * 解除绑定的右键菜单
      * @returns 当前对象本身，可以链式调用
      */
-    unbindContextMenu(): GraphicLayer;
+    unbindContextMenu(): any | GraphicLayer;
     /**
      * 获取绑定的右键菜单数组
      * @returns 右键菜单数组
      */
-    getContextMenu(): any;
+    getContextMenu(): any | any;
     /**
      * 将图层内的矢量数据转为GeoJSON格式对象
      * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。
      */
-    toGeoJSON(): any;
+    toGeoJSON(): any | any;
     /**
      * 加载转换GeoJSON格式规范数据为Graphic后加载到图层中。
      * @param geojson - GeoJSON格式规范数据
@@ -5645,16 +5814,17 @@ export class GraphicLayer extends leaflet.FeatureGroup {
     loadGeoJSON(geojson: string | any, options?: {
         clear?: boolean;
         flyTo?: boolean;
-        type?: GraphicType;
+        type?: GraphicType | string;
         style?: any;
         crs?: string;
-    }): Marker[] | Polyline[] | Polygon[] | Circle[] | Rectangle[] | any;
+    }): any | Marker[] | Polyline[] | Polygon[] | Circle[] | Rectangle[] | any;
     /**
      * 打开Popup弹窗
      * @param graphic - 矢量数据
+     * @param [latlng] - 指定弹出的位置
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(graphic: Marker | Polyline | Polygon | any): GraphicLayer;
+    openPopup(graphic: Marker | Polyline | Polygon | any, latlng?: leaflet.LatLng): any | GraphicLayer;
     /**
      * 执行平滑的飞行动画，移动缩放地图范围至指定的数据范围
      * @param [options] - 定位参数，包括:
@@ -5677,7 +5847,7 @@ export class GraphicLayer extends leaflet.FeatureGroup {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-    }): GraphicLayer;
+    }): any | GraphicLayer;
     /**
      * 开始绘制矢量数据，绘制的数据会加载在当前图层。
      * @param options - Graphic构造参数,包含：
@@ -5687,48 +5857,48 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * @returns 创建完成的矢量数据对象
      */
     startDraw(options: {
-        type: GraphicType;
+        type: GraphicType | string;
         style?: any;
         success?: (...params: any[]) => any;
-    }): leaflet.Layer;
+    }): any | leaflet.Layer;
     /**
      * 停止绘制，如有未完成的绘制会自动删除
      * @returns 当前对象本身,可以链式调用
      */
-    stopDraw(): GraphicLayer;
+    stopDraw(): any | GraphicLayer;
     /**
      * 完成绘制和编辑，如有未完成的绘制会自动完成。
      * 在移动端需要调用此方法来类似PC端双击结束。
      * @returns 当前对象本身,可以链式调用
      */
-    endDraw(): GraphicLayer;
+    endDraw(): any | GraphicLayer;
     /**
      * 激活编辑，绑定相关处理，同 hasEdit=true
      * @returns 当前对象本身,可以链式调用
      */
-    activateEdit(): GraphicLayer;
+    activateEdit(): any | GraphicLayer;
     /**
      * 释放编辑，解除绑定相关事件，同 hasEdit=false
      * @returns 当前对象本身,可以链式调用
      */
-    disableEdit(): GraphicLayer;
+    disableEdit(): any | GraphicLayer;
     /**
      * 激活编辑指定的矢量数据
      * @param graphic - 需要激活编辑的矢量数据
      * @returns 当前对象本身,可以链式调用
      */
-    startEditing(graphic: Marker | Polyline | Polygon | Circle | Rectangle | any): GraphicLayer;
+    startEditing(graphic: Marker | Polyline | Polygon | Circle | Rectangle | any): any | GraphicLayer;
     /**
      * 停止编辑，释放正在编辑的对象。
      * @param [graphic] - 需要停止编辑的矢量数据，默认为上一次正在编辑的对象
      * @returns 当前对象本身,可以链式调用
      */
-    stopEditing(graphic?: Marker | Polyline | Polygon | Circle | Rectangle | any): GraphicLayer;
+    stopEditing(graphic?: Marker | Polyline | Polygon | Circle | Rectangle | any): any | GraphicLayer;
     /**
      * 销毁当前图层
      * @returns 无
      */
-    destroy(): void;
+    destroy(): any | void;
 }
 
 /**
@@ -5797,18 +5967,18 @@ export class GraticuleLayer extends leaflet.Layer {
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): GraticuleLayer;
+    addTo(map: Map | any): any | GraticuleLayer;
     /**
      * 设置透明度
      * @param opacity - 透明度
      * @returns 当前对象本身，可以链式调用
      */
-    setOpacity(opacity: number): GraticuleLayer;
+    setOpacity(opacity: number): any | GraticuleLayer;
     /**
      * 清除图层内所有矢量数据
      * @returns 无
      */
-    clear(): void;
+    clear(): any | void;
     /**
      * 绘制指定矩形区域的经纬网
      * @param bounds - 指定矩形区域,还包括：
@@ -5819,7 +5989,7 @@ export class GraticuleLayer extends leaflet.Layer {
     customGrid(bounds: {
         row: number;
         col: number;
-    }): GraticuleLayer;
+    }): any | GraticuleLayer;
 }
 
 /**
@@ -5862,30 +6032,30 @@ export class HeatLayer extends leaflet.Layer {
      * @param latlngs - 坐标数组
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latlngs: leaflet.LatLng[]): HeatLayer;
+    setLatLngs(latlngs: leaflet.LatLng[]): any | HeatLayer;
     /**
      * 添加新的坐标点
      * @param latlng - 坐标
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng): HeatLayer;
+    addLatLng(latlng: leaflet.LatLng): any | HeatLayer;
     /**
      * 设置新的配置信息
      * @param options - 同当前类构造参数
      * @returns 当前对象本身，可以链式调用
      */
-    setOptions(options: any): HeatLayer;
+    setOptions(options: any): any | HeatLayer;
     /**
      * 重新绘制图层
      * @returns 当前对象本身，可以链式调用
      */
-    redraw(): HeatLayer;
+    redraw(): any | HeatLayer;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): HeatLayer;
+    addTo(map: Map | any): any | HeatLayer;
 }
 
 /**
@@ -6019,7 +6189,7 @@ export class VirtualGrid extends leaflet.Layer {
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): VirtualGrid;
+    addTo(map: Map | any): any | VirtualGrid;
 }
 
 /**
@@ -6047,14 +6217,7 @@ export class VirtualGrid extends leaflet.Layer {
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
  * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
- * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板，当为数组时支持：
- * @param options.popup.field - 字段名称
- * @param options.popup.name - 显示的对应自定义名称
- * @param [options.popup.type] - 默认为label文本，也可以支持：'button'按钮，'html' html内容。
- * @param [options.popup.callback] - 当type为'button'按钮时，单击后触发的事件。
- * @param [options.popup.html] - 当type为'html'时，对于拼接的html内容。
- * @param [options.popup.format] - 使用window上有效的格式化js方法名称或function回调方法，来格式化字符串值。
- * @param [options.popup.unit] - 追加的计量单位 或 其他字符串后缀。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
  * @param [options.popupOptions] - popup弹窗时的配置参数,还包括：
  * @param [options.popupOptions.title] - 固定的标题名称
  * @param [options.popupOptions.titleField] - 标题对应的属性字段名称
@@ -6091,27 +6254,19 @@ export class WfsLayer extends VirtualGrid {
         cellSize?: number;
         maxFeatures?: number;
         symbol?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
             styleOptions: any;
             styleField?: string;
             styleFieldOptions?: any;
             callback?: (...params: any[]) => any;
         };
-        popup?: {
-            field: string;
-            name: string;
-            type?: string;
-            callback?: string;
-            html?: string;
-            format?: string | ((...params: any[]) => any);
-            unit?: string;
-        };
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | any[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -6129,35 +6284,35 @@ export class WfsLayer extends VirtualGrid {
      * @param opacity - 透明度，取值范围 0-1
      * @returns 当前对象本身,可以链式调用
      */
-    setOpacity(opacity: number): WfsLayer;
+    setOpacity(opacity: number): any | WfsLayer;
     /**
      * 遍历所有矢量数据并将其作为参数传递给回调函数
      * @param method - 回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身,可以链式调用
      */
-    eachGraphic(method: (...params: any[]) => any, context: any): WfsLayer;
+    eachGraphic(method: (...params: any[]) => any, context?: any): any | WfsLayer;
     /**
      * 清除图层内所有矢量数据
      * @returns 无
      */
-    clear(): void;
+    clear(): any | void;
     /**
      * 根据id或uuid取矢量数据对象
      * @param id - 矢量数据id或uuid
      * @returns 矢量数据对象
      */
-    getGraphicById(id: number): leaflet.Layer;
+    getGraphicById(id: number): any | leaflet.Layer;
     /**
      * 将图层置于所有图层之下
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): WfsLayer;
+    bringToBack(): any | WfsLayer;
     /**
      * 将图层置于所有图层之上
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): WfsLayer;
+    bringToFront(): any | WfsLayer;
 }
 
 export namespace GroupLayer {
@@ -6206,188 +6361,188 @@ export class GroupLayer extends leaflet.LayerGroup {
      * 将图层内的矢量数据转为GeoJSON格式对象
      * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。
      */
-    toGeoJSON(): any;
+    toGeoJSON(): any | any;
     /**
      * 判断图层是否存在当前图层组中
      * @returns 如果给定图层当前已添加到组中，则返回true。
      */
-    hasLayer(): boolean;
+    hasLayer(): any | boolean;
     /**
      * 从组中删除所有图层
      * @returns 当前对象本身，可以链式调用
      */
-    clearLayers(): GroupLayer;
+    clearLayers(): any | GroupLayer;
     /**
      * 遍历当前的所有子图层
      * @param method - 回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    eachLayer(method: (...params: any[]) => any, context?: any): GroupLayer;
+    eachLayer(method: (...params: any[]) => any, context?: any): any | GroupLayer;
     /**
      * 获取指定id的图层
      * @param id - 图层id
      * @returns 图层
      */
-    getLayer(id: number): leaflet.Layer;
+    getLayer(id: number): any | leaflet.Layer;
     /**
      * 获取图层的id
      * @param layer - 图层
      * @returns 图层的id
      */
-    getLayerId(layer: leaflet.Layer): number;
+    getLayerId(layer: leaflet.Layer): any | number;
     /**
      * 返回添加到组中的所有图层的数组
      * @returns 图层数组
      */
-    getLayers(): leaflet.Layer[];
+    getLayers(): any | leaflet.Layer[];
     /**
      * 调用setZIndex此组中包含的每个图层，传递z-index。
      * @param zIndex - 图层顺序值
      * @returns 当前对象本身，可以链式调用
      */
-    setZIndex(zIndex: number): GroupLayer;
+    setZIndex(zIndex: number): any | GroupLayer;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): GroupLayer;
+    addTo(map: Map | any): any | GroupLayer;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): GroupLayer;
+    remove(): any | GroupLayer;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): GroupLayer;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | GroupLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): GroupLayer;
+    unbindPopup(): any | GroupLayer;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): GroupLayer;
+    openPopup(latlng?: leaflet.LatLng): any | GroupLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): GroupLayer;
+    closePopup(): any | GroupLayer;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): GroupLayer;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | GroupLayer;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): GroupLayer;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | GroupLayer;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): GroupLayer;
+    unbindTooltip(): any | GroupLayer;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): GroupLayer;
+    openTooltip(latlng?: leaflet.LatLng): any | GroupLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): GroupLayer;
+    closeTooltip(): any | GroupLayer;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): GroupLayer;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | GroupLayer;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): GroupLayer;
+    addEventParent(obj: any): any | GroupLayer;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): GroupLayer;
+    removeEventParent(obj: any): any | GroupLayer;
     /**
      * 内置唯一标识ID
      */
@@ -6425,13 +6580,13 @@ export class GroupLayer extends leaflet.LayerGroup {
      * @param childlayer - 添加的子图层
      * @returns 当前对象本身，可以链式调用
      */
-    addLayer(childlayer: leaflet.Layer): GroupLayer;
+    addLayer(childlayer: leaflet.Layer): any | GroupLayer;
     /**
      * 移除图层
      * @param childlayer - 移除的子图层 或 图层ID
      * @returns 当前对象本身，可以链式调用
      */
-    removeLayer(childlayer: leaflet.Layer | number): GroupLayer;
+    removeLayer(childlayer: leaflet.Layer | number): any | GroupLayer;
     /**
      * 定位地图至当前图层数据区域
      * @param [options] - 定位参数，包括:
@@ -6454,7 +6609,7 @@ export class GroupLayer extends leaflet.LayerGroup {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-    }): GroupLayer;
+    }): any | GroupLayer;
 }
 
 /**
@@ -6546,7 +6701,7 @@ export class ArcGisCacheLayer extends TileLayer {
      * @param coords - 瓦片的xyz信息
      * @returns 瓦片图片URL地址
      */
-    getTileUrl(coords: any): string;
+    getTileUrl(coords: any): any | string;
 }
 
 /**
@@ -7060,170 +7215,170 @@ export class ImageLayer extends leaflet.ImageOverlay {
      * 将图层置于所有图层之上
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): ImageLayer;
+    bringToFront(): any | ImageLayer;
     /**
      * 将图层置于所有图层之下
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): ImageLayer;
+    bringToBack(): any | ImageLayer;
     /**
      * 设置覆盖的透明度
      * @param opacity - 透明度，取值范围 0-1
      * @returns 当前对象本身,可以链式调用
      */
-    setOpacity(opacity: number): ImageLayer;
+    setOpacity(opacity: number): any | ImageLayer;
     /**
      * 设置图层矩形边界
      * @param bounds - 矩形边界
      * @returns 当前对象本身,可以链式调用
      */
-    setBounds(bounds: leaflet.LatLngBounds): ImageLayer;
+    setBounds(bounds: leaflet.LatLngBounds): any | ImageLayer;
     /**
      * 获取图层矩形边界
      * @returns 矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): ImageLayer;
+    addTo(map: Map | any): any | ImageLayer;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): ImageLayer;
+    remove(): any | ImageLayer;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): ImageLayer;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | ImageLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): ImageLayer;
+    unbindPopup(): any | ImageLayer;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): ImageLayer;
+    openPopup(latlng?: leaflet.LatLng): any | ImageLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): ImageLayer;
+    closePopup(): any | ImageLayer;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): ImageLayer;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | ImageLayer;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): ImageLayer;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | ImageLayer;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): ImageLayer;
+    unbindTooltip(): any | ImageLayer;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): ImageLayer;
+    openTooltip(latlng?: leaflet.LatLng): any | ImageLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): ImageLayer;
+    closeTooltip(): any | ImageLayer;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): ImageLayer;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | ImageLayer;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): ImageLayer;
+    addEventParent(obj: any): any | ImageLayer;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): ImageLayer;
+    removeEventParent(obj: any): any | ImageLayer;
     /**
      * 内置唯一标识ID
      */
@@ -7775,170 +7930,170 @@ export class TileLayer extends leaflet.TileLayer {
      * 将图层置于所有图层之上
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): TileLayer;
+    bringToFront(): any | TileLayer;
     /**
      * 将图层置于所有图层之下
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): TileLayer;
+    bringToBack(): any | TileLayer;
     /**
      * 设置覆盖的透明度
      * @param opacity - 透明度，取值范围 0-1
      * @returns 当前对象本身,可以链式调用
      */
-    setOpacity(opacity: number): TileLayer;
+    setOpacity(opacity: number): any | TileLayer;
     /**
      * 设置图层矩形边界
      * @param bounds - 矩形边界
      * @returns 当前对象本身,可以链式调用
      */
-    setBounds(bounds: leaflet.LatLngBounds): TileLayer;
+    setBounds(bounds: leaflet.LatLngBounds): any | TileLayer;
     /**
      * 获取图层矩形边界
      * @returns 矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): TileLayer;
+    addTo(map: Map | any): any | TileLayer;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): TileLayer;
+    remove(): any | TileLayer;
     /**
      * 绑定Popup弹窗配置
      * @param content - Popup弹窗内容
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions): TileLayer;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | TileLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): TileLayer;
+    unbindPopup(): any | TileLayer;
     /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): TileLayer;
+    openPopup(latlng?: leaflet.LatLng): any | TileLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): TileLayer;
+    closePopup(): any | TileLayer;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): TileLayer;
+    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | TileLayer;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions): TileLayer;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | TileLayer;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindTooltip(): TileLayer;
+    unbindTooltip(): any | TileLayer;
     /**
      * 打开Tooltip弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): TileLayer;
+    openTooltip(latlng?: leaflet.LatLng): any | TileLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(): TileLayer;
+    closeTooltip(): any | TileLayer;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isTooltipOpen(): boolean;
+    isTooltipOpen(): any | boolean;
     /**
      * 设定绑定在图层上的弹窗的内容
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): TileLayer;
+    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | TileLayer;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): leaflet.Tooltip;
+    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): TileLayer;
+    addEventParent(obj: any): any | TileLayer;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): TileLayer;
+    removeEventParent(obj: any): any | TileLayer;
     /**
      * 内置唯一标识ID
      */
@@ -7992,19 +8147,19 @@ export class TileLayer extends leaflet.TileLayer {
      * @param coords - 瓦片的xyz信息
      * @returns 瓦片图片URL地址
      */
-    getTileUrl(coords: any): string;
+    getTileUrl(coords: any): any | string;
     /**
      * 设置自定义颜色
      * @param customColor - 自定义颜色回调处理方法
      * @returns 无
      */
-    setCustomColor(customColor: (...params: any[]) => any): void;
+    setCustomColor(customColor: (...params: any[]) => any): any | void;
     /**
      * 销毁当前对象
      * @param [noDel = false] - false:会自动delete释放所有属性，true：不delete绑定的变量
      * @returns 无
      */
-    destroy(noDel?: boolean): void;
+    destroy(noDel?: boolean): any | void;
 }
 
 /**
@@ -8109,112 +8264,112 @@ export class WmsLayer extends leaflet.TileLayer.WMS {
      * @param [noRedraw] - 是否在当前屏幕范围重新请求图块,为true时不请求
      * @returns 当前对象本身,可以链式调用
      */
-    setParams(params: any, noRedraw?: boolean): WmsLayer;
+    setParams(params: any, noRedraw?: boolean): any | WmsLayer;
     /**
      * 将图层置于所有图层之上
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): WmsLayer;
+    bringToFront(): any | WmsLayer;
     /**
      * 将图层置于所有图层之下
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): WmsLayer;
+    bringToBack(): any | WmsLayer;
     /**
      * 设置覆盖的透明度
      * @param opacity - 透明度，取值范围 0-1
      * @returns 当前对象本身,可以链式调用
      */
-    setOpacity(opacity: number): WmsLayer;
+    setOpacity(opacity: number): any | WmsLayer;
     /**
      * 设置图层矩形边界
      * @param bounds - 矩形边界
      * @returns 当前对象本身,可以链式调用
      */
-    setBounds(bounds: leaflet.LatLngBounds): WmsLayer;
+    setBounds(bounds: leaflet.LatLngBounds): any | WmsLayer;
     /**
      * 获取图层矩形边界
      * @returns 矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
      */
-    addTo(map: Map): WmsLayer;
+    addTo(map: Map | any): any | WmsLayer;
     /**
      * 将图层从地图上移除
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): WmsLayer;
+    remove(): any | WmsLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(): WmsLayer;
+    closePopup(): any | WmsLayer;
     /**
      * 当前绑定的弹窗是是否打开
      * @returns 是否打开弹窗
      */
-    isPopupOpen(): boolean;
+    isPopupOpen(): any | boolean;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): leaflet.Popup;
+    getPopup(): any | leaflet.Popup;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): WmsLayer;
+    addEventParent(obj: any): any | WmsLayer;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): WmsLayer;
+    removeEventParent(obj: any): any | WmsLayer;
     /**
      * 内置唯一标识ID
      */
@@ -8257,12 +8412,12 @@ export class WmsLayer extends leaflet.TileLayer.WMS {
      * @param [popupOptions] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(fn: string | any | ((...params: any[]) => any), popupOptions?: Map.PopupOptions): WmsLayer;
+    bindPopup(fn: string | any | ((...params: any[]) => any), popupOptions?: Map.PopupOptions): any | WmsLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): WmsLayer;
+    unbindPopup(): any | WmsLayer;
 }
 
 /**
@@ -8360,7 +8515,7 @@ export class WmtsLayer extends TileLayer {
      * @param coords - 瓦片的xyz信息
      * @returns 瓦片图片URL地址
      */
-    getTileUrl(coords: any): string;
+    getTileUrl(coords: any): any | string;
 }
 
 export namespace Map {
@@ -8703,6 +8858,10 @@ export namespace Map {
 export class Map extends leaflet.Map {
     constructor(id: string | HTMLElement, options: Map.Options);
     /**
+     * 当前类的原始构造参数
+     */
+    readonly marsOptions: any;
+    /**
      * 获取地图DOM容器。
      */
     readonly container: HTMLElement;
@@ -8738,129 +8897,139 @@ export class Map extends leaflet.Map {
      * 获取地图的配置参数，即new Map传入的参数。
      * @returns 地图的配置参数
      */
-    getOptions(): any;
+    getOptions(): any | any;
     /**
      * 添加图层到地图上
      * @param layer - 图层
      * @param [addToControl = false] - 当存在layers控件时，是否添加到图层管理控件
      * @returns 当前对象本身，可以链式调用
      */
-    addLayer(layer: leaflet.Layer, addToControl?: boolean): Map;
+    addLayer(layer: leaflet.Layer, addToControl?: boolean): any | Map;
     /**
      * 从地图上移除一个指定的图层
      * @param layer - 图层
      * @param [removeFromControl = false] - 当存在layers控件时，是否从图层管理控件移除
      * @returns 当前对象本身，可以链式调用
      */
-    removeLayer(layer: leaflet.Layer, removeFromControl?: boolean): Map;
+    removeLayer(layer: leaflet.Layer, removeFromControl?: boolean): any | Map;
     /**
      * 获取图层ID值，按顺序取值。
      * 没有id的图层，会自动使用本方法进行id赋值处理
      * @returns 图层ID
      */
-    getNextLayerId(): number;
+    getNextLayerId(): any | number;
+    /**
+     * 根据ID或取图层
+     * @param id - 图层id或uuid
+     * @returns 图层
+     */
+    getLayerById(id: string | number): any | leaflet.Layer;
     /**
      * 根据属性获取指定图层
      * @param key - 对应的属性值
      * @param attrName - 属性字段名称
      * @returns 图层
      */
-    getLayer(key: any, attrName: string): leaflet.Layer;
+    getLayer(key: any, attrName: string): any | leaflet.Layer;
     /**
      * 获取所有图层
-     * @param options - 参数对象，包括以下：
-     * @param [options.basemaps = false] - 是否包含basemps中配置的所有图层
-     * @param [options.layers = false] - 是否包含operationallayers中配置的所有图层
-     * @param [options.filter = false] - 是否排除operationallayers和baseps的图层
+     * @param [options] - 参数对象，包括以下：
+     * @param [options.basemaps] - 默认不比较及处理，true:返回所有basemps中配置图层，false：排除所有所有basemps中配置图层
+     * @param [options.layers] - 默认不比较及处理，true:返回所有operationallayers中配置图层，false：排除所有operationallayers中配置图层
      * @returns 图层数组
      */
-    getLayers(options: {
+    getLayers(options?: {
         basemaps?: boolean;
         layers?: boolean;
-        filter?: boolean;
-    }): leaflet.Layer[];
+    }): any | leaflet.Layer[];
     /**
      * 获取所有basemps底图图层
      * @param [removeEmptyGroup = false] - 是否移除 空图层组
      * @returns 图层数组
      */
-    getBasemaps(removeEmptyGroup?: boolean): leaflet.TileLayer[];
+    getBasemaps(removeEmptyGroup?: boolean): any | leaflet.TileLayer[];
     /**
      * 获取所有瓦片图层，可以用于卷帘对比
      * @returns 图层数组
      */
-    getTileLayers(): leaflet.TileLayer[];
+    getTileLayers(): any | leaflet.TileLayer[];
     /**
      * 绑定右键菜单幕
      * @param arr - 菜单配置
      * @returns 当前对象本身，可以链式调用
      */
-    bindContextMenu(arr: any): Map;
+    bindContextMenu(arr: any): any | Map;
     /**
      * 取消绑定右键菜单
      * @returns 当前对象本身，可以链式调用
      */
-    unbindContextMenu(): Map;
+    unbindContextMenu(): any | Map;
     /**
      * 显示小提示窗，一般用于鼠标操作的提示。
      * @param position - 显示的屏幕坐标位置
      * @param message - 显示的内容
      * @returns 当前对象本身，可以链式调用
      */
-    openSmallTooltip(position: any, message: any): Map;
+    openSmallTooltip(position: leaflet.Point | leaflet.LatLng, message: string | any): any | Map;
     /**
      * 关闭小提示窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeSmallTooltip(): Map;
+    closeSmallTooltip(): any | Map;
     /**
      * 判断是否已经全屏
      * @returns 是否已经全屏
      */
-    isFullscreen(): boolean;
+    isFullscreen(): any | boolean;
     /**
      * 切换全屏和不全屏
      * @returns 是否已经全屏
      */
-    toggleFullscreen(): boolean;
+    toggleFullscreen(): any | boolean;
+    /**
+     * 设置鼠标的默认状态样式
+     * @param [val] - cursor样式
+     * @returns 无
+     */
+    setCursor(val?: string): any | void;
     /**
      * 添加Thing对象到地图上
      * @param item - Thing对象
      * @returns 当前对象本身，可以链式调用
      */
-    addThing(item: BaseThing): Map;
+    addThing(item: BaseThing): any | Map;
     /**
      * 移除Thing对象
      * @param item - 需要移除的Thing对象
-     * @param hasDestroy - 是否释放
+     * @param [hasDestroy] - 是否释放
      * @returns 当前对象本身，可以链式调用
      */
-    removeThing(item: BaseThing, hasDestroy: boolean): Map;
+    removeThing(item: BaseThing, hasDestroy?: boolean): any | Map;
     /**
      * 是否有指定的Thing对象存在（就是已经addThing的图层）
      * @param thing - 指定的Thing对象或Thing对象ID
      * @returns 是否存在
      */
-    hasThing(thing: BaseThing | string): boolean;
+    hasThing(thing: BaseThing | string): any | boolean;
     /**
      * 遍历每一个Thing对象并将其作为参数传递给回调函数
      * @param method - 回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身,可以链式调用
      */
-    eachThing(method: (...params: any[]) => any, context: any): Map;
+    eachThing(method: (...params: any[]) => any, context?: any): any | Map;
     /**
      * 根据指定属性获取Thing对象
      * @param key - 属性值（如id、name值）
      * @param [attrName = 'id'] - 属性名称
      * @returns Thing对象
      */
-    getThing(key: string | any, attrName?: string): BaseThing;
+    getThing(key: string | any, attrName?: string): any | BaseThing;
     /**
      * 获取当前层级和中心点
      * @returns 获取当前层级和中心点
      */
-    getView(): any;
+    getView(): any | any;
     /**
      * 回到默认区域
      * @param [options] - 定位参数，包括:
@@ -8883,11 +9052,12 @@ export class Map extends leaflet.Map {
         paddingBottomRight?: leaflet.Point | number[];
         padding?: leaflet.Point | number[];
         maxZoom?: number;
-    }): Map;
+    }): any | Map;
     /**
      * 定位地图至矢量对象处
      * @param graphic - 矢量对象
      * @param [options] - 定位参数，包括:
+     * @param [options.scale] - 线面数据时，通过在每个方向上按给定百分比扩展当前边界，返回更大的边界
      * @param [options.animate = true] - 是否进行动画缩放。false时始终重置视图完全没有动画。
      * @param [options.duration = 0.25] - 动画平移的持续时间，以秒为单位。
      * @param [options.easeLinearity = 0.25] - 平移动画宽松的曲率因子 [Cubic Bezier curve曲线]{@link https://cubic-bezier.com/}的第三个参数。1.0表示线性动画，而这个数字越小，曲线越鞠躬。
@@ -8899,6 +9069,7 @@ export class Map extends leaflet.Map {
      * @returns 当前对象本身，可以链式调用
      */
     flyToGraphic(graphic: any, options?: {
+        scale?: number;
         animate?: boolean;
         duration?: number;
         easeLinearity?: number;
@@ -8907,7 +9078,7 @@ export class Map extends leaflet.Map {
         paddingBottomRight?: leaflet.Point | number[];
         padding?: leaflet.Point | number[];
         maxZoom?: number;
-    }): Map;
+    }): any | Map;
     /**
      * 定位地图至目标点
      * @param center - 目标点坐标
@@ -8923,83 +9094,83 @@ export class Map extends leaflet.Map {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 获取精确的像素坐标，
      * 当需要绘制比较平滑的曲线的时候可调用此方法代替 latLngToContainerPoint
      * @param latlng - 经纬度坐标
      * @returns 像素坐标
      */
-    latLngToAccurateContainerPoint(latlng: leaflet.LatLng): leaflet.Point;
+    latLngToAccurateContainerPoint(latlng: leaflet.LatLng): any | leaflet.Point;
     /**
      * 判断是否在加载瓦片中
      * @returns 是否在加载瓦片中
      */
-    isLoading(): boolean;
+    isLoading(): any | boolean;
     /**
      * 设置Scene场景参数
      * @param options - 地图参数
      * @returns 当前对象本身，可以链式调用
      */
-    setOptions(options: Map.Options): Map;
+    setOptions(options: Map.Options): any | Map;
     /**
      * 返回 地图的当前边界，格式为 {xmin: 117.024994, xmax: 117.414322, ymin: 31.711229, ymax: 32.029617}
      * @param [precision = 6] - 保留小数位
      * @returns 地图边界 ，格式为 {xmin: 117.024994, xmax: 117.414322, ymin: 31.711229, ymax: 32.029617}
      */
-    getExtent(precision?: number): any;
+    getExtent(precision?: number): any | any;
     /**
      * 销毁地图
      * @returns 无
      */
-    destroy(): void;
+    destroy(): any | void;
     /**
      * 添加控件到地图上
      * @param control - 控件
      * @returns 当前对象本身，可以链式调用
      */
-    addControl(control: leaflet.Control): Map;
+    addControl(control: leaflet.Control): any | Map;
     /**
      * 从地图上移除一个指定的控件
      * @param control - 控件
      * @returns 当前对象本身，可以链式调用
      */
-    removeControl(control: leaflet.Control): Map;
+    removeControl(control: leaflet.Control): any | Map;
     /**
      * 遍历地图的图层
      * @param method - 回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    eachLayer(method: (...params: any[]) => any, context?: any): Map;
+    eachLayer(method: (...params: any[]) => any, context?: any): any | Map;
     /**
      * 打开指定的Popup弹窗（如果之前有打开其他的，会自动关闭，确保只有一个）
      * @param content - Popup弹窗内容
-     * @param latlng - 位置
+     * @param [latlng] - 位置
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(content: string | HTMLElement | leaflet.Popup, latlng: leaflet.LatLng, options?: Map.PopupOptions): Map;
+    openPopup(content: string | HTMLElement | leaflet.Popup | any, latlng?: leaflet.LatLng, options?: Map.PopupOptions | any): any | Map;
     /**
      * 关闭之前打开的（或给定某个）Popup弹窗
      * @param [popup] - 关闭之前打开的（或给定某个）Popup弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(popup?: leaflet.Popup): Map;
+    closePopup(popup?: leaflet.Popup): any | Map;
     /**
      * 创建并打开具有指定内容和选项的Tooltip鼠标工具提示。
-     * @param content - Popup弹窗内容
-     * @param latlng - 位置
-     * @param [options] - Popup弹窗参数
+     * @param content - Tooltip弹窗内容
+     * @param [latlng] - 位置
+     * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(content: string | HTMLElement | leaflet.Tooltip, latlng: leaflet.LatLng, options?: Map.TooltipOptions): Map;
+    openTooltip(content: string | HTMLElement | leaflet.Tooltip | any, latlng?: leaflet.LatLng, options?: Map.TooltipOptions | any): any | Map;
     /**
      * 关闭之前打开的（或给定某个）Tooltip鼠标工具提示
-     * @param [tooltip] - 关闭之前打开的（或给定某个）Popup弹窗
+     * @param [tooltip] - 关闭之前打开的（或给定某个）Tooltip弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(tooltip?: leaflet.Tooltip): Map;
+    closeTooltip(tooltip?: leaflet.Tooltip): any | Map;
     /**
      * 定位地图至指定位置和层级
      * @param center - 经纬度坐标
@@ -9016,7 +9187,7 @@ export class Map extends leaflet.Map {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 执行平滑的飞行动画，移动缩放地图范围至指定的地理中心和级别
      * @param latlng - 经纬度坐标
@@ -9033,7 +9204,7 @@ export class Map extends leaflet.Map {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 设置地图的zoom缩放级别
      * @param zoom - 层级
@@ -9043,7 +9214,7 @@ export class Map extends leaflet.Map {
      */
     setZoom(zoom: number, options?: {
         animate?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 放大地图级别
      * @param [delta = 1] - 改变的级别值，delta为空时，默认值取自map构造参数中的zoomDelta
@@ -9053,7 +9224,7 @@ export class Map extends leaflet.Map {
      */
     zoomIn(delta?: number, options?: {
         animate?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 缩小地图级别
      * @param [delta = 1] - 改变的级别值，delta为空时，默认值取自map构造参数中的zoomDelta
@@ -9063,7 +9234,7 @@ export class Map extends leaflet.Map {
      */
     zoomOut(delta?: number, options?: {
         animate?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 缩放地图，同时保持地图上的指定地理位置不变（例如内部用于滚动缩放和双击缩放）。
      * @param latlng - 位置 ,当为Point时相对于左上角的指定像素位置不变。
@@ -9074,7 +9245,7 @@ export class Map extends leaflet.Map {
      */
     setZoomAround(latlng: leaflet.LatLng | leaflet.Point, zoom: number, options?: {
         animate?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 将地图的视图设置在给定的矩形地理范围内,地图会自动计算最大缩放级别和中心点.
      * @param bounds - 矩形地理范围
@@ -9098,7 +9269,7 @@ export class Map extends leaflet.Map {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 执行平滑的飞行动画，移动缩放地图范围至指定的矩形范围，类似fitBounds方法
      * @param bounds - 矩形地理范围
@@ -9122,7 +9293,7 @@ export class Map extends leaflet.Map {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 平移地图到给定的中心点
      * @param latlng - 中心点
@@ -9138,31 +9309,31 @@ export class Map extends leaflet.Map {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 地图按指定像素的偏移值平移
      * @param offset - 平移的像素偏移值
      * @returns 当前对象本身，可以链式调用
      */
-    panBy(offset: leaflet.Point): Map;
+    panBy(offset: leaflet.Point): any | Map;
     /**
      * 限制地图的视图在给定的边界里面 (参考 地图的 maxBounds 参数选项)
      * @param bounds - 最大边界
      * @returns 当前对象本身，可以链式调用
      */
-    setMaxBounds(bounds: leaflet.LatLngBounds): Map;
+    setMaxBounds(bounds: leaflet.LatLngBounds): any | Map;
     /**
      * 设置地图最小缩放级别 (参考 minZoom 参数选项)
      * @param zoom - 最小缩放级别
      * @returns 当前对象本身，可以链式调用
      */
-    setMinZoom(zoom: number): Map;
+    setMinZoom(zoom: number): any | Map;
     /**
      * 设置地图最大缩放级别 (参考 maxZoom 参数选项)
      * @param zoom - 最大缩放级别
      * @returns 当前对象本身，可以链式调用
      */
-    setMaxZoom(zoom: number): Map;
+    setMaxZoom(zoom: number): any | Map;
     /**
      * 将地图放置到位于给定范围内的最接近的视图（如果不在），并使用特定的options选项（如果有的话）控制动画。
      * @param bounds - 范围
@@ -9178,7 +9349,7 @@ export class Map extends leaflet.Map {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 设检查地图容器大小是否已更改，并更新地图。当地图容器div大小有变化后，请调用。
      * @param [options] - 控制参数,直接传入Boolean时代表是否动画:
@@ -9191,12 +9362,12 @@ export class Map extends leaflet.Map {
         animate?: boolean;
         pan?: boolean;
         debounceMoveend?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 停止当前运行panTo或flyTo动画，如果有的话。
      * @returns 当前对象本身，可以链式调用
      */
-    stop(): Map;
+    stop(): any | Map;
     /**
      * 尝试使用Geolocation API定位用户，触发具有locationfound成功的位置数据的locationerror事件或失败的事件，并且可以根据检测精度（或者如果地理位置失败）将地图视图设置为用户的位置。
      * 请注意，如果您的页面不使用HTTPS，则此方法将在最新流行浏览器（Chrome 50及更高版本）中失败。有关Locate options详细信息，请参阅。
@@ -9216,86 +9387,86 @@ export class Map extends leaflet.Map {
         timeout?: number;
         maximumAge?: number;
         enableHighAccuracy?: boolean;
-    }): Map;
+    }): any | Map;
     /**
      * 停止执行已调用了的map.locate()。
      * @returns 当前对象本身，可以链式调用
      */
-    stopLocate(): Map;
+    stopLocate(): any | Map;
     /**
      * 返回地图视图的中心点经纬度
      * @returns 中心点经纬度
      */
-    getCenter(): leaflet.LatLng;
+    getCenter(): any | leaflet.LatLng;
     /**
      * 返回当前地图视图的矩形边界
      * @returns 地图矩形边界
      */
-    getBounds(): leaflet.LatLngBounds;
+    getBounds(): any | leaflet.LatLngBounds;
     /**
      * 返回地图此时的缩放级别
      * @returns 地图级别
      */
-    getZoom(): number;
+    getZoom(): any | number;
     /**
      * 返回地图最小缩放级别（如果设置了地图或图层的minZoom参数），默认为0
      * @returns 地图最小缩放级别
      */
-    getMinZoom(): number;
+    getMinZoom(): any | number;
     /**
      * 返回地图最大缩放级别（如果设置了地图或图层的maxZoom参数）
      * @returns 最大缩放级别
      */
-    getMaxZoom(): number;
+    getMaxZoom(): any | number;
     /**
      * 返回给定范围完全适合地图视图的最大缩放级别。
      * @param bounds - 给定范围
      * @param [inside = false] - 设置为true，则该方法将返回地图视图适合整个给定边界的最小缩放级别。
      * @returns 适合地图视图的最大缩放级别
      */
-    getBoundsZoom(bounds: leaflet.LatLngBounds, inside?: boolean): number;
+    getBoundsZoom(bounds: leaflet.LatLngBounds, inside?: boolean): any | number;
     /**
      * 返回地图容器的当前大小
      * @returns 地图容器的当前大小（以像素为单位）
      */
-    getSize(): leaflet.Point;
+    getSize(): any | leaflet.Point;
     /**
      * 返回当前地图视图的像素坐标的边界（在自定义层和覆盖实现中有用）
      * @returns 地图视图的像素坐标的边界
      */
-    getPixelBounds(): leaflet.Bounds;
+    getPixelBounds(): any | leaflet.Bounds;
     /**
      * 返回当前地图视图左上角的像素坐标（在自定义层和覆盖实现中有用）
      * @returns 地图视图左上角的像素坐标
      */
-    getPixelOrigin(): leaflet.Bounds;
+    getPixelOrigin(): any | leaflet.Bounds;
     /**
      * 返回zoom缩放级别的世界边界的像素坐标
      * @param [zoom] - 缩放级别, zoom为空时使用地图的当前缩放级别。
      * @returns 地图视图的像素坐标的边界
      */
-    getPixelWorldBounds(zoom?: number): leaflet.Bounds;
+    getPixelWorldBounds(zoom?: number): any | leaflet.Bounds;
     /**
      * 返回要应用于 从fromZoom缩放级别 到 toZoom缩放级别 地图缩放的转换的比例因子Scale。（内部使用来帮助缩放动画）
      * @param toZoom - 结束缩放级别
      * @param fromZoom - 开始缩放级别
      * @returns 地图缩放的转换的比例因子Scale
      */
-    getZoomScale(toZoom: number, fromZoom: number): number;
+    getZoomScale(toZoom: number, fromZoom: number): any | number;
     /**
      * 返回地图最终到达的缩放级别，如果它处于fromZoom 级别，并且所有内容都按比例缩放scale。 getZoomScale的逆向方法.
      * @param scale - 地图缩放的转换的比例因子Scale
      * @param fromZoom - 最终到达的缩放级别
      * @returns 地图缩放的转换的比例因子Scale
      */
-    getScaleZoom(scale: number, fromZoom: number): number;
+    getScaleZoom(scale: number, fromZoom: number): any | number;
     /**
      * 根据地图CRS坐标系进行投影转换方法, 地理坐标 转 像素坐标
      * @param latlng - 地理位置
      * @param zoom - 地图级别
      * @returns 像素坐标（相对于CRS原点）
      */
-    project(latlng: leaflet.LatLng, zoom: number): leaflet.Point;
+    project(latlng: leaflet.LatLng, zoom: number): any | leaflet.Point;
     /**
      * 根据地图CRS坐标系进行投影转换方法, 像素坐标 转 地理坐标。
      * 逆向 project 方法
@@ -9303,168 +9474,168 @@ export class Map extends leaflet.Map {
      * @param zoom - 地图级别
      * @returns 地理位置
      */
-    unproject(point: leaflet.Point, zoom: number): leaflet.LatLng;
+    unproject(point: leaflet.Point, zoom: number): any | leaflet.LatLng;
     /**
      * 给定相应像素坐标，转换为相应的地理坐标（对于当前缩放级别）
      * @param point - 像素坐标(相对于[origin pixel]{@link Map#getPixelOrigin})
      * @returns 地理位置
      */
-    layerPointToLatLng(point: leaflet.Point): leaflet.LatLng;
+    layerPointToLatLng(point: leaflet.Point): any | leaflet.LatLng;
     /**
      * 给定地理坐标，转换为相应像素坐标。（在地图上进行位置叠加时比较有用）
      * @param latlng - 地理位置
      * @returns 像素坐标(相对于[origin pixel]{@link Map#getPixelOrigin})
      */
-    latLngToLayerPoint(latlng: leaflet.LatLng): leaflet.Point;
+    latLngToLayerPoint(latlng: leaflet.LatLng): any | leaflet.Point;
     /**
      * 如果它们在CRS的边界之外，则返回一个LatLng，lat并lng根据地图的CRS wrapLat和wrapLng属性进行包装。默认情况下，这意味着经度包裹在数据线周围，所以它的值在-180和+180度之间。
      * @param latlng - 地理位置
      * @returns 地理位置
      */
-    wrapLatLng(latlng: leaflet.LatLng): leaflet.LatLng;
+    wrapLatLng(latlng: leaflet.LatLng): any | leaflet.LatLng;
     /**
      * 返回LatLngBounds与给定的大小相同的大小，确保其中心在CRS的边界内。默认情况下，这意味着中心经度被包裹在数据线周围，因此它的值在-180和+180度之间，并且大多数边界与CRS的界限重叠。
      * @param bounds - 地图范围
      * @returns 地图范围
      */
-    wrapLatLngBounds(bounds: leaflet.LatLngBounds): leaflet.LatLngBounds;
+    wrapLatLngBounds(bounds: leaflet.LatLngBounds): any | leaflet.LatLngBounds;
     /**
      * 根据地图的参考系来返回两个地理位置之间的距离
      * @param latlng1 - 地理位置1
      * @param latlng2 - 地理位置2
      * @returns 距离，单位：米
      */
-    distance(latlng1: leaflet.LatLng, latlng2: leaflet.LatLng): leaflet.LatLngBounds;
+    distance(latlng1: leaflet.LatLng, latlng2: leaflet.LatLng): any | leaflet.LatLngBounds;
     /**
      * 给定相对于地图container容器的像素坐标，返回相对于[origin pixel]{@link Map#getPixelOrigin}的相应像素坐标。
      * @param point - 像素坐标，相对于地图container容器
      * @returns 像素坐标，相对于 [origin pixel]{@link Map#getPixelOrigin}
      */
-    containerPointToLayerPoint(point: leaflet.Point): leaflet.Point;
+    containerPointToLayerPoint(point: leaflet.Point): any | leaflet.Point;
     /**
      * 给定相对于[origin pixel]{@link Map#getPixelOrigin}的像素坐标，返回相对于地图container容器的相应像素坐标。
      * @param point - 像素坐标， 相对于 [origin pixel]{@link Map#getPixelOrigin}
      * @returns 像素坐标，相对于地图container容器
      */
-    layerPointToContainerPoint(point: leaflet.Point): leaflet.Point;
+    layerPointToContainerPoint(point: leaflet.Point): any | leaflet.Point;
     /**
      * 给定相对于地图container容器的像素坐标，返回对应的地理坐标（对于当前缩放级别）。
      * @param point - 像素坐标， 相对于 [origin pixel]{@link Map#getPixelOrigin}
      * @returns 地理坐标
      */
-    containerPointToLatLng(point: leaflet.Point): leaflet.LatLng;
+    containerPointToLatLng(point: leaflet.Point): any | leaflet.LatLng;
     /**
      * 给定地理坐标，返回相对于地图container容器的相应像素坐标。
      * @param latlng - 地理坐标
      * @returns 像素坐标， 相对于地图container容器
      */
-    latLngToContainerPoint(latlng: leaflet.LatLng): leaflet.Point;
+    latLngToContainerPoint(latlng: leaflet.LatLng): any | leaflet.Point;
     /**
      * 给定一个MouseEvent对象，返回相对于发生事件的地图容器的像素坐标（与地图左上角相关）。
      * @param event - MouseEvent对象
      * @returns 像素坐标，相对于地图container容器
      */
-    mouseEventToContainerPoint(event: leaflet.LeafletMouseEvent): leaflet.Point;
+    mouseEventToContainerPoint(event: leaflet.LeafletMouseEvent | any): any | leaflet.Point;
     /**
      * 给定一个MouseEvent对象，返回相对于事件发生的[origin pixel]{@link Map#getPixelOrigin}的像素坐标。
      * @param event - MouseEvent对象
      * @returns 像素坐标，相对于地图container容器
      */
-    mouseEventToLayerPoint(event: leaflet.LeafletMouseEvent): leaflet.Point;
+    mouseEventToLayerPoint(event: leaflet.LeafletMouseEvent | any): any | leaflet.Point;
     /**
      * 给定一个MouseEvent对象，返回发生事件的地理坐标。
      * @param event - MouseEvent对象
      * @returns 地理坐标
      */
-    mouseEventToLatLng(event: leaflet.LeafletMouseEvent): leaflet.LatLng;
+    mouseEventToLatLng(event: leaflet.LeafletMouseEvent | any): any | leaflet.LatLng;
     /**
      * 加一个新的 leaflet.Handler到地图上，给他一个名字和构造函数。
      * @param name - 名称
      * @param handler - Handler构造函数
      * @returns 当前对象本身，可以链式调用
      */
-    addHandler(name: string, handler: (...params: any[]) => any): Map;
+    addHandler(name: string, handler: any): any | Map;
     /**
      * 释放清除这个地图和清除所有的相关事件监听器
      * @returns 当前对象本身，可以链式调用
      */
-    remove(): Map;
+    remove(): any | Map;
     /**
      * 如果尚未存在，创建具有给定名称的新映射窗格map pane，然后返回
      * @param name - 名称
      * @param [container] - 指定父级容器，container为空时，加入在地图主容器下。
      * @returns 窗格map pane
      */
-    createPane(name: string, container?: HTMLElement): HTMLElement;
+    createPane(name: string, container?: HTMLElement): any | HTMLElement;
     /**
      * 返回一个普通对象，其中包含所有窗格的名称为键，并将窗格Pane作为值。
      * @returns 窗格map pane
      */
-    getPanes(): any;
+    getPanes(): any | any;
     /**
      * 获取 地图DOM容器
      * @returns 地图DOM容器
      */
-    getContainer(): HTMLElement;
+    getContainer(): any | HTMLElement;
     /**
      * 方便异步执行后续方法函数Fn。 当地图以视图（中心和缩放）初始化和至少一个层初始化时，或者当它已经初始化时， 立即运行给定的函数Fn，没有时会等初始化后执行函数Fn.
      * @param fn - 方法函数
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    whenReady(fn: (...params: any[]) => any, context?: any): Map;
+    whenReady(fn: (...params: any[]) => any, context?: any): any | Map;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
-     * @param fn - 绑定的监听器回调方法
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    on(type: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    on(type: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
-     * @param types - 事件类型，Object时删除一组类型/侦听器对。
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    off(types: string | EventType | any, fn: (...params: any[]) => any, context?: any): void;
+    off(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
-     * @param data - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
+     * @param [data] - 传输的数据或对象，可在事件回调方法中event对象中获取进行使用
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    fire(type: string | EventType, data: any, propagate?: BaseClass): void;
+    fire(type: string | EventType, data?: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
-     * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
+     * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
+     * @param [fn] - 绑定的监听器回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    once(types: string | EventType, fn: (...params: any[]) => any, context?: any): void;
+    once(types?: string | EventType | any, fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): boolean;
+    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    addEventParent(obj: any): Map;
+    addEventParent(obj: any): any | Map;
     /**
      * 移除抛出事件到父类
      * @param obj - 父类对象
      * @returns 当前对象本身,可以链式调用
      */
-    removeEventParent(obj: any): Map;
+    removeEventParent(obj: any): any | Map;
 }
 
 /**
@@ -9514,7 +9685,7 @@ export class EchartsLayer extends leaflet.Layer {
      * @param zIndex - canvas层级
      * @returns 无
      */
-    setZIndex(zIndex: number): void;
+    setZIndex(zIndex: number): any | void;
     /**
      * 设置图表实例的配置项以及数据，
      * 万能接口，所有参数和数据的修改都可以通过 setOption 完成，
@@ -9525,7 +9696,7 @@ export class EchartsLayer extends leaflet.Layer {
      * @param [lazyUpdate = false] - 在设置完 option 后是否不立即更新图表，默认为 false，即同步立即更新。如果为 true，则会在下一个 animation frame 中，才更新图表。
      * @returns 无
      */
-    setEchartsOption(option: any, notMerge?: boolean, lazyUpdate?: boolean): void;
+    setEchartsOption(option: any, notMerge?: boolean, lazyUpdate?: boolean): any | void;
 }
 
 export namespace ArcGisDynamicLayer {
@@ -9605,12 +9776,12 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      * 在所有其他叠加层下方重绘此层。
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): ArcGisDynamicLayer;
+    bringToBack(): any | ArcGisDynamicLayer;
     /**
      * 在所有其他叠加层之上重绘此层。
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): ArcGisDynamicLayer;
+    bringToFront(): any | ArcGisDynamicLayer;
     /**
      * 绑定Popup弹窗配置
      * @example
@@ -9622,45 +9793,45 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: (...params: any[]) => any, options?: Map.PopupOptions): ArcGisDynamicLayer;
+    bindPopup(content: (...params: any[]) => any, options?: Map.PopupOptions | any): any | ArcGisDynamicLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): ArcGisDynamicLayer;
+    unbindPopup(): any | ArcGisDynamicLayer;
     /**
      * 返回层构造函数中指定的可见层数组。
      * @returns 可见层数组
      */
-    getLayers(): string[];
+    getLayers(): any | string[];
     /**
      * 重绘图层以显示传递的图层 id 数组。
      * @param layers - 可见层数组
      * @returns 当前对象本身，可以链式调用
      */
-    setLayers(layers: string[]): ArcGisDynamicLayer;
+    setLayers(layers: string[]): any | ArcGisDynamicLayer;
     /**
      * 返回用于渲染的当前层SQL筛选器。
      * @returns SQL筛选器
      */
-    getLayerDefs(): any;
+    getLayerDefs(): any | any;
     /**
      * 使用SQL筛选器新图层定义重绘图层, [layerDefs]{@link https://developers.arcgis.com/rest/services-reference/enterprise/export-map.htm}选项。
      * @param layerDefs - SQL筛选器
      * @returns 当前对象本身，可以链式调用
      */
-    setLayerDefs(layerDefs: any): ArcGisDynamicLayer;
+    setLayerDefs(layerDefs: any): any | ArcGisDynamicLayer;
     /**
      * 返回一组 JSON 对象，表示从地图服务请求的修改后的图层符号系统。
      * @returns SQL筛选器
      */
-    getDynamicLayers(): any;
+    getDynamicLayers(): any | any;
     /**
      * 在您想要修改服务本身中定义的图层符号系统的情况下，用于以数组形式插入原始 dynamicLayers JSON。
      * @param dynamicLayers - SQL筛选器
      * @returns 当前对象本身，可以链式调用
      */
-    setDynamicLayers(dynamicLayers: any): ArcGisDynamicLayer;
+    setDynamicLayers(dynamicLayers: any): any | ArcGisDynamicLayer;
     /**
      * 请求有关此要素图层的元数据。将使用error和调用回调metadata。
      * @example
@@ -9671,7 +9842,7 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    metadata(callback: (...params: any[]) => any, context?: any): ArcGisDynamicLayer;
+    metadata(callback: (...params: any[]) => any, context?: any): any | ArcGisDynamicLayer;
     /**
      * 返回一个IdentifyFeatures新对象，可用于识别该图层上的要素。您的回调函数将传递一个带有结果或错误的GeoJSON。
      * @example
@@ -9684,7 +9855,7 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns [leaflet.esri.services.IdentifyFeatures对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/identify-features.html}
      */
-    identify(callback: (...params: any[]) => any, context?: any): any;
+    identify(callback: (...params: any[]) => any, context?: any): any | any;
     /**
      * 返回IdentifyFeatures可用于查找特征的新对象。您的回调函数将传递一个带有结果或错误的GeoJSON。
      * @example
@@ -9698,7 +9869,7 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns [leaflet.esri.Find对象]{@link http://esri.github.io/esri-leaflet//api-reference/tasks/find.html}
      */
-    find(callback: (...params: any[]) => any, context?: any): any;
+    find(callback: (...params: any[]) => any, context?: any): any | any;
     /**
      * 返回leaflet.esri.Query可用于查询此服务的新对象。
      * @example
@@ -9712,12 +9883,12 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns [leaflet.esri.Query对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/query.html}
      */
-    query(callback: (...params: any[]) => any, context?: any): any;
+    query(callback: (...params: any[]) => any, context?: any): any | any;
     /**
      * 用于向服务发出新请求并绘制响应。
      * @returns 当前对象本身，可以链式调用
      */
-    redraw(): ArcGisDynamicLayer;
+    redraw(): any | ArcGisDynamicLayer;
     /**
      * 内置唯一标识ID
      */
@@ -9746,12 +9917,12 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      * 用于向服务发出新请求并绘制响应。
      * @returns 当前对象本身，可以链式调用
      */
-    redraw(): ArcGisDynamicLayer;
+    redraw(): any | ArcGisDynamicLayer;
     /**
      * 从地图上存在的要素图层重新绘制所有要素。
      * @returns 当前对象本身，可以链式调用
      */
-    refresh(): ArcGisDynamicLayer;
+    refresh(): any | ArcGisDynamicLayer;
 }
 
 export namespace ArcGisFeatureLayer {
@@ -9835,7 +10006,7 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
         useCors?: boolean;
         onEachFeature?: (...params: any[]) => any;
         symbol?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
             styleOptions: any;
             styleField?: string;
             styleFieldOptions?: any;
@@ -9850,7 +10021,7 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      * 返回当前where设置
      * @returns where设置
      */
-    getWhere(): string;
+    getWhere(): any | string;
     /**
      * 设置新where选项并刷新图层以反映新where过滤器。
      * @param where - where设置
@@ -9858,7 +10029,7 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    setWhere(where: string, callback?: (...params: any[]) => any, context?: any): ArcGisFeatureLayer;
+    setWhere(where: string, callback?: (...params: any[]) => any, context?: any): any | ArcGisFeatureLayer;
     /**
      * 请求有关此要素图层的元数据。将使用error和调用回调metadata。
      * @example
@@ -9869,7 +10040,7 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    metadata(callback: (...params: any[]) => any, context?: any): ArcGisFeatureLayer;
+    metadata(callback: (...params: any[]) => any, context?: any): any | ArcGisFeatureLayer;
     /**
      * 返回leaflet.esri.Query可用于查询此服务的新对象。
      * @example
@@ -9883,7 +10054,7 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns [leaflet.esri.Query对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/query.html}
      */
-    query(callback: (...params: any[]) => any, context?: any): any;
+    query(callback: (...params: any[]) => any, context?: any): any | any;
     /**
      * 向要素图层添加新要素。如果创建成功，这也会将该功能添加到地图中。
      * <ul>
@@ -9895,7 +10066,7 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    addFeature(feature: any, callback?: (...params: any[]) => any, context?: any): ArcGisFeatureLayer;
+    addFeature(feature: any, callback?: (...params: any[]) => any, context?: any): any | ArcGisFeatureLayer;
     /**
      * 更新要素图层上提供的要素。这也会更新地图上的要素。
      * <ul>
@@ -9907,7 +10078,7 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    updateFeature(feature: any, callback?: (...params: any[]) => any, context?: any): ArcGisFeatureLayer;
+    updateFeature(feature: any, callback?: (...params: any[]) => any, context?: any): any | ArcGisFeatureLayer;
     /**
      * 从要素图层中删除具有提供的 id 的要素。如果该要素存在，这也会从地图中删除该要素。
      * <ul>
@@ -9919,7 +10090,7 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    deleteFeature(id: string | number, callback?: (...params: any[]) => any, context?: any): ArcGisFeatureLayer;
+    deleteFeature(id: string | number, callback?: (...params: any[]) => any, context?: any): any | ArcGisFeatureLayer;
     /**
      * 从要素层中删除具有提供的 id 的要素数组。这也会从地图中删除特征（如果存在）。
      * <ul>
@@ -9931,7 +10102,7 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    deleteFeatures(ids: string[] | number[], callback?: (...params: any[]) => any, context?: any): ArcGisFeatureLayer;
+    deleteFeatures(ids: string[] | number[], callback?: (...params: any[]) => any, context?: any): any | ArcGisFeatureLayer;
     /**
      * 内置唯一标识ID
      */
@@ -9961,16 +10132,16 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      *   });
      * }
      * @param method - 回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身,可以链式调用
      */
-    eachGraphic(method: (...params: any[]) => any, context: any): GraphicLayer;
+    eachGraphic(method: (...params: any[]) => any, context?: any): any | GraphicLayer;
     /**
      * 根据Feature 的 id取矢量数据对象
      * @param id - Feature 的 id
      * @returns 矢量数据对象
      */
-    getGraphicById(id: string | number): leaflet.Layer;
+    getGraphicById(id: string | number): any | leaflet.Layer;
 }
 
 export namespace ArcGisImageLayer {
@@ -10051,12 +10222,12 @@ export class ArcGisImageLayer extends leaflet.TileLayer {
      * 在所有其他叠加层下方重绘此层。
      * @returns 当前对象本身,可以链式调用
      */
-    bringToBack(): ArcGisImageLayer;
+    bringToBack(): any | ArcGisImageLayer;
     /**
      * 在所有其他叠加层之上重绘此层。
      * @returns 当前对象本身,可以链式调用
      */
-    bringToFront(): ArcGisImageLayer;
+    bringToFront(): any | ArcGisImageLayer;
     /**
      * 绑定Popup弹窗配置
      * @example
@@ -10068,46 +10239,46 @@ export class ArcGisImageLayer extends leaflet.TileLayer {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: (...params: any[]) => any, options?: Map.PopupOptions): ArcGisImageLayer;
+    bindPopup(content: (...params: any[]) => any, options?: Map.PopupOptions | any): any | ArcGisImageLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
      */
-    unbindPopup(): ArcGisImageLayer;
+    unbindPopup(): any | ArcGisImageLayer;
     /**
      * 返回当前波段值。
      * @returns 波段值
      */
-    getBandIds(): string;
+    getBandIds(): any | string;
     /**
      * 指定要导出的单个波段，或者您可以通过指定波段编号来更改波段组合（红色、绿色、蓝色）。
      * @param bandIds - 波段值
      * @returns 当前对象本身，可以链式调用
      */
-    setBandIds(bandIds: string | number[]): ArcGisImageLayer;
+    setBandIds(bandIds: string | number[]): any | ArcGisImageLayer;
     /**
      * 返回当前无数据值。
      * @returns 无数据值
      */
-    getNoData(): string;
+    getNoData(): any | string;
     /**
      * 指定单个值或一组值以将其视为无数据。没有数据将值呈现为透明。
      * @param noData - 无数据值
      * @param [noDataInterpretation] - 可以是esriNoDataMatchAny| esriNoDataMatchAll.
      * @returns 当前对象本身，可以链式调用
      */
-    setNoData(noData: number | number[], noDataInterpretation?: string): ArcGisImageLayer;
+    setNoData(noData: number | number[], noDataInterpretation?: string): any | ArcGisImageLayer;
     /**
      * 返回当前像素类型。
      * @returns 像素类型也称为数据类型
      */
-    getPixelType(): string;
+    getPixelType(): any | string;
     /**
      * 像素类型也称为数据类型，与存储在栅格中的值的类型有关，例如有符号整数、无符号整数或浮点数。可能的值：C128、C64、F32、F64、S16、S32、S8、U1、U16、U2、U32、U4、U8、UNKNOWN。
      * @param pixelType - 像素类型也称为数据类型
      * @returns 当前对象本身，可以链式调用
      */
-    setPixelType(pixelType: string): ArcGisImageLayer;
+    setPixelType(pixelType: string): any | ArcGisImageLayer;
     /**
      * 请求有关此要素图层的元数据。将使用error和调用回调metadata。
      * @example
@@ -10118,7 +10289,7 @@ export class ArcGisImageLayer extends leaflet.TileLayer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    metadata(callback: (...params: any[]) => any, context?: any): ArcGisImageLayer;
+    metadata(callback: (...params: any[]) => any, context?: any): any | ArcGisImageLayer;
     /**
      * 返回leaflet.esri.Query可用于查询此服务的新对象。
      * @example
@@ -10131,34 +10302,34 @@ export class ArcGisImageLayer extends leaflet.TileLayer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns [leaflet.esri.Query对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/query.html}
      */
-    query(callback: (...params: any[]) => any, context?: any): any;
+    query(callback: (...params: any[]) => any, context?: any): any | any;
     /**
      * 返回图层的当前渲染规则。
      * @returns 当前渲染规则
      */
-    getRenderingRule(): any;
+    getRenderingRule(): any | any;
     /**
      * 使用传递的渲染规则重绘图层。
      * @param renderingRule - 当前渲染规则
      * @returns 当前对象本身，可以链式调用
      */
-    setRenderingRule(renderingRule: any): ArcGisImageLayer;
+    setRenderingRule(renderingRule: any): any | ArcGisImageLayer;
     /**
      * 返回图层的当前镶嵌规则。
      * @returns 镶嵌规则
      */
-    getMosaicRule(): any;
+    getMosaicRule(): any | any;
     /**
      * 使用传递的镶嵌规则重绘图层。
      * @param mosaicRule - 镶嵌规则
      * @returns 当前对象本身，可以链式调用
      */
-    setMosaicRule(mosaicRule: any): ArcGisImageLayer;
+    setMosaicRule(mosaicRule: any): any | ArcGisImageLayer;
     /**
      * 用于向服务发出新请求并绘制响应。
      * @returns 当前对象本身，可以链式调用
      */
-    redraw(): ArcGisImageLayer;
+    redraw(): any | ArcGisImageLayer;
     /**
      * 内置唯一标识ID
      */
@@ -10271,7 +10442,7 @@ export class ArcGisTileLayer extends leaflet.TileLayer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身，可以链式调用
      */
-    metadata(callback: (...params: any[]) => any, context?: any): ArcGisTileLayer;
+    metadata(callback: (...params: any[]) => any, context?: any): any | ArcGisTileLayer;
     /**
      * 返回一个IdentifyFeatures新对象，可用于识别该图层上的要素。您的回调函数将传递一个带有结果或错误的GeoJSON。
      * @example
@@ -10284,7 +10455,7 @@ export class ArcGisTileLayer extends leaflet.TileLayer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns [leaflet.esri.services.IdentifyFeatures对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/identify-features.html}
      */
-    identify(callback: (...params: any[]) => any, context?: any): any;
+    identify(callback: (...params: any[]) => any, context?: any): any | any;
     /**
      * 内置唯一标识ID
      */
@@ -10353,50 +10524,50 @@ export class MapVLayer extends leaflet.Layer {
      * @param dataSet - mapv.DataSet数据集,可以参考[ MapV数据集对象说明]{@link https://github.com/huiyan-fe/mapv/blob/master/src/data/DataSet.md}
      * @returns 无
      */
-    addData(dataSet: any): void;
+    addData(dataSet: any): any | void;
     /**
      * 更新mapv数据
      * @param dataSet - mapv.DataSet数据集,可以参考[ MapV数据集对象说明]{@link https://github.com/huiyan-fe/mapv/blob/master/src/data/DataSet.md}
      * @returns 无
      */
-    updateData(dataSet: any): void;
+    updateData(dataSet: any): any | void;
     /**
      * 获取数据
      * @returns mapv.DataSet数据集,可以参考[ MapV数据集对象说明]{@link https://github.com/huiyan-fe/mapv/blob/master/src/data/DataSet.md}
      */
-    getData(): any;
+    getData(): any | any;
     /**
      * 删除指定数据
      * @param data - mapv.DataSet数据集
      * @returns 无
      */
-    removeData(data: any): void;
+    removeData(data: any): any | void;
     /**
      * 删除所有数据
      * @returns 无
      */
-    removeAllData(): void;
+    removeAllData(): any | void;
     /**
      * 重绘图层
      * @returns 无
      */
-    draw(): void;
+    draw(): any | void;
     /**
      * 设置层级
      * @param zIndex - canvas层级
      * @returns 无
      */
-    setZIndex(zIndex: number): void;
+    setZIndex(zIndex: number): any | void;
     /**
      * 获取容器。
      * @returns 返回包含 mapV 图层的 dom 对象。
      */
-    getContainer(): HTMLElement;
+    getContainer(): any | HTMLElement;
     /**
      * 获取左上角坐标。
      * @returns 返回左上角坐标。
      */
-    getTopLeft(): leaflet.Bounds;
+    getTopLeft(): any | leaflet.Bounds;
 }
 
 export namespace BaseWidget {
@@ -10551,125 +10722,125 @@ export class BaseWidget extends BaseClass {
      * 激活widget，同 mars2d.widget.activate方法
      * @returns 无
      */
-    activateBase(): void;
+    activateBase(): any | void;
     /**
      * 构造方法完成后的钩子方法，子类继承后按需使用
      * @returns 无
      */
-    init(): void;
+    init(): any | void;
     /**
      * 模块初始化，仅首次初始化执行1次
      * @param [endfun] - 当create内存在异步时，可以异步后调用下endfun
      * @returns 无
      */
-    create(endfun?: (...params: any[]) => any): void;
+    create(endfun?: (...params: any[]) => any): any | void;
     /**
      * 遍历所有view配置
      * @param callback - 回调方法
      * @param [index] - 当有多个view时，可以指定单个操作的view的index
      * @returns callback执行的返回结果
      */
-    eachView(callback: (...params: any[]) => any, index?: number): any;
+    eachView(callback: (...params: any[]) => any, index?: number): any | any;
     /**
      * 更新窗口大小或位置，改变了主页面尺寸后需要调用(内部已自动调用)。
      * @returns 无
      */
-    indexResize(): void;
+    indexResize(): any | void;
     /**
      * 每个view窗口或页面创建完成后调用的钩子方法
      * @param opt - 对应的view配置
      * @param result - 得到iframe页的窗口对象 或 view的html内容
      * @returns 无
      */
-    winCreateOK(opt: any, result: any | string): void;
+    winCreateOK(opt: any, result: any | string): any | void;
     /**
      * 窗口最大化后触发后 的钩子方法
      * @returns 无
      */
-    winFull(): void;
+    winFull(): any | void;
     /**
      * 窗口最小化后触发 的钩子方法
      * @returns 无
      */
-    winMin(): void;
+    winMin(): any | void;
     /**
      * 最小化窗口
      * @returns 无
      */
-    minView(): void;
+    minView(): any | void;
     /**
      * 还原窗口
      * @returns 无
      */
-    restoreView(): void;
+    restoreView(): any | void;
     /**
      * 最大化窗口
      * @returns 无
      */
-    fullView(): void;
+    fullView(): any | void;
     /**
      * 窗口还原后触发 的钩子方法
      * @returns 无
      */
-    winRestore(): void;
+    winRestore(): any | void;
     /**
      * 激活模块之前 的钩子方法
      * @returns 无
      */
-    beforeActivate(): void;
+    beforeActivate(): any | void;
     /**
      * 激活模块【类内部实现方法】
      * @returns 无
      */
-    activate(): void;
+    activate(): any | void;
     /**
      * 释放插件，同 mars2d.widget.disable方法
      * @returns 无
      */
-    disableBase(): void;
+    disableBase(): any | void;
     /**
      * 释放模块前
      * @returns 无
      */
-    beforeDisable(): void;
+    beforeDisable(): any | void;
     /**
      * 释放模块【类内部实现方法】
      * @returns 无
      */
-    disable(): void;
+    disable(): any | void;
     /**
      * 还原配置为初始状态
      * @returns 无
      */
-    resetConfig(): void;
+    resetConfig(): any | void;
     /**
      * 设置view弹窗的显示和隐藏，基于修改css实现
      * @param show - 是否显示
      * @param [index] - 当有多个view时，可以指定单个操作的view的index
      * @returns 无
      */
-    setViewShow(show: boolean, index?: number): void;
+    setViewShow(show: boolean, index?: number): any | void;
     /**
      * 设置view弹窗的css
      * @param style - css值
      * @param [index] - 当有多个view时，可以指定单个操作的view的index
      * @returns 无
      */
-    setViewCss(style: any, index?: number): void;
+    setViewCss(style: any, index?: number): any | void;
     /**
      * 设置view弹窗的标题
      * @param title - css值
      * @param [index] - 当有多个view时，可以指定单个操作的view的index
      * @returns 无
      */
-    setTitle(title: string, index?: number): void;
+    setTitle(title: string, index?: number): any | void;
     /**
      * 读取html页面的内容
      * @param url - html页面的url
      * @param callback - 读取完成后的回调方法
      * @returns 无
      */
-    getHtml(url: string, callback: (...params: any[]) => any): void;
+    getHtml(url: string, callback: (...params: any[]) => any): any | void;
 }
 
 /**
@@ -10774,12 +10945,12 @@ namespace widget {
         widgets?: BaseWidget.widgetOptions[];
         version?: string;
         debugger?: boolean;
-    }, _basePath?: string): void;
+    }, _basePath?: string): any | void;
     /**
      * 获取默认init时中传入配置的 windowOptions 参数
      * @returns windowOptions参数默认值
      */
-    function getDefWindowOptions(): any;
+    function getDefWindowOptions(): any | any;
     /**
      * 激活指定 widget模块
      * @example
@@ -10801,93 +10972,93 @@ namespace widget {
      */
     function activate(item: {
         map?: Map;
-    }, noDisableOther?: boolean): BaseWidget.widgetOptions;
+    }, noDisableOther?: boolean): any | BaseWidget.widgetOptions;
     /**
      * 获取指定的widget配置信息
      * @param uri - widget的uri 或 id
      * @returns widget配置信息
      */
-    function getWidget(uri: string): BaseWidget.widgetOptions;
+    function getWidget(uri: string): any | BaseWidget.widgetOptions;
     /**
      * 获取指定的widget 对应的实例化对象
      * @param uri - widget的uri 或 id
      * @returns widget对应的实例化对象
      */
-    function getClass(uri: string): BaseWidget;
+    function getClass(uri: string): any | BaseWidget;
     /**
      * 获取widget的当前激活状态
      * @param uri - widget的uri 或 id
      * @returns 是否激活
      */
-    function isActivate(uri: string): boolean;
+    function isActivate(uri: string): any | boolean;
     /**
      * 释放指定的widget
      * @param uri - widget的uri 或 id
      * @returns 是否成功调用了释放
      */
-    function disable(uri: string | string[]): boolean;
+    function disable(uri: string | string[]): any | boolean;
     /**
      * 关闭释放所有widget
      * @param [nodisable] - 传string时 指定不释放的widget的uri或id ，传true值强制释放所有widget(默认autoDisable为false的widet不会释放)
      * @param [group] - 指定强制释放的group名(默认autoDisable为false的widet不会释放)，传入group值后会强制释放所有同group组的widget
      * @returns 无
      */
-    function disableAll(nodisable?: string | boolean, group?: string): void;
+    function disableAll(nodisable?: string | boolean, group?: string): any | void;
     /**
      * 关闭释放同组widget
      * @param group - 指定强制释放的group名
      * @param [nodisable] - 指定不释放的widget的uri或id
      * @returns 无
      */
-    function disableGroup(group: string, nodisable?: string): void;
+    function disableGroup(group: string, nodisable?: string): any | void;
     /**
      * 遍历所有widget
      * @param method - 回调方法
      * @returns 无
      */
-    function eachWidget(method: (...params: any[]) => any): void;
+    function eachWidget(method: (...params: any[]) => any): any | void;
     /**
      * 绑定类到当前对应js的widget中。
      * @param _class - 定义的BaseWidget子类
      * @returns 实例化后的对象
      */
-    function bindClass(_class: BaseWidget): any;
+    function bindClass(_class: BaseWidget): any | any;
     /**
      * 移除Widget测试栏（当有开启debugger时）
      * @returns 无
      */
-    function removeDebugeBar(): void;
+    function removeDebugeBar(): any | void;
     /**
      * 获取配置的version配置参数，用于附加清除浏览器缓存
      * @returns 配置的version参数
      */
-    function getCacheVersion(): string;
+    function getCacheVersion(): any | string;
     /**
      * 获取init方法传入的主目录配置参数
      * @returns 主目录配置参数
      */
-    function getBasePath(): string;
+    function getBasePath(): any | string;
     /**
      * 销毁对象
      * @returns 无
      */
-    function destroy(): void;
+    function destroy(): any | void;
     /**
      * 绑定指定类型事件监听器
      * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [fn] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    function on(types: WidgetEventType | WidgetEventType[], fn: (...params: any[]) => any, context: any): void;
+    function on(types: WidgetEventType | WidgetEventType[], fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 解除绑定指定类型事件监听器
      * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [fn] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    function off(types: WidgetEventType | WidgetEventType[], fn: (...params: any[]) => any, context: any): void;
+    function off(types: WidgetEventType | WidgetEventType[], fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
@@ -10895,34 +11066,34 @@ namespace widget {
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    function fire(type: WidgetEventType, data: any, propagate?: BaseClass): void;
+    function fire(type: WidgetEventType, data: any, propagate?: BaseClass | any): any | void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
      * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [fn] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    function once(types: WidgetEventType | WidgetEventType[], fn: (...params: any[]) => any, context: any): void;
+    function once(types: WidgetEventType | WidgetEventType[], fn?: (...params: any[]) => any, context?: any): any | void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
      * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    function listens(type: WidgetEventType, propagate?: BaseClass): boolean;
+    function listens(type: WidgetEventType, propagate?: BaseClass): any | boolean;
 }
 
 /**
  * 高德 POI查询 工具类，
  * 参考文档： https://lbs.amap.com/api/webservice/guide/api/search
- * @param options - 参数对象，包括以下：
+ * @param [options] - 参数对象，包括以下：
  * @param [options.key = mars2d.Token.gaodeArr] - 百度KEY,在实际项目中请使用自己申请的高德KEY，因为我们的key不保证长期有效。
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  */
 export class GaodePOI {
-    constructor(options: {
+    constructor(options?: {
         key?: string[];
         headers?: any;
     });
@@ -10946,7 +11117,7 @@ export class GaodePOI {
         location?: leaflet.LatLng;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): any | GaodePOI;
     /**
      * 高德搜索提示
      * @param queryOptions - 查询参数
@@ -10965,7 +11136,7 @@ export class GaodePOI {
         citylimit?: boolean;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): any | GaodePOI;
     /**
      * 按限定区域搜索
      * @param queryOptions - 查询参数
@@ -10988,7 +11159,7 @@ export class GaodePOI {
         count?: number;
         error?: (...params: any[]) => any;
         success?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): any | GaodePOI;
     /**
      * 关键字搜索
      * @param queryOptions - 查询参数
@@ -11011,7 +11182,7 @@ export class GaodePOI {
         page?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): any | GaodePOI;
     /**
      * 周边搜索(圆形搜索)
      * @param queryOptions - 查询参数
@@ -11036,7 +11207,7 @@ export class GaodePOI {
         page?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): any | GaodePOI;
     /**
      * 多边形搜索
      * @param queryOptions - 查询参数
@@ -11057,18 +11228,18 @@ export class GaodePOI {
         page?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): any | GaodePOI;
 }
 
 /**
  * 高德 路径规划  工具类，
  * 参考文档：https://lbs.amap.com/api/webservice/guide/api/direction
- * @param options - 参数对象，包括以下：
+ * @param [options] - 参数对象，包括以下：
  * @param [options.key = mars2d.Token.gaodeArr] - 百度KEY,在实际项目中请使用自己申请的高德KEY，因为我们的key不保证长期有效。
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  */
 export class GaodeRoute {
-    constructor(options: {
+    constructor(options?: {
         key?: string[];
         headers?: any;
     });
@@ -11094,7 +11265,7 @@ export class GaodeRoute {
         points: any[][];
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodeRoute;
+    }): any | GaodeRoute;
     /**
      * 按指定类别自动查询(多个路线数组，递归处理)
      * @param queryOptions - 查询参数
@@ -11112,13 +11283,13 @@ export class GaodeRoute {
         points: any[][];
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): void;
+    }): any | void;
     /**
      * 计算结果中的最短距离的导航路径
      * @param data - queryArr返回的结果数组
      * @returns 返回路线数据和index顺序
      */
-    getShortestPath(data: any): any;
+    getShortestPath(data: any): any | any;
     /**
      * 步行路径规划 (单个查询)
      * @param queryOptions - 查询参数
@@ -11131,7 +11302,7 @@ export class GaodeRoute {
         points: any[][];
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): void;
+    }): any | void;
     /**
      * 骑行路径查询 (单个查询)
      * @param queryOptions - 查询参数
@@ -11144,7 +11315,7 @@ export class GaodeRoute {
         points: any[][];
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): void;
+    }): any | void;
     /**
      * 驾车路径规划查询
      * @param queryOptions - 查询参数
@@ -11163,7 +11334,7 @@ export class GaodeRoute {
         strategy?: string;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): void;
+    }): any | void;
 }
 
 export namespace GaodeRoute {
@@ -11180,16 +11351,18 @@ export namespace GaodeRoute {
 /**
  * 地图截图处理类，
  * 内部导出部分依赖domtoimage库，需要额外引入。
- * @param options - 参数对象，包括以下：
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.eleid] - 导出的DIV对象id，默认为map所在的父容器
  * @param [options.id = uuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
- * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到map中。
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
 export class ExpImg extends BaseThing {
-    constructor(options: {
+    constructor(options?: {
+        eleid?: string;
         id?: string | number;
         enabled?: boolean;
-        stopPropagation?: boolean;
+        eventParent?: BaseClass | boolean;
     });
     /**
      * 经纬网图层
@@ -11200,7 +11373,7 @@ export class ExpImg extends BaseThing {
      * @param [size] - 纸张尺寸，默认为全屏,支持：A4H、A4Z、A3H、A3Z
      * @returns 无
      */
-    changeSize(size?: string): void;
+    changeSize(size?: string): any | void;
     /**
      * 绘制经纬网
      * @param options - 控制参数
@@ -11211,7 +11384,7 @@ export class ExpImg extends BaseThing {
     drawGraticule(options: {
         row: number;
         col: number;
-    }): void;
+    }): any | void;
     /**
      * 激活绘制矩形区域，并导出自定义区域的截图
      * @param options - 控制参数
@@ -11224,7 +11397,7 @@ export class ExpImg extends BaseThing {
         download?: number;
         fileName?: number;
         calllback?: (...params: any[]) => any;
-    }): void;
+    }): any | void;
     /**
      * 按当前地图区域进行全部截图
      * @param options - 控制参数
@@ -11237,21 +11410,33 @@ export class ExpImg extends BaseThing {
         download?: number;
         fileName?: number;
         calllback?: (...params: any[]) => any;
-    }): void;
+    }): any | void;
 }
 
 /**
  * 图上量算类
- * @param options - 参数对象，包括以下：
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.hasEdit = false] - 是否可编辑
+ * @param [options.isAutoEditing = true] - 完成测量时是否自动启动编辑(需要hasEdit:true时)
+ * @param [options.isContinued = false] - 是否连续测量
+ * @param [options.label] - 测量结果文本的样式
  * @param [options.id = uuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
- * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到map中。
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
+ * @param [options.pid = -1] - 量算对应的图层父级的id，一般图层管理中使用
+ * @param [options.name = ''] - 量算对应的图层名称
  */
 export class Measure extends BaseThing {
-    constructor(options: {
+    constructor(options?: {
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
+        isContinued?: boolean;
+        label?: Label.StyleOptions;
         id?: string | number;
         enabled?: boolean;
-        stopPropagation?: boolean;
+        eventParent?: BaseClass | boolean;
+        pid?: string | number;
+        name?: string;
     });
     /**
      * 对应的矢量图层
@@ -11279,7 +11464,7 @@ export class Measure extends BaseThing {
         unit?: string;
         maxPointNum?: number;
         showAddText?: boolean;
-    }): DistanceMeasure;
+    }): any | DistanceMeasure;
     /**
      * 面积测量（水平面）
      * @param options - 控制参数
@@ -11290,35 +11475,35 @@ export class Measure extends BaseThing {
     area(options: {
         style?: Polygon.StyleOptions;
         unit?: string;
-    }): AreaMeasure;
+    }): any | AreaMeasure;
     /**
      * 取消并停止绘制，如有未完成的绘制会自动删除
      * @returns 当前对象本身,可以链式调用
      */
-    stopDraw(): Measure;
+    stopDraw(): any | Measure;
     /**
      * 完成绘制和编辑，如有未完成的绘制会自动完成。
      * 在移动端需要调用此方法来类似PC端双击结束。
      * @returns 无
      */
-    endDraw(): void;
+    endDraw(): any | void;
     /**
      * 清除测量
      * @returns 无
      */
-    clear(): void;
+    clear(): any | void;
     /**
      * 更新量测结果的单位
      * @param unit - 计量单位,{@link MeasureUtil#formatDistance}{@link MeasureUtil#formatArea} 可选值：auto、m、km、mile、zhang 等。auto时根据距离值自动选用k或km
      * @returns 无
      */
-    updateUnit(unit: string): void;
+    updateUnit(unit: string): any | void;
     /**
      * 销毁当前对象
      * @param [noDel = false] - false:会自动delete释放所有属性，true：不delete绑定的变量
      * @returns 无
      */
-    destroy(noDel?: boolean): void;
+    destroy(noDel?: boolean): any | void;
 }
 
 /**
@@ -11339,7 +11524,7 @@ export class PolygonStyleConver extends BaseOptsConver {
      * @param entityGraphic - 矢量数据对应的 Leaflet内部对象
      * @returns 矢量数据所需的Leaflet内部对象
      */
-    static toLeafletVal(style: Polygon.StyleOptions, entityGraphic: leaflet.Polygon | null): leaflet.Polygon;
+    static toLeafletVal(style: Polygon.StyleOptions, entityGraphic: leaflet.Polygon | null): any | leaflet.Polygon;
 }
 
 /**
@@ -11351,20 +11536,20 @@ namespace DrawUtil {
      * @param type - 矢量标绘类型
      * @returns 是否有指定类型
      */
-    function hasType(type: string): boolean;
+    function hasType(type: string): any | boolean;
     /**
      * 注册矢量标绘类
      * @param type - 矢量标绘类型
      * @param drawClass - 矢量标绘类
      * @returns 无
      */
-    function register(type: string, drawClass: BaseDraw): void;
+    function register(type: string, drawClass: BaseDraw): any | void;
     /**
      * 根据 矢量标绘类型 获取 矢量标绘类
      * @param type - 矢量标绘类型
      * @returns 矢量标绘类
      */
-    function getClass(type: string): BaseDraw | undefined;
+    function getClass(type: string): any | BaseDraw | undefined;
     /**
      * 标绘中tooltip提示文字对象
      */
@@ -11380,33 +11565,33 @@ namespace GraphicUtil {
      * @param type - 矢量数据类型
      * @returns 是否有指定类型
      */
-    function hasType(type: string): boolean;
+    function hasType(type: string): any | boolean;
     /**
      * 判断该类型是否点状对象
      * @param type - 矢量数据类型
      * @returns 是否点状对象类型
      */
-    function isPointType(type: string): boolean;
+    function isPointType(type: string): any | boolean;
     /**
      * 注册矢量数据类
      * @param type - 矢量数据类型
      * @param graphicClass - 矢量数据类
      * @returns 无
      */
-    function register(type: string, graphicClass: Marker | Polyline | Polygon | Circle | Rectangle | any): void;
+    function register(type: string, graphicClass: Marker | Polyline | Polygon | Circle | Rectangle | any): any | void;
     /**
      * 根据 矢量数据类型 获取 矢量数据类
      * @param type - 矢量数据类型
      * @returns 矢量数据类
      */
-    function getClass(type: string): Marker | Polyline | Polygon | Circle | Rectangle | any | undefined;
+    function getClass(type: string): any | Marker | Polyline | Polygon | Circle | Rectangle | any | undefined;
     /**
      * 根据类型和参数 创建Graphic工厂方法
      * @param type - 数据类型
      * @param options - 构造参数， 按type支持{@link GraphicType}类的构造方法参数
      * @returns 创建完成的矢量数据对象
      */
-    function create(type: any, options: any): Marker | Polyline | Polygon | Circle | Rectangle | any;
+    function create(type: any, options: any): any | Marker | Polyline | Polygon | Circle | Rectangle | any;
 }
 
 /**
@@ -11419,13 +11604,13 @@ namespace LayerUtil {
      * @param layerClass - 图层类
      * @returns 无
      */
-    function register(type: string, layerClass: leaflet.Layer | any): void;
+    function register(type: string, layerClass: leaflet.Layer | any): any | void;
     /**
      * 根据 图层类型 获取 图层类
      * @param type - 图层类型
      * @returns 图层类
      */
-    function getClass(type: LayerType): leaflet.Layer | any | undefined;
+    function getClass(type: LayerType): any | leaflet.Layer | any | undefined;
     /**
      * 创建图层工厂方法
      * @param options - 图层参数，包括：
@@ -11437,13 +11622,13 @@ namespace LayerUtil {
     function create(options: {
         type: LayerType;
         其他: any;
-    }, templateValues?: any): leaflet.Layer | any;
+    }, templateValues?: any): any | leaflet.Layer | any;
     /**
      * 克隆图层
      * @param layer - 图层
      * @returns 克隆的图层
      */
-    function cloneLayer(layer: any): any;
+    function cloneLayer(layer: any): any | any;
 }
 
 /**
@@ -11455,37 +11640,37 @@ namespace Log {
      * @param val - 是否打印
      * @returns 无
      */
-    function hasInfo(val: boolean): void;
+    function hasInfo(val: boolean): any | void;
     /**
      * 是否 console.warn 打印警告日志信息，可以按需关闭或开启，但不建议关闭
      * @param val - 是否打印
      * @returns 无
      */
-    function hasWarn(val: boolean): void;
+    function hasWarn(val: boolean): any | void;
     /**
      * 是否 console.error 打印错误日志信息，可以按需关闭或开启，但不建议关闭
      * @param val - 是否打印
      * @returns 无
      */
-    function hasError(val: boolean): void;
+    function hasError(val: boolean): any | void;
     /**
      * console.log 打印普通日志信息,方便开发调试
      * @param sources - 打印的日志内容
      * @returns 无
      */
-    function logInfo(sources: string | any): void;
+    function logInfo(sources: string | any): any | void;
     /**
      * console.warn 打印警告日志信息,方便开发调试
      * @param sources - 打印的警告日志内容
      * @returns 无
      */
-    function logWarn(sources: string | any): void;
+    function logWarn(sources: string | any): any | void;
     /**
      * console.warn 打印错误日志信息,方便开发调试定位问题
      * @param sources - 打印的错误日志内容
      * @returns 无
      */
-    function logError(sources: string | any): void;
+    function logError(sources: string | any): any | void;
 }
 
 /**
@@ -11497,19 +11682,19 @@ namespace MeasureUtil {
      * @param coords - 坐标数组
      * @returns 距离（单位：米）
      */
-    function getDistance(coords: leaflet.LatLng[]): number;
+    function getDistance(coords: leaflet.LatLng[]): any | number;
     /**
      * 计算面积（空间平面）
      * @param coords - 坐标数组
      * @returns 面积，单位：平方米
      */
-    function getArea(coords: leaflet.LatLng[]): number;
+    function getArea(coords: leaflet.LatLng[]): any | number;
     /**
      * 度数值 转 弧度值
      * @param degrees - 度数值
      * @returns 弧度值
      */
-    function toRadians(degrees: number): number;
+    function toRadians(degrees: number): any | number;
     /**
      * 计算2点的角度值，角度已正北为0度，顺时针为正方向
      * 【像素坐标，latlng通过map.latLngToContainerPoint 转换下】
@@ -11517,21 +11702,21 @@ namespace MeasureUtil {
      * @param pt2 - 目标点，以该点为参考中心。 像素坐标
      * @returns 返回角度值，0-360度
      */
-    function getAngle(pt1: leaflet.Point, pt2: leaflet.Point): number;
+    function getAngle(pt1: leaflet.Point, pt2: leaflet.Point): any | number;
     /**
      * 格式化显示距离值, 可指定单位
      * @param val - 距离值，米
      * @param [unit = 'auto'] - 计量单位, 可选值：auto、m、km、mile、zhang 。auto时根据距离值自动选用k或km
      * @returns 带单位的格式化距离值字符串，如：20.17 米
      */
-    function formatDistance(val: number, unit?: string): string;
+    function formatDistance(val: number, unit?: string): any | string;
     /**
      * 格式化显示面积值, 可指定单位
      * @param val - 面积值，平方米
      * @param [unit = 'auto'] - 计量单位，可选值：auto、m、km、mu、ha 。auto时根据面积值自动选用m或km
      * @returns 带单位的格式化面积值字符串，如：20.21 平方公里
      */
-    function formatArea(val: number, unit?: string): string;
+    function formatArea(val: number, unit?: string): any | string;
 }
 
 /**
@@ -11544,43 +11729,43 @@ namespace PointTrans {
      * @param coord - 经度纬度数组
      * @returns LatLng坐标值
      */
-    function coord2latlng(coord: number[]): leaflet.LatLng;
+    function coord2latlng(coord: number[]): any | leaflet.LatLng;
     /**
      * 经度纬度数组列表 转为 LatLng坐标值列表
      * @param coords - 经度纬度数组列表
      * @returns LatLng坐标值列表
      */
-    function coords2latlngs(coords: any[][]): leaflet.LatLng[];
+    function coords2latlngs(coords: any[][]): any | leaflet.LatLng[];
     /**
      * LatLng坐标值 转为 经度纬度数组
      * @param latlng - LatLng坐标值
      * @returns 经度纬度数组
      */
-    function latlng2coord(latlng: leaflet.LatLng): number[];
+    function latlng2coord(latlng: leaflet.LatLng): any | number[];
     /**
      * LatLng坐标值列表 转为 经度纬度数组列表
      * @param latlngs - LatLng坐标值列表
      * @returns 经度纬度数组列表
      */
-    function latlngs2coords(latlngs: leaflet.LatLng[]): any[][];
+    function latlngs2coords(latlngs: leaflet.LatLng[]): any | any[][];
     /**
      * LatLng坐标值数组 转为 WebMercator投影平面坐标数组
      * @param arr - LatLng坐标值数组
      * @returns WebMercator投影平面坐标数组
      */
-    function latlngs2mercators(arr: leaflet.LatLng[]): any[][];
+    function latlngs2mercators(arr: leaflet.LatLng[]): any | any[][];
     /**
      * WebMercator投影平面坐标数组 转为  LatLng坐标值数组
      * @param arr - WebMercator投影平面坐标数组
      * @returns LatLng坐标值数组
      */
-    function mercators2latlngs(arr: any[][]): leaflet.LatLng[];
+    function mercators2latlngs(arr: any[][]): any | leaflet.LatLng[];
     /**
      * 经度/纬度 十进制 转为 度分秒格式
      * @param value - 经度或纬度值
      * @returns 度分秒对象，如： { degree:113, minute:24, second:40 }
      */
-    function degree2dms(value: number): any;
+    function degree2dms(value: number): any | any;
     /**
      * 经度/纬度  度分秒 转为 十进制
      * @param degree - 度
@@ -11588,7 +11773,7 @@ namespace PointTrans {
      * @param second - 秒
      * @returns 十进制
      */
-    function dms2degree(degree: number, minute: number, second: number): number;
+    function dms2degree(degree: number, minute: number, second: number): any | number;
     /**
      * 根据经度值 获取CGCS2000投影坐标对应的 EPSG值
      * @param lng - 经度值
@@ -11596,13 +11781,13 @@ namespace PointTrans {
      * @param [hasAddDH = true] - 横坐标前是否加带号
      * @returns EPSG值
      */
-    function getCGCS2000EPSGByLng(lng: number, fd6?: boolean, hasAddDH?: boolean): string | undefined;
+    function getCGCS2000EPSGByLng(lng: number, fd6?: boolean, hasAddDH?: boolean): any | string | undefined;
     /**
      * 根据加带号的横坐标值 获取CGCS2000投影坐标对应的EPSG值
      * @param x - 根据加带号的横坐标值
      * @returns EPSG值
      */
-    function getCGCS2000EPSGByX(x: number): string | undefined;
+    function getCGCS2000EPSGByX(x: number): any | string | undefined;
     /**
      * 使用proj4转换坐标（支持任意坐标系），
      * 坐标系 可以在 {@link http://epsg.io }进行查询，已经内置支持 EPSG:4326、EPSG:3857、EPSG:4490、EPSG:4491至4554
@@ -11611,7 +11796,7 @@ namespace PointTrans {
      * @param [toProjParams = 'EPSG:4326'] - 转为返回的结果坐标系
      * @returns 返回结果坐标系的对应坐标,示例：[115.866936, 35.062583]
      */
-    function proj4Trans(arrdata: number[], fromProjParams: string | CRS, toProjParams?: string | CRS): number[];
+    function proj4Trans(arrdata: number[], fromProjParams: string | CRS, toProjParams?: string | CRS): any | number[];
     /**
      * 使用proj4转换坐标数组（支持任意坐标系），
      * 坐标系 可以在 {@link http://epsg.io }进行查询，已经内置支持 EPSG:4326、EPSG:3857、EPSG:4490、EPSG:4491至4554
@@ -11620,84 +11805,84 @@ namespace PointTrans {
      * @param [toProjParams = 'EPSG:4326'] - 转为返回的结果坐标系
      * @returns 返回结果坐标系的对应坐标数组,示例：[[115.866936, 35.062583],[115.866923, 35.062565]]
      */
-    function proj4TransArr(coords: number[], fromProjParams: string, toProjParams?: string): number[];
+    function proj4TransArr(coords: number[], fromProjParams: string, toProjParams?: string): any | number[];
     /**
      * 经纬度地理坐标 转 投影平面坐标
      * @param lnglat - 经纬度坐标,示例：[123.123456,32.654321,20.1]
      * @returns WebMercator投影平面坐标,示例：[13048882,3741659,20.1]
      */
-    function lonlat2mercator(lnglat: number[]): number[];
+    function lonlat2mercator(lnglat: number[]): any | number[];
     /**
      * 经纬度地理坐标数组 转 投影平面坐标数组
      * @param arr - 经纬度坐标数组,示例：[ [123.123456,32.654321,20.1], [111.123456,22.654321,21.2] ]
      * @returns WebMercator投影平面坐标数组,示例：[[13048882,3741659,20.1],[13048882,3741659,21.2] ]
      */
-    function lonlats2mercators(arr: any[][]): any[][];
+    function lonlats2mercators(arr: any[][]): any | any[][];
     /**
      * 投影平面坐标 转 经纬度地理坐标
      * @param point - WebMercator投影平面坐标,示例：[13048882,3741659,20.1]
      * @returns 经纬度坐标,示例：[123.123456,32.654321,20.1]
      */
-    function mercator2lonlat(point: number[]): number[];
+    function mercator2lonlat(point: number[]): any | number[];
     /**
      * 投影平面坐标数组 转 经纬度地理坐标数组
      * @param arr - WebMercator投影平面坐标数组,示例：[[13048882,3741659,20.1],[13048882,3741659,21.2] ]
      * @returns 经纬度坐标数组,示例：[ [123.123456,32.654321,20.1], [111.123456,22.654321,21.2] ]
      */
-    function mercators2lonlats(arr: any[][]): any[][];
+    function mercators2lonlats(arr: any[][]): any | any[][];
     /**
      * 经纬度坐标转换，
      * 百度坐标 (BD09) 转换为 国测局坐标 (GCJ02)
      * @param arrdata - 百度坐标 (BD09)坐标数据，示例：[117.225590,31.832916]
      * @returns 国测局坐标 (GCJ02)坐标数据，示例：[:117.22559,31.832917]
      */
-    function bd2gcj(arrdata: number[]): number[];
+    function bd2gcj(arrdata: number[]): any | number[];
     /**
      * 经纬度坐标转换，
      * 国测局坐标 (GCJ02) 转换为 百度坐标 (BD09)
      * @param arrdata - 高德谷歌等国测局坐标 (GCJ02) 坐标数据，示例：[117.225590,31.832916]
      * @returns 百度坐标 (BD09)坐标数据，示例：[117.232039,31.839177]
      */
-    function gcj2bd(arrdata: number[]): number[];
+    function gcj2bd(arrdata: number[]): any | number[];
     /**
      * 经纬度坐标转换，
      * 标准无偏坐标（WGS84） 转为 国测局坐标 (GCJ02)
      * @param arrdata - 标准无偏坐标（WGS84）坐标数据，示例：[117.220102, 31.834912]
      * @returns 国测局坐标 (GCJ02)坐标数据，示例：[117.225590,31.832916]
      */
-    function wgs2gcj(arrdata: number[]): number[];
+    function wgs2gcj(arrdata: number[]): any | number[];
     /**
      * 经纬度坐标转换，
      * 国测局坐标 (GCJ02)  转换为 标准无偏坐标（WGS84）
      * @param arrdata - 国测局坐标 (GCJ02)坐标数据，示例：[117.225590,31.832916]
      * @returns 标准无偏坐标（WGS84）坐标数据，示例：[117.220102, 31.834912]
      */
-    function gcj2wgs(arrdata: number[]): number[];
+    function gcj2wgs(arrdata: number[]): any | number[];
     /**
      * 经纬度坐标转换，
      * 百度坐标 (BD09) 转 标准无偏坐标（WGS84）
      * @param arrdata - 百度坐标 (BD09)坐标数据，示例：[117.232039,31.839177]
      * @returns 标准无偏坐标（WGS84）坐标数据，示例：[117.220102, 31.834912]
      */
-    function bd2wgs(arrdata: number[]): number[];
+    function bd2wgs(arrdata: number[]): any | number[];
     /**
      * 标准无偏坐标（WGS84）  转 百度坐标 (BD09)
      * @param arrdata - 标准无偏坐标（WGS84）坐标数据，示例：[117.220102, 31.834912]
      * @returns 百度坐标 (BD09)坐标数据，示例：[117.232039,31.839177]
      */
-    function wgs2bd(arrdata: number[]): number[];
+    function wgs2bd(arrdata: number[]): any | number[];
     /**
      * 【方式2】经纬度地理坐标 转 投影平面坐标
      * @param arrdata - 经纬度坐标,示例：[117.220101,31.834907]
      * @returns WebMercator投影平面坐标,示例：[13048882.06,3741659.72]
      */
-    function jwd2mct(arrdata: number[]): number[];
+    function jwd2mct(arrdata: number[]): any | number[];
     /**
      * 【方式2】投影平面坐标 转 经纬度地理坐标
      * @param arrdata - WebMercator投影平面坐标，示例：[13048882.06,3741659.72]
      * @returns 经纬度坐标数据，示例：[117.220101,31.834907]
      */
-    function mct2jwd(arrdata: number[]): number[];
+    function mct2jwd(arrdata: number[]): any | number[];
 }
 
 /**
@@ -11711,19 +11896,19 @@ namespace PointUtil {
      * @param dstCoordType - 转换后的坐标系
      * @returns PointTrans中对应的坐标转换方法
      */
-    function getTransFun(srcCoordType: ChinaCRS, dstCoordType: ChinaCRS): (...params: any[]) => any;
+    function getTransFun(srcCoordType: ChinaCRS, dstCoordType: ChinaCRS):  (...params: any[]) => any;
     /**
      * 克隆坐标数组
      * @param latlngs - 坐标数组
      * @returns 新的坐标数组
      */
-    function cloneLatLngs(latlngs: leaflet.LatLng[]): leaflet.LatLng[];
+    function cloneLatLngs(latlngs: leaflet.LatLng[]): any | leaflet.LatLng[];
     /**
      * 克隆坐标
      * @param latlng - 坐标
      * @returns 新的坐标
      */
-    function cloneLatLng(latlng: leaflet.LatLng): leaflet.LatLng;
+    function cloneLatLng(latlng: leaflet.LatLng): any | leaflet.LatLng;
     /**
      * 从起点到终点按"curr/all"比例的新的位置点坐标
      * @param p1 - 起点坐标
@@ -11732,7 +11917,7 @@ namespace PointUtil {
      * @param curr - 当前秒数
      * @returns 新的坐标
      */
-    function interpolatePosition(p1: leaflet.LatLng, p2: leaflet.LatLng, all: number, curr: number): leaflet.LatLng;
+    function interpolatePosition(p1: leaflet.LatLng, p2: leaflet.LatLng, all: number, curr: number): any | leaflet.LatLng;
 }
 
 /**
@@ -11747,14 +11932,14 @@ namespace PolyUtil {
      * @param p3 - 线段2终点
      * @returns 两条线段是否相交
      */
-    function segmentsIntersect(p: leaflet.Point, p1: leaflet.Point, p2: leaflet.Point, p3: leaflet.Point): boolean;
+    function segmentsIntersect(p: leaflet.Point, p1: leaflet.Point, p2: leaflet.Point, p3: leaflet.Point): any | boolean;
     /**
      * 计算平行线坐标
      * @param pts - 坐标数组
      * @param offset - 偏移值
      * @returns 平行线坐标数组
      */
-    function getOffsetPoints(pts: leaflet.LatLng[], offset: number): leaflet.LatLng[];
+    function getOffsetPoints(pts: leaflet.LatLng[], offset: number): any | leaflet.LatLng[];
 }
 
 /**
@@ -11767,88 +11952,88 @@ namespace Util {
      * @param b - 默认值
      * @returns 当a有效时返回a,当a为空时返回默认值b
      */
-    function defaultValue(a: any, b: any): any;
+    function defaultValue(a: any, b: any): any | any;
     /**
      * 判断对象是否为空
      * @param a - 判断的对象
      * @returns 对象是否为空
      */
-    function defined(a: any): boolean;
+    function defined(a: any): any | boolean;
     /**
      * 判断对象是否为number类型
      * @param obj - 对象
      * @returns 是否为number类型
      */
-    function isnumber(obj: any): boolean;
+    function isnumber(obj: any): any | boolean;
     /**
      * 判断对象是否为String类型
      * @param obj - 对象
      * @returns 是否为String类型
      */
-    function isString(obj: any): boolean;
+    function isString(obj: any): any | boolean;
     /**
      * 判断对象是否为Boolean类型
      * @param obj - 对象
      * @returns 是否为Boolean类型
      */
-    function isBoolean(obj: any): boolean;
+    function isBoolean(obj: any): any | boolean;
     /**
      * 判断对象是否为Object类型
      * @param obj - 对象
      * @returns 是否为Object类型
      */
-    function isObject(obj: any): boolean;
+    function isObject(obj: any): any | boolean;
     /**
      * 判断对象是否为纯粹的Object类型
      * （所谓"纯粹的对象"，就是该对象是通过"{}"或"new Object"创建的）
      * @param obj - 对象
      * @returns 是否为Object类型
      */
-    function isPlainObject(obj: any): boolean;
+    function isPlainObject(obj: any): any | boolean;
     /**
      * 判断对象是否为function方法
      * @param val - 对象
      * @returns 是否为function方法
      */
-    function isFunction(val: any): boolean;
+    function isFunction(val: any): any | boolean;
     /**
      * 判断对象是否为简单类型（包括：String\Boolean\number\Array）
      * @param value - 对象
      * @returns 是否为简单类型（包括：String\Boolean\number\Array）
      */
-    function isSimpleType(value: any): boolean;
+    function isSimpleType(value: any): any | boolean;
     /**
      * 格式化数字，返回指定小数位的数字
      * @param num - 数字
      * @param [digits = 0] - 小数位数
      * @returns 返回digits指定小数位的数字
      */
-    function formatNum(num: number, digits?: number): number;
+    function formatNum(num: number, digits?: number): any | number;
     /**
      * 按指定长度,对数字进行补零，返回指定长度的字符串
      * @param numStr - 数字对象,示例：1234
      * @param n - 指定长度，示例：8
      * @returns 补零后的指定长度的字符串，示例：'00001234'
      */
-    function padLeft0(numStr: number | string, n: number): string;
+    function padLeft0(numStr: number | string, n: number): any | string;
     /**
      * 根据空格分割字符串，并返回字符串数组（会自动去掉首位空格）
      * @param str - 字符串
      * @returns 分割后的字符串数组
      */
-    function splitWords(str: string): string[];
+    function splitWords(str: string): any | string[];
     /**
      * 除去字符串首尾的空格
      * @param str - 字符串
      * @returns 除去首尾空格的字符串
      */
-    function trim(str: string): string;
+    function trim(str: string): any | string;
     /**
      * 获取字符串长度，区分中文和英文
      * @param str - 字符串
      * @returns 字符串长度
      */
-    function getStrLength(str: string): number;
+    function getStrLength(str: string): any | number;
     /**
      * 根据数据和格式化字符串模板，返回字符串
      * @example
@@ -11859,13 +12044,13 @@ namespace Util {
      * @param [toEmpty = false] - 是否将模板中未匹配项转为空值
      * @returns 返回字符串
      */
-    function template(str: string, data: any, toEmpty?: boolean): string;
+    function template(str: string, data: any, toEmpty?: boolean): any | string;
     /**
      * 获取随机唯一uuid字符串,包含数字、大写字母、小写字母
      * @param [prefix = 'M'] - 前缀
      * @returns 字符串
      */
-    function uuid(prefix?: string): string;
+    function uuid(prefix?: string): any | string;
     /**
      * 获取Popup或Tooltip格式化Html字符串
      * @example
@@ -11895,32 +12080,19 @@ namespace Util {
      * })
      * @param [options = {}] - 参数对象:
      * @param options.attr - 属性值
-     * @param options.template - 模版配置，支持：'all'、数组、字符串模板，当为数组时支持：
-     * @param options.template.field - 字段名称
-     * @param options.template.name - 显示的对应自定义名称 *
-     * @param [options.template.type] - 默认为label文本，也可以支持：'button'按钮，'html' html内容。
-     * @param [options.template.callback] - 当type为'button'按钮时，单击后触发的事件。
-     * @param [options.template.html] - 当type为'html'时，对于拼接的html内容。 *
-     * @param [options.template.format] - 使用window上有效的格式化js方法名称或function回调方法，来格式化字符串值。
-     * @param [options.template.unit] - 追加的计量单位值。
-     * @param options.title - 标题
+     * @param options.template - 模版配置，支持：'all'、数组、字符串模板
+     * @param [options.title] - 标题
      * @param [options.edit = false] - 是否返回编辑输入框
+     * @param [options.width = 190] - edit:true时的，编辑输入框宽度值
      * @returns Html字符串
      */
     function getTemplateHtml(options?: {
         attr: any;
-        template: {
-            field: string;
-            name: string;
-            type?: string;
-            callback?: string;
-            html?: string;
-            format?: string | ((...params: any[]) => any);
-            unit?: string;
-        };
-        title: string;
+        template: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        title?: string;
         edit?: boolean;
-    }): string;
+        width?: number;
+    }): any | string;
     /**
      * 取属性值，最简的键值对。
      * 方便popup、tooltip等构造方法使用
@@ -11931,14 +12103,14 @@ namespace Util {
      */
     function getAttrVal(attr: any, options?: {
         onlySimpleType: boolean;
-    }): any;
+    }): any | any;
     /**
      * 合并对象，对二级子属性为Object的对象也会进行融合。
      * @param dest - 目标对象
      * @param sources - 需要融入合并的对象
      * @returns 融合后的对象
      */
-    function merge(dest: any, sources: any): any;
+    function merge(dest: any, sources: any): any | any;
     /**
      * 复制克隆对象
      * @param obj - 原始对象
@@ -11946,20 +12118,20 @@ namespace Util {
      * @param [level = 5] - 拷贝的层级最大深度,避免死循环
      * @returns 克隆后的对象
      */
-    function clone(obj: any, removeKeys?: string[], level?: number): any;
+    function clone(obj: any, removeKeys?: string[], level?: number): any | any;
     /**
      * 随机获取数组中的一个元素
      * @param arr - 数组
      * @returns 获取到的随机元素
      */
-    function getArrayRandomOne(arr: any[]): any;
+    function getArrayRandomOne(arr: any[]): any | any;
     /**
      * 移除数组中的指定对象
      * @param arr - 数组
      * @param val - 需要移除的数组元素对象
      * @returns 对象是否移除成功
      */
-    function removeArrayItem(arr: any[], val: any): boolean;
+    function removeArrayItem(arr: any[], val: any): any | boolean;
     /**
      * 根据属性 和symbol配置 取style样式信息
      * @param symbol - symbol配置
@@ -11976,13 +12148,13 @@ namespace Util {
         styleField?: string;
         styleFieldOptions?: any;
         callback?: (...params: any[]) => any;
-    }, attr?: any, mergeStyle?: any): any;
+    }, attr?: any, mergeStyle?: any): any | any;
     /**
      * 获取GeoJSON中的features数组集合（自动判断数据来源）
      * @param geojson - geojson对象
      * @returns features数组集合
      */
-    function getGeoJsonFeatures(geojson: any): any;
+    function getGeoJsonFeatures(geojson: any): any | any;
     /**
      * GeoJSON 转为 Graphic构造参数数组
      * style有3种方式控制: 1.传type及style参数；2.传symbol参数；3.数据本身的feature.properties.style；
@@ -12013,7 +12185,7 @@ namespace Util {
             callback?: (...params: any[]) => any;
         };
         crs?: string;
-    }): any;
+    }): any | any;
     /**
      * GeoJSON格式的Feature单个对象转为 Graphic构造参数（用于创建Graphic）
      * @param feature - geojson单个Feature对象
@@ -12024,37 +12196,37 @@ namespace Util {
      * @returns Graphic构造参数（用于创建Graphic）
      */
     function featureToGraphic(feature: any, options?: {
-        type?: GraphicType;
+        type?: GraphicType | string;
         style?: any;
         crs?: string;
-    }): any;
+    }): any | any;
     /**
      * 导出下载图片文件
      * @param name - 图片文件名称，不需要后缀名
      * @param base64 - 图片内容，base64格式
      * @returns 无
      */
-    function downloadBase64Image(name: string, base64: string): void;
+    function downloadBase64Image(name: string, base64: string): any | void;
     /**
      * 导出下载文本文件
      * @param fileName - 文件完整名称，需要含后缀名
      * @param string - 文本内容
      * @returns 无
      */
-    function downloadFile(fileName: string, string: string): void;
+    function downloadFile(fileName: string, string: string): any | void;
     /**
      * 执行alert弹窗
      * @param msg - 弹窗内的内容
      * @param title - 弹窗的标题
      * @returns 无
      */
-    function alert(msg: string, title: string): void;
+    function alert(msg: string, title: string): any | void;
     /**
      * 执行msg提示窗
      * @param msg - 弹窗内的内容
      * @returns 无
      */
-    function msg(msg: string): void;
+    function msg(msg: string): any | void;
     /**
      * 将 时间 转化为指定格式的字符串
      * @example
@@ -12065,13 +12237,13 @@ namespace Util {
      * @param fmt - 格式模版，月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q) 可以用 1-2 个占位符; 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字).
      * @returns 指定格式的字符串
      */
-    function formatDate(date: Date, fmt: string): string;
+    function formatDate(date: Date, fmt: string): any | string;
     /**
      * 格式化时长
      * @param strtime - 时长
      * @returns 格式化字符串，如XX小时XX分钟
      */
-    function formatTime(strtime: number): string;
+    function formatTime(strtime: number): any | string;
     /**
      * 使用axios请求服务返回JSON结果
      * @param options - 请求参数，更多参数可以查询axios的API
@@ -12086,7 +12258,7 @@ namespace Util {
         queryParameters?: any;
         timeout?: number;
         headers?: any;
-    }): Promise<any>;
+    }): any | Promise<any>;
     /**
      * 请求服务返回结果，方法是基于axios库精简的
      * @param options - 请求参数
@@ -12103,18 +12275,18 @@ namespace Util {
         method?: string;
         timeout?: number;
         headers?: any;
-    }): Promise<any>;
+    }): any | Promise<any>;
     /**
      * 获取随机颜色
      * @returns /返回rgb(r,g,b)格式颜色
      */
-    function randomColor(): string;
+    function randomColor(): any | string;
     /**
      * 毫米数值 转为 像素数值
      * @param mm - 毫米数值
      * @returns 像素数值
      */
-    function mm2px(mm: number): number;
+    function mm2px(mm: number): any | number;
 }
 
 
@@ -12130,6 +12302,7 @@ namespace Util {
     export { MapSwich }
     export { OverviewMap }
     export { Slider }
+    export { ToolButton }
   }
 
   /**

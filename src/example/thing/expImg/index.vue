@@ -7,7 +7,7 @@
     </a-space>
   </mars-pannel>
 
-  <mars-dialog top="10" left="10" width="calc(100% - 20px)" bottom="40" title="场景出图" v-model:visible="showImg">
+  <mars-dialog top="50" left="50" width="calc(100% - 100px)" title="场景出图" v-model:visible="showImg">
     <img :src="imges" class="show-img" />
   </mars-dialog>
 </template>
@@ -38,6 +38,6 @@ const downLoad2 = () => {
 <style scoped lang="less">
 .show-img {
   width: 100%;
-  height: 90%;
+  max-height: 100%;
 }
 </style>
