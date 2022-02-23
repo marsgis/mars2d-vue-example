@@ -1,5 +1,4 @@
 import * as mars2d from "mars2d"
-import { $alert } from "@/components/mars-ui/index"
 
 let map // mars2d.Map三维地图对象
 export let graphicLayer
@@ -134,7 +133,7 @@ function bindLayerContextMenu() {
       callback: function (e) {
         const graphic = e.graphic
         const strDis = mars2d.MeasureUtil.formatDistance(graphic.distance)
-        $alert("该对象的长度为:" + strDis)
+        globalAlert("该对象的长度为:" + strDis)
       }
     },
     {
@@ -150,7 +149,7 @@ function bindLayerContextMenu() {
       callback: function (e) {
         const graphic = e.graphic
         const strDis = mars2d.MeasureUtil.formatDistance(graphic.distance)
-        $alert("该对象的周长为:" + strDis)
+        globalAlert("该对象的周长为:" + strDis)
       }
     },
     {
@@ -166,7 +165,7 @@ function bindLayerContextMenu() {
       callback: function (e) {
         const graphic = e.graphic
         const strArea = mars2d.MeasureUtil.formatArea(graphic.area)
-        $alert("该对象的面积为:" + strArea)
+        globalAlert("该对象的面积为:" + strArea)
       }
     }
   ])

@@ -16,7 +16,7 @@
  */
 import { reactive } from "vue"
 import type { UnwrapRef } from "vue"
-import { $alert } from "@/components/mars-ui/index"
+import { $alert } from "@mars/components/mars-ui/index"
 
 const props = withDefaults(
   defineProps<{

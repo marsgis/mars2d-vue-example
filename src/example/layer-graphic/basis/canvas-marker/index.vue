@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import * as mapWork from "./map.js"
-import { $message } from "@/components/mars-ui/index"
+import { $message } from "@mars/components/mars-ui/index"
 
 const txtCount = ref(1)
 

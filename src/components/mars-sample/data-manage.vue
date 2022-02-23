@@ -32,7 +32,7 @@
  */
 import { ref } from "vue"
 import { message } from "ant-design-vue"
-import { $message } from "@/components/mars-ui/index"
+import { $message } from "@mars/components/mars-ui/index"
 
 interface FileItem {
   uid: string

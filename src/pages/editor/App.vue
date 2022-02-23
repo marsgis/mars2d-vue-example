@@ -2,7 +2,7 @@
   <a-spin :spinning="loading" wrapperClassName="global-spin">
     <mars-editor ref="editorRef" :id="id" :full-name="name">
       <div class="mars-main-view" id="mars-main-view">
-        <main-operation @childMounted="onChildMounted" />
+        <main-operation @childMounted="onChildMounted" @childUnmounted="childUnmounted" />
 
         <template v-if="mapLoaded">
           <template v-for="comp in widgets" :key="comp.key">
@@ -52,6 +52,10 @@ const marsOnload = (map: any) => {
 function onChildMounted() {
   editorRef.value.setMap() // 通知执行mapWork.onMounted
   marsOnload(window._mapInstance)
+}
+
+function childUnmounted() {
+  editorRef.value.unloadMap()
 }
 
 const getWidgetAttr = (widget: Widget) => {

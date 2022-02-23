@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import LayerState from "@/components/mars-sample/layer-state.vue"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 const dom = [

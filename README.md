@@ -178,7 +178,7 @@ mars2d-vue-example
 {
   "name": "天地图地形",
   "main": "terrain/terrainTDT",
-  "usePannel": true,
+  "vuePanel": true,
   "libs": ["mars2d", "mars2d-esri"],
   "thumbnail": "b10_terrain_tdt.jpg"
 }
@@ -230,7 +230,7 @@ mars2d-vue-example
 {
   "name": "示例名称",
   "main": "map/sample", //示例的相对路径
-  "usePannel": true, // 可选参数，表示是否存在ui面板，默认false
+  "vuePanel": true, // 可选参数，表示是否存在ui面板，默认false
   "libs": [], // 通用依赖项，可选参数 默认 ["mars2d"]
   "resources": ["cesiumControl.css"], // 个性化依赖项, 可选参数，默认 []
   "thumbnail": "thumbnail.jpg" // 缩略图可选, 默认为 thumbnail.jpg
@@ -284,7 +284,7 @@ hideLoading(type) // 关闭loading
 在目录下新增`index.vue`文件，该文件主要是用于 UI 面板相关的业务代码。
 创建控件 Vue 面板，可以参考已有示例加上相关业务面板。
 
-同时在example.json中的对应示例增加配置`usePannel:true`
+同时在example.json中的对应示例增加配置`vuePanel:true`
 
 最简模板如下:
 ```html

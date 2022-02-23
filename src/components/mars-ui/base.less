@@ -194,15 +194,35 @@
     }
   }
 
+  .ant-select-dropdown {
+    background-color: @form-input-background !important;
+    .ant-select-item {
+      transition: none;
+      &:hover,
+      &:focus {
+        background-color: @input-background-active;
+      }
+    }
+    .ant-select-item-option-active {
+      background-color: @input-background-active !important;
+    }
+  }
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     background-color: transparent !important;
   }
-  .ant-select-dropdown {
-    background-color: transparent !important;
+
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    background-color: @mars-background-active !important;
   }
-  .ant-select-arrow {
-    color: @mars-basecolor !important;
-  }
+  // .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  //   background-color: transparent !important;
+  // }
+  // .ant-select-dropdown {
+  //   background-color: transparent !important;
+  // }
+  // .ant-select-arrow {
+  //   color: @mars-basecolor !important;
+  // }
 
   // 列表
   .ant-list-items {

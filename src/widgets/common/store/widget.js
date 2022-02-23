@@ -2,10 +2,10 @@
  * 该文件开源版本中 暂未开放源码，但可以免费无限制使用。
  * 【仅此1个文件是未开源的，接口见 widget.d.ts 】
  *
- * 如果需要完整代码，可以访问了解更多：http://mars2d.cn/details.html?id=jcxm-vue
+ * 如果需要完整代码，可以访问了解更多：http://mars3d.cn/details.html?id=jcxm-vue
  *
  * 编译日期：2022-02-19
- * 版权所有：Copyright by 火星科技  http://mars2d.cn
+ * 版权所有：Copyright by 火星科技  http://mars3d.cn
  */
 
 /* eslint-disable */

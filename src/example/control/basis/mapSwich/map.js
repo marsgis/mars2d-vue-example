@@ -2,6 +2,12 @@ import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = function (option) {
+  option.control = {}
+  return option
+}
+
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
@@ -20,23 +26,42 @@ export function onMounted(mapInstance) {
     hasPano: true
   })
   map.addControl(mapSwich)
-  console.log(mapSwich)
+
+  const projectIfram = L.DomUtil.create("iframe", "iframe-project", map.container)
+  projectIfram.style.cssText = "width:100%;height:100%;position:absolute;display:none"
+  projectIfram.setAttribute("frameborder", "0")
+
+  const indexIfram = L.DomUtil.create("iframe", "iframe-index", map.container)
+  indexIfram.style.cssText = "width:100%;height:100%;position:absolute;display:none"
+  indexIfram.setAttribute("frameborder", "0")
 
   mapSwich.on("click", function (event) {
     switch (event.selected) {
       case mars2d.control.MapSwich.Type.Vec:
-        window.history.go(-1)
+        indexIfram.style.display = "none"
+        projectIfram.style.display = "none"
+
         map.basemap = "天地图电子"
         break
       case mars2d.control.MapSwich.Type.Img:
-        window.history.go(-1)
+        indexIfram.style.display = "none"
+        projectIfram.style.display = "none"
+
         map.basemap = "天地图卫星"
         break
       case mars2d.control.MapSwich.Type.Map3D:
-        window.location.href = "http://mars3d.cn/project/jcxm/index.html"
+        projectIfram.setAttribute("src", "http://mars3d.cn/project/jcxm/index.html") // mars3d的基础项目示例
+        projectIfram.style.display = ""
+        projectIfram.style.zIndex = 400
+
+        indexIfram.style.display = "none"
         break
       case mars2d.control.MapSwich.Type.Pano:
-        window.location.href = "http://marsgis.cn/pano/index.html"
+        indexIfram.setAttribute("src", "http://marsgis.cn/pano/index.html") // mars3d的基础项目示例
+        indexIfram.style.display = ""
+        indexIfram.style.zIndex = 400
+
+        projectIfram.style.display = "none"
         break
     }
   })

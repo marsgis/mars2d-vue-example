@@ -32,8 +32,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import LayerState from "@/components/mars-sample/layer-state.vue"
-import DataManage from "@/components/mars-sample/data-manage.vue"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
+import DataManage from "@mars/components/mars-sample/data-manage.vue"
 import * as mapWork from "./map.js"
 
 const drawMarker = () => {

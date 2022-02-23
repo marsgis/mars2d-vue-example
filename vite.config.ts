@@ -17,7 +17,7 @@ export default ({ mode }: ConfigEnv) => {
     server: {
       host: "localhost",
       https: false,
-      port: 2003
+      port: 2001
     },
     define: {
       "process.env": {
@@ -29,7 +29,6 @@ export default ({ mode }: ConfigEnv) => {
     },
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "src"),
         "@mars": path.join(__dirname, "src")
       },
       extensions: [".js", ".ts", ".jsx", ".tsx", ".json"]

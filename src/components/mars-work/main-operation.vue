@@ -1,5 +1,5 @@
 <template>
-  <PannelComponent v-if="loaded" @vnode-mounted="onChildMounted" />
+  <PannelComponent v-if="loaded" @vnode-mounted="onChildMounted" @vnode-unmounted="onChildUnmounted" />
 </template>
 <script lang="ts" setup>
 /**
@@ -16,7 +16,7 @@ let componentName: string | null = ""
 
 let PannelComponent: any
 
-const emits = defineEmits(["childMounted"])
+const emits = defineEmits(["childMounted", "childUnmounted"])
 
 const loaded = ref(false)
 const exampleId = getQueryString("id")
@@ -35,6 +35,10 @@ if (exampleId) {
 }
 const onChildMounted = (e: any) => {
   emits("childMounted")
+}
+
+const onChildUnmounted = () => {
+  emits("childUnmounted")
 }
 </script>
 

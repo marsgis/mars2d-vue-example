@@ -9,19 +9,22 @@
         "children": [
           {
             "name": "快速创建地球",
-            "main": "map/create/options",
-            "date": "2021-11-20"
+            "thumbnail": "map-create-options.jpg",
+            "main_es5": "map-create-options",
+            "main": "map/create/options"
           },
           {
             "name": "根据配置文件创建地球",
-            "main": "map/create/json",
-            "date": "2021-11-10"
+            "thumbnail": "map-create-json.jpg",
+            "main_es5": "map-create-json",
+            "main": "map/create/json"
           },
           {
             "name": "UI控件及交互演示样板",
+            "thumbnail": "map-create-ui.jpg",
+            "main_es5": "map-create-ui",
             "main": "map/create/ui",
-            "usePannel": true,
-            "date": "2021-11-15"
+            "vuePanel": true
           }
         ]
       },
@@ -31,30 +34,35 @@
         "children": [
           {
             "name": "地图参数",
-            "date": "2021-11-10",
+            "thumbnail": "map-options-options.jpg",
+            "main_es5": "map-options-options",
             "main": "map/options/options",
-            "usePannel": true
+            "vuePanel": true
           },
           {
             "name": "center 默认视角",
+            "thumbnail": "map-options-center.jpg",
+            "main_es5": "map-options-center",
             "main": "map/options/center",
-            "usePannel": true,
-            "date": "2021-11-10"
+            "vuePanel": true
           },
           {
             "name": "basemaps 瓦片底图",
-            "main": "map/options/basemaps",
-            "date": "2021-11-10"
+            "thumbnail": "map-options-basemaps.jpg",
+            "main_es5": "map-options-basemaps",
+            "main": "map/options/basemaps"
           },
           {
             "name": "operationallayers 叠加图层",
-            "main": "map/options/layers",
-            "date": "2021-11-10"
+            "thumbnail": "map-options-layers.jpg",
+            "main_es5": "map-options-layers",
+            "main": "map/options/layers"
           },
           {
             "name": "control 控件",
-            "main": "map/options/control",
-            "date": "2021-11-10"
+            "thumbnail": "map-options-control.jpg",
+            "main_es5": "map-options-control",
+            "main": "map/options/control"
           }
         ]
       },
@@ -63,25 +71,29 @@
         "children": [
           {
             "name": "map相关事件",
+            "thumbnail": "map-control-event.jpg",
+            "main_es5": "map-control-event",
             "main": "map/control/event",
-            "usePannel": true,
-            "date": "2022-02-14"
+            "vuePanel": true
           },
           {
             "name": "销毁释放地图",
+            "thumbnail": "map-control-destroy.jpg",
+            "main_es5": "map-control-destroy",
             "main": "map/control/destroy",
-            "usePannel": true,
-            "date": "2022-02-14"
+            "vuePanel": true
           },
           {
             "name": "蒙板遮盖",
-            "main": "map/control/mask-div",
-            "date": "2022-02-14"
+            "thumbnail": "map-control-mask-div.jpg",
+            "main_es5": "map-control-mask-div",
+            "main": "map/control/mask-div"
           },
           {
             "name": "离线数据",
-            "main": "map/control/offline",
-            "date": "2022-02-14"
+            "thumbnail": "map-control-offline.jpg",
+            "main_es5": "map-control-offline",
+            "main": "map/control/offline"
           }
         ]
       }
@@ -97,50 +109,58 @@
         "children": [
           {
             "name": "天地图",
-            "usePannel": true,
+            "thumbnail": "layer-tile-online-tdt.jpg",
+            "main_es5": "layer-tile-online-tdt",
             "main": "layer-tile/online/tdt",
-            "date": "2022-02-14"
+            "vuePanel": true
           },
           {
             "name": "高德",
-            "usePannel": true,
+            "thumbnail": "layer-tile-online-gaode.jpg",
+            "main_es5": "layer-tile-online-gaode",
             "main": "layer-tile/online/gaode",
-            "date": "2022-02-14"
+            "vuePanel": true
           },
           {
             "name": "腾讯",
-            "usePannel": true,
+            "thumbnail": "layer-tile-online-tentect.jpg",
+            "main_es5": "layer-tile-online-tentect",
             "main": "layer-tile/online/tentect",
-            "date": "2022-02-14"
+            "vuePanel": true
           },
           {
             "name": "百度(百度偏移坐标系)",
-            "usePannel": true,
+            "thumbnail": "layer-tile-online-baidu.jpg",
+            "main_es5": "layer-tile-online-baidu",
             "main": "layer-tile/online/baidu",
-            "date": "2022-02-14"
+            "vuePanel": true
           },
           {
             "name": "OpenStreetMap（OSM）",
-            "main": "layer-tile/online/osm",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-online-osm.jpg",
+            "main_es5": "layer-tile-online-osm",
+            "main": "layer-tile/online/osm"
           },
           {
             "name": "谷歌(已被封)",
-            "usePannel": true,
+            "thumbnail": "layer-tile-online-google.jpg",
+            "main_es5": "layer-tile-online-google",
             "main": "layer-tile/online/google",
-            "date": "2022-02-14"
+            "vuePanel": true
           },
           {
             "name": "Mapbox",
+            "thumbnail": "layer-tile-online-mapbox.jpg",
+            "main_es5": "layer-tile-online-mapbox",
             "main": "layer-tile/online/mapbox",
-            "usePannel": true,
-            "date": "2022-02-14"
+            "vuePanel": true
           },
           {
             "name": "ArcGIS Online",
-            "usePannel": true,
+            "thumbnail": "layer-tile-online-arcgis-online.jpg",
+            "main_es5": "layer-tile-online-arcgis-online",
             "main": "layer-tile/online/arcgis-online",
-            "date": "2022-02-14"
+            "vuePanel": true
           }
         ]
       },
@@ -150,33 +170,39 @@
         "children": [
           {
             "name": "单张图片局部坐标系",
-            "main": "layer-tile/crs/image",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-crs-image.jpg",
+            "main_es5": "layer-tile-crs-image",
+            "main": "layer-tile/crs/image"
           },
           {
             "name": "3857底图(墨卡托)",
-            "main": "layer-tile/crs/epsg3857",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-crs-epsg3857.jpg",
+            "main_es5": "layer-tile-crs-epsg3857",
+            "main": "layer-tile/crs/epsg3857"
           },
           {
             "name": "4326底图(WGS84)",
-            "main": "layer-tile/crs/epsg4326",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-crs-epsg4326.jpg",
+            "main_es5": "layer-tile-crs-epsg4326",
+            "main": "layer-tile/crs/epsg4326"
           },
           {
             "name": "4490底图(大地2000)",
-            "main": "layer-tile/crs/epsg4490",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-crs-epsg4490.jpg",
+            "main_es5": "layer-tile-crs-epsg4490",
+            "main": "layer-tile/crs/epsg4490"
           },
           {
             "name": "PGIS底图",
-            "main": "layer-tile/crs/pgis",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-crs-pgis.jpg",
+            "main_es5": "layer-tile-crs-pgis",
+            "main": "layer-tile/crs/pgis"
           },
           {
             "name": "自定义crs(基于proj4)",
-            "main": "layer-tile/crs/proj4",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-crs-proj4.jpg",
+            "main_es5": "layer-tile-crs-proj4",
+            "main": "layer-tile/crs/proj4"
           }
         ]
       },
@@ -186,68 +212,85 @@
         "children": [
           {
             "name": "本地单张图片",
+            "thumbnail": "layer-tile-type-image.jpg",
+            "main_es5": "layer-tile-type-image",
             "main": "layer-tile/type/image",
-            "usePannel": true,
-            "date": "2022-02-14"
+            "vuePanel": true
           },
           {
             "name": "本地单张图片(区域影像)",
-            "main": "layer-tile/type/image-rectangle",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-type-image-rectangle.jpg",
+            "main_es5": "layer-tile-type-image-rectangle",
+            "main": "layer-tile/type/image-rectangle"
           },
           {
             "name": "带旋转角度单张图片",
+            "thumbnail": "layer-tile-type-image-rotated.jpg",
+            "main_es5": "layer-tile-type-image-rotated",
             "main": "layer-tile/type/image-rotated",
-            "usePannel": true,
-            "date": "2022-02-14"
+            "vuePanel": true
           },
           {
             "name": "xyz金字塔瓦片",
-            "main": "layer-tile/type/xyz",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-type-xyz.jpg",
+            "main_es5": "layer-tile-type-xyz",
+            "main": "layer-tile/type/xyz"
           },
           {
             "name": "xyz金字塔瓦片(区域影像)",
-            "main": "layer-tile/type/xyz-rectangle",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-type-xyz-rectangle.jpg",
+            "main_es5": "layer-tile-type-xyz-rectangle",
+            "main": "layer-tile/type/xyz-rectangle"
           },
           {
             "name": "OGC WMS服务",
-            "main": "layer-tile/type/wms",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-type-wms.jpg",
+            "main_es5": "layer-tile-type-wms",
+            "main": "layer-tile/type/wms"
           },
           {
             "name": "OGC WMTS服务",
-            "main": "layer-tile/type/wmts",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-type-wmts.jpg",
+            "main_es5": "layer-tile-type-wmts",
+            "main": "layer-tile/type/wmts"
           },
           {
             "name": "ArcGIS MapServer",
+            "thumbnail": "layer-tile-type-arcgis-tile.jpg",
+            "main_es5": "layer-tile-type-arcgis-tile",
             "main": "layer-tile/type/arcgis-tile",
-            "date": "2022-02-14",
-            "libs": ["mars2d", "mars2d-esri"]
+            "libs": [
+              "mars2d",
+              "mars2d-esri"
+            ]
           },
           {
             "name": "ArcGIS ImageServer",
-            "version": "1.5",
+            "thumbnail": "layer-tile-type-arcgis-image.jpg",
+            "main_es5": "layer-tile-type-arcgis-image",
             "main": "layer-tile/type/arcgis-image",
-            "date": "2022-02-14",
-            "libs": ["mars2d", "mars2d-esri"]
+            "libs": [
+              "mars2d",
+              "mars2d-esri"
+            ]
           },
           {
             "name": "arcgis离线瓦片",
-            "main": "layer-tile/type/arcgis-cache",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-type-arcgis-cache.jpg",
+            "main_es5": "layer-tile-type-arcgis-cache",
+            "main": "layer-tile/type/arcgis-cache"
           },
           {
             "name": "arcgis离线瓦片(自定义坐标系)",
-            "main": "layer-tile/type/arcgis-cache-proj4",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-type-arcgis-cache-proj4.jpg",
+            "main_es5": "layer-tile-type-arcgis-cache-proj4",
+            "main": "layer-tile/type/arcgis-cache-proj4"
           },
           {
             "name": "arcgis紧凑型瓦片",
-            "main": "layer-tile/type/arcgis-compact",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-type-arcgis-compact.jpg",
+            "main_es5": "layer-tile-type-arcgis-compact",
+            "main": "layer-tile/type/arcgis-compact"
           }
         ]
       },
@@ -256,30 +299,35 @@
         "children": [
           {
             "name": "图层管理",
+            "thumbnail": "layer-tile-manage-layers.jpg",
+            "main_es5": "layer-tile-manage-layers",
             "main": "layer-tile/manage/layers",
-            "usePannel": true,
-            "date": "2022-02-14"
+            "vuePanel": true
           },
           {
             "name": "底图纠偏(融合高德、天地图等)",
-            "main": "layer-tile/manage/chinaCRS",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-manage-chinaCRS.jpg",
+            "main_es5": "layer-tile-manage-chinaCRS",
+            "main": "layer-tile/manage/chinaCRS"
           },
           {
             "name": "绘制反选遮罩层",
-            "main": "layer-tile/manage/mask",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-manage-mask.jpg",
+            "main_es5": "layer-tile-manage-mask",
+            "main": "layer-tile/manage/mask"
           },
           {
             "name": "瓦片叠加颜色",
+            "thumbnail": "layer-tile-manage-customColor.jpg",
+            "main_es5": "layer-tile-manage-customColor",
             "main": "layer-tile/manage/customColor",
-            "date": "2022-02-14",
-            "usePannel": true
+            "vuePanel": true
           },
           {
             "name": "瓦片叠加颜色(灰色)",
-            "main": "layer-tile/manage/customColor-gray",
-            "date": "2022-02-14"
+            "thumbnail": "layer-tile-manage-customColor-gray.jpg",
+            "main_es5": "layer-tile-manage-customColor-gray",
+            "main": "layer-tile/manage/customColor-gray"
           }
         ]
       }
@@ -295,31 +343,36 @@
         "children": [
           {
             "name": "右键菜单",
-            "main": "control/inside/contextmenu",
-            "date": "2022-2-15"
+            "thumbnail": "control-inside-contextmenu.jpg",
+            "main_es5": "control-inside-contextmenu",
+            "main": "control/inside/contextmenu"
           },
           {
             "name": "Popup鼠标单击信息窗",
+            "thumbnail": "control-inside-popup.jpg",
+            "main_es5": "control-inside-popup",
             "main": "control/inside/popup",
-            "usePannel": true,
-            "date": "2022-2-15"
+            "vuePanel": true
           },
           {
             "name": "Tooltip 鼠标移入信息窗",
+            "thumbnail": "control-inside-tooltip.jpg",
+            "main_es5": "control-inside-tooltip",
             "main": "control/inside/tooltip",
-            "usePannel": true,
-            "date": "2022-2-15"
+            "vuePanel": true
           },
           {
             "name": "SmallTooltip 鼠标小提示窗",
+            "thumbnail": "control-inside-smallTooltip.jpg",
+            "main_es5": "control-inside-smallTooltip",
             "main": "control/inside/smallTooltip",
-            "usePannel": true,
-            "date": "2022-2-15"
+            "vuePanel": true
           },
           {
             "name": "比例尺",
-            "main": "control/inside/scale",
-            "date": "2022-2-15"
+            "thumbnail": "control-inside-scale.jpg",
+            "main_es5": "control-inside-scale",
+            "main": "control/inside/scale"
           }
         ]
       },
@@ -328,47 +381,63 @@
         "children": [
           {
             "name": "工具按钮栏",
+            "thumbnail": "control-basis-toolBar.jpg",
+            "main_es5": "control-basis-toolBar",
             "main": "control/basis/toolBar",
-            "resources": ["http://api.map.baidu.com/getscript?v=2.0&ak=qObioeG8HeeQVrOVAGScPVhDzlmv6rL9&services="],
-            "date": "2022-2-16"
+            "resources": [
+              "http:--api.map.baidu.com-getscript?v=2.0&ak=qObioeG8HeeQVrOVAGScPVhDzlmv6rL9&services="
+            ]
           },
           {
             "name": "下侧状态栏",
-            "main": "control/basis/locationBar",
-            "date": "2022-2-16"
+            "thumbnail": "control-basis-locationBar.jpg",
+            "main_es5": "control-basis-locationBar",
+            "main": "control/basis/locationBar"
           },
           {
             "name": "三维全景切换",
-            "main": "control/basis/mapSwich",
-            "date": "2022-2-16"
+            "thumbnail": "control-basis-mapSwich.jpg",
+            "main_es5": "control-basis-mapSwich",
+            "main": "control/basis/mapSwich"
           },
           {
             "name": "鱼骨导航",
-            "main": "control/basis/slider",
-            "date": "2022-2-16"
+            "thumbnail": "control-basis-slider.jpg",
+            "main_es5": "control-basis-slider",
+            "main": "control/basis/slider"
           },
           {
             "name": "鹰眼地图",
-            "main": "control/basis/overviewMap",
-            "date": "2022-2-16"
+            "thumbnail": "control-basis-overviewMap.jpg",
+            "main_es5": "control-basis-overviewMap",
+            "main": "control/basis/overviewMap"
           },
           {
             "name": "时间播放",
+            "thumbnail": "control-basis-timeDimension.jpg",
+            "main_es5": "control-basis-timeDimension",
             "main": "control/basis/timeDimension",
-            "date": "2022-2-16",
-            "libs": ["mars2d", "timeDimension"]
+            "libs": [
+              "mars2d",
+              "timeDimension"
+            ]
           },
           {
             "name": "卷帘对比",
+            "thumbnail": "control-basis-sideBySide.jpg",
+            "main_es5": "control-basis-sideBySide",
             "main": "control/basis/sideBySide",
-            "libs": ["mars2d", "leaflet-sideBySide"],
-            "date": "2022-2-15"
+            "libs": [
+              "mars2d",
+              "leaflet-sideBySide"
+            ]
           },
           {
             "name": "控件控制",
+            "thumbnail": "control-basis-display.jpg",
+            "main_es5": "control-basis-display",
             "main": "control/basis/display",
-            "usePannel": true,
-            "date": "2022-2-15"
+            "vuePanel": true
           }
         ]
       }
@@ -383,29 +452,38 @@
         "children": [
           {
             "name": "graphic 矢量数据图层",
-            "usePannel": true,
+            "thumbnail": "layer-graphic-basis-graphicLayer.jpg",
+            "main_es5": "layer-graphic-basis-graphicLayer",
             "main": "layer-graphic/basis/graphicLayer",
-            "date": "2022-02-15"
+            "vuePanel": true
           },
           {
             "name": "聚合点 图层",
-            "usePannel": true,
+            "thumbnail": "layer-graphic-basis-cluster.jpg",
+            "main_es5": "layer-graphic-basis-cluster",
             "main": "layer-graphic/basis/cluster",
-            "resources": ["custom-photo.css"],
-            "date": "2022-02-15"
+            "vuePanel": true,
+            "resources": [
+              "custom-photo.css"
+            ]
           },
           {
             "name": "大数据点 图层",
-            "usePannel": true,
-            "main": "layer-graphic/basis/canvas-marker",
-            "date": "2022-02-15"
+            "thumbnail": "layer-graphic-basis-canvas-marker.jpg",
+            "main_es5": "layer-graphic-basis-canvas-marker",
+            "main": "layer-graphic/basis/canvas/marker",
+            "vuePanel": true
           },
           {
             "name": "多个线的运动动画(图层级)",
-            "usePannel": true,
+            "thumbnail": "layer-graphic-basis-snakeIn.jpg",
+            "main_es5": "layer-graphic-basis-snakeIn",
             "main": "layer-graphic/basis/snakeIn",
-            "libs": ["mars2d", "turf"],
-            "date": "2022-02-15"
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           }
         ]
       },
@@ -414,28 +492,40 @@
         "children": [
           {
             "name": "GeoJson数据",
-            "usePannel": true,
+            "thumbnail": "layer-graphic-file-geojson.jpg",
+            "main_es5": "layer-graphic-file-geojson",
             "main": "layer-graphic/file/geojson",
-            "date": "2022-02-15"
+            "vuePanel": true
           },
           {
             "name": "中国各省市面",
-            "usePannel": true,
-            "main": "layer-graphic/file/geojson-polygon",
-            "resources": ["polygon-legend.css"],
-            "date": "2022-02-15"
+            "thumbnail": "layer-graphic-file-geojson-polygon.jpg",
+            "main_es5": "layer-graphic-file-geojson-polygon",
+            "main": "layer-graphic/file/geojson/polygon",
+            "vuePanel": true,
+            "resources": [
+              "polygon-legend.css"
+            ]
           },
           {
             "name": "GeoJson大数据面(Canvas合并渲染)",
-            "main": "layer-graphic/file/geojson-canvas",
-            "libs": ["mars2d", "CanvasGeojsonLayer"],
-            "date": "2022-02-15"
+            "thumbnail": "layer-graphic-file-geojson-canvas.jpg",
+            "main_es5": "layer-graphic-file-geojson-canvas",
+            "main": "layer-graphic/file/geojson/canvas",
+            "libs": [
+              "mars2d",
+              "CanvasGeojsonLayer"
+            ]
           },
           {
             "name": "建筑物3D立体",
+            "thumbnail": "layer-graphic-other-osmbuildings.jpg",
+            "main_es5": "layer-graphic-other-osmbuildings",
             "main": "layer-graphic/other/osmbuildings",
-            "libs": ["mars2d", "OSMBuildings"],
-            "date": "2022-02-15"
+            "libs": [
+              "mars2d",
+              "OSMBuildings"
+            ]
           }
         ]
       },
@@ -444,25 +534,35 @@
         "children": [
           {
             "name": "pbf矢量瓦片服务",
-            "main": "layer-graphic/wfs/pbf",
-            "date": "2022-02-15"
+            "thumbnail": "layer-graphic-wfs-pbf.jpg",
+            "main_es5": "layer-graphic-wfs-pbf",
+            "main": "layer-graphic/wfs/pbf"
           },
           {
             "name": "OGC WFS服务",
-            "main": "layer-graphic/wfs/ogc-wfs",
-            "date": "2022-02-15"
+            "thumbnail": "layer-graphic-wfs-ogc-wfs.jpg",
+            "main_es5": "layer-graphic-wfs-ogc-wfs",
+            "main": "layer-graphic/wfs/ogc-wfs"
           },
           {
             "name": "ArcGIS MapServer动态服务",
+            "thumbnail": "layer-graphic-wfs-arcgis-dynamic.jpg",
+            "main_es5": "layer-graphic-wfs-arcgis-dynamic",
             "main": "layer-graphic/wfs/arcgis-dynamic",
-            "date": "2022-02-15",
-            "libs": ["mars2d", "mars2d-esri"]
+            "libs": [
+              "mars2d",
+              "mars2d-esri"
+            ]
           },
           {
             "name": "ArcGIS FeatureServer服务",
+            "thumbnail": "layer-graphic-wfs-arcgis-feature.jpg",
+            "main_es5": "layer-graphic-wfs-arcgis-feature",
             "main": "layer-graphic/wfs/arcgis-feature",
-            "date": "2022-02-15",
-            "libs": ["mars2d", "mars2d-esri"]
+            "libs": [
+              "mars2d",
+              "mars2d-esri"
+            ]
           }
         ]
       },
@@ -471,13 +571,15 @@
         "children": [
           {
             "name": "昼夜覆盖区域",
-            "main": "layer-graphic/other/day-night",
-            "date": "2022-02-15"
+            "thumbnail": "layer-graphic-other-day-night.jpg",
+            "main_es5": "layer-graphic-other-day-night",
+            "main": "layer-graphic/other/day/night"
           },
           {
             "name": "经纬网",
-            "main": "layer-graphic/other/graticule",
-            "date": "2022-02-15"
+            "thumbnail": "layer-graphic-other-graticule.jpg",
+            "main_es5": "layer-graphic-other-graticule",
+            "main": "layer-graphic/other/graticule"
           }
         ]
       }
@@ -492,147 +594,188 @@
         "children": [
           {
             "name": "Marker 图标点",
-            "usePannel": true,
+            "thumbnail": "graphic-basis-marker.jpg",
+            "main_es5": "graphic-basis-marker",
             "main": "graphic/basis/marker",
-            "date": "2022-02-15"
+            "vuePanel": true
           },
           {
             "name": "点的加载动画",
+            "thumbnail": "graphic-basis-marker-magic.jpg",
+            "main_es5": "graphic-basis-marker-magic",
             "main": "graphic/basis/marker-magic",
-            "date": "2022-02-15",
-            "resources": ["magic.min.css"]
+            "resources": [
+              "magic.min.css"
+            ]
           },
           {
             "name": "扩散动画点",
+            "thumbnail": "graphic-basis-marker-pulse.gif",
+            "main_es5": "graphic-basis-marker-pulse",
             "main": "graphic/basis/marker-pulse",
-            "thumbnail": "thumbnail.gif",
-            "date": "2022-02-15"
+            "es5_thumbnail": "graphic-basis-marker-pulse.gif"
           },
           {
             "name": "图标点+文字(含聚合)",
-            "main": "graphic/basis/marker-labe",
-            "date": "2022-02-15"
+            "thumbnail": "graphic-basis-marker-labe.jpg",
+            "main_es5": "graphic-basis-marker-labe",
+            "main": "graphic/basis/marker-labe"
           },
           {
             "name": "MovingMarker 运动点",
+            "thumbnail": "graphic-basis-movingMarker.gif",
+            "main_es5": "graphic-basis-movingMarker",
             "main": "graphic/basis/movingMarker",
-            "thumbnail": "thumbnail.gif",
-            "date": "2022-02-15"
+            "es5_thumbnail": "graphic-basis-movingMarker.gif"
           },
           {
             "name": "Point 像素点",
-            "usePannel": true,
+            "thumbnail": "graphic-basis-point.jpg",
+            "main_es5": "graphic-basis-point",
             "main": "graphic/basis/point",
-            "date": "2022-02-15"
+            "vuePanel": true
           },
           {
             "name": "Label 文本",
-            "usePannel": true,
+            "thumbnail": "graphic-basis-label.jpg",
+            "main_es5": "graphic-basis-label",
             "main": "graphic/basis/label",
-            "date": "2022-02-15"
+            "vuePanel": true
           },
           {
             "name": "DivGraphic DIV点",
-            "usePannel": true,
+            "thumbnail": "graphic-divGraphic-basis.jpg",
+            "main_es5": "graphic-divGraphic-basis",
             "main": "graphic/divGraphic/basis",
-            "resources": ["/temp/styles/divGraphic.css"],
-            "date": "2022-02-15"
+            "vuePanel": true,
+            "resources": [
+              "-temp-styles-divGraphic.css"
+            ]
           },
           {
             "name": "动态效果点",
-            "main": "graphic/basis/marker-pulse-daxue",
-            "thumbnail": "thumbnail.gif",
-            "date": "2022-02-15"
+            "thumbnail": "graphic-basis-marker-pulse-daxue.gif",
+            "main_es5": "graphic-basis-marker-pulse-daxue",
+            "main": "graphic/basis/marker-pulse/daxue",
+            "es5_thumbnail": "graphic-basis-marker-pulse-daxue.gif"
           },
           {
             "name": "油气站标注",
-            "usePannel": true,
+            "thumbnail": "graphic-divGraphic-ident.jpg",
+            "main_es5": "graphic-divGraphic-ident",
             "main": "graphic/divGraphic/ident",
-            "resources": ["/temp/styles/divGraphic.css"],
-            "date": "2022-02-15"
+            "vuePanel": true,
+            "resources": [
+              "-temp-styles-divGraphic.css"
+            ]
           },
           {
             "name": "浮动监控点",
+            "thumbnail": "graphic-divGraphic-camera.jpg",
+            "main_es5": "graphic-divGraphic-camera",
             "main": "graphic/divGraphic/camera",
-            "resources": ["divCamera.css"],
-            "date": "2022-02-15"
+            "resources": [
+              "divCamera.css"
+            ]
           },
           {
             "name": "动态水球点",
+            "thumbnail": "graphic-divGraphic-echarts-liquidfill.jpg",
+            "main_es5": "graphic-divGraphic-echarts-liquidfill",
             "main": "graphic/divGraphic/echarts-liquidfill",
-            "libs": ["mars2d", "echarts-liquidfill"],
-            "date": "2022-02-16"
+            "libs": [
+              "mars2d",
+              "echarts-liquidfill"
+            ]
           },
           {
             "name": "Circle 圆",
-            "usePannel": true,
+            "thumbnail": "graphic-basis-circle.jpg",
+            "main_es5": "graphic-basis-circle",
             "main": "graphic/basis/circle",
-            "date": "2022-02-16"
+            "vuePanel": true
           },
           {
             "name": "扇形",
-            "usePannel": true,
+            "thumbnail": "graphic-basis-circle-sector.jpg",
+            "main_es5": "graphic-basis-circle-sector",
             "main": "graphic/basis/circle-sector",
-            "date": "2022-02-16"
+            "vuePanel": true
           },
           {
             "name": "Ellipse 椭圆",
-            "usePannel": true,
+            "thumbnail": "graphic-basis-ellipse.jpg",
+            "main_es5": "graphic-basis-ellipse",
             "main": "graphic/basis/ellipse",
-            "date": "2022-02-16"
+            "vuePanel": true
           },
           {
             "name": "Polyline 线",
-            "usePannel": true,
+            "thumbnail": "graphic-basis-polyline.jpg",
+            "main_es5": "graphic-basis-polyline",
             "main": "graphic/basis/polyline",
-            "date": "2022-02-16"
+            "vuePanel": true
           },
           {
             "name": "平行线",
-            "main": "graphic/basis/polyline-offset",
-            "date": "2022-02-16"
+            "thumbnail": "graphic-basis-polyline-offset.jpg",
+            "main_es5": "graphic-basis-polyline-offset",
+            "main": "graphic/basis/polyline-offset"
           },
           {
             "name": "一带一路",
-            "usePannel": true,
+            "thumbnail": "graphic-basis-polyline-oneBeltOneRoad.jpg",
+            "main_es5": "graphic-basis-polyline-oneBeltOneRoad",
             "main": "graphic/basis/polyline-oneBeltOneRoad",
-            "libs": ["mars2d", "turf"],
-            "date": "2022-02-16"
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "动画效果线(铁路)",
+            "thumbnail": "graphic-other-ant-path.gif",
+            "main_es5": "graphic-other-ant-path",
             "main": "graphic/other/ant-path",
-            "thumbnail": "thumbnail.gif",
-            "libs": ["mars2d", "antPath"],
-            "date": "2022-02-16"
+            "libs": [
+              "mars2d",
+              "antPath"
+            ],
+            "es5_thumbnail": "graphic-other-ant-path.gif"
           },
           {
             "name": "线的运动动画",
-            "main": "graphic/basis/polyline-snakeIn",
-            "date": "2022-02-16"
+            "thumbnail": "graphic-basis-polyline-snakeIn.jpg",
+            "main_es5": "graphic-basis-polyline-snakeIn",
+            "main": "graphic/basis/polyline-snakeIn"
           },
           {
             "name": "Polygon 面",
-            "usePannel": true,
+            "thumbnail": "graphic-basis-polygon.jpg",
+            "main_es5": "graphic-basis-polygon",
             "main": "graphic/basis/polygon",
-            "date": "2022-02-16"
+            "vuePanel": true
           },
           {
             "name": "Rectangle 矩形",
-            "usePannel": true,
+            "thumbnail": "graphic-basis-rectangle.jpg",
+            "main_es5": "graphic-basis-rectangle",
             "main": "graphic/basis/rectangle",
-            "date": "2022-02-16"
+            "vuePanel": true
           },
           {
             "name": "Image 图片",
-            "usePannel": true,
+            "thumbnail": "graphic-basis-image.jpg",
+            "main_es5": "graphic-basis-image",
             "main": "graphic/basis/image",
-            "date": "2022-02-16"
+            "vuePanel": true
           },
           {
             "name": "CanvasImage 图片",
-            "main": "graphic/basis/image-canvas",
-            "date": "2022-02-16"
+            "thumbnail": "graphic-basis-image-canvas.jpg",
+            "main_es5": "graphic-basis-image-canvas",
+            "main": "graphic/basis/image-canvas"
           }
         ]
       },
@@ -641,29 +784,45 @@
         "children": [
           {
             "name": "统计柱状图",
+            "thumbnail": "graphic-apply-cylinder-gdp.jpg",
+            "main_es5": "graphic-apply-cylinder-gdp",
             "main": "graphic/apply/cylinder-gdp",
-            "libs": ["mars2d", "echarts-gl"],
-            "resources": ["gdp.css"],
-            "date": "2022-02-16"
+            "libs": [
+              "mars2d",
+              "echarts-gl"
+            ],
+            "resources": [
+              "gdp.css"
+            ]
           },
           {
             "name": "行政区数据统计图",
+            "thumbnail": "graphic-apply-quyu-num.jpg",
+            "main_es5": "graphic-apply-quyu-num",
             "main": "graphic/apply/quyu-num",
-            "resources": ["/temp/styles/divGraphic.css"],
-            "date": "2022-02-16"
+            "resources": [
+              "-temp-styles-divGraphic.css"
+            ]
           },
           {
             "name": "行政区突出展示",
+            "thumbnail": "graphic-apply-district.jpg",
+            "main_es5": "graphic-apply-district",
             "main": "graphic/apply/district",
-            "resources": ["/temp/styles/divGraphic.css"],
-            "date": "2022-02-16"
+            "resources": [
+              "-temp-styles-divGraphic.css"
+            ]
           },
           {
             "name": "台风轨迹",
+            "thumbnail": "graphic-apply-typhoon.jpg",
+            "main_es5": "graphic-apply-typhoon",
             "main": "graphic/apply/typhoon",
-            "usePannel": true,
-            "resources": ["typhoon.css", "Typhoon.js"],
-            "date": "2022-02-16"
+            "vuePanel": true,
+            "resources": [
+              "typhoon.css",
+              "Typhoon.js"
+            ]
           }
         ]
       },
@@ -672,27 +831,42 @@
         "children": [
           {
             "name": "标绘（绘制点、线、面、圆、矩形等）",
+            "thumbnail": "layer-graphic-draw-draw.jpg",
+            "main_es5": "layer-graphic-draw-draw",
             "main": "layer-graphic/draw/draw",
-            "libs":["mars2d","terraformer"],
-            "resources": ["/lib/kml/kml-geojson.js","/temp/styles/divGraphic.css"],
-            "usePannel": true
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "terraformer"
+            ],
+            "resources": [
+              "-lib-kml-kml-geojson.js",
+              "-temp-styles-divGraphic.css"
+            ]
           },
           {
             "name": "军事标绘",
+            "thumbnail": "layer-graphic-draw-military.jpg",
+            "main_es5": "layer-graphic-draw-military",
             "main": "layer-graphic/draw/military",
-            "usePannel": true
+            "vuePanel": true
           },
           {
             "name": "框选数据",
+            "thumbnail": "graphic-fun-isInPoly.jpg",
+            "main_es5": "graphic-fun-isInPoly",
             "main": "graphic/fun/isInPoly",
-            "usePannel": true
+            "vuePanel": true
           },
           {
             "name": "文字碰撞",
+            "thumbnail": "layer-graphic-other-textCollision.jpg",
+            "main_es5": "layer-graphic-other-textCollision",
             "main": "layer-graphic/other/textCollision",
-            "usePannel": true,
-            "resources": ["/lib/mars2d/thirdParty/textCollision/LabelTextCollision.js"],
-            "plugins": "textCollision"
+            "vuePanel": true,
+            "resources": [
+              "-lib-mars2d-thirdParty-textCollision-LabelTextCollision.js"
+            ]
           }
         ]
       }
@@ -707,21 +881,36 @@
         "children": [
           {
             "name": "双屏对比",
+            "thumbnail": "map-double-compare.jpg",
+            "main_es5": "map-double-compare",
             "main": "map/double/compare",
-            "resources": ["compare.css"]
+            "resources": [
+              "compare.css"
+            ]
           },
           {
             "name": "二三维联动(与cesium)",
+            "thumbnail": "map-double-cesium.jpg",
+            "main_es5": "map-double-cesium",
             "main": "map/double/cesium",
-            "libs": ["mars2d", "mars3d"],
-            "resources": ["map.css"],
-            "usePannel": true
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "mars3d"
+            ],
+            "resources": [
+              "map.css"
+            ]
           },
           {
             "name": "街景联动",
+            "thumbnail": "map-double-streetview.jpg",
+            "main_es5": "map-double-streetview",
             "main": "map/double/streetview",
-            "resources": ["map.css"],
-            "usePannel": true
+            "vuePanel": true,
+            "resources": [
+              "map.css"
+            ]
           }
         ]
       },
@@ -730,14 +919,20 @@
         "children": [
           {
             "name": "场景出图(导出图片)",
-            "usePannel": true,
+            "thumbnail": "thing-expImg.jpg",
+            "main_es5": "thing-expImg",
             "main": "thing/expImg",
-            "resources": ["/lib/dom2img/dom-to-image.js"]
+            "vuePanel": true,
+            "resources": [
+              "-lib-dom2img-dom-to-image.js"
+            ]
           },
           {
             "name": "设置地图背景",
+            "thumbnail": "map-manager-backgroundImage.jpg",
+            "main_es5": "map-manager-backgroundImage",
             "main": "map/manager/backgroundImage",
-            "usePannel": true
+            "vuePanel": true
           }
         ]
       },
@@ -746,8 +941,10 @@
         "children": [
           {
             "name": "坐标拾取和转换",
-            "usePannel": true,
-            "main": "map/manager/pointTrans"
+            "thumbnail": "map-manager-pointTrans.jpg",
+            "main_es5": "map-manager-pointTrans",
+            "main": "map/manager/pointTrans",
+            "vuePanel": true
           }
         ]
       }
@@ -762,92 +959,157 @@
         "children": [
           {
             "name": "量算 (长度、面积)",
-            "usePannel": true,
-            "main": "thing/measure"
+            "thumbnail": "thing-measure.jpg",
+            "main_es5": "thing-measure",
+            "main": "thing/measure",
+            "vuePanel": true
           }
         ]
       },
-
       {
         "name": "客户端空间分析",
         "children": [
           {
             "name": "生成随机数据(点线面)",
-            "usePannel": true,
+            "thumbnail": "turf-random.jpg",
+            "main_es5": "turf-random",
             "main": "turf/random",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "生成网格",
-            "usePannel": true,
+            "thumbnail": "turf-grid.jpg",
+            "main_es5": "turf-grid",
             "main": "turf/grid",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "点相关计算",
-            "usePannel": true,
+            "thumbnail": "turf-points.jpg",
+            "main_es5": "turf-points",
             "main": "turf/points",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "最近点分析",
-            "usePannel": true,
+            "thumbnail": "turf-nearest-point.jpg",
+            "main_es5": "turf-nearest-point",
             "main": "turf/nearest-point",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "线相关计算",
-            "usePannel": true,
+            "thumbnail": "turf-line.jpg",
+            "main_es5": "turf-line",
             "main": "turf/line",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "线求交",
-            "usePannel": true,
+            "thumbnail": "turf-lineIntersect.jpg",
+            "main_es5": "turf-lineIntersect",
             "main": "turf/lineIntersect",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "线上最近点",
-            "usePannel": true,
+            "thumbnail": "turf-nearest-point-onLine.jpg",
+            "main_es5": "turf-nearest-point-onLine",
             "main": "turf/nearest-point-onLine",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "最短路径",
-            "usePannel": true,
+            "thumbnail": "turf-shortest-path.jpg",
+            "main_es5": "turf-shortest-path",
             "main": "turf/shortest-path",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "面相关计算",
-            "usePannel": true,
+            "thumbnail": "turf-polygon.jpg",
+            "main_es5": "turf-polygon",
             "main": "turf/polygon",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "面求交",
-            "usePannel": true,
+            "thumbnail": "turf-intersect.jpg",
+            "main_es5": "turf-intersect",
             "main": "turf/intersect",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "面的切割(线分割面)",
-            "usePannel": true,
+            "thumbnail": "turf-polygon-clip.jpg",
+            "main_es5": "turf-polygon-clip",
             "main": "turf/polygon-clip",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
-
           {
             "name": "等值线面(离散点生成)",
+            "thumbnail": "turf-isobands.jpg",
+            "main_es5": "turf-isobands",
             "main": "turf/isobands",
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "缓冲分析",
-            "usePannel": true,
+            "thumbnail": "turf-buffer.jpg",
+            "main_es5": "turf-buffer",
             "main": "turf/buffer",
-            "libs": ["mars2d", "turf"]
+            "vuePanel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           }
         ]
       }
@@ -862,14 +1124,22 @@
         "children": [
           {
             "name": "热力图",
-            "main": "layer-other/heatLayer",
-            "date": "2022-2-14"
+            "thumbnail": "layer-other-heatLayer.jpg",
+            "main_es5": "layer-other-heatLayer",
+            "main": "layer-other/heatLayer"
           },
           {
             "name": "全国温度图",
+            "thumbnail": "layer-tile-type-image-kriging.jpg",
+            "main_es5": "layer-tile-type-image-kriging",
             "main": "layer-tile/type/image-kriging",
-            "libs": ["mars2d", "kriging"],
-            "resources": ["krigingConfig.js"]
+            "libs": [
+              "mars2d",
+              "kriging"
+            ],
+            "resources": [
+              "krigingConfig.js"
+            ]
           }
         ]
       },
@@ -878,72 +1148,119 @@
         "children": [
           {
             "name": "蜂巢图",
+            "thumbnail": "layer-other-mapv-grid-honeycomb.jpg",
+            "main_es5": "layer-other-mapv-grid-honeycomb",
             "main": "layer-other/mapv/grid-honeycomb",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "resources": ["randomLatLng.js"],
-            "plugins": "mapv"
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ],
+            "resources": [
+              "randomLatLng.js"
+            ]
           },
           {
             "name": "方格图",
+            "thumbnail": "layer-other-mapv-grid-point.jpg",
+            "main_es5": "layer-other-mapv-grid-point",
             "main": "layer-other/mapv/grid-point",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "resources": ["randomLatLng.js"],
-            "plugins": "mapv"
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ],
+            "resources": [
+              "randomLatLng.js"
+            ]
           },
           {
             "name": "微博",
+            "thumbnail": "layer-other-mapv-point-weibo.jpg",
+            "main_es5": "layer-other-mapv-point-weibo",
             "main": "layer-other/mapv/point-weibo",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "plugins": "mapv"
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "动态点",
+            "thumbnail": "layer-other-mapv-dynamic-point.jpg",
+            "main_es5": "layer-other-mapv-dynamic-point",
             "main": "layer-other/mapv/dynamic-point",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "plugins": "mapv"
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "简单线",
+            "thumbnail": "layer-other-mapv-polyline.jpg",
+            "main_es5": "layer-other-mapv-polyline",
             "main": "layer-other/mapv/polyline",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "plugins": "mapv"
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "强度线",
+            "thumbnail": "layer-other-mapv-polyline-intensity.jpg",
+            "main_es5": "layer-other-mapv-polyline-intensity",
             "main": "layer-other/mapv/polyline-intensity",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "plugins": "mapv"
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "动态轨迹",
+            "thumbnail": "layer-other-mapv-dynamic-line.jpg",
+            "main_es5": "layer-other-mapv-dynamic-line",
             "main": "layer-other/mapv/dynamic-line",
-
-            "libs": ["mars2d", "mars2d-mapv"],
-            "plugins": "mapv"
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "强边界图",
+            "thumbnail": "layer-other-mapv-line-forceEdgeBunding.jpg",
+            "main_es5": "layer-other-mapv-line-forceEdgeBunding",
             "main": "layer-other/mapv/line-forceEdgeBunding",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "plugins": "mapv"
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "迁徙图",
+            "thumbnail": "layer-other-mapv-qianxi.jpg",
+            "main_es5": "layer-other-mapv-qianxi",
             "main": "layer-other/mapv/qianxi",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "plugins": "mapv"
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "大迁徙图",
+            "thumbnail": "layer-other-mapv-qianxi-time.jpg",
+            "main_es5": "layer-other-mapv-qianxi-time",
             "main": "layer-other/mapv/qianxi-time",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "plugins": "mapv"
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "北京",
+            "thumbnail": "layer-other-mapv-polygon.jpg",
+            "main_es5": "layer-other-mapv-polygon",
             "main": "layer-other/mapv/polygon",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "plugins": "mapv"
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           }
         ]
       },
@@ -952,86 +1269,144 @@
         "children": [
           {
             "name": "饼形图标记",
+            "thumbnail": "layer-other-echarts-marker-pie.jpg",
+            "main_es5": "layer-other-echarts-marker-pie",
             "main": "layer-other/echarts/marker-pie",
-            "libs": ["mars2d", "echarts"]
+            "libs": [
+              "mars2d",
+              "echarts"
+            ]
           },
           {
             "name": "折线图标记",
+            "thumbnail": "layer-other-echarts-marker-table.jpg",
+            "main_es5": "layer-other-echarts-marker-table",
             "main": "layer-other/echarts/marker-table",
-            "libs": ["mars2d", "echarts"]
+            "libs": [
+              "mars2d",
+              "echarts"
+            ]
           },
           {
             "name": "散点图全省经济指标",
-            "main": "layer-other/echarts/echarts-sandian1",
-            "libs": ["mars2d", "mars2d-echarts"],
-            "plugins": "echarts"
+            "thumbnail": "layer-other-echarts-echarts-sandian1.jpg",
+            "main_es5": "layer-other-echarts-echarts-sandian1",
+            "main": "layer-other/echarts/echarts/sandian1",
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "散点图城市空气质量",
-            "main": "layer-other/echarts/echarts-sandian2",
-            "libs": ["mars2d", "mars2d-echarts"],
-            "plugins": "echarts"
+            "thumbnail": "layer-other-echarts-echarts-sandian2.jpg",
+            "main_es5": "layer-other-echarts-echarts-sandian2",
+            "main": "layer-other/echarts/echarts/sandian2",
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "散点图态势",
-            "main": "layer-other/echarts/echarts-sandian3",
-            "libs": ["mars2d", "mars2d-echarts"],
-            "plugins": "echarts"
+            "thumbnail": "layer-other-echarts-echarts-sandian3.jpg",
+            "main_es5": "layer-other-echarts-echarts-sandian3",
+            "main": "layer-other/echarts/echarts/sandian3",
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "散点图微博签到",
-            "main": "layer-other/echarts/sandian-weibo",
-            "libs": ["mars2d", "mars2d-echarts"],
-            "plugins": "echarts"
+            "thumbnail": "layer-other-echarts-sandian-weibo.jpg",
+            "main_es5": "layer-other-echarts-sandian-weibo",
+            "main": "layer-other/echarts/sandian/weibo",
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "流出线",
-            "main": "layer-other/echarts/outflow-line",
-            "libs": ["mars2d", "mars2d-echarts"],
-            "plugins": "echarts"
+            "thumbnail": "layer-other-echarts-outflow-line.jpg",
+            "main_es5": "layer-other-echarts-outflow-line",
+            "main": "layer-other/echarts/outflow/line",
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "流入线",
-            "main": "layer-other/echarts/inflow-line",
-            "libs": ["mars2d", "mars2d-echarts"],
-            "plugins": "echarts"
+            "thumbnail": "layer-other-echarts-inflow-line.jpg",
+            "main_es5": "layer-other-echarts-inflow-line",
+            "main": "layer-other/echarts/inflow/line",
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "物流运输图",
+            "thumbnail": "layer-other-echarts-line1.jpg",
+            "main_es5": "layer-other-echarts-line1",
             "main": "layer-other/echarts/line1",
-            "libs": ["mars2d", "mars2d-echarts"],
-            "plugins": "echarts"
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "人口迁徙图",
+            "thumbnail": "layer-other-echarts-line2.jpg",
+            "main_es5": "layer-other-echarts-line2",
             "main": "layer-other/echarts/line2",
-            "libs": ["mars2d", "mars2d-echarts"],
-            "plugins": "echarts"
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "流向动态效果",
+            "thumbnail": "layer-other-echarts-line3.jpg",
+            "main_es5": "layer-other-echarts-line3",
             "main": "layer-other/echarts/line3",
-            "libs": ["mars2d", "mars2d-echarts"],
-            "plugins": "echarts"
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "道路拥堵图",
+            "thumbnail": "layer-other-echarts-lineroad.jpg",
+            "main_es5": "layer-other-echarts-lineroad",
             "main": "layer-other/echarts/lineroad",
-            "libs": ["mars2d", "mars2d-echarts"],
-            "plugins": "echarts"
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "公交路线热力图",
-            "version": "1.5",
+            "thumbnail": "layer-other-echarts-lineroad2.jpg",
+            "main_es5": "layer-other-echarts-lineroad2",
             "main": "layer-other/echarts/lineroad2",
-            "libs": ["mars2d", "mars2d-echarts"],
-            "plugins": "echarts"
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "铁路热力图Arc",
+            "thumbnail": "layer-other-echarts-lineroad3.jpg",
+            "main_es5": "layer-other-echarts-lineroad3",
             "main": "layer-other/echarts/lineroad3",
-            "libs": ["mars2d", "mars2d-esri", "mars2d-echarts"],
-            "plugins": "echarts"
+            "libs": [
+              "mars2d",
+              "mars2d-esri",
+              "mars2d-echarts"
+            ]
           }
         ]
       }

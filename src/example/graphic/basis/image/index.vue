@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import DataManage from "@/components/mars-sample/data-manage.vue"
+import DataManage from "@mars/components/mars-sample/data-manage.vue"
 import * as mapWork from "./map.js"
 
 const opacity = ref(0.8)

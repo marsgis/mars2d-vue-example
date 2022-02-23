@@ -5,7 +5,7 @@
         <div id="centerDiv2D">
           <div id="mars2dContainer" class="mars2d-container"></div>
         </div>
-        <main-operation v-if="showPannel" @childMounted="onChildMounted" />
+        <main-operation v-if="showPannel" @childMounted="onChildMounted" @childUnmounted="childUnmounted" />
 
         <template v-if="mapLoaded">
           <template v-for="comp in widgets" :key="comp.key">
@@ -95,7 +95,7 @@ onMounted(async () => {
       set(value) {
         mapWork = value // 赋值后vue中使用
         marsOnload(window._mapInstance)
-        if (config.usePannel) {
+        if (config.vuePanel) {
           // 开始构造vue面板
           showPannel.value = true
         } else {
@@ -134,13 +134,17 @@ function onChildMounted() {
   globalProperties.map = map // map的挂载,方便vue组件内使用
 
   if (mapWork) {
-    globalProperties.mars2d = mapWork.mars2d
-    globalProperties.L = mapWork.mars2d.L
 
     mapWork.map = map
     if (mapWork.onMounted) {
       mapWork.onMounted(map)
     }
+  }
+}
+
+function childUnmounted() {
+  if (mapWork.onUnmounted) {
+    mapWork.onUnmounted()
   }
 }
 

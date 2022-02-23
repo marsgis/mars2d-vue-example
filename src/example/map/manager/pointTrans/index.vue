@@ -66,7 +66,7 @@
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
 import * as mapWork from "./map.js"
-import { $alert } from "@/components/mars-ui/index"
+import { $alert } from "@mars/components/mars-ui/index"
 
 const formState = reactive({
   radioFanwei: "1",

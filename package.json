@@ -5,9 +5,11 @@
   "scripts": {
     "serve": "vite",
     "dev": "vite",
+    "clean-cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
+    "clean-lib": "rimraf node_modules",
+    "preview": "vite preview",
     "build": "vite build",
     "build-tsc": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview",
     "lint": "eslint ./src/**/*.{js,jsx,vue,ts,tsx} --fix"
   },
   "dependencies": {
@@ -19,7 +21,7 @@
     "echarts": "^5.2.2",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
-    "mars-editor": "^2.4.0",
+    "mars-editor": "^2.5.1",
     "mars2d": "^3.0.6",
     "monaco-editor": "^0.29.1",
     "nprogress": "^0.2.0",

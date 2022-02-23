@@ -141,7 +141,7 @@ import * as mapWork from "./map.js"
 import { TableColumnType, TableProps } from "ant-design-vue"
 import axios from "axios"
 import type { Dayjs } from "dayjs"
-import { $message, $notify, $alert } from "@/components/mars-ui/index"
+import { $message, $notify, $alert } from "@mars/components/mars-ui/index"
 
 const activeKey = ref(["1", "2", "3"])
 
