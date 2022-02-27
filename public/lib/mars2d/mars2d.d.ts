@@ -2,8 +2,8 @@
 /* eslint-disable */
 /*!
  * Mars2D地理信息平台
- * 版本信息：v3.0.7
- * 编译日期：2022-02-20 16:47:15
+ * 版本信息：v3.0.8
+ * 编译日期：2022-02-25 15:46:30
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-1
  */
@@ -674,7 +674,7 @@ export class SmallTooltip extends BaseClass {
      * @param pos - 位置
      * @returns 当前对象本身,可以链式调用
      */
-    updatePosition(pos: leaflet.Point): any | SmallTooltip;
+    updatePosition(pos: leaflet.Point | leaflet.LatLng): any | SmallTooltip;
     /**
      * 增加错误样式
      * @returns 当前对象本身,可以链式调用
@@ -1099,6 +1099,22 @@ export class CanvasImage extends leaflet.Path {
      */
     getTooltip(): any | leaflet.Tooltip;
     /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
+    /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
      * @param [fn] - 绑定的监听器回调方法
@@ -1459,6 +1475,22 @@ export class Circle extends leaflet.Circle {
      * @returns Tooltip弹窗对象
      */
     getTooltip(): any | leaflet.Tooltip;
+    /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
@@ -2313,6 +2345,22 @@ export class Ellipse extends leaflet.Path {
      */
     getTooltip(): any | leaflet.Tooltip;
     /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
+    /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
      * @param [fn] - 绑定的监听器回调方法
@@ -2893,6 +2941,22 @@ export class Marker extends leaflet.Marker {
      * @returns Tooltip弹窗对象
      */
     getTooltip(): any | leaflet.Tooltip;
+    /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
@@ -3625,6 +3689,22 @@ export class Point extends leaflet.CircleMarker {
      */
     getTooltip(): any | leaflet.Tooltip;
     /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
+    /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
      * @param [fn] - 绑定的监听器回调方法
@@ -3958,6 +4038,22 @@ export class Polygon extends leaflet.Polygon {
      */
     getTooltip(): any | leaflet.Tooltip;
     /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
+    /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
      * @param [fn] - 绑定的监听器回调方法
@@ -4287,6 +4383,22 @@ export class Polyline extends leaflet.Polyline {
      * @returns Tooltip弹窗对象
      */
     getTooltip(): any | leaflet.Tooltip;
+    /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
@@ -4632,6 +4744,22 @@ export class Rectangle extends leaflet.Rectangle {
      * @returns Tooltip弹窗对象
      */
     getTooltip(): any | leaflet.Tooltip;
+    /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
@@ -5044,6 +5172,22 @@ export class ClusterLayer extends leaflet.Layer {
      */
     getTooltip(): any | leaflet.Tooltip;
     /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
+    /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
      * @param [fn] - 绑定的监听器回调方法
@@ -5342,6 +5486,22 @@ export class GeoJsonLayer extends GraphicLayer {
      * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。
      */
     toGeoJSON(): any | any;
+    /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
 }
 
 export namespace GraphicLayer {
@@ -5577,6 +5737,22 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      */
     getTooltip(): any | leaflet.Tooltip;
     /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
+    /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
      * @param [fn] - 绑定的监听器回调方法
@@ -5715,83 +5891,17 @@ export class GraphicLayer extends leaflet.FeatureGroup {
     clear(): any | void;
     /**
      * 绑定右键菜单
-     * @example
-     * //在layer上绑定右键菜单
-     *   graphicLayer.bindContextMenu([
-     *     {
-     *       text: "开始编辑对象",
-     *       iconCls: "fa fa-edit",
-     *       show: function (e) {
-     *         let graphic = e.graphic;
-     *         if (!graphic || !graphic.editing) {
-     *           return false;
-     *         }
-     *         return !graphic.editing.enabled();
-     *       },
-     *       callback: function (e) {
-     *         let graphic = e.graphic;
-     *         if (graphic && graphic.editing) {
-     *           graphic.editing.enable();
-     *         }
-     *       },
-     *     },
-     *     {
-     *       text: "停止编辑对象",
-     *       iconCls: "fa fa-edit",
-     *       show: function (e) {
-     *         let graphic = e.graphic;
-     *         if (!graphic || !graphic.editing) {
-     *           return false;
-     *         }
-     *         return graphic.editing.enabled();
-     *       },
-     *       callback: function (e) {
-     *         let graphic = e.graphic;
-     *         if (graphic && graphic.editing) {
-     *           graphic.editing.disable();
-     *         }
-     *       },
-     *     },
-     *     {
-     *       text: "删除对象",
-     *       iconCls: "fa fa-trash-o",
-     *       show: (event) => {
-     *         let graphic = event.graphic;
-     *         if (!graphic) {
-     *           return false;
-     *         } else {
-     *           return true;
-     *         }
-     *       },
-     *       callback: function (e) {
-     *         let graphic = e.graphic;
-     *         if (!graphic) {
-     *           return;
-     *         }
-     *         graphicLayer.removeGraphic(graphic);
-     *       },
-     *     },
-     *   ]);
-     * @param content - 右键菜单配置数组，数组中每一项包括：
-     * @param [content.text] - 菜单文字
-     * @param [content.iconCls] - 小图标css
-     * @param [content.show] - 菜单项是否显示的回调方法
-     * @param [content.callback] - 菜单项单击后的回调方法
+     * @param contextmenuItems - 右键菜单数组
      * @returns 当前对象本身，可以链式调用
      */
-    bindContextMenu(content: {
-        text?: string;
-        iconCls?: string;
-        show?: ((...params: any[]) => any) | boolean;
-        callback?: (...params: any[]) => any;
-    }[]): any | GraphicLayer;
+    bindContextMenu(contextmenuItems: any): any | Map;
     /**
-     * 解除绑定的右键菜单
+     * 解除绑定右键菜单
      * @returns 当前对象本身，可以链式调用
      */
-    unbindContextMenu(): any | GraphicLayer;
+    unbindContextMenu(): any | Map;
     /**
-     * 获取绑定的右键菜单数组
+     * 获取绑定的右键菜单
      * @returns 右键菜单数组
      */
     getContextMenu(): any | any;
@@ -5994,14 +6104,27 @@ export class GraticuleLayer extends leaflet.Layer {
 
 /**
  * 热力图图层
- * @param options - 参数对象，包括以下：
+ * @param [latlngs] - 坐标数组，每个点中的可选第三个参数altitude表示点强度。除非max指定选项，否则强度应介于0.0和之间1.0。
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.minOpacity] - 热力开始时的最小不透明度
+ * @param [options.maxZoom] - 点达到最大强度的缩放级别（强度随缩放缩放），maxZoom默认情况下等于地图
+ * @param [options.max = 1.0] - 最大点强度
+ * @param [options.radius = 25] - 默认情况下，热图的每个“点”的半径
+ * @param [options.blur = 15] - 默认情况下的模糊量
+ * @param [options.gradient] - 颜色渐变配置，例如：{0.4: 'blue', 0.65: 'lime', 1: 'red'}
  * @param [options.id = uuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
 export class HeatLayer extends leaflet.Layer {
-    constructor(options: {
+    constructor(latlngs?: leaflet.LatLng[] | any, options?: {
+        minOpacity?: number;
+        maxZoom?: number;
+        max?: number;
+        radius?: number;
+        blur?: number;
+        gradient?: any;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -6342,7 +6465,7 @@ export namespace GroupLayer {
 
 /**
  * 图层组  图层
- * @param options - 参数对象，包括以下：
+ * @param [options] - 参数对象，包括以下：
  * @param [options.layers] - 子图层列表,支持 {@link LayerType} 所有图层
  * @param [options.id = uuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
@@ -6350,7 +6473,7 @@ export namespace GroupLayer {
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
 export class GroupLayer extends leaflet.LayerGroup {
-    constructor(options: {
+    constructor(options?: {
         layers?: leaflet.Layer | any;
         id?: string | number;
         pid?: string | number;
@@ -6453,6 +6576,22 @@ export class GroupLayer extends leaflet.LayerGroup {
      */
     getPopup(): any | leaflet.Popup;
     /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
+    /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
@@ -6491,6 +6630,22 @@ export class GroupLayer extends leaflet.LayerGroup {
      * @returns Tooltip弹窗对象
      */
     getTooltip(): any | leaflet.Tooltip;
+    /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
@@ -7328,6 +7483,22 @@ export class ImageLayer extends leaflet.ImageOverlay {
      */
     getTooltip(): any | leaflet.Tooltip;
     /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
+    /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
      * @param [fn] - 绑定的监听器回调方法
@@ -7964,84 +8135,6 @@ export class TileLayer extends leaflet.TileLayer {
      * @returns 当前对象本身，可以链式调用
      */
     remove(): any | TileLayer;
-    /**
-     * 绑定Popup弹窗配置
-     * @param content - Popup弹窗内容
-     * @param [options] - Popup弹窗参数
-     * @returns 当前对象本身，可以链式调用
-     */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | TileLayer;
-    /**
-     * 解除绑定Popup弹窗配置
-     * @returns 当前对象本身，可以链式调用
-     */
-    unbindPopup(): any | TileLayer;
-    /**
-     * 打开Popup弹窗
-     * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
-     * @returns 当前对象本身，可以链式调用
-     */
-    openPopup(latlng?: leaflet.LatLng): any | TileLayer;
-    /**
-     * 关闭打开的弹窗
-     * @returns 当前对象本身，可以链式调用
-     */
-    closePopup(): any | TileLayer;
-    /**
-     * 当前绑定的弹窗是是否打开
-     * @returns 是否打开弹窗
-     */
-    isPopupOpen(): any | boolean;
-    /**
-     * 设定绑定在图层上的弹窗的内容
-     * @param content - Popup弹窗内容
-     * @returns 当前对象本身，可以链式调用
-     */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | TileLayer;
-    /**
-     * 获取当前绑定在图层上的Popup弹窗对象
-     * @returns Popup弹窗对象
-     */
-    getPopup(): any | leaflet.Popup;
-    /**
-     * 绑定Tooltip弹窗配置
-     * @param content - Tooltip弹窗内容
-     * @param [options] - Tooltip弹窗参数
-     * @returns 当前对象本身，可以链式调用
-     */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | TileLayer;
-    /**
-     * 解除绑定Tooltip弹窗配置
-     * @returns 当前对象本身，可以链式调用
-     */
-    unbindTooltip(): any | TileLayer;
-    /**
-     * 打开Tooltip弹窗
-     * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
-     * @returns 当前对象本身，可以链式调用
-     */
-    openTooltip(latlng?: leaflet.LatLng): any | TileLayer;
-    /**
-     * 关闭打开的弹窗
-     * @returns 当前对象本身，可以链式调用
-     */
-    closeTooltip(): any | TileLayer;
-    /**
-     * 当前绑定的弹窗是是否打开
-     * @returns 是否打开弹窗
-     */
-    isTooltipOpen(): any | boolean;
-    /**
-     * 设定绑定在图层上的弹窗的内容
-     * @param content - Tooltip弹窗内容
-     * @returns 当前对象本身，可以链式调用
-     */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | TileLayer;
-    /**
-     * 获取当前绑定在图层上的Tooltip弹窗对象
-     * @returns Tooltip弹窗对象
-     */
-    getTooltip(): any | leaflet.Tooltip;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
@@ -9144,6 +9237,27 @@ export class Map extends leaflet.Map {
      */
     eachLayer(method: (...params: any[]) => any, context?: any): any | Map;
     /**
+     * 关闭右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    hide(): any | Map;
+    /**
+     * 绑定右键菜单幕
+     * @param arr - 菜单配置
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(arr: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 取消绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
+    /**
      * 打开指定的Popup弹窗（如果之前有打开其他的，会自动关闭，确保只有一个）
      * @param content - Popup弹窗内容
      * @param [latlng] - 位置
@@ -9352,17 +9466,10 @@ export class Map extends leaflet.Map {
     }): any | Map;
     /**
      * 设检查地图容器大小是否已更改，并更新地图。当地图容器div大小有变化后，请调用。
-     * @param [options] - 控制参数,直接传入Boolean时代表是否动画:
-     * @param [options.animate = true] - 是否进行动画缩放。false时始终重置视图完全没有动画。
-     * @param [options.pan = true] - 是否进行平移
-     * @param [options.debounceMoveend = false] - true时它将延迟moveend事件，以便即使该方法被连续调用多次也不会发生。
+     * @param [options] - 控制参数,直接传入Boolean时代表是否动画,object时可以控制是否平移动画等
      * @returns 当前对象本身，可以链式调用
      */
-    invalidateSize(options?: {
-        animate?: boolean;
-        pan?: boolean;
-        debounceMoveend?: boolean;
-    }): any | Map;
+    invalidateSize(options?: any | boolean): any | Map;
     /**
      * 停止当前运行panTo或flyTo动画，如果有的话。
      * @returns 当前对象本身，可以链式调用
@@ -9638,24 +9745,42 @@ export class Map extends leaflet.Map {
     removeEventParent(obj: any): any | Map;
 }
 
-/**
- * Echarts图层，
- * 【需要引入 echarts 库 和 mars2d-echarts 插件库】
- * @param options - 参数对象，包括以下：
- * @param [options.Echarts本身] - 支持Echarts本身所有Options参数，具体查阅 [Echarts配置项手册]{@link https://echarts.apache.org/zh/option.html}
- * @param [options.id = uuid()] - 图层id标识
- * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
- * @param [options.name = ''] - 图层名称
- * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
- */
-export class EchartsLayer extends leaflet.Layer {
-    constructor(options: {
+export namespace EchartsLayer {
+    /**
+     * Echarts图层参数
+     * @property [Echarts本身] - 支持Echarts本身所有Options参数，具体查阅 [Echarts配置项手册]{@link https://echarts.apache.org/zh/option.html}
+     * @property [id = uuid()] - 图层id标识
+     * @property [pid = -1] - 图层父级的id，一般图层管理中使用
+     * @property [name = ''] - 图层名称
+     * @property [pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
+     */
+    type Options = {
         Echarts本身?: any;
         id?: string | number;
         pid?: string | number;
         name?: string;
         pane?: string;
-    });
+    };
+}
+
+/**
+ * Echarts图层，
+ * 【需要引入 echarts 库 和 mars2d-echarts 插件库】
+ * @param options - 参数对象
+ */
+export class EchartsLayer extends leaflet.Layer {
+    constructor(options: EchartsLayer.Options | any);
+    /**
+     * 将图层添加到地图
+     * @param map - 地图对象
+     * @returns 当前对象本身，可以链式调用
+     */
+    addTo(map: Map | any): any | EchartsLayer;
+    /**
+     * 将图层从地图上移除
+     * @returns 当前对象本身，可以链式调用
+     */
+    remove(): any | EchartsLayer;
     /**
      * 内置唯一标识ID
      */
@@ -9890,6 +10015,17 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      */
     redraw(): any | ArcGisDynamicLayer;
     /**
+     * 将图层添加到地图
+     * @param map - 地图对象
+     * @returns 当前对象本身，可以链式调用
+     */
+    addTo(map: Map | any): any | ArcGisDynamicLayer;
+    /**
+     * 将图层从地图上移除
+     * @returns 当前对象本身，可以链式调用
+     */
+    remove(): any | ArcGisDynamicLayer;
+    /**
      * 内置唯一标识ID
      */
     readonly uuid: string;
@@ -9923,6 +10059,17 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      * @returns 当前对象本身，可以链式调用
      */
     refresh(): any | ArcGisDynamicLayer;
+    /**
+     * 将图层添加到地图
+     * @param map - 地图对象
+     * @returns 当前对象本身，可以链式调用
+     */
+    addTo(map: Map | any): any | ArcGisDynamicLayer;
+    /**
+     * 将图层从地图上移除
+     * @returns 当前对象本身，可以链式调用
+     */
+    remove(): any | ArcGisDynamicLayer;
 }
 
 export namespace ArcGisFeatureLayer {
@@ -10331,6 +10478,17 @@ export class ArcGisImageLayer extends leaflet.TileLayer {
      */
     redraw(): any | ArcGisImageLayer;
     /**
+     * 将图层添加到地图
+     * @param map - 地图对象
+     * @returns 当前对象本身，可以链式调用
+     */
+    addTo(map: Map | any): any | ArcGisImageLayer;
+    /**
+     * 将图层从地图上移除
+     * @returns 当前对象本身，可以链式调用
+     */
+    remove(): any | ArcGisImageLayer;
+    /**
      * 内置唯一标识ID
      */
     readonly uuid: string;
@@ -10457,6 +10615,17 @@ export class ArcGisTileLayer extends leaflet.TileLayer {
      */
     identify(callback: (...params: any[]) => any, context?: any): any | any;
     /**
+     * 将图层添加到地图
+     * @param map - 地图对象
+     * @returns 当前对象本身，可以链式调用
+     */
+    addTo(map: Map | any): any | ArcGisTileLayer;
+    /**
+     * 将图层从地图上移除
+     * @returns 当前对象本身，可以链式调用
+     */
+    remove(): any | ArcGisTileLayer;
+    /**
      * 内置唯一标识ID
      */
     readonly uuid: string;
@@ -10498,7 +10667,18 @@ export class MapVLayer extends leaflet.Layer {
         pid?: string | number;
         name?: string;
         pane?: string;
-    }, dataSet?: any);
+    } | any, dataSet?: any);
+    /**
+     * 将图层添加到地图
+     * @param map - 地图对象
+     * @returns 当前对象本身，可以链式调用
+     */
+    addTo(map: Map | any): any | MapVLayer;
+    /**
+     * 将图层从地图上移除
+     * @returns 当前对象本身，可以链式调用
+     */
+    remove(): any | MapVLayer;
     /**
      * 内置唯一标识ID
      */
@@ -11348,6 +11528,228 @@ export namespace GaodeRoute {
     }
 }
 
+export namespace QueryArcServer {
+    /**
+     * 当前类支持的{@link EventType}事件类型
+     * @example
+     * //绑定监听事件
+     * layer.on(mars3d.EventType.load, function (event) {
+     *   console.log('矢量数据对象加载完成', event)
+     * })
+     * @property click - 左键单击 鼠标事件
+     * @property load - 完成加载，执行所有内部处理后
+     */
+    type EventType = {
+        click: string;
+        load: string;
+    };
+}
+
+/**
+ * ArcGIS WFS矢量服务查询类
+ * @param options - 参数对象，包括以下：
+ * @param options.url - ArcGIS服务地址, 示例：'http://server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer/37'
+ * @param [options.pageSize = 10] - 每页条数 *
+ * @param [options.headers = {}] - 将被添加到HTTP请求头。
+ * @param [options.proxy] - 加载资源时使用的代理。
+ *
+ * //以下是GeoJsonLayer图层参数
+ * @param [options.id = uuid()] - 赋予给layer图层，图层id标识
+ * @param [options.pid = -1] - 赋予给layer图层，图层父级的id，一般图层管理中使用
+ * @param [options.name = ''] - 赋予给layer图层，图层名称
+ * @param [options.symbol] - 赋予给layer图层，图层矢量数据的style样式，参考{@link GeoJsonLayer}
+ * @param [options.graphicOptions] - 赋予给layer图层，图层默认的graphic的构造参数，参考{@link GeoJsonLayer}
+ * @param [options.popup] - 赋予给layer图层，图层绑定的popup弹窗值，参考{@link GeoJsonLayer}
+ * @param [options.tooltip] - 赋予给layer图层，图层绑定的tooltip弹窗值，参考{@link GeoJsonLayer}
+ */
+export class QueryArcServer extends BaseClass {
+    constructor(options: {
+        url: string;
+        pageSize?: number;
+        headers?: any;
+        proxy?: Proxy;
+        id?: string | number;
+        pid?: string | number;
+        name?: string;
+        symbol?: any | ((...params: any[]) => any);
+        graphicOptions?: any;
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+    });
+    /**
+     * ArcGIS服务地址
+     */
+    url: string;
+    /**
+     * 分页的 每页条数
+     */
+    pageSize: number;
+    /**
+     * 总记录数
+     */
+    readonly allCount: number;
+    /**
+     * 总页数
+     */
+    readonly allPage: number;
+    /**
+     * 页码，当前第几页
+     */
+    readonly pageIndex: number;
+    /**
+     * 用于显示查询结果的GeoJsonLayer图层，图层参数在当前类构造方法中传入
+     */
+    readonly layer: GeoJsonLayer;
+    /**
+     * 首页，查看第1页数据
+     * @returns 无
+     */
+    showFirstPage(): any | void;
+    /**
+     * 上一页
+     * @returns 无
+     */
+    showPretPage(): any | void;
+    /**
+     * 下一页
+     * @returns 无
+     */
+    showNextPage(): any | void;
+    /**
+     * 跳转到指定页
+     * @param pageIndex - 指定页
+     * @returns 无
+     */
+    showPage(pageIndex: number): any | void;
+    /**
+     * 按指定类别自动查询
+     * @param queryOptions - 查询参数
+     * @param [queryOptions.text] - 检索关键字。
+     * @param [queryOptions.column] - 检索关键字的字段名称。
+     * @param [queryOptions.like = true] - 检索关键字时，是否模糊匹配，false时精确查询。
+     * @param [queryOptions.where] - 自定义的检索条件，与text二选一
+     * @param [queryOptions.graphic] - 限定的搜索区域
+     * @param [queryOptions.page = true] - 是否分页查询,false时不分页，一次性查询返回
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 当前对象本身，可以链式调用
+     */
+    query(queryOptions: {
+        text?: string;
+        column?: string;
+        like?: boolean;
+        where?: string;
+        graphic?: BaseGraphic | any;
+        page?: boolean;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): any | QueryArcServer;
+    /**
+     * 清除
+     * @returns 无
+     */
+    clear(): any | void;
+    /**
+     * 当前类的构造参数
+     */
+    readonly options: any;
+}
+
+/**
+ * GeoServer WFS服务查询类
+ * @param options - 参数对象，包括以下：
+ * @param options.url - GeoServer服务地址, 示例：'http://server.mars3d.cn/geoserver/mars/wfs'
+ * @param options.layer - 图层名称（命名空间:图层名称），多个图层名称用逗号隔开
+ * @param [options.headers = {}] - 将被添加到HTTP请求头。
+ * @param [options.proxy] - 加载资源时使用的代理。
+ *
+ * //以下是GeoJsonLayer图层参数
+ * @param [options.id = uuid()] - 赋予给layer图层，图层id标识
+ * @param [options.pid = -1] - 赋予给layer图层，图层父级的id，一般图层管理中使用
+ * @param [options.name = ''] - 赋予给layer图层，图层名称
+ * @param [options.symbol] - 赋予给layer图层，图层矢量数据的style样式，参考{@link GeoJsonLayer}
+ * @param [options.graphicOptions] - 赋予给layer图层，图层默认的graphic的构造参数，参考{@link GeoJsonLayer}
+ * @param [options.popup] - 赋予给layer图层，图层绑定的popup弹窗值，参考{@link GeoJsonLayer}
+ * @param [options.tooltip] - 赋予给layer图层，图层绑定的tooltip弹窗值，参考{@link GeoJsonLayer}
+ */
+export class QueryGeoServer extends BaseClass {
+    constructor(options: {
+        url: string;
+        layer: string;
+        headers?: any;
+        proxy?: Proxy;
+        id?: string | number;
+        pid?: string | number;
+        name?: string;
+        symbol?: any | ((...params: any[]) => any);
+        graphicOptions?: any;
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+    });
+    /**
+     * 用于显示查询结果的GeoJsonLayer图层，图层参数在当前类构造方法中传入
+     */
+    readonly layer: GeoJsonLayer;
+    /**
+     * 查询服务，基于filter条件
+     * @param queryOptions - 查询参数
+     * @param [queryOptions.text] - 检索关键字
+     * @param [queryOptions.column] - 检索关键字时，对应的字段名称
+     * @param [queryOptions.like = true] - 检索关键字时，是否模糊匹配，false时精确查询
+     * @param [queryOptions.graphic] - 限定的搜索区域
+     * @param [queryOptions.geometryName = 'the_geom'] - 限定的搜索区域时，对应的geometry字段名称
+     * @param [queryOptions.maxFeatures = 1000] - 返回结果最大数量
+     * @param [queryOptions.sortBy] - 排序的属性名称，默认升序，降序时+D
+     * @param [queryOptions.更多参数] - WFS服务支持的其他参数，均支持
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 当前对象本身，可以链式调用
+     */
+    query(queryOptions: {
+        text?: string;
+        column?: string;
+        like?: boolean;
+        graphic?: BaseGraphic | any;
+        geometryName?: string;
+        maxFeatures?: number;
+        sortBy?: string;
+        更多参数?: any;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): any | QueryGeoServer;
+    /**
+     * 查询服务，基于cql_filter条件
+     * @param queryOptions - 查询参数
+     * @param queryOptions.parameters.cql_filter - 筛选服务数据的[SQL语句]{@link https://docs.geoserver.org/2.12.2/user/services/wfs/vendor.html#wfs-vendor-parameters}
+     * @param [queryOptions.graphic] - 限定的搜索区域,自动转换后加入到cql_filter中，也可以外部自行处理
+     * @param [queryOptions.geometryName = 'the_geom'] - 限定的搜索区域时，对应的geometry字段名称
+     * @param [queryOptions.maxFeatures = 1000] - 返回结果最大数量
+     * @param [queryOptions.sortBy] - 排序的属性名称，默认升序，降序时+D
+     * @param [queryOptions.更多参数] - WFS服务支持的其他参数，均支持
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 当前对象本身，可以链式调用
+     */
+    queryBySql(queryOptions: {
+        graphic?: BaseGraphic | any;
+        geometryName?: string;
+        maxFeatures?: number;
+        sortBy?: string;
+        更多参数?: any;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): any | QueryGeoServer;
+    /**
+     * 清除
+     * @returns 无
+     */
+    clear(): any | void;
+    /**
+     * 当前类的构造参数
+     */
+    readonly options: any;
+}
+
 /**
  * 地图截图处理类，
  * 内部导出部分依赖domtoimage库，需要额外引入。
@@ -11387,27 +11789,27 @@ export class ExpImg extends BaseThing {
     }): any | void;
     /**
      * 激活绘制矩形区域，并导出自定义区域的截图
-     * @param options - 控制参数
+     * @param [options] - 控制参数
      * @param [options.download = true] - 是否下载
      * @param [options.fileName = "地图截图"] - 导出的图片名称
      * @param [options.calllback] - 导出完成的回调方法
      * @returns 无
      */
-    expByDraw(options: {
+    expByDraw(options?: {
         download?: number;
         fileName?: number;
         calllback?: (...params: any[]) => any;
     }): any | void;
     /**
      * 按当前地图区域进行全部截图
-     * @param options - 控制参数
+     * @param [options] - 控制参数
      * @param [options.download = true] - 是否下载
      * @param [options.fileName = "地图截图"] - 导出的图片名称
      * @param [options.calllback] - 导出完成的回调方法
      * @returns 无
      */
-    expAll(options: {
-        download?: number;
+    expAll(options?: {
+        download?: boolean;
         fileName?: number;
         calllback?: (...params: any[]) => any;
     }): any | void;

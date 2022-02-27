@@ -34,3 +34,7 @@ export function onUnmounted() {
 export function addLayer(layer) {
   map.addLayer(layer)
 }
+
+export function removeLayer(layer) {
+  map.removeLayer(layer)
+}

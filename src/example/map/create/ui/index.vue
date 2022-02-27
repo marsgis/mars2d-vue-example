@@ -367,11 +367,11 @@ mapWork.eventTarget.on("loadOK", () => {
 })
 
 function initTree() {
-  // 取图层列表数据
   const layers = window.mapWork.map.getLayers({
     basemaps: true, // 是否取config.json中的basempas
     layers: true // 是否取config.json中的layers
   })
+
   // 遍历出config.json中所有的basempas和layers
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i]
@@ -397,15 +397,15 @@ function findChild(parent: any, list: any[]) {
     .map((item: any) => {
       const node: any = {
         title: item.name,
-        key: item.id,
+        key: item.uuid,
         id: item.id,
         pId: item.pid,
         uuid: item.uuid
       }
-      const nodeLayer = mapWork.createLayer(item) // 创建图层
-      layersObj[item.id] = nodeLayer
-      node.children = findChild(node, list)
-      expandedKeys.value.push(node.key)
+      layersObj[item.uuid] = item
+      if (item.hasChildLayer) {
+        node.children = findChild(node, list)
+      }
       if (item.isAdded && item.show) {
         checkedKeys.value.push(node.key)
       }

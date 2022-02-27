@@ -219,7 +219,8 @@ function addDemoGraphic1() {
       width: 32,
       height: 44
       // rotationAngle: 90,
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -239,7 +240,8 @@ function addDemoGraphic2() {
       width: 30,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
       verticalOrigin: mars2d.VerticalOrigin.CENTER
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -254,7 +256,8 @@ function addDemoGraphic3() {
       width: 40,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
       verticalOrigin: mars2d.VerticalOrigin.CENTER
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 

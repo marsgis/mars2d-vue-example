@@ -201,7 +201,8 @@ function addDemoGraphic1() {
       html: `<div class="marsBlackPanel  animation-spaceInDown">
                     <div class="marsBlackPanel-text">大湖名城,创新高地</div>
                 </div>`
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -219,7 +220,8 @@ function addDemoGraphic2() {
       offsetY: -65,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -232,7 +234,8 @@ function addDemoGraphic3() {
       html: `<div class="marsGreenGradientPnl" >安徽欢迎您</div>`,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -245,7 +248,8 @@ function addDemoGraphic4() {
       html: '<img src="img/marker/tf.gif" style="width:50px;height:50px;" ></img>',
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
       verticalOrigin: mars2d.VerticalOrigin.CENTER
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -256,7 +260,8 @@ function addDemoGraphic5() {
     latlng: [31.775993, 117.092285],
     style: {
       color: "#ff0000"
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -271,7 +276,8 @@ function addDemoGraphic6() {
       font_family: "微软雅黑",
       color: "#ccc",
       boderColor: "#15d1f2"
-    }
+    },
+    attr: { remark: "示例6" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -287,7 +293,8 @@ function addDemoGraphic7() {
       font_family: "微软雅黑",
       lineHeight: 60,
       circleSize: 8
-    }
+    },
+    attr: { remark: "示例7" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -299,7 +306,8 @@ function addDemoGraphic8() {
     style: {
       html: "火星科技",
       className: "mars2d-label-graphic"
-    }
+    },
+    attr: { remark: "示例8" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -312,7 +320,8 @@ function addDemoGraphic9() {
       html: '<i class="fa fa-tree" style="color:#ffff00;font-size:30px;"></i>',
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
-    }
+    },
+    attr: { remark: "示例9" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -323,7 +332,8 @@ function addDemoGraphic10() {
     latlng: L.latLng(31.818606, 117.296904),
     style: {
       className: "mars2d-colorPoint"
-    }
+    },
+    attr: { remark: "示例10" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -379,7 +389,8 @@ function addDemoGraphic11() {
             </div>`,
       horizontalOrigin: mars2d.HorizontalOrigin.LEFT,
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
-    }
+    },
+    attr: { remark: "示例11" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -451,7 +462,8 @@ function addDemoGraphic12() {
             </div>`,
       horizontalOrigin: mars2d.HorizontalOrigin.LEFT,
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
-    }
+    },
+    attr: { remark: "示例12" }
   })
   graphicLayer.addGraphic(graphic)
 

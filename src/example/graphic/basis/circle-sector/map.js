@@ -257,7 +257,8 @@ function addDemoGraphic1() {
         outlineWidth: 2,
         outlineColor: "#00ff00",
         outlineOpacity: 0.5
-      }
+      },
+      attr: { remark: "示例1" }
     })
     graphicLayer.addGraphic(graphic)
 
@@ -283,7 +284,8 @@ function addDemoGraphic2() {
         outlineWidth: 2,
         outlineColor: "#00ff00",
         outlineOpacity: 0.5
-      }
+      },
+      attr: { remark: "示例2" }
     })
     graphicLayer.addGraphic(graphic)
 
@@ -308,7 +310,8 @@ function addDemoGraphic3() {
       outlineColor: "#ff0000",
       outlineOpacity: 1.0,
       outlineWidth: 2
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -340,7 +343,8 @@ function addDemoGraphic4() {
         outlineWidth: 1,
         outlineColor: "#000",
         outlineOpacity: 1
-      }
+      },
+      attr: { remark: "示例4" }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -360,7 +364,8 @@ function addDemoGraphic5() {
       fillOpacity: 0.5,
       outline: true,
       outlineColor: "red"
-    }
+    },
+    attr: { remark: "示例5" }
   }).addTo(graphicLayer)
 
   const graphic1 = new mars2d.graphic.Circle({

@@ -39,7 +39,9 @@ const checkedChange = (keys: string[], e: any) => {
     if (keys.indexOf(e.node.key) !== -1) {
       layer.show = true
     } else {
-      layer.show = false
+      console.log(layer)
+      mapWork.removeLayer(layer)
+      // layer.show = false
     }
   }
 }
@@ -73,6 +75,11 @@ function initTree() {
   // 遍历出config.json中所有的basempas和layers
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i]
+
+    if (layer == null || layer.options.noLayerManage) {
+      continue
+    }
+
     if (layer && layer.pid === -1) {
       const node: any = {
         title: layer.name,
@@ -104,7 +111,8 @@ function findChild(parent: any, list: any[]) {
       if (item.hasChildLayer) {
         node.children = findChild(node, list)
       }
-      if (item.isAdded && item.show) {
+
+      if (item.isAdded) {
         checkedKeys.value.push(node.key)
       }
       return node

@@ -1,6 +1,6 @@
 .tipBox {
   position: absolute;
-  top: -14px;
+  top: -2px;
   right: 7px;
   width: 240px;
   height: 260px;
@@ -16,7 +16,7 @@
 
 .tipBodyFirstPart {
   width: 100%;
-  line-height: 10px;
+  line-height: 20px;
   text-align: left;
   padding: 10px 0 5px 15px;
   background-color: #c0e2ff;

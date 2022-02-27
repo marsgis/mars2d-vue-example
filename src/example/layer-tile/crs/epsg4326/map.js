@@ -22,6 +22,7 @@ export const mapOptions = {
       type: "wms",
       url: "http://vmap0.tiles.osgeo.org/wms/vmap0",
       layers: "basic",
+      show: true,
       format: "image/jpeg"
     }
   ]

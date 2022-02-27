@@ -40,20 +40,20 @@ function onGoLocate(e) {
     geolocation = new BMap.Geolocation()
   }
 
-  L.DomUtil.removeClasses(this.btnLocation, this._iconLocation)
-  L.DomUtil.addClasses(this.btnLocation, this._iconLocationLoading)
+  L.DomUtil.removeClass(this.btnLocation, this._iconLocation)
+  L.DomUtil.addClass(this.btnLocation, this._iconLocationLoading)
 
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const that = this
   geolocation.getCurrentPosition(
     function (r) {
-      L.DomUtil.removeClasses(that.btnLocation, that._iconLocationLoading)
-      L.DomUtil.addClasses(that.btnLocation, that._iconLocation)
+      L.DomUtil.removeClass(that.btnLocation, that._iconLocationLoading)
+      L.DomUtil.addClass(that.btnLocation, that._iconLocation)
 
-      if (this.getStatus() === that.BMAP_STATUS_SUCCESS) {
+      if (this.getStatus() === 0) {
         const wgsPoint = mars2d.PointTrans.bd2wgs([r.point.lng, r.point.lat])
 
-        this.onLocationFound({
+        that.onLocationFound({
           accuracy: 3000,
           latlng: [wgsPoint[1], wgsPoint[0]]
         })

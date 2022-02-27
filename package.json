@@ -21,7 +21,7 @@
     "echarts": "^5.2.2",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
-    "mars-editor": "^2.5.1",
+    "mars-editor": "^2.5.5",
     "mars2d": "^3.0.6",
     "monaco-editor": "^0.29.1",
     "nprogress": "^0.2.0",

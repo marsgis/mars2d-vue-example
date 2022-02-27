@@ -34,7 +34,7 @@ window.configLibs = {
     "mars2d/plugins/widget/mars2d-widget.js"
   ],
   //////////////////////////leaflet第3方插件////////////////////////
-  "leaflet-sideBySide": ["leaflet/leaflet-src.js", "mars2d/thirdParty/sideBySide/leaflet-side-by-side.min.js"],
+  "leaflet-sideBySide": ["mars2d/thirdParty/sideBySide/leaflet-side-by-side.min.js"],
   OSMBuildings: [
     // 建筑物3D立体 插件
     "mars2d/thirdParty/OSMBuildings/OSMBuildings-Leaflet.debug.js",
@@ -54,6 +54,7 @@ window.configLibs = {
     "mars2d/thirdParty/timedimension/leaflet.timedimension.control.css",
     "mars2d/thirdParty/timedimension/leaflet.timedimension.js"
   ],
+  textCollision: ["mars2d/thirdParty/textCollision/LabelTextCollision.js"],
 
   //////////////////////////mars3d及其插件////////////////////////
   mars3d: [
@@ -72,29 +73,7 @@ window.configLibs = {
   "echarts-liquidfill": ["echarts/echarts.min.js", "echarts/echarts-liquidfill/echarts-liquidfill.js"],
   terraformer: ["terraformer/terraformer-1.0.9.min.js", "terraformer/terraformer-wkt-parser-1.2.0.min.js"],
   kmlGeojson: ["kml/kml-geojson.js"],
-  kriging: ["kriging/kriging.min.js"]
+  kriging: ["kriging/kriging.min.js"],
+  BMap: ["http://api.map.baidu.com/getscript?v=2.0&ak=qObioeG8HeeQVrOVAGScPVhDzlmv6rL9&services="]
 }
 
-// 官网发布时用CDN服务
-if (window.location.hostname.indexOf("mars") !== -1) {
-  window.cdnLibsPath = "http://cdn.marsgis.cn/lib/"
-}
-
-//本地测试  localStorage.setItem("muyao-debugger",1)
-if (localStorage.getItem("muyao-debugger") === "1") {
-  for (let key in configLibs) {
-    if (key.startsWith("mars2d")) {
-      let arrUrl = configLibs[key]
-      for (let index = 0; index < arrUrl.length; index++) {
-        const url = arrUrl[index]
-        const fileName = url?.substring(url.lastIndexOf("/") + 1, url.length)
-        if (fileName.startsWith("mars2d")) {
-          arrUrl[index] = arrUrl[index].replace(".js", "-src.js").replace(".css", "-src.css")
-        } else if (fileName.indexOf("leaflet") != -1) {
-          arrUrl[index] = arrUrl[index].replace(".js", "-src.js")
-        }
-      }
-    }
-  }
-  console.log("正在使用SDK调试版本")
-}

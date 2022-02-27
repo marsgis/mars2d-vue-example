@@ -20,7 +20,6 @@ export const eventTarget = new mars2d.BaseClass()
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   eventTarget.fire("loadOK")
-
 }
 
 /**
@@ -68,10 +67,9 @@ export function updateContrast(val) {
 
 // 创建图层
 export function createLayer(layer) {
-  return mars2d.LayerUtil.create(layer)
+  // return map.addLayer(layer)
 }
 
 export function addLayer(layer) {
   map.addLayer(layer)
 }
-

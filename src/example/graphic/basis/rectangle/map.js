@@ -248,7 +248,8 @@ function addDemoGraphic1() {
       outlineWidth: 2,
       outlineColor: "#0000FF",
       outlineOpacity: 0.5
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -271,7 +272,8 @@ function addDemoGraphic2() {
       image: "img/fill/redLine.png",
       imageOpacity: 1,
       outline: false
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -290,7 +292,8 @@ function addDemoGraphic3() {
       outlineWidth: 6,
       outlineColor: "#00ffff",
       outlineOpacity: 1.0
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -312,7 +315,8 @@ function addDemoGraphic4() {
       outlineColor: "#0000FF",
       outlineOpacity: 1.0,
       dashArray: "5, 10"
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -333,7 +337,8 @@ function addDemoGraphic5() {
       outlineColor: "#0000FF",
       outlineOpacity: 1.0,
       dashArray: "15, 10, 5, 10"
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic)
 }

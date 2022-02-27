@@ -22,6 +22,7 @@ export const mapOptions = {
     {
       name: "山东天地图",
       type: "xyz",
+      show: true,
       url: "http://www.sdmap.gov.cn/tileservice/SDPubMap?layer=SDPubMap&style=default&tilematrixset=default028mm&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={x}&TileRow={y}"
     }
   ]

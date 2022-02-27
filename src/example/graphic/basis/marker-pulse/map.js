@@ -38,7 +38,8 @@ function addDemoGraphic1(graphicLayer) {
       width: 20,
       pulse: true,
       pulseColor: "#ff0000"
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -50,7 +51,8 @@ function addDemoGraphic2(graphicLayer) {
       width: 15,
       pulse: true,
       pulseColor: "#0000ff"
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -64,7 +66,8 @@ function addDemoGraphic3(graphicLayer) {
       pulseColor: "#00ff00",
       pulseShadowColor: "#ff0000",
       pulseDuration: 2
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }

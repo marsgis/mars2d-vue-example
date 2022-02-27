@@ -220,7 +220,8 @@ function addDemoGraphic1() {
     style: {
       pixelSize: 8,
       color: "#ff0000"
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -238,7 +239,8 @@ function addDemoGraphic2() {
       outlineColor: "#0000FF",
       outlineWidth: 3,
       outlineOpacity: 1.0
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -254,7 +256,8 @@ function addDemoGraphic3() {
       outline: true,
       outlineColor: "#00ff00",
       outlineOpacity: 1.0
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }

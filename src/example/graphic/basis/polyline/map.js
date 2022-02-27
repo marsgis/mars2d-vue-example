@@ -247,7 +247,8 @@ function addDemoGraphic1() {
     style: {
       color: "#ff0000",
       width: 3
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -267,7 +268,8 @@ function addDemoGraphic2() {
       width: 3,
       color: "#ff0000",
       dashArray: "15, 10"
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -284,7 +286,8 @@ function addDemoGraphic3() {
     style: {
       width: 3,
       color: "#0000ff"
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -301,7 +304,8 @@ function addDemoGraphic4() {
     style: {
       width: 4,
       gradientColors: colors
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }

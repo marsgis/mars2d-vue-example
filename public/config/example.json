@@ -385,7 +385,7 @@
             "main_es5": "control-basis-toolBar",
             "main": "control/basis/toolBar",
             "resources": [
-              "http:--api.map.baidu.com-getscript?v=2.0&ak=qObioeG8HeeQVrOVAGScPVhDzlmv6rL9&services="
+              "http://api.map.baidu.com-getscript?v=2.0&ak=qObioeG8HeeQVrOVAGScPVhDzlmv6rL9&services="
             ]
           },
           {
@@ -471,7 +471,7 @@
             "name": "大数据点 图层",
             "thumbnail": "layer-graphic-basis-canvas-marker.jpg",
             "main_es5": "layer-graphic-basis-canvas-marker",
-            "main": "layer-graphic/basis/canvas/marker",
+            "main": "layer-graphic/basis/canvas-marker",
             "vuePanel": true
           },
           {
@@ -501,7 +501,7 @@
             "name": "中国各省市面",
             "thumbnail": "layer-graphic-file-geojson-polygon.jpg",
             "main_es5": "layer-graphic-file-geojson-polygon",
-            "main": "layer-graphic/file/geojson/polygon",
+            "main": "layer-graphic/file/geojson-polygon",
             "vuePanel": true,
             "resources": [
               "polygon-legend.css"
@@ -511,7 +511,7 @@
             "name": "GeoJson大数据面(Canvas合并渲染)",
             "thumbnail": "layer-graphic-file-geojson-canvas.jpg",
             "main_es5": "layer-graphic-file-geojson-canvas",
-            "main": "layer-graphic/file/geojson/canvas",
+            "main": "layer-graphic/file/geojson-canvas",
             "libs": [
               "mars2d",
               "CanvasGeojsonLayer"
@@ -573,7 +573,7 @@
             "name": "昼夜覆盖区域",
             "thumbnail": "layer-graphic-other-day-night.jpg",
             "main_es5": "layer-graphic-other-day-night",
-            "main": "layer-graphic/other/day/night"
+            "main": "layer-graphic/other/day-night"
           },
           {
             "name": "经纬网",
@@ -649,14 +649,14 @@
             "main": "graphic/divGraphic/basis",
             "vuePanel": true,
             "resources": [
-              "-temp-styles-divGraphic.css"
+              "/temp/styles/divGraphic.css"
             ]
           },
           {
             "name": "动态效果点",
             "thumbnail": "graphic-basis-marker-pulse-daxue.gif",
             "main_es5": "graphic-basis-marker-pulse-daxue",
-            "main": "graphic/basis/marker-pulse/daxue",
+            "main": "graphic/basis/marker-pulse-daxue",
             "es5_thumbnail": "graphic-basis-marker-pulse-daxue.gif"
           },
           {
@@ -666,7 +666,7 @@
             "main": "graphic/divGraphic/ident",
             "vuePanel": true,
             "resources": [
-              "-temp-styles-divGraphic.css"
+              "/temp/styles/divGraphic.css"
             ]
           },
           {
@@ -801,7 +801,7 @@
             "main_es5": "graphic-apply-quyu-num",
             "main": "graphic/apply/quyu-num",
             "resources": [
-              "-temp-styles-divGraphic.css"
+              "/temp/styles/divGraphic.css"
             ]
           },
           {
@@ -810,7 +810,7 @@
             "main_es5": "graphic-apply-district",
             "main": "graphic/apply/district",
             "resources": [
-              "-temp-styles-divGraphic.css"
+              "/temp/styles/divGraphic.css"
             ]
           },
           {
@@ -833,22 +833,22 @@
             "name": "标绘（绘制点、线、面、圆、矩形等）",
             "thumbnail": "layer-graphic-draw-draw.jpg",
             "main_es5": "layer-graphic-draw-draw",
-            "main": "layer-graphic/draw/draw",
+            "main": "layer-graphic/draw-draw",
             "vuePanel": true,
             "libs": [
               "mars2d",
               "terraformer"
             ],
             "resources": [
-              "-lib-kml-kml-geojson.js",
-              "-temp-styles-divGraphic.css"
+              "/lib/kml/kml-geojson.js",
+              "/temp/styles/divGraphic.css"
             ]
           },
           {
             "name": "军事标绘",
             "thumbnail": "layer-graphic-draw-military.jpg",
             "main_es5": "layer-graphic-draw-military",
-            "main": "layer-graphic/draw/military",
+            "main": "layer-graphic/draw-military",
             "vuePanel": true
           },
           {
@@ -864,8 +864,9 @@
             "main_es5": "layer-graphic-other-textCollision",
             "main": "layer-graphic/other/textCollision",
             "vuePanel": true,
-            "resources": [
-              "-lib-mars2d-thirdParty-textCollision-LabelTextCollision.js"
+            "libs": [
+              "mars2d",
+              "textCollision"
             ]
           }
         ]
@@ -924,7 +925,7 @@
             "main": "thing/expImg",
             "vuePanel": true,
             "resources": [
-              "-lib-dom2img-dom-to-image.js"
+              "/lib/dom2img/dom-to-image.js"
             ]
           },
           {
@@ -1184,7 +1185,7 @@
           },
           {
             "name": "动态点",
-            "thumbnail": "layer-other-mapv-dynamic-point.jpg",
+            "thumbnail": "layer-other-mapv-dynamic-point.gif",
             "main_es5": "layer-other-mapv-dynamic-point",
             "main": "layer-other/mapv/dynamic-point",
             "libs": [
@@ -1291,7 +1292,7 @@
             "name": "散点图全省经济指标",
             "thumbnail": "layer-other-echarts-echarts-sandian1.jpg",
             "main_es5": "layer-other-echarts-echarts-sandian1",
-            "main": "layer-other/echarts/echarts/sandian1",
+            "main": "layer-other/echarts/echarts-sandian1",
             "libs": [
               "mars2d",
               "mars2d-echarts"
@@ -1301,7 +1302,7 @@
             "name": "散点图城市空气质量",
             "thumbnail": "layer-other-echarts-echarts-sandian2.jpg",
             "main_es5": "layer-other-echarts-echarts-sandian2",
-            "main": "layer-other/echarts/echarts/sandian2",
+            "main": "layer-other/echarts/echarts-sandian2",
             "libs": [
               "mars2d",
               "mars2d-echarts"
@@ -1311,7 +1312,7 @@
             "name": "散点图态势",
             "thumbnail": "layer-other-echarts-echarts-sandian3.jpg",
             "main_es5": "layer-other-echarts-echarts-sandian3",
-            "main": "layer-other/echarts/echarts/sandian3",
+            "main": "layer-other/echarts/echarts-sandian3",
             "libs": [
               "mars2d",
               "mars2d-echarts"
@@ -1321,7 +1322,7 @@
             "name": "散点图微博签到",
             "thumbnail": "layer-other-echarts-sandian-weibo.jpg",
             "main_es5": "layer-other-echarts-sandian-weibo",
-            "main": "layer-other/echarts/sandian/weibo",
+            "main": "layer-other/echarts/sandian-weibo",
             "libs": [
               "mars2d",
               "mars2d-echarts"
@@ -1331,7 +1332,7 @@
             "name": "流出线",
             "thumbnail": "layer-other-echarts-outflow-line.jpg",
             "main_es5": "layer-other-echarts-outflow-line",
-            "main": "layer-other/echarts/outflow/line",
+            "main": "layer-other/echarts/outflow-line",
             "libs": [
               "mars2d",
               "mars2d-echarts"
@@ -1341,7 +1342,7 @@
             "name": "流入线",
             "thumbnail": "layer-other-echarts-inflow-line.jpg",
             "main_es5": "layer-other-echarts-inflow-line",
-            "main": "layer-other/echarts/inflow/line",
+            "main": "layer-other/echarts/inflow-line",
             "libs": [
               "mars2d",
               "mars2d-echarts"

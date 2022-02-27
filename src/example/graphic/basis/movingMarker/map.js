@@ -59,7 +59,8 @@ function addDemoGraphic1(graphicLayer) {
       image: "img/marker/bike.png",
       iconSize: [25, 39],
       autostart: true
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(movingMarker)
 
@@ -98,7 +99,8 @@ function addDemoGraphic2(graphicLayer) {
       image: "img/marker/bike.png",
       iconSize: [25, 39],
       autostart: true
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -120,7 +122,8 @@ function addDemoGraphic3(graphicLayer) {
       image: "img/marker/bike.png",
       iconSize: [25, 39],
       autostart: false
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 

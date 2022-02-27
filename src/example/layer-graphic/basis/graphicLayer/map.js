@@ -62,7 +62,8 @@ function addDemoGraphic1() {
       width: 32,
       height: 44
       // rotationAngle: 90,
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -88,7 +89,8 @@ function addDemoGraphic2() {
       image: "img/marker/bike.png",
       iconSize: [25, 39],
       autostart: true
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(movingMarker)
 
@@ -119,7 +121,8 @@ function addDemoGraphic3() {
       outline: true,
       outlineColor: "#00ff00",
       outlineOpacity: 1.0
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -133,7 +136,8 @@ function addDemoGraphic4() {
       color: "#0000FF",
       font_size: 25,
       font_family: "楷体"
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -146,7 +150,8 @@ function addDemoGraphic5() {
       html: `<div class="marsBlackPanel  animation-spaceInDown">
                     <div class="marsBlackPanel-text">大湖名城,创新高地</div>
                 </div>`
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -163,7 +168,8 @@ function addDemoGraphic6() {
       fillColor: "#ff0000",
       fillOpacity: 0.3,
       outline: false
-    }
+    },
+    attr: { remark: "示例6" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -184,7 +190,8 @@ function addDemoGraphic7() {
       outlineWidth: 2,
       outlineColor: "#00ff00",
       outlineOpacity: 0.5
-    }
+    },
+    attr: { remark: "示例7" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -202,7 +209,8 @@ function addDemoGraphic8() {
     style: {
       width: 4,
       gradientColors: colors
-    }
+    },
+    attr: { remark: "示例8" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -228,7 +236,8 @@ function addDemoGraphic9() {
       dashArray: "5,10",
       color: "black",
       opacity: 0.3
-    }
+    },
+    attr: { remark: "示例9" }
   })
   graphicLayer.addGraphic(middleLine)
 
@@ -269,7 +278,8 @@ function addDemoGraphic10() {
       outlineWidth: 2,
       outlineColor: "#0000FF",
       outlineOpacity: 0.5
-    }
+    },
+    attr: { remark: "示例10" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -291,7 +301,8 @@ function addDemoGraphic11() {
       fillColor: "#ffffff",
       fillOpacity: 0.01,
       url: "img/simple/gugong.jpg"
-    }
+    },
+    attr: { remark: "示例11" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -317,7 +328,8 @@ function addDemoGraphic12() {
       outlineWidth: 6,
       outlineColor: "#00ffff",
       outlineOpacity: 1.0
-    }
+    },
+    attr: { remark: "示例12" }
   })
   graphicLayer.addGraphic(graphic)
 }

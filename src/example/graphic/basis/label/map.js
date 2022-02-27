@@ -223,7 +223,8 @@ function addDemoGraphic1() {
       color: "#0081c2",
       font_size: 25,
       font_family: "楷体"
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -239,7 +240,8 @@ function addDemoGraphic2() {
       color: "#0000FF",
       font_size: 25,
       font_family: "楷体"
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -258,7 +260,8 @@ function addDemoGraphic3() {
       border_width: 2,
       border_style: "",
       border_color: "rgba(255,0,0,0.2)"
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -271,7 +274,8 @@ function addDemoGraphic4() {
       color: "#FF0000",
       font_size: 30,
       font_family: "微软雅黑"
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }

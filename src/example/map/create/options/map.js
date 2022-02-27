@@ -33,4 +33,6 @@ function initMap() {
 
   // 打印测试信息
   console.log("mars2d的Map主对象构造完成", map)
+
+  return map
 }
