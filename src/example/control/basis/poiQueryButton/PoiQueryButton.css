@@ -1,0 +1,196 @@
+.leaflet-bar{
+  border: 2px solid rgba(0,0,0,0) !important;
+}
+.leaflet-control-scale-line{
+  width: auto !important;
+}
+.leaflet-left{
+  margin-bottom: 60px;
+}
+.queryPoiButton {
+  position: absolute;
+  left: 3.5px;
+  top: -36px;
+  width: 310px;
+  height: 300px;
+  background-color: rgba(0, 0, 0, 0) !important;
+  border: none;
+  border-radius: 0 !important;
+  padding: 0;
+  margin: 0;
+  box-shadow: none !important;
+}
+.queryPoiButton:hover {
+  box-shadow: none;
+}
+
+.queryPoiButton svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #3f4854;
+  border: none;
+  border-radius: 14%;
+}
+
+.toolSearch {
+  position: absolute;
+  left: 32px;
+  right: 0;
+  top: 0px;
+  border: none;
+  color: white;
+  border: 1px solid rgba(40, 40, 40, 0);
+  overflow: hidden;
+}
+
+.poiButtonResult {
+  position: absolute;
+  left: 32px;
+  top: 33px;
+  width: 274px;
+  height: 230px !important;
+  min-height: 120px;
+  border: none;
+  color: white;
+  overflow: hidden;
+}
+
+.deleteInput {
+  position: absolute;
+  top: -15px;
+  right: 7px;
+  line-height: 0;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.deleteInput>p{
+  font-size: 30px;
+}
+
+.searchInput {
+  width: 98%;
+  height: 31px;
+  border: none !important;
+  color: white;
+  background-color: rgba(40, 40, 40, 0.7);
+}
+input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.searchInput:focus {
+  border-color: #ea4;
+  background-color: rgba(63, 72, 84);
+  box-shadow: none;
+  outline: none;
+}
+
+/* 搜寻的结果显示 */
+.searchResults {
+  width: 98%;
+  height: 195px;
+  overflow: auto;
+  font-size: 12px;
+  position: absolute;
+  background-color: rgba(40, 40, 40, 0.7);
+}
+
+.searchResults p {
+  margin-left: -20px;
+  width: 100%;
+  text-align: center;
+}
+.searchResults ul {
+  display: block;
+  line-height: 25px;
+  min-height: 100px;
+  max-height: 150px;
+  margin: 0;
+}
+
+.searchResults li {
+  margin: 0 0 9px -32px;
+  color: #ebebebe7;
+  cursor: pointer;
+  position: relative;
+  text-align: left;
+}
+
+.searchResults li::after {
+  content: "";
+  position: absolute;
+  left: -27px;
+  bottom: -3px;
+  width: 110%;
+  height: 1px;
+  background: #a79ecc;
+}
+
+.searchResults li:hover {
+  background: rgb(255 252 252 / 55%);
+  color: #795a5a;
+}
+
+.gaodesousuo img {
+  margin-right: 10px;
+}
+
+/*上下页数的样式 */
+.resultNextPages {
+  width: 98%;
+  height: 20%;
+  color: #ebebebe7;
+  cursor: pointer;
+  font-size: 13px;
+  position: absolute;
+  bottom: -11px;
+  padding-left: 10px;
+  line-height: 16px;
+  background-color: rgba(40, 40, 40, 0.7);
+}
+
+.resultNextPages p {
+  float: left;
+}
+
+/* 下一页 */
+.resultNextPages p:nth-last-child(1) {
+  text-align: center;
+  position: relative;
+  right: -34px;
+  width: 18px;
+  border: 1px solid #f9ececb3;
+}
+
+/* 上一页 */
+.resultNextPages p:nth-last-child(2) {
+  text-align: center;
+  position: relative;
+  right: -30px;
+  width: 18px;
+  border: 1px solid #f9ececb3;
+}
+
+/* 首页 */
+.resultNextPages p:nth-last-child(3) {
+  text-align: center;
+  position: relative;
+  right: -10px;
+  width: 35px;
+  border: 1px solid #f9ececb3;
+}
+
+/* 页数 */
+.resultNextPages p:nth-last-child(4) {
+  position: relative;
+  right: -5px;
+  width: 65px;
+}
+
+.resultNextPages p:nth-last-child(1):hover,
+.resultNextPages p:nth-last-child(2):hover,
+.resultNextPages p:nth-last-child(3):hover {
+  text-decoration: underline;
+}

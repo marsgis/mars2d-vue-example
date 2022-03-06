@@ -73,7 +73,6 @@ window.configLibs = {
   "echarts-liquidfill": ["echarts/echarts.min.js", "echarts/echarts-liquidfill/echarts-liquidfill.js"],
   terraformer: ["terraformer/terraformer-1.0.9.min.js", "terraformer/terraformer-wkt-parser-1.2.0.min.js"],
   kmlGeojson: ["kml/kml-geojson.js"],
-  kriging: ["kriging/kriging.min.js"],
-  BMap: ["http://api.map.baidu.com/getscript?v=2.0&ak=qObioeG8HeeQVrOVAGScPVhDzlmv6rL9&services="]
+  kriging: ["kriging/kriging.min.js"]
 }
 

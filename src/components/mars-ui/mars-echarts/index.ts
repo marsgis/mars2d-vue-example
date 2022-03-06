@@ -1,7 +1,7 @@
 import * as echarts from "echarts"
 /**
  * echarts公共样式配置
- * @copyright 火星科技 mars3d.cn
+ * @copyright 火星科技 mars2d.cn
  * @author 火星吴彦祖 2022-02-19
  */
 

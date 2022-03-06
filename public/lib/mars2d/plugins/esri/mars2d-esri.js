@@ -1,7 +1,7 @@
 /*!
  * Mars2D平台插件,ArcGIS Server功能支持插件
- * 版本信息：v3.0.8, hash值: 54bff896fdfcf1e79f8d
- * 编译日期：2022-02-25 13:55:54
+ * 版本信息：v3.0.9, hash值: 54bff896fdfcf1e79f8d
+ * 编译日期：2022-03-03 19:08:27
  * 版权所有：Copyright by 火星科技 http://mars2d.cn
  * 
  */

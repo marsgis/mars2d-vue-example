@@ -1,10 +1,12 @@
 // 下拉菜单
 .mars-dropdown {
   * {
-    color: @mars-basecolor;
+    color: @dropdown-color-base;
+    font-weight: normal;
+    white-space: nowrap;
   }
   .ant-dropdown-menu {
-    background-color: rgba(63, 72, 84, 0.7) !important;
+    background-color: @mars-basecolor-reverse !important;
     .i-icon {
       vertical-align: middle;
       margin-right: 4px;
@@ -14,7 +16,7 @@
   .ant-dropdown-menu-item,
   .ant-dropdown-menu-submenu-title {
     &:hover {
-      background-color: hsla(0, 0%, 100%, 0.08);
+      background-color: rgba(37, 49, 63, 0.2);
     }
   }
 }

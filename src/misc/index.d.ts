@@ -1,6 +1,6 @@
 /**
  * ts下为window定义全局变量
- * @copyright 火星科技 mars3d.cn
+ * @copyright 火星科技 mars2d.cn
  * @author 木遥 2022-01-01
  */
 

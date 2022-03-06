@@ -2,8 +2,8 @@
 /* eslint-disable */
 /*!
  * Mars2D地理信息平台
- * 版本信息：v3.0.8
- * 编译日期：2022-02-25 15:46:30
+ * 版本信息：v3.0.9
+ * 编译日期：2022-03-06 17:35:07
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-1
  */
@@ -1564,6 +1564,10 @@ export class Circle extends leaflet.Circle {
      */
     coordinates: any[][];
     /**
+     * 矩形的边线坐标集合
+     */
+    readonly outlineLatlngs: leaflet.LatLng[];
+    /**
      * 中心点
      */
     readonly center: leaflet.LatLng;
@@ -1624,6 +1628,13 @@ export class Circle extends leaflet.Circle {
      * @returns 是否在圆内
      */
     isInPoly(latlng: leaflet.LatLng): any | boolean;
+    /**
+     * 获取圆的边线坐标集合
+     * @param [closure = true] - 是否闭合，true时会添加第0个点进行闭合。
+     * @param [count] - 点的数量
+     * @returns 边线坐标数组
+     */
+    getOutlineLatlngs(closure?: boolean, count?: number): any | leaflet.LatLng[];
 }
 
 export namespace DivBoderLabel {
@@ -4170,7 +4181,7 @@ export namespace Polyline {
      * @property [color = '#3388ff'] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
      * @property [width = 2] - 线宽
-     * @property [offset] - 平行偏移值，可用于平行线
+     * @property [offset] - 平行偏移值（像素），可用于平行线
      * @property [gradientColors] - 多颜色线时，颜色数组
      * @property [lineCap = 'round'] - 在线两段使用的形状, 如: butt、round、square
      * @property [lineJoin = 'round'] - 在线转折处使用的形状, 如: miter、round、bevel
@@ -4504,7 +4515,7 @@ export class Polyline extends leaflet.Polyline {
     }): any | any;
     /**
      * 设置线的偏移值，常用于平行线
-     * @param offset - 偏移值
+     * @param offset - 偏移值（像素）
      * @returns 当前对象本身，可以链式调用
      */
     setOffset(offset: number): any | Polyline;
@@ -4825,7 +4836,7 @@ export class Rectangle extends leaflet.Rectangle {
      */
     latlngs: leaflet.LatLng[];
     /**
-     * 矩形的边线坐标集合（笛卡尔坐标）
+     * 矩形的边线坐标集合
      */
     readonly outlineLatlngs: leaflet.LatLng[];
     /**
@@ -8660,7 +8671,7 @@ export namespace Map {
      * @property [defaultContextMenu = true] - 是否绑定默认的地图右键菜单
      * @property [contextmenuItems] - 自定义绑定右键菜单配置数组
      * @property [control] - 控件参数
-     * @property [basemaps] - 底图图层配置
+     * @property basemaps - 底图图层配置
      * @property [operationallayers] - 可以叠加显示的图层配置
      * @property [layers] - 默认添加到地图上的图层组, 这是leaflet原生的参数，传入构造好的leaflet图层。
      */
@@ -8713,7 +8724,7 @@ export namespace Map {
         defaultContextMenu?: boolean;
         contextmenuItems?: any;
         control?: Map.controlOptions;
-        basemaps?: Map.basemapOptions[];
+        basemaps: Map.basemapOptions[];
         operationallayers?: Map.layerOptions[];
         layers?: leaflet.Layer[];
     };
@@ -8723,7 +8734,7 @@ export namespace Map {
      * @property [id] - 图层id标识
      * @property [pid = -1] - 图层父级的id，一般图层管理中使用
      * @property [name = ''] - 图层名称
-     * @property [show = true] - 图层是否显示
+     * @property [show = false] - 图层是否显示
      * @property [其他参数] - 每种不同type都有自己的不同属性，具体参考{@link LayerType}找到type对应的图层类,查看其构造参数
      */
     type basemapOptions = {
@@ -8740,7 +8751,7 @@ export namespace Map {
      * @property [id] - 图层id标识
      * @property [pid = -1] - 图层父级的id，一般图层管理中使用
      * @property [name = ''] - 图层名称
-     * @property [show = true] - 图层是否显示
+     * @property [show = false] - 图层是否显示
      * @property [其他参数] - 每种type都有自己的不同属性，具体参考{@link LayerType}找到type对应的图层类,查看其构造参数
      */
     type layerOptions = {
@@ -10739,6 +10750,11 @@ export class MapVLayer extends leaflet.Layer {
      */
     setZIndex(zIndex: number): any | void;
     /**
+     * 获取 canvas。
+     * @returns 返回 mapV 图层包含的 canvas 对象。
+     */
+    getCanvas(): any | HTMLCanvasElement;
+    /**
      * 获取容器。
      * @returns 返回包含 mapV 图层的 dom 对象。
      */
@@ -11403,7 +11419,7 @@ export class GaodePOI {
     queryPolygon(queryOptions: {
         text: string;
         types?: string;
-        polygon: any[][];
+        polygon: leaflet.LatLng[];
         count?: number;
         page?: number;
         success?: (...params: any[]) => any;
@@ -11549,9 +11565,8 @@ export namespace QueryArcServer {
  * ArcGIS WFS矢量服务查询类
  * @param options - 参数对象，包括以下：
  * @param options.url - ArcGIS服务地址, 示例：'http://server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer/37'
- * @param [options.pageSize = 10] - 每页条数 *
+ * @param [options.pageSize = 10] - 每页条数
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
- * @param [options.proxy] - 加载资源时使用的代理。
  *
  * //以下是GeoJsonLayer图层参数
  * @param [options.id = uuid()] - 赋予给layer图层，图层id标识
@@ -11567,7 +11582,6 @@ export class QueryArcServer extends BaseClass {
         url: string;
         pageSize?: number;
         headers?: any;
-        proxy?: Proxy;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -11639,7 +11653,7 @@ export class QueryArcServer extends BaseClass {
         column?: string;
         like?: boolean;
         where?: string;
-        graphic?: BaseGraphic | any;
+        graphic?: Rectangle | Polygon | Circle | any;
         page?: boolean;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
@@ -11661,7 +11675,6 @@ export class QueryArcServer extends BaseClass {
  * @param options.url - GeoServer服务地址, 示例：'http://server.mars3d.cn/geoserver/mars/wfs'
  * @param options.layer - 图层名称（命名空间:图层名称），多个图层名称用逗号隔开
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
- * @param [options.proxy] - 加载资源时使用的代理。
  *
  * //以下是GeoJsonLayer图层参数
  * @param [options.id = uuid()] - 赋予给layer图层，图层id标识
@@ -11677,7 +11690,6 @@ export class QueryGeoServer extends BaseClass {
         url: string;
         layer: string;
         headers?: any;
-        proxy?: Proxy;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -11709,7 +11721,7 @@ export class QueryGeoServer extends BaseClass {
         text?: string;
         column?: string;
         like?: boolean;
-        graphic?: BaseGraphic | any;
+        graphic?: Rectangle | Polygon | Circle | any;
         geometryName?: string;
         maxFeatures?: number;
         sortBy?: string;
@@ -11731,7 +11743,7 @@ export class QueryGeoServer extends BaseClass {
      * @returns 当前对象本身，可以链式调用
      */
     queryBySql(queryOptions: {
-        graphic?: BaseGraphic | any;
+        graphic?: Rectangle | Polygon | Circle | any;
         geometryName?: string;
         maxFeatures?: number;
         sortBy?: string;

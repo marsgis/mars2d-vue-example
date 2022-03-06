@@ -4,7 +4,7 @@
 <script lang="ts" setup>
 /**
  * 操作面板入口
- * @copyright 火星科技 mars3d.cn
+ * @copyright 火星科技 mars2d.cn
  * @author 木遥 2022-01-01
  */
 import { defineAsyncComponent, h, ref } from "vue"

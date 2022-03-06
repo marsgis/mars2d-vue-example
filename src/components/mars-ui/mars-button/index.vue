@@ -39,12 +39,12 @@ export default defineComponent({
 }
 .mars-button:not([disabled]) {
   &:hover {
-    color: @button-color-active;
+    color: @primary-color;
     border-color: #89bceb;
     background: @button-background-active;
   }
   &:focus {
-    color: @button-color-active;
+    color: @primary-color;
     border-color: #89bceb;
     background: @button-background-active;
   }
@@ -58,6 +58,12 @@ export default defineComponent({
     color: @mars-disable-color;
   }
 }
+
+// .ant-btn-link {
+// color: @button-background-base;
+// background: transparent;
+// border-color: transparent;
+// }
 </style>
 <style lang="less">
 .ant-btn-primary {

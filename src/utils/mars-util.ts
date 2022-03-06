@@ -1,7 +1,7 @@
 /**
  * 项目内通用 静态Util方法
  *
- * @copyright 火星科技 mars3d.cn
+ * @copyright 火星科技 mars2d.cn
  * @author 木遥 2022-01-01
  */
 

@@ -45,7 +45,6 @@ import { ref, onMounted } from "vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
 import axios from "axios"
 import { setAutoHeight } from "@mars/utils/mars-util"
-import { $message, $notify, $alert } from "@mars/components/mars-ui/index"
 import * as mapWork from "./map.js"
 
 interface typhoon {

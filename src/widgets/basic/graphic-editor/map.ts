@@ -14,3 +14,12 @@ export function onUnmounted(): void {
 export function downloadFile(fileName: string, content: string) {
   mars2d.Util.downloadFile(fileName, content)
 }
+
+export function pointTrans(points: any) {
+  return mars2d.PointTrans.coords2latlngs(points)
+}
+
+// 定位至矢量数据
+export function flyToGrapgic(graphic: any) {
+  map.flyToGraphic(graphic, { scale: 1.0 })
+}

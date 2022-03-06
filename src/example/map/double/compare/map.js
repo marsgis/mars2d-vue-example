@@ -1,7 +1,9 @@
 import * as mars2d from "mars2d"
 const L = mars2d.L
+
 let map
 let mapEx
+
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   center: { lat: 30.754115, lng: 116.341283 },
@@ -18,6 +20,10 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
+  // 修改已有地图为50%
+  const mapOld = document.getElementById("centerDiv2D")
+  mapOld.style.width = "50%"
 
   const centerDivEx = L.DomUtil.create("div", "", document.body)
   centerDivEx.setAttribute("id", "centerDivEx")

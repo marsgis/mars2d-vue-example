@@ -16,7 +16,7 @@ export const eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance: mars2d.Map) {
+export function onMounted(mapInstance: mars2d.Map): void {
   map = mapInstance // 记录首次创建的map
   eventTarget.fire("loadOK")
 }
@@ -25,12 +25,23 @@ export function onMounted(mapInstance: mars2d.Map) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+export function onUnmounted(): void {
   map = null
 }
 
-export function addLayer(layer: mars2d.BaseLayer) {
+export function addLayer(layer: any) {
   map.addLayer(layer)
+}
+
+export function removeLayer(layer:any, list:any) {
+  const children = list.filter((item:any) => item.pid === layer.id)
+  if (children.length > 0) {
+    for (let i = 0; i < children.length; i++) {
+      map.removeLayer(children[i])
+    }
+  } else {
+    map.removeLayer(layer)
+  }
 }
 
 export function getLayers() {

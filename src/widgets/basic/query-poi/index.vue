@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel customClass="query-poi-pannel" top="10" right="10">
+  <mars-pannel customClass="query-poi-pannel" top="10" left="10">
     <div class="query-poi">
       <a-auto-complete
         class="search-input"
@@ -214,7 +214,7 @@ function addHistory(data: any) {
   width: 186px;
 }
 .query-site-allcount {
-  color:  @mars-basecolor;
+  color: @mars-basecolor;
   position: absolute;
   bottom: 11px;
   left: 15px;

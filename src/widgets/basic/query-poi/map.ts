@@ -11,6 +11,8 @@ let graphicLayer: mars2d.layer.GraphicLayer
 let queryPoi: mars2d.query.GaodePOI // GaodePOI查询
 let address: any = null
 
+export const eventTarget = new mars2d.BaseClass()
+
 // 初始化当前业务
 export function onMounted(mapInstance: mars2d.Map): void {
   map = mapInstance // 记录map
@@ -21,7 +23,8 @@ export function onMounted(mapInstance: mars2d.Map): void {
 
   graphicLayer = new mars2d.layer.GraphicLayer({
     name: "PIO查询",
-    pid: 99 // 图层管理 中使用，父节点id
+    pid: 99, // 图层管理 中使用，父节点id,
+    show: true
   })
   map.addLayer(graphicLayer)
 
@@ -49,6 +52,7 @@ export function onMounted(mapInstance: mars2d.Map): void {
     return inHtml
   })
   map.on(mars2d.EventType.moveend, cameraChanged)
+
 }
 
 function cameraChanged() {
@@ -105,7 +109,6 @@ export function querySiteList(text: string, page: number): Promise<any> {
  */
 export function showPOIArr(arr: any): void {
   clearLayers()
-
   arr.forEach((item: any) => {
     const jd = Number(item.lng)
     const wd = Number(item.lat)
@@ -135,7 +138,6 @@ export function showPOIArr(arr: any): void {
       attr: item
     })
     graphicLayer.addGraphic(graphic)
-
     item._graphic = graphic
   })
 
@@ -180,23 +182,16 @@ export function centerAtLonLat(text: string): void {
                 <div><label>纬度</label>${wd}</div>
               </div>`)
 
-  graphic.openHighlight()
-
-  graphic.flyTo({
-    radius: 1000, // 点数据：radius控制视距距离
-    scale: 1.5, // 线面数据：scale控制边界的放大比例
-    complete: () => {
-      graphicLayer.openPopup(graphic)
-    }
-  })
+  map.flyTo(graphic)
+  graphicLayer.openPopup(graphic)
 }
 
-export function flyToGraphic(graphic: mars2d.graphic.BaseGraphic, option: any): void {
+export function flyToGraphic(graphic: any, option: any): void {
   graphicLayer.openPopup(graphic)
   map.flyToGraphic(graphic, option)
 }
 
 export function clearLayers(): void {
-  graphicLayer.closePopup()
-  graphicLayer.clear()
+    graphicLayer.closePopup()
+    graphicLayer.clear()
 }
