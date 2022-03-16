@@ -28,7 +28,6 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-
 export function onUnmounted() {
   map = null
 }

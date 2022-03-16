@@ -1,4 +1,5 @@
 import * as mars2d from "mars2d"
+
 let map
 let graphicLayer
 let pointLayer
@@ -79,8 +80,8 @@ function nearPoint() {
   const position = snapped.geometry.coordinates
 
   // 最近点（图标点）
-  const primitive = new mars2d.graphic.Marker({
-    latlng: [position[1], position[0]],
+  const graphic = new mars2d.graphic.Marker({
+    latlng: L.latLng(position[1], position[0]),
     style: {
       image: "img/marker/mark2.png",
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
@@ -88,8 +89,7 @@ function nearPoint() {
     },
     tooltip: "最近点"
   })
-
-  pointLayer.addGraphic(primitive)
+  pointLayer.addGraphic(graphic)
 }
 
 // 清除数据

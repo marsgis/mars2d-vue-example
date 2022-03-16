@@ -61,7 +61,7 @@ const dom = [
     },
     {
       name: "DIV点",
-      href: "editor.html?id=graphic/basis/divGraphic"
+      href: "editor.html?id=graphic/divGraphic/basis"
     },
     {
       name: "圆",

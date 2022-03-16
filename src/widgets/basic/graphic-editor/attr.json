@@ -161,7 +161,7 @@
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineColor", "outlineWidth", "outlineOpacity"] },
       { "name": "outlineColor", "label": "边框颜色", "type": "color", "defval": "#3388ff" },
       { "name": "outlineWidth", "label": "边框宽度", "type": "number", "defval": 2 },
-      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 }
+      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 ,"min": 0, "max": 1, "step": 0.01}
     ]
   },
   "polyline": {
@@ -191,12 +191,12 @@
     "style": [
       { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["fillColor", "fillOpacity"] },
       { "name": "fillColor", "label": "填充颜色", "type": "color", "defval": "#3388ff" },
-      { "name": "fillOpacity", "label": "填充透明度", "type": "slider", "defval": 0.3 },
+      { "name": "fillOpacity", "label": "填充透明度", "type": "slider", "defval": 0.3 ,"min": 0, "max": 1, "step": 0.01 },
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": true, "impact": ["outlineColor", "outlineWidth", "outlineOpacity","dashArray"] },
       { "name": "outlineColor", "label": "边框颜色", "type": "color", "defval": "#3388ff" },
       { "name": "outlineWidth", "label": "边框宽度", "type": "number", "defval": 2 },
-      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 },
+      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 ,"min": 0, "max": 1, "step": 0.01 },
       {
         "name": "dashArray",
         "label": "线型",
@@ -217,12 +217,12 @@
     "style": [
       { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["fillColor", "fillOpacity"] },
       { "name": "fillColor", "label": "填充颜色", "type": "color", "defval": "#3388ff" },
-      { "name": "fillOpacity", "label": "填充透明度", "type": "slider", "defval": 0.3 },
+      { "name": "fillOpacity", "label": "填充透明度", "type": "slider", "defval": 0.3 ,"min": 0, "max": 1, "step": 0.01},
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": true, "impact": ["outlineColor", "outlineWidth", "outlineOpacity","dashArray"] },
       { "name": "outlineColor", "label": "边框颜色", "type": "color", "defval": "#3388ff" },
       { "name": "outlineWidth", "label": "边框宽度", "type": "number", "defval": 2 },
-      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 },
+      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 ,"min": 0, "max": 1, "step": 0.01 },
       {
         "name": "dashArray",
         "label": "线型",
@@ -246,12 +246,12 @@
 
       { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["fillColor", "fillOpacity"] },
       { "name": "fillColor", "label": "填充颜色", "type": "color", "defval": "#3388ff" },
-      { "name": "fillOpacity", "label": "填充透明度", "type": "slider", "defval": 0.3 },
+      { "name": "fillOpacity", "label": "填充透明度", "type": "slider", "defval": 0.3 ,"min": 0, "max": 1, "step": 0.01 },
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": true, "impact": ["outlineColor", "outlineWidth", "outlineOpacity","dashArray"] },
       { "name": "outlineColor", "label": "边框颜色", "type": "color", "defval": "#3388ff" },
       { "name": "outlineWidth", "label": "边框宽度", "type": "number", "defval": 2 },
-      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 },
+      { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 1 ,"min": 0, "max": 1, "step": 0.01},
       {
         "name": "dashArray",
         "label": "线型",

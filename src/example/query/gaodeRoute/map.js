@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 let routeLayer
 let gaodeRoute
 
@@ -9,9 +9,7 @@ let startGraphic, endGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
-  scene: {
     center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
-  }
 }
 
 export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
@@ -156,11 +154,13 @@ function queryRoute(type) {
       const time = mars2d.Util.formatTime(firstItem.allDuration)
       const distance = mars2d.MeasureUtil.formatDistance(firstItem.allDistance)
       const html = "<div>总距离：" + distance + "<br/>所需时间：" + time + "</div>"
+
+      const latlngs = mars2d.PointTrans.coords2latlngs(points)
+
       const graphic = new mars2d.graphic.Polyline({
-        latlngs: points,
+        latlngs: latlngs,
         style: {
-          clampToGround: true,
-          // material: Cesium.Color.AQUA.withAlpha(0.8),
+          color: "#20a0ff",
           width: 5
         },
         attr: firstItem,

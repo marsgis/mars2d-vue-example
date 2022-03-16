@@ -182,7 +182,7 @@ export function centerAtLonLat(text: string): void {
                 <div><label>纬度</label>${wd}</div>
               </div>`)
 
-  map.flyTo(graphic)
+  map.flyToGraphic(graphic)
   graphicLayer.openPopup(graphic)
 }
 

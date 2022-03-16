@@ -87,7 +87,7 @@ function showRoad(arr, options) {
     }
   }
 
-  const primitive = new mars2d.graphic.Polyline({
+  const graphic = new mars2d.graphic.Polyline({
     latlngs: getBezierCurve(arrPosition),
     style: {
       width: 2,
@@ -95,7 +95,7 @@ function showRoad(arr, options) {
       color: options
     }
   })
-  graphicLayer.addGraphic(primitive)
+  graphicLayer.addGraphic(graphic)
 }
 
 function getBezierCurve(latlngs, closure) {

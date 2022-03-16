@@ -1,15 +1,10 @@
 import * as mars2d from "mars2d"
 import { PoiQueryButton } from "./PoiQueryButton"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 export const mapOptions = {
-  scene: {
-    center: { lat: 31.805875, lng: 117.237115, alt: 11874, heading: 1, pitch: -69 }
-  },
-  control: {
-    geocoder: false
-  }
+  center: { lng: 117.237115, lat: 31.805875 }
 }
 
 /**

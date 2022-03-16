@@ -209,21 +209,20 @@ class PoiQueryButton extends mars2d.control.ToolButton {
                 color: "#3388ff",
                 outline: true,
                 outlineColor: "#ffffff",
-                outlineWidth: 2
+                outlineWidth: 2,
                 // 预留功能，后续支持高亮
-                /* highlight: {
+                highlight: {
                   type: mars2d.EventType.click,
                   color: "#ff0000"
-                } */
-
+                },
                 // 预留功能，后续支持文本
-                /* label: {
+                label: {
                   text: item.name,
                   font_size: 20,
                   color: "rgb(240,255,255)",
                   outline: true,
                   outlineWidth: 2
-                } */
+                }
               },
               attr: item
             })
@@ -287,7 +286,6 @@ class PoiQueryButton extends mars2d.control.ToolButton {
       })
     })
     let allPages
-    let AllCount
     if (result.allcount < 11) {
       allPages = Math.ceil(result.allcount / 10)
     } else {
@@ -299,8 +297,6 @@ class PoiQueryButton extends mars2d.control.ToolButton {
     this._queryResultContainer.appendChild(this.resultNextPages)
 
     // 共加载条数
-    console.log(result.allcount)
-    console.log(result)
     this._addPElement(this.resultNextPages, "共加载了" + result.allcount + "条", null)
 
     // 展示的页数

@@ -5,35 +5,34 @@
  * @author 木遥 2021-11-26
  */
 window.configLibs = {
-  //////////////////////////Mars2D地图渲染相关库////////////////////////
+  /// ///////////////////////Mars2D地图渲染相关库////////////////////////
   mars2d: [
-    //地图 主库
+    // 地图 主库
     "leaflet/leaflet.css",
     "leaflet/leaflet.js",
     "mars2d/mars2d.css",
     "mars2d/mars2d.js",
-    "mars2d/plugins/esri/mars2d-esri.js" //非必须，加载arcgis图层时需要
+    "mars2d/plugins/esri/mars2d-esri.js" // 非必须，加载arcgis图层时需要
   ],
   "mars2d-esri": [
-    //arcgis服务支持插件
+    // arcgis服务支持插件
     // "mars2d/plugins/esri/mars2d-esri.js"
   ],
   "mars2d-mapv": [
-    //mapv支持插件
+    // mapv支持插件
     "mapV/mapv.min.js",
     "mars2d/plugins/mapv/mars2d-mapv.js"
   ],
   "mars2d-echarts": [
-    //echarts支持插件
+    // echarts支持插件
     "echarts/echarts.min.js",
     "mars2d/plugins/echarts/mars2d-echarts.js"
   ],
   "mars2d-widget": [
-    //传统JS的widget模块化插件
-    "mars2d/plugins/widget/mars2d-widget.css",
+    // 传统JS的widget模块化插件
     "mars2d/plugins/widget/mars2d-widget.js"
   ],
-  //////////////////////////leaflet第3方插件////////////////////////
+  /// ///////////////////////leaflet第3方插件////////////////////////
   "leaflet-sideBySide": ["mars2d/thirdParty/sideBySide/leaflet-side-by-side.min.js"],
   OSMBuildings: [
     // 建筑物3D立体 插件
@@ -56,9 +55,9 @@ window.configLibs = {
   ],
   textCollision: ["mars2d/thirdParty/textCollision/LabelTextCollision.js"],
 
-  //////////////////////////mars3d及其插件////////////////////////
+  /// ///////////////////////mars3d及其插件////////////////////////
   mars3d: [
-    //地图 主库
+    // 地图 主库
     "https://cdn.jsdelivr.net/npm/mars3d-cesium/Build/Cesium/Widgets/widgets.css",
     "https://cdn.jsdelivr.net/npm/mars3d-cesium/Build/Cesium/Cesium.js",
     "https://unpkg.com/@turf/turf/turf.min.js",
@@ -66,7 +65,7 @@ window.configLibs = {
     "https://cdn.jsdelivr.net/npm/mars3d/dist/mars3d.js"
   ],
 
-  //////////////////////////其他地图渲染相关库////////////////////////
+  /// ///////////////////////其他地图渲染相关库////////////////////////
   turf: ["turf/turf.min.js"],
   echarts: ["echarts/echarts.min.js", "echarts/dark.js"],
   "echarts-gl": ["echarts/echarts.min.js", "echarts/echarts-gl/echarts-gl.min.js"],

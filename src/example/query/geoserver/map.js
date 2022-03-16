@@ -80,6 +80,10 @@ function showGeoJsonLayer() {
 }
 
 export function query(text) {
+  if (!drawGraphic) {
+    globalMsg("请绘制区域")
+    return
+  }
   queryMapserver.query({
     column: "项目名称",
     text: text,

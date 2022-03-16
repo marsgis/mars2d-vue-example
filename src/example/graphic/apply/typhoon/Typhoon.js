@@ -63,7 +63,6 @@ class Typhoon {
     fqHtml += "</table>"
 
     return `<div class="tipBox">
-
               <div class="tipHeader">
                 <p>${this.options.typnumber} ${this.options.name_cn}</p>
               </div>

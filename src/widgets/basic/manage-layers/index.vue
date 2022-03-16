@@ -26,13 +26,22 @@ import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
 import * as mapWork from "./map"
 import { useWidget } from "@mars/widgets/common/store/widget"
 
-const { activate, disable } = useWidget()
+const { activate, disable, getWidget } = useWidget()
 
 onUnmounted(() => {
   disable("layer-tree")
 })
 
 useLifecycle(mapWork)
+
+const widget = getWidget("manage-layers")
+
+widget.onUpdate(() => {
+  treeData.value = []
+  expandedKeys.value = []
+  checkedKeys.value = []
+  initTree()
+})
 
 const treeData = ref<any[]>([])
 
@@ -99,12 +108,10 @@ const checkedChange = (keys: string[], e: any) => {
     }
     if (keys.indexOf(e.node.id) !== -1) {
       layer.show = true
-
       if (layer.options.center) {
         layer.flyTo()
       }
     } else {
-      layer.show = false
       mapWork.removeLayer(layer, layers)
     }
 

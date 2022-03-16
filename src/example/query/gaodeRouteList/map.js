@@ -1,7 +1,7 @@
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 let routeLayer
 let gaodeRoute
 
@@ -113,12 +113,12 @@ export function endPoint() {
 
   queryGaodePOI.queryPolygon({
     text: "企业",
-    polygon: [
+    polygon: mars2d.PointTrans.coords2latlngs([
       [extent.xmin, extent.ymin],
       [extent.xmin, extent.ymax],
       [extent.xmax, extent.ymax],
       [extent.xmax, extent.ymin]
-    ],
+    ]),
     page: 0,
     count: 10,
     success: function (res) {
@@ -191,6 +191,7 @@ function addEndPointEntity(arr) {
       latlng: [item.lat, item.lng],
       style: {
         image: "img/marker/end.png",
+        // 后续支持label功能
         label: {
           text: item.name,
           font_size: "20px 楷体",
@@ -228,6 +229,7 @@ function showRouteResult(data) {
 
     const graphic = new mars2d.graphic.Polyline({
       latlngs: latlngs,
+
       popup: html
     })
     routeLayer.addGraphic(graphic)

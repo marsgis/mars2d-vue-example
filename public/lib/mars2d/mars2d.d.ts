@@ -1,27 +1,26 @@
 
-/* eslint-disable */
-/*!
- * Mars2D地理信息平台
- * 版本信息：v3.0.9
- * 编译日期：2022-03-06 17:35:07
+/**
+ * Mars2D地理信息平台  mars2d-sdk
+ *
+ * 版本信息：v3.0.12
+ * 编译日期：2022-03-16 14:49:05
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
- * 使用单位：免费公开版 ，2021-10-1
+ * 使用单位：免费公开版 ，2021-10-01
  */
-declare module "mars2d" {
-  import * as leaflet from "leaflet"
-  export const L: typeof leaflet
+import * as L from "leaflet"
+export { L }
 
-  export const version: string
-  export const update: string
-  export const name: string
-  export const proj4: any
+declare const version: string
+declare const update: string
+declare const name: string
+declare const proj4: any
+declare const esri: any
 
 
-
-  /**
+/**
  * 国内偏移坐标系 枚举
  */
-export const enum ChinaCRS {
+declare const enum ChinaCRS {
     /**
      * 标准无偏坐标系
      */
@@ -35,7 +34,7 @@ export const enum ChinaCRS {
 /**
  * 坐标系 枚举
  */
-export const enum CRS {
+declare const enum CRS {
     /**
      * Web墨卡托投影坐标系
      */
@@ -85,7 +84,7 @@ export const enum CRS {
 /**
  * 事件类型 枚举（所有事件统一的入口）
  */
-export const enum EventType {
+declare const enum EventType {
     /**
      * 添加对象
      */
@@ -291,7 +290,7 @@ export const enum EventType {
 /**
  * 矢量数据类型
  */
-export const enum GraphicType {
+declare const enum GraphicType {
     marker,
     movingMarker,
     divGraphic,
@@ -329,7 +328,7 @@ export const enum GraphicType {
 /**
  * 一个原点相对于一个物体的水平位置
  */
-export const enum HorizontalOrigin {
+declare const enum HorizontalOrigin {
     /**
      * 原点在物体的左边
      */
@@ -347,7 +346,7 @@ export const enum HorizontalOrigin {
 /**
  * 图层类型
  */
-export const enum LayerType {
+declare const enum LayerType {
     group,
     tdt,
     baidu,
@@ -385,7 +384,7 @@ export const enum LayerType {
 /**
  * 地图切换控件内使用的图层类型
  */
-export enum MapSwichType {
+declare const enum MapSwichType {
     /**
      * 电子地图
      */
@@ -407,7 +406,7 @@ export enum MapSwichType {
 /**
  * 状态 枚举
  */
-export const enum State {
+declare const enum State {
     /**
      * 初始化
      */
@@ -430,7 +429,7 @@ export const enum State {
  * SDK中涉及到的所有第3放地图服务的Token令牌key，
  * 【重要提示：为了避免后期失效，请全部重新赋值换成自己的key】
  */
-namespace Token {
+declare namespace Token {
     /**
      * 天地图key数组，
      * 官网： {@link https://console.tianditu.gov.cn/api/key}
@@ -475,7 +474,7 @@ namespace Token {
 /**
  * 一个原点相对于一个物体的垂直位置
  */
-export enum VerticalOrigin {
+declare const enum VerticalOrigin {
     /**
      * 原点在物体的顶部
      */
@@ -499,6 +498,7 @@ export enum VerticalOrigin {
  * 【鼠标所在位置】 经度:{lng}， 纬度:{lat}，
  * 【地图的】 层级：{level}，
  * @param [options.latDecimal = 6] - 保留的{lat}和{lng}的小数位
+ * @param [options.levelDecimal = 0] - 保留的{level}的小数位
  * @param [options.crs] - 按指定坐标系显示坐标值,  配置后template可以加模板：【鼠标所在位置对应的crs坐标系】 X或经度值：{crsx}， Y或纬度值：{crsy}
  * @param [options.crsDecimal = 1] - 保留的{crsx}和{crsy}的小数位
  * @param [options.cacheTime = 50] - 鼠标移动的缓存时间
@@ -508,10 +508,11 @@ export enum VerticalOrigin {
  * @param [options.style.left] - css定位left位置
  * @param [options.style.right] - css定位right位置
  */
-export class LocationBar extends leaflet.Control {
+declare class LocationBar extends L.Control {
     constructor(options?: {
         template?: string;
         latDecimal?: number;
+        levelDecimal?: number;
         crs?: string | CRS;
         crsDecimal?: number;
         cacheTime?: number;
@@ -534,11 +535,15 @@ export class LocationBar extends leaflet.Control {
  * @param [options.selected = MapSwichType.Vec] - 默认选择的类型
  * @param [options.hasPano = false] - 是否存在全景按钮
  */
-export class MapSwich extends leaflet.Control {
+declare class MapSwich extends L.Control {
     constructor(options?: {
         selected?: MapSwichType;
         hasPano?: boolean;
     });
+    /**
+     * 获取控件对应的DOM容器
+     */
+    readonly container: HTMLElement;
     /**
      * 绑定指定类型事件监听器
      * @param [types] - 事件类型，Object时删除一组类型/侦听器对。
@@ -600,7 +605,7 @@ export class MapSwich extends leaflet.Control {
  * @param [options.aimingRectOptions = { color: "#ff7800", weight: 1 }] - 通过传递Path.Options对象来设置瞄准矩形的样式。
  * @param [options.shadowRectOptions = { color: "#0000ff", weight: 1, opacity: 0.1, fill: false }] - 通过传入Path.Options对象来设置瞄准阴影矩形的样式。
  */
-export class OverviewMap extends leaflet.Control {
+declare class OverviewMap extends L.Control {
     constructor(options?: {
         mapOptions?: Map.Options;
         minimized?: boolean;
@@ -633,7 +638,7 @@ export class OverviewMap extends leaflet.Control {
  * @param [options.cityLevel] - 按指定的地图级别，在滑动条上创建“城市”标记，比如10
  * @param [options.streetLevel] - 按指定的地图级别，在滑动条上创建“街道”标记，比如14
  */
-export class Slider extends leaflet.Control {
+declare class Slider extends L.Control {
     constructor(options?: {
         style?: {
             top?: string;
@@ -646,18 +651,26 @@ export class Slider extends leaflet.Control {
         cityLevel?: number;
         streetLevel?: number;
     });
+    /**
+     * 获取控件对应的DOM容器
+     */
+    readonly container: HTMLElement;
 }
 
 /**
  * 小Tooltip鼠标提示控件（比如标绘中使用的提示）
  * @param map - 地图对象
  */
-export class SmallTooltip extends BaseClass {
+declare class SmallTooltip extends BaseClass {
     constructor(map: Map);
     /**
      * 设置对象的启用和禁用状态。
      */
     enabled: boolean;
+    /**
+     * 获取控件对应的DOM容器
+     */
+    readonly container: HTMLElement;
     /**
      * 更新信息窗口显示内容
      * @param labelText - 信息内容
@@ -674,7 +687,7 @@ export class SmallTooltip extends BaseClass {
      * @param pos - 位置
      * @returns 当前对象本身,可以链式调用
      */
-    updatePosition(pos: leaflet.Point | leaflet.LatLng): any | SmallTooltip;
+    updatePosition(pos: L.Point | L.LatLng): any | SmallTooltip;
     /**
      * 增加错误样式
      * @returns 当前对象本身,可以链式调用
@@ -691,7 +704,7 @@ export class SmallTooltip extends BaseClass {
      * @param message - 提示消息
      * @returns 无
      */
-    open(latLng: leaflet.Point | leaflet.LatLng, message: string): any | void;
+    open(latLng: L.Point | L.LatLng, message: string): any | void;
     /**
      * 关闭弹窗
      * @returns 无
@@ -716,17 +729,21 @@ export class SmallTooltip extends BaseClass {
  * @param [options.onFullscreen] - 自定义“进入全屏”按钮回调方法
  * @param [options.onClear] - “清除所有操作”按钮回调方法
  */
-export class ToolBar extends leaflet.Control {
+declare class ToolBar extends L.Control {
     constructor(options?: {
         position?: string;
         item?: string[];
-        center?: leaflet.LatLng;
+        center?: L.LatLng;
         zoom?: number;
         onGoLocate?: (...params: any[]) => any;
         noLocPoint?: boolean;
         onFullscreen?: (...params: any[]) => any;
         onClear?: (...params: any[]) => any;
     });
+    /**
+     * 获取控件对应的DOM容器
+     */
+    readonly container: HTMLElement;
 }
 
 /**
@@ -739,7 +756,7 @@ export class ToolBar extends leaflet.Control {
  * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  */
-export class ToolButton extends leaflet.Control {
+declare class ToolButton extends L.Control {
     constructor(options: {
         title?: string;
         icon?: string;
@@ -748,13 +765,17 @@ export class ToolButton extends leaflet.Control {
         insertIndex?: number;
         insertBefore?: HTMLElement;
     });
+    /**
+     * 获取控件对应的DOM容器
+     */
+    readonly container: HTMLElement;
 }
 
 /**
  * 基础类
  * @param [options] - 参数名称
  */
-export class BaseClass {
+declare class BaseClass {
     constructor(options?: any);
     /**
      * 当前类的构造参数
@@ -827,7 +848,7 @@ export class BaseClass {
     hasEventParent(obj: any): any | BaseClass;
 }
 
-export namespace BaseThing {
+declare namespace BaseThing {
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
      * @example
@@ -851,7 +872,7 @@ export namespace BaseThing {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class BaseThing extends BaseClass {
+declare class BaseThing extends BaseClass {
     constructor(options?: {
         id?: string | number;
         enabled?: boolean;
@@ -922,7 +943,7 @@ export class BaseThing extends BaseClass {
 /**
  * 全局JsDoc变量 (只是注释使用，非mars2d变量)
  */
-namespace Globe {
+declare namespace Globe {
     /**
      * Popup或Tooltip配置的数组方式对象
      * @property field - 字段名称
@@ -958,9 +979,9 @@ namespace Globe {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class BrushLine extends Polyline {
+declare class BrushLine extends Polyline {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Polyline.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -983,9 +1004,9 @@ export class BrushLine extends Polyline {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class CanvasImage extends leaflet.Path {
+declare class CanvasImage extends L.Path {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Image.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -1026,7 +1047,7 @@ export class CanvasImage extends leaflet.Path {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | CanvasImage;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | CanvasImage;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -1037,7 +1058,7 @@ export class CanvasImage extends leaflet.Path {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): any | CanvasImage;
+    openPopup(latlng?: L.LatLng): any | CanvasImage;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -1053,19 +1074,19 @@ export class CanvasImage extends leaflet.Path {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | CanvasImage;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | CanvasImage;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | CanvasImage;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | CanvasImage;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -1076,7 +1097,7 @@ export class CanvasImage extends leaflet.Path {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | CanvasImage;
+    openTooltip(latlng?: L.LatLng): any | CanvasImage;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -1092,12 +1113,12 @@ export class CanvasImage extends leaflet.Path {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | CanvasImage;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | CanvasImage;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -1177,7 +1198,7 @@ export class CanvasImage extends leaflet.Path {
     /**
      * 坐标位置数组
      */
-    latlngs: leaflet.LatLng[];
+    latlngs: L.LatLng[];
     /**
      * 经纬度位置坐标(数组对象)，示例 [ [123.123456,32.654321], [111.123456,22.654321] ]
      */
@@ -1185,7 +1206,7 @@ export class CanvasImage extends leaflet.Path {
     /**
      * 中心点
      */
-    readonly center: leaflet.LatLng;
+    readonly center: L.LatLng;
     /**
      * 属性信息
      */
@@ -1220,7 +1241,7 @@ export class CanvasImage extends leaflet.Path {
      * @param bounds - 边界
      * @returns 当前对象本身，可以链式调用
      */
-    setBounds(bounds: leaflet.LatLngBounds): any | CanvasImage;
+    setBounds(bounds: L.LatLngBounds): any | CanvasImage;
     /**
      * 获取线的矩形边界
      * @returns 当前对象本身，可以链式调用
@@ -1231,10 +1252,10 @@ export class CanvasImage extends leaflet.Path {
      * @param latnlg - 坐标
      * @returns 颜色值，如 rgba(255,0,0,0.5)
      */
-    getRgba(latnlg: leaflet.LatLng): any | string;
+    getRgba(latnlg: L.LatLng): any | string;
 }
 
-export namespace Circle {
+declare namespace Circle {
     /**
      * 圆矢量对象 支持的样式信息
      * @property radius - 圆的半径，以米为单位。
@@ -1284,7 +1305,7 @@ export namespace Circle {
         smoothFactor?: number;
         noClip?: boolean;
         interactive?: boolean;
-        renderer?: leaflet.Renderer;
+        renderer?: L.Renderer;
         highlight?: Circle.StyleOptions;
         label?: Label.StyleOptions;
     };
@@ -1333,9 +1354,9 @@ export namespace Circle {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class Circle extends leaflet.Circle {
+declare class Circle extends L.Circle {
     constructor(options: {
-        latlng: leaflet.LatLng;
+        latlng: L.LatLng | number[];
         style?: Circle.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -1359,18 +1380,18 @@ export class Circle extends leaflet.Circle {
      * 返回圆的中心位置
      * @returns 经纬度对象
      */
-    getLatLng(): any | leaflet.LatLng;
+    getLatLng(): any | L.LatLng;
     /**
      * 修改中心位置
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: leaflet.LatLng): any | Circle;
+    setLatLng(latlng: L.LatLng): any | Circle;
     /**
      * 获取圆的矩形边界
      * @returns 矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
@@ -1403,7 +1424,7 @@ export class Circle extends leaflet.Circle {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Circle;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | Circle;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -1414,7 +1435,7 @@ export class Circle extends leaflet.Circle {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): any | Circle;
+    openPopup(latlng?: L.LatLng): any | Circle;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -1430,19 +1451,19 @@ export class Circle extends leaflet.Circle {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Circle;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | Circle;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Circle;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | Circle;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -1453,7 +1474,7 @@ export class Circle extends leaflet.Circle {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | Circle;
+    openTooltip(latlng?: L.LatLng): any | Circle;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -1469,12 +1490,12 @@ export class Circle extends leaflet.Circle {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Circle;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | Circle;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -1554,11 +1575,11 @@ export class Circle extends leaflet.Circle {
     /**
      * 坐标位置
      */
-    latlng: leaflet.LatLng;
+    latlng: L.LatLng;
     /**
      * 坐标位置数组 , 主要为了兼容线面数据的使用（比如标绘中）
      */
-    latlngs: leaflet.LatLng[];
+    latlngs: L.LatLng[];
     /**
      * 获取或设置 经度、纬度位置坐标(数组对象)，示例 [ [123.123456,32.654321] ]
      */
@@ -1566,11 +1587,11 @@ export class Circle extends leaflet.Circle {
     /**
      * 矩形的边线坐标集合
      */
-    readonly outlineLatlngs: leaflet.LatLng[];
+    readonly outlineLatlngs: L.LatLng[];
     /**
      * 中心点
      */
-    readonly center: leaflet.LatLng;
+    readonly center: L.LatLng;
     /**
      * 周长距离（单位：米）
      */
@@ -1627,17 +1648,17 @@ export class Circle extends leaflet.Circle {
      * @param latlng - 坐标
      * @returns 是否在圆内
      */
-    isInPoly(latlng: leaflet.LatLng): any | boolean;
+    isInPoly(latlng: L.LatLng): any | boolean;
     /**
      * 获取圆的边线坐标集合
      * @param [closure = true] - 是否闭合，true时会添加第0个点进行闭合。
      * @param [count] - 点的数量
      * @returns 边线坐标数组
      */
-    getOutlineLatlngs(closure?: boolean, count?: number): any | leaflet.LatLng[];
+    getOutlineLatlngs(closure?: boolean, count?: number): any | L.LatLng[];
 }
 
-export namespace DivBoderLabel {
+declare namespace DivBoderLabel {
     /**
      * 动态边框文本 支持的样式信息
      * @property text - 文本内容
@@ -1685,9 +1706,9 @@ export namespace DivBoderLabel {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class DivBoderLabel extends DivGraphic {
+declare class DivBoderLabel extends DivGraphic {
     constructor(options: {
-        latlng: leaflet.LatLng;
+        latlng: L.LatLng | number[];
         style?: DivBoderLabel.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -1698,13 +1719,16 @@ export class DivBoderLabel extends DivGraphic {
     });
 }
 
-export namespace DivGraphic {
+declare namespace DivGraphic {
     /**
      * DIV点 支持的样式信息
      * @property html - HTML内容
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
      * @property [horizontalOrigin] - 横向方向的定位
      * @property [verticalOrigin] - 垂直方向的定位
+     * @property [offsetX] - horizontalOrigin定位基础上，横向方向偏移数值
+     * @property [offsetY] - verticalOrigin定位基础上，垂直方向偏移数值
+     * @property [iconAnchor] - 自定义图标的“指示地理位置的锚点”的坐标（相对于其左上角）。 以便图标显示准确位于标记的地理位置。 如果指定大小，则iconAnchor默认为图标中心点，也可以在带有负边距的CSS中设置。设置后horizontalOrigin、verticalOrigin即失效。
      * @property [className] - 自定义样式class名称
      * @property [draggable = false] - 标记是否可以用鼠标/触摸拖动
      * @property [keyboard = true] - 标记是否可以用键盘按键并按回车键
@@ -1720,6 +1744,9 @@ export namespace DivGraphic {
         opacity?: number;
         horizontalOrigin?: HorizontalOrigin;
         verticalOrigin?: VerticalOrigin;
+        offsetX?: number;
+        offsetY?: number;
+        iconAnchor?: L.Point | number[];
         className?: string;
         draggable?: boolean;
         keyboard?: boolean;
@@ -1744,9 +1771,9 @@ export namespace DivGraphic {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class DivGraphic extends Marker {
+declare class DivGraphic extends Marker {
     constructor(options: {
-        latlng: leaflet.LatLng;
+        latlng: L.LatLng | number[];
         style?: DivGraphic.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -1757,7 +1784,7 @@ export class DivGraphic extends Marker {
     });
 }
 
-export namespace DivLightPoint {
+declare namespace DivLightPoint {
     /**
      * 动画扩散点 支持的样式信息
      * @property [color = '#f33349'] - CSS颜色
@@ -1793,9 +1820,9 @@ export namespace DivLightPoint {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class DivLightPoint extends DivGraphic {
+declare class DivLightPoint extends DivGraphic {
     constructor(options: {
-        latlng: leaflet.LatLng;
+        latlng: L.LatLng | number[];
         style?: DivLightPoint.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -1806,7 +1833,7 @@ export class DivLightPoint extends DivGraphic {
     });
 }
 
-export namespace DivUpLabel {
+declare namespace DivUpLabel {
     /**
      * 竖直文字 支持的样式信息
      * @property text - 文本内容
@@ -1852,9 +1879,9 @@ export namespace DivUpLabel {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class DivUpLabel extends DivGraphic {
+declare class DivUpLabel extends DivGraphic {
     constructor(options: {
-        latlng: leaflet.LatLng;
+        latlng: L.LatLng | number[];
         style?: DivUpLabel.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -1869,7 +1896,7 @@ export class DivUpLabel extends DivGraphic {
  * 标绘处理类 基类
  * @param [options.id] - 矢量数据id标识
  */
-export class BaseDraw extends leaflet.Handler {
+declare class BaseDraw extends L.Handler {
     constructor();
     /**
      * 销毁当前对象
@@ -1882,7 +1909,7 @@ export class BaseDraw extends leaflet.Handler {
  * 点状对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class BaseSimpleShape extends BaseDraw {
+declare class BaseSimpleShape extends BaseDraw {
     constructor();
 }
 
@@ -1890,7 +1917,7 @@ export class BaseSimpleShape extends BaseDraw {
  * 面积测量 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawAreaMeasure extends DrawPolygon {
+declare class DrawAreaMeasure extends DrawPolygon {
     constructor();
 }
 
@@ -1898,7 +1925,7 @@ export class DrawAreaMeasure extends DrawPolygon {
  * 自由绘制线 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawBrushLine extends BaseSimpleShape {
+declare class DrawBrushLine extends BaseSimpleShape {
     constructor();
 }
 
@@ -1906,7 +1933,7 @@ export class DrawBrushLine extends BaseSimpleShape {
  * 圆  对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawCircle extends BaseSimpleShape {
+declare class DrawCircle extends BaseSimpleShape {
     constructor();
 }
 
@@ -1914,7 +1941,7 @@ export class DrawCircle extends BaseSimpleShape {
  * 测量长度 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawDistanceMeasure extends DrawPolyline {
+declare class DrawDistanceMeasure extends DrawPolyline {
     constructor();
 }
 
@@ -1922,7 +1949,7 @@ export class DrawDistanceMeasure extends DrawPolyline {
  * DIV点 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawDivGraphic extends DrawMarker {
+declare class DrawDivGraphic extends DrawMarker {
     constructor();
 }
 
@@ -1930,7 +1957,7 @@ export class DrawDivGraphic extends DrawMarker {
  * 椭圆 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawEllipse extends BaseSimpleShape {
+declare class DrawEllipse extends BaseSimpleShape {
     constructor();
 }
 
@@ -1938,7 +1965,7 @@ export class DrawEllipse extends BaseSimpleShape {
  * FontMarker注记点 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawFontGraphic extends DrawMarker {
+declare class DrawFontGraphic extends DrawMarker {
     constructor();
 }
 
@@ -1946,7 +1973,7 @@ export class DrawFontGraphic extends DrawMarker {
  * 矩形图片 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawImage extends DrawRectangle {
+declare class DrawImage extends DrawRectangle {
     constructor();
 }
 
@@ -1954,7 +1981,7 @@ export class DrawImage extends DrawRectangle {
  * 文字注记 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawLabel extends DrawMarker {
+declare class DrawLabel extends DrawMarker {
     constructor();
 }
 
@@ -1962,7 +1989,7 @@ export class DrawLabel extends DrawMarker {
  * 图标点 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawMarker extends BaseDraw {
+declare class DrawMarker extends BaseDraw {
     constructor();
 }
 
@@ -1970,7 +1997,7 @@ export class DrawMarker extends BaseDraw {
  * 像素点 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawPoint extends DrawMarker {
+declare class DrawPoint extends DrawMarker {
     constructor();
 }
 
@@ -1978,7 +2005,7 @@ export class DrawPoint extends DrawMarker {
  * 面  对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawPolygon extends DrawPolyline {
+declare class DrawPolygon extends DrawPolyline {
     constructor();
 }
 
@@ -1986,7 +2013,7 @@ export class DrawPolygon extends DrawPolyline {
  * 线 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawPolyline extends BaseDraw {
+declare class DrawPolyline extends BaseDraw {
     constructor();
 }
 
@@ -1994,7 +2021,7 @@ export class DrawPolyline extends BaseDraw {
  * 矩形 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawRectangle extends BaseSimpleShape {
+declare class DrawRectangle extends BaseSimpleShape {
     constructor();
 }
 
@@ -2002,7 +2029,7 @@ export class DrawRectangle extends BaseSimpleShape {
  * 军事标绘 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class BaseDrawPlot extends DrawPolygon {
+declare class BaseDrawPlot extends DrawPolygon {
     constructor();
 }
 
@@ -2010,7 +2037,7 @@ export class BaseDrawPlot extends DrawPolygon {
  * 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawAttackArrow extends BaseDrawPlot {
+declare class DrawAttackArrow extends BaseDrawPlot {
     constructor();
 }
 
@@ -2018,7 +2045,7 @@ export class DrawAttackArrow extends BaseDrawPlot {
  * 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawAttackArrowPW extends BaseDrawPlot {
+declare class DrawAttackArrowPW extends BaseDrawPlot {
     constructor();
 }
 
@@ -2026,7 +2053,7 @@ export class DrawAttackArrowPW extends BaseDrawPlot {
  * 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawAttackArrowYW extends BaseDrawPlot {
+declare class DrawAttackArrowYW extends BaseDrawPlot {
     constructor();
 }
 
@@ -2034,7 +2061,7 @@ export class DrawAttackArrowYW extends BaseDrawPlot {
  * 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawCloseVurve extends BaseDrawPlot {
+declare class DrawCloseVurve extends BaseDrawPlot {
     constructor();
 }
 
@@ -2042,7 +2069,7 @@ export class DrawCloseVurve extends BaseDrawPlot {
  * 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawDoubleArrow extends BaseDrawPlot {
+declare class DrawDoubleArrow extends BaseDrawPlot {
     constructor();
 }
 
@@ -2050,7 +2077,7 @@ export class DrawDoubleArrow extends BaseDrawPlot {
  * 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawFineArrow extends BaseDrawPlot {
+declare class DrawFineArrow extends BaseDrawPlot {
     constructor();
 }
 
@@ -2058,7 +2085,7 @@ export class DrawFineArrow extends BaseDrawPlot {
  * 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawFineArrowYW extends BaseDrawPlot {
+declare class DrawFineArrowYW extends BaseDrawPlot {
     constructor();
 }
 
@@ -2066,7 +2093,7 @@ export class DrawFineArrowYW extends BaseDrawPlot {
  * 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawGatheringPlace extends BaseDrawPlot {
+declare class DrawGatheringPlace extends BaseDrawPlot {
     constructor();
 }
 
@@ -2074,7 +2101,7 @@ export class DrawGatheringPlace extends BaseDrawPlot {
  * 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
-export class DrawStraightArrow extends BaseDrawPlot {
+declare class DrawStraightArrow extends BaseDrawPlot {
     constructor();
 }
 
@@ -2082,7 +2109,7 @@ export class DrawStraightArrow extends BaseDrawPlot {
  * 矢量对象 编辑处理基类，内部使用
  * @param [options.id] - 矢量数据id标识
  */
-export class BaseEditSimpleShape extends leaflet.Handler {
+declare class BaseEditSimpleShape extends L.Handler {
     constructor();
     /**
      * 开始编辑
@@ -2105,7 +2132,7 @@ export class BaseEditSimpleShape extends leaflet.Handler {
  * 圆 编辑处理类，内部使用
  * @param [options.id] - 矢量数据id标识
  */
-export class EditCircle extends EditCircleMarker {
+declare class EditCircle extends EditCircleMarker {
     constructor();
 }
 
@@ -2113,7 +2140,7 @@ export class EditCircle extends EditCircleMarker {
  * 像素圆点 编辑处理类，内部使用
  * @param [options.id] - 矢量数据id标识
  */
-export class EditCircleMarker extends BaseEditSimpleShape {
+declare class EditCircleMarker extends BaseEditSimpleShape {
     constructor();
 }
 
@@ -2121,7 +2148,7 @@ export class EditCircleMarker extends BaseEditSimpleShape {
  * 椭圆 编辑处理类，内部使用
  * @param [options.id] - 矢量数据id标识
  */
-export class EditEllipse extends EditCircleMarker {
+declare class EditEllipse extends EditCircleMarker {
     constructor();
 }
 
@@ -2129,7 +2156,7 @@ export class EditEllipse extends EditCircleMarker {
  * Maerk点 编辑处理类，内部使用
  * @param [options.id] - 矢量数据id标识
  */
-export class EditMarker extends leaflet.Handler {
+declare class EditMarker extends L.Handler {
     constructor();
     /**
      * 开始编辑
@@ -2147,7 +2174,7 @@ export class EditMarker extends leaflet.Handler {
  * 线面对象 编辑处理类，内部使用
  * @param [options.id] - 矢量数据id标识
  */
-export class EditPoly extends leaflet.Handler {
+declare class EditPoly extends L.Handler {
     constructor();
     /**
      * 开始编辑
@@ -2170,11 +2197,11 @@ export class EditPoly extends leaflet.Handler {
  * 矩形 编辑处理类，内部使用
  * @param [options.id] - 矢量数据id标识
  */
-export class EditRectangle extends BaseEditSimpleShape {
+declare class EditRectangle extends BaseEditSimpleShape {
     constructor();
 }
 
-export namespace Ellipse {
+declare namespace Ellipse {
     /**
      * 椭圆矢量对象 支持的样式信息
      * @property semiMinorAxis - 圆的短半轴半径，以米为单位。
@@ -2222,7 +2249,7 @@ export namespace Ellipse {
         smoothFactor?: number;
         noClip?: boolean;
         interactive?: boolean;
-        renderer?: leaflet.Renderer;
+        renderer?: L.Renderer;
         highlight?: Ellipse.StyleOptions;
         label?: Label.StyleOptions;
     };
@@ -2240,9 +2267,9 @@ export namespace Ellipse {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class Ellipse extends leaflet.Path {
+declare class Ellipse extends L.Path {
     constructor(options: {
-        latlng: leaflet.LatLng;
+        latlng: L.LatLng | number[];
         style?: Ellipse.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -2283,7 +2310,7 @@ export class Ellipse extends leaflet.Path {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Ellipse;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | Ellipse;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -2294,7 +2321,7 @@ export class Ellipse extends leaflet.Path {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): any | Ellipse;
+    openPopup(latlng?: L.LatLng): any | Ellipse;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -2310,19 +2337,19 @@ export class Ellipse extends leaflet.Path {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Ellipse;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | Ellipse;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Ellipse;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | Ellipse;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -2333,7 +2360,7 @@ export class Ellipse extends leaflet.Path {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | Ellipse;
+    openTooltip(latlng?: L.LatLng): any | Ellipse;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -2349,12 +2376,12 @@ export class Ellipse extends leaflet.Path {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Ellipse;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | Ellipse;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -2434,11 +2461,11 @@ export class Ellipse extends leaflet.Path {
     /**
      * 坐标位置
      */
-    latlng: leaflet.LatLng;
+    latlng: L.LatLng;
     /**
      * 坐标位置数组 , 主要为了兼容线面数据的使用（比如标绘中）
      */
-    latlngs: leaflet.LatLng[];
+    latlngs: L.LatLng[];
     /**
      * 获取或设置 经度、纬度位置坐标(数组对象)，示例 [ [123.123456,32.654321] ]
      */
@@ -2446,7 +2473,7 @@ export class Ellipse extends leaflet.Path {
     /**
      * 中心点
      */
-    readonly center: leaflet.LatLng;
+    readonly center: L.LatLng;
     /**
      * 属性信息
      */
@@ -2486,21 +2513,21 @@ export class Ellipse extends leaflet.Path {
      * 获取矩形边界
      * @returns 矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 修改椭圆中心位置
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: leaflet.LatLng): any | Ellipse;
+    setLatLng(latlng: L.LatLng): any | Ellipse;
     /**
      * 返回椭圆的中心位置
      * @returns 经纬度对象
      */
-    getLatLng(): any | leaflet.LatLng;
+    getLatLng(): any | L.LatLng;
 }
 
-export namespace FontGraphic {
+declare namespace FontGraphic {
     /**
      * font文字点 支持的样式信息
      * @property iconClass - font文字点的class名称
@@ -2540,9 +2567,9 @@ export namespace FontGraphic {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class FontGraphic extends DivGraphic {
+declare class FontGraphic extends DivGraphic {
     constructor(options: {
-        latlng: leaflet.LatLng;
+        latlng: L.LatLng | number[];
         style?: FontGraphic.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -2553,7 +2580,7 @@ export class FontGraphic extends DivGraphic {
     });
 }
 
-export namespace Image {
+declare namespace Image {
     /**
      * 图片矩形 支持的样式信息
      * @property url - 图片url地址
@@ -2585,9 +2612,9 @@ export namespace Image {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class Image extends Rectangle {
+declare class Image extends Rectangle {
     constructor(options: {
-        latlngs: leaflet.LatLng[] | leaflet.LatLngBounds;
+        latlngs: L.LatLng[] | L.LatLngBounds;
         style?: Image.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -2601,7 +2628,7 @@ export class Image extends Rectangle {
      * @param latLngBounds - 矩形边界
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latLngBounds: leaflet.LatLngBounds | leaflet.LatLng[]): any | Image;
+    setLatLngs(latLngBounds: L.LatLngBounds | L.LatLng[]): any | Image;
     /**
      * 更新不透明度
      * @param opacity - 透明度
@@ -2616,12 +2643,15 @@ export class Image extends Rectangle {
     setStyle(newStyle: any | Image.StyleOptions): any | Image;
 }
 
-export namespace Label {
+declare namespace Label {
     /**
      * 文本点 支持的样式信息
      * @property [text = "文字"] - 文本内容，换行可以用换行符'\n'。
      * @property [horizontalOrigin] - 横向方向的定位
      * @property [verticalOrigin] - 垂直方向的定位
+     * @property [offsetX] - horizontalOrigin定位基础上，横向方向偏移数值
+     * @property [offsetY] - verticalOrigin定位基础上，垂直方向偏移数值
+     * @property [iconAnchor] - 自定义图标的“指示地理位置的锚点”的坐标（相对于其左上角）。 以便图标显示准确位于标记的地理位置。 如果指定大小，则iconAnchor默认为图标中心点，也可以在带有负边距的CSS中设置。设置后horizontalOrigin、verticalOrigin即失效。
      * @property [color = "#ffffff"] - 文本颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
      * @property [font_family = "楷体"] - 字体 ,可选项：微软雅黑,宋体,楷体,隶书,黑体 等
@@ -2648,6 +2678,9 @@ export namespace Label {
         text?: string;
         horizontalOrigin?: HorizontalOrigin;
         verticalOrigin?: VerticalOrigin;
+        offsetX?: number;
+        offsetY?: number;
+        iconAnchor?: L.Point | number[];
         color?: string;
         opacity?: number;
         font_family?: string;
@@ -2684,9 +2717,9 @@ export namespace Label {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class Label extends DivGraphic {
+declare class Label extends DivGraphic {
     constructor(options: {
-        latlng: leaflet.LatLng;
+        latlng: L.LatLng | number[];
         style?: Label.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -2701,7 +2734,7 @@ export class Label extends DivGraphic {
     text: string;
 }
 
-export namespace Marker {
+declare namespace Marker {
     /**
      * 图标点Marker 支持的样式信息
      * @property image - 图片URI地址
@@ -2714,6 +2747,8 @@ export namespace Marker {
      * @property [rotationAngle = 0] - 旋转角度（度数值，0-360度），正北为0，逆时针旋转
      * @property [horizontalOrigin] - 横向方向的定位
      * @property [verticalOrigin] - 垂直方向的定位
+     * @property [offsetX] - horizontalOrigin定位基础上，横向方向偏移数值
+     * @property [offsetY] - verticalOrigin定位基础上，垂直方向偏移数值
      * @property [iconAnchor] - 自定义图标的“指示地理位置的锚点”的坐标（相对于其左上角）。 以便图标显示准确位于标记的地理位置。 如果指定大小，则iconAnchor默认为图标中心点，也可以在带有负边距的CSS中设置。设置后horizontalOrigin、verticalOrigin即失效。
      * @property [popupAnchor] - popup弹窗相对于图标的锚点“打开”的点的坐标。
      * @property [tooltipAnchor] - tooltip弹窗相对于图标的锚点“打开”的点的坐标。
@@ -2745,18 +2780,20 @@ export namespace Marker {
         opacity?: number;
         width?: number;
         height?: number;
-        iconSize?: leaflet.Point;
+        iconSize?: L.Point | number[];
         rotationAngle?: number;
         horizontalOrigin?: HorizontalOrigin;
         verticalOrigin?: VerticalOrigin;
-        iconAnchor?: leaflet.Point;
-        popupAnchor?: leaflet.Point;
-        tooltipAnchor?: leaflet.Point;
+        offsetX?: number;
+        offsetY?: number;
+        iconAnchor?: L.Point | number[];
+        popupAnchor?: L.Point | number[];
+        tooltipAnchor?: L.Point | number[];
         className?: string;
         shadowUrl?: string;
         shadowRetinaUrl?: string;
-        shadowSize?: leaflet.Point;
-        shadowAnchor?: leaflet.Point;
+        shadowSize?: L.Point | number[];
+        shadowAnchor?: L.Point | number[];
         draggable?: boolean;
         keyboard?: boolean;
         title?: string;
@@ -2829,9 +2866,9 @@ export namespace Marker {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class Marker extends leaflet.Marker {
+declare class Marker extends L.Marker {
     constructor(options: {
-        latlng: leaflet.LatLng;
+        latlng: L.LatLng | number[];
         style?: Marker.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -2844,13 +2881,13 @@ export class Marker extends leaflet.Marker {
      * 返回图标点的LatLng经纬度对象
      * @returns 经纬度对象
      */
-    getLatLng(): any | leaflet.LatLng;
+    getLatLng(): any | L.LatLng;
     /**
      * 修改位置
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: leaflet.LatLng): any | Marker;
+    setLatLng(latlng: L.LatLng): any | Marker;
     /**
      * 改变zIndex顺序
      * @param offset - zIndex顺序
@@ -2880,7 +2917,7 @@ export class Marker extends leaflet.Marker {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Marker;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | Marker;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -2891,7 +2928,7 @@ export class Marker extends leaflet.Marker {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): any | Marker;
+    openPopup(latlng?: L.LatLng): any | Marker;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -2907,19 +2944,19 @@ export class Marker extends leaflet.Marker {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Marker;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | Marker;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Marker;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | Marker;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -2930,7 +2967,7 @@ export class Marker extends leaflet.Marker {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | Marker;
+    openTooltip(latlng?: L.LatLng): any | Marker;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -2946,12 +2983,12 @@ export class Marker extends leaflet.Marker {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Marker;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | Marker;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -3031,11 +3068,11 @@ export class Marker extends leaflet.Marker {
     /**
      * 坐标位置
      */
-    latlng: leaflet.LatLng;
+    latlng: L.LatLng;
     /**
      * 坐标位置数组 , 主要为了兼容线面数据的使用（比如标绘中）
      */
-    latlngs: leaflet.LatLng[];
+    latlngs: L.LatLng[];
     /**
      * 获取或设置 经度、纬度位置坐标(数组对象)，示例 [ [123.123456,32.654321] ]
      */
@@ -3043,7 +3080,7 @@ export class Marker extends leaflet.Marker {
     /**
      * 中心点
      */
-    readonly center: leaflet.LatLng;
+    readonly center: L.LatLng;
     /**
      * 属性信息
      */
@@ -3096,7 +3133,7 @@ export class Marker extends leaflet.Marker {
  * @param [options.label] - 测量结果文本的样式
  * @param [options.id] - 矢量数据id标识
  */
-export class AreaMeasure extends Polygon {
+declare class AreaMeasure extends Polygon {
     constructor(options: {
         style: Polygon.StyleOptions;
         attr?: any;
@@ -3124,7 +3161,7 @@ export class AreaMeasure extends Polygon {
  * @param [options.label] - 测量结果文本的样式
  * @param [options.id] - 矢量数据id标识
  */
-export class DistanceMeasure extends Polyline {
+declare class DistanceMeasure extends Polyline {
     constructor(options: {
         style: Polyline.StyleOptions;
         attr?: any;
@@ -3158,9 +3195,9 @@ export class DistanceMeasure extends Polyline {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class MovingMarker extends Marker {
+declare class MovingMarker extends Marker {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         durations: number[] | number;
         style?: {
             autostart?: boolean;
@@ -3216,14 +3253,14 @@ export class MovingMarker extends Marker {
      * @param duration - 时长，单位 毫秒
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng, duration: number): any | MovingMarker;
+    addLatLng(latlng: L.LatLng, duration: number): any | MovingMarker;
     /**
      * 移动到新的位置
      * @param latlng - 坐标点
      * @param duration - 时长，单位 毫秒
      * @returns 当前对象本身，可以链式调用
      */
-    moveTo(latlng: leaflet.LatLng, duration: number): any | MovingMarker;
+    moveTo(latlng: L.LatLng, duration: number): any | MovingMarker;
 }
 
 /**
@@ -3238,9 +3275,9 @@ export class MovingMarker extends Marker {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class AttackArrow extends BasePlot {
+declare class AttackArrow extends BasePlot {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3263,9 +3300,9 @@ export class AttackArrow extends BasePlot {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class AttackArrowPW extends BasePlot {
+declare class AttackArrowPW extends BasePlot {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3288,9 +3325,9 @@ export class AttackArrowPW extends BasePlot {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class AttackArrowYW extends BasePlot {
+declare class AttackArrowYW extends BasePlot {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3313,9 +3350,9 @@ export class AttackArrowYW extends BasePlot {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class BasePlot extends Polygon {
+declare class BasePlot extends Polygon {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3329,7 +3366,7 @@ export class BasePlot extends Polygon {
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng): any | Polygon;
+    addLatLng(latlng: L.LatLng): any | Polygon;
 }
 
 /**
@@ -3344,9 +3381,9 @@ export class BasePlot extends Polygon {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class CloseVurve extends BasePlot {
+declare class CloseVurve extends BasePlot {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3369,9 +3406,9 @@ export class CloseVurve extends BasePlot {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class DoubleArrow extends BasePlot {
+declare class DoubleArrow extends BasePlot {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3394,9 +3431,9 @@ export class DoubleArrow extends BasePlot {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class FineArrow extends BasePlot {
+declare class FineArrow extends BasePlot {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3419,9 +3456,9 @@ export class FineArrow extends BasePlot {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class FineArrowYW extends BasePlot {
+declare class FineArrowYW extends BasePlot {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3444,9 +3481,9 @@ export class FineArrowYW extends BasePlot {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class GatheringPlace extends BasePlot {
+declare class GatheringPlace extends BasePlot {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3469,9 +3506,9 @@ export class GatheringPlace extends BasePlot {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class StraightArrow extends BasePlot {
+declare class StraightArrow extends BasePlot {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3482,7 +3519,7 @@ export class StraightArrow extends BasePlot {
     });
 }
 
-export namespace Point {
+declare namespace Point {
     /**
      * 像素圆点 支持的样式信息
      * @property pixelSize - 像素圆点的半径，单位为像素
@@ -3508,7 +3545,7 @@ export namespace Point {
         outlineOpacity?: number;
         outlineWidth?: number;
         interactive?: boolean;
-        renderer?: leaflet.Renderer;
+        renderer?: L.Renderer;
         highlight?: Point.StyleOptions;
         label?: Label.StyleOptions;
     };
@@ -3557,9 +3594,9 @@ export namespace Point {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class Point extends leaflet.CircleMarker {
+declare class Point extends L.CircleMarker {
     constructor(options: {
-        latlng: leaflet.LatLng;
+        latlng: L.LatLng | number[];
         style?: Point.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3583,18 +3620,18 @@ export class Point extends leaflet.CircleMarker {
      * 返回圆的LatLng经纬度对象
      * @returns 经纬度对象
      */
-    getLatLng(): any | leaflet.LatLng;
+    getLatLng(): any | L.LatLng;
     /**
      * 修改位置
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: leaflet.LatLng): any | Point;
+    setLatLng(latlng: L.LatLng): any | Point;
     /**
      * 获取线的矩形边界
      * @returns 矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
@@ -3627,7 +3664,7 @@ export class Point extends leaflet.CircleMarker {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Point;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | Point;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -3638,7 +3675,7 @@ export class Point extends leaflet.CircleMarker {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): any | Point;
+    openPopup(latlng?: L.LatLng): any | Point;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -3654,19 +3691,19 @@ export class Point extends leaflet.CircleMarker {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Point;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | Point;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Point;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | Point;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -3677,7 +3714,7 @@ export class Point extends leaflet.CircleMarker {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | Point;
+    openTooltip(latlng?: L.LatLng): any | Point;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -3693,12 +3730,12 @@ export class Point extends leaflet.CircleMarker {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Point;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | Point;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -3778,11 +3815,11 @@ export class Point extends leaflet.CircleMarker {
     /**
      * 坐标位置
      */
-    latlng: leaflet.LatLng;
+    latlng: L.LatLng;
     /**
      * 坐标位置数组 , 主要为了兼容线面数据的使用（比如标绘中）
      */
-    latlngs: leaflet.LatLng[];
+    latlngs: L.LatLng[];
     /**
      * 获取或设置 经度、纬度位置坐标(数组对象)，示例 [ [123.123456,32.654321] ]
      */
@@ -3790,7 +3827,7 @@ export class Point extends leaflet.CircleMarker {
     /**
      * 中心点
      */
-    readonly center: leaflet.LatLng;
+    readonly center: L.LatLng;
     /**
      * 属性信息
      */
@@ -3820,7 +3857,7 @@ export class Point extends leaflet.CircleMarker {
     }): any | any;
 }
 
-export namespace Polygon {
+declare namespace Polygon {
     /**
      * 面矢量对象 支持的样式信息
      * @property [fill = true] - 是否填充
@@ -3862,7 +3899,7 @@ export namespace Polygon {
         smoothFactor?: number;
         noClip?: boolean;
         interactive?: boolean;
-        renderer?: leaflet.Renderer;
+        renderer?: L.Renderer;
         highlight?: Polygon.StyleOptions;
         label?: Label.StyleOptions;
     };
@@ -3911,9 +3948,9 @@ export namespace Polygon {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class Polygon extends leaflet.Polygon {
+declare class Polygon extends L.Polygon {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[] | any;
         style?: Polygon.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -3926,24 +3963,24 @@ export class Polygon extends leaflet.Polygon {
      * 返回矢量对象的坐标点的数组，或者在多矢量对象的情况下返回嵌套的点阵列。
      * @returns 经纬度数组
      */
-    getLatLngs(): any | leaflet.LatLng[];
+    getLatLngs(): any | L.LatLng[];
     /**
      * 用给定的地理位置数组代替更新矢量对象中的所有点。
      * @param latlngs - 经纬度数组
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latlngs: leaflet.LatLng[]): any | Polygon;
+    setLatLngs(latlngs: L.LatLng[]): any | Polygon;
     /**
      * 向矢量对象添加一个给定点。
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng): any | Polygon;
+    addLatLng(latlng: L.LatLng): any | Polygon;
     /**
      * 获取线的矩形边界
      * @returns 矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
@@ -3976,7 +4013,7 @@ export class Polygon extends leaflet.Polygon {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Polygon;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | Polygon;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -3987,7 +4024,7 @@ export class Polygon extends leaflet.Polygon {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): any | Polygon;
+    openPopup(latlng?: L.LatLng): any | Polygon;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -4003,19 +4040,19 @@ export class Polygon extends leaflet.Polygon {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Polygon;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | Polygon;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Polygon;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | Polygon;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -4026,7 +4063,7 @@ export class Polygon extends leaflet.Polygon {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | Polygon;
+    openTooltip(latlng?: L.LatLng): any | Polygon;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -4042,12 +4079,12 @@ export class Polygon extends leaflet.Polygon {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Polygon;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | Polygon;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -4127,7 +4164,7 @@ export class Polygon extends leaflet.Polygon {
     /**
      * 坐标位置数组
      */
-    latlngs: leaflet.LatLng[];
+    latlngs: L.LatLng[];
     /**
      * 经纬度位置坐标(数组对象)，示例 [ [123.123456,32.654321], [111.123456,22.654321] ]
      */
@@ -4135,7 +4172,7 @@ export class Polygon extends leaflet.Polygon {
     /**
      * 中心点
      */
-    readonly center: leaflet.LatLng;
+    readonly center: L.LatLng;
     /**
      * 周长距离（单位：米）
      */
@@ -4172,10 +4209,10 @@ export class Polygon extends leaflet.Polygon {
      * @param latlng - 坐标
      * @returns 是否在面内
      */
-    isInPoly(latlng: leaflet.LatLng): any | boolean;
+    isInPoly(latlng: L.LatLng): any | boolean;
 }
 
-export namespace Polyline {
+declare namespace Polyline {
     /**
      * 线矢量对象 支持的样式信息
      * @property [color = '#3388ff'] - 颜色
@@ -4207,7 +4244,7 @@ export namespace Polyline {
         smoothFactor?: number;
         noClip?: boolean;
         interactive?: boolean;
-        renderer?: leaflet.Renderer;
+        renderer?: L.Renderer;
         highlight?: Polyline.StyleOptions;
         label?: Label.StyleOptions;
     };
@@ -4257,9 +4294,9 @@ export namespace Polyline {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class Polyline extends leaflet.Polyline {
+declare class Polyline extends L.Polyline {
     constructor(options: {
-        latlngs: leaflet.LatLng[];
+        latlngs: L.LatLng[] | any;
         style?: Polyline.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -4272,24 +4309,24 @@ export class Polyline extends leaflet.Polyline {
      * 返回折线的坐标点的数组，或者在多折线的情况下返回嵌套的点阵列。
      * @returns 经纬度数组
      */
-    getLatLngs(): any | leaflet.LatLng[];
+    getLatLngs(): any | L.LatLng[];
     /**
      * 用给定的地理位置数组代替更新折线中的所有点。
      * @param latlngs - 经纬度数组
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latlngs: leaflet.LatLng[]): any | Polyline;
+    setLatLngs(latlngs: L.LatLng[]): any | Polyline;
     /**
      * 向折线添加一个给定点。 默认情况下，在多折线的情况下，将折线的第一个线添加，但可以通过将特定的线作为LatLng数组（您可以使用之前访问getLatLngs）来覆盖。
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng): any | Polyline;
+    addLatLng(latlng: L.LatLng): any | Polyline;
     /**
      * 获取线的矩形边界
      * @returns 矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
@@ -4322,7 +4359,7 @@ export class Polyline extends leaflet.Polyline {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Polyline;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | Polyline;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -4333,7 +4370,7 @@ export class Polyline extends leaflet.Polyline {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): any | Polyline;
+    openPopup(latlng?: L.LatLng): any | Polyline;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -4349,19 +4386,19 @@ export class Polyline extends leaflet.Polyline {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Polyline;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | Polyline;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Polyline;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | Polyline;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -4372,7 +4409,7 @@ export class Polyline extends leaflet.Polyline {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | Polyline;
+    openTooltip(latlng?: L.LatLng): any | Polyline;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -4388,12 +4425,12 @@ export class Polyline extends leaflet.Polyline {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Polyline;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | Polyline;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -4473,7 +4510,7 @@ export class Polyline extends leaflet.Polyline {
     /**
      * 坐标位置数组
      */
-    latlngs: leaflet.LatLng[];
+    latlngs: L.LatLng[];
     /**
      * 经纬度位置坐标(数组对象)，示例 [ [123.123456,32.654321], [111.123456,22.654321] ]
      */
@@ -4481,7 +4518,7 @@ export class Polyline extends leaflet.Polyline {
     /**
      * 中心点
      */
-    readonly center: leaflet.LatLng;
+    readonly center: L.LatLng;
     /**
      * 距离（单位：米）
      */
@@ -4521,7 +4558,7 @@ export class Polyline extends leaflet.Polyline {
     setOffset(offset: number): any | Polyline;
 }
 
-export namespace Rectangle {
+declare namespace Rectangle {
     /**
      * 矩形矢量对象 支持的样式信息
      * @property [fill = true] - 是否填充
@@ -4563,7 +4600,7 @@ export namespace Rectangle {
         smoothFactor?: number;
         noClip?: boolean;
         interactive?: boolean;
-        renderer?: leaflet.Renderer;
+        renderer?: L.Renderer;
         highlight?: Rectangle.StyleOptions;
         label?: Label.StyleOptions;
     };
@@ -4612,9 +4649,9 @@ export namespace Rectangle {
  * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
  * @param [options.id] - 矢量数据id标识
  */
-export class Rectangle extends leaflet.Rectangle {
+declare class Rectangle extends L.Rectangle {
     constructor(options: {
-        latlngs: leaflet.LatLng[] | leaflet.LatLngBounds;
+        latlngs: L.LatLng[] | L.LatLngBounds;
         style?: Rectangle.StyleOptions;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
@@ -4628,29 +4665,29 @@ export class Rectangle extends leaflet.Rectangle {
      * @param latLngBounds - 边界
      * @returns 当前对象本身，可以链式调用
      */
-    setBounds(latLngBounds: leaflet.LatLngBounds): any | Rectangle;
+    setBounds(latLngBounds: L.LatLngBounds): any | Rectangle;
     /**
      * 返回矢量对象的坐标点的数组，或者在多矢量对象的情况下返回嵌套的点阵列。
      * @returns 经纬度数组
      */
-    getLatLngs(): any | leaflet.LatLng[];
+    getLatLngs(): any | L.LatLng[];
     /**
      * 用给定的地理位置数组代替更新矢量对象中的所有点。
      * @param latlngs - 经纬度数组
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latlngs: leaflet.LatLng[]): any | Rectangle;
+    setLatLngs(latlngs: L.LatLng[]): any | Rectangle;
     /**
      * 向矢量对象添加一个给定点。
      * @param latlng - 经纬度对象
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng): any | Rectangle;
+    addLatLng(latlng: L.LatLng): any | Rectangle;
     /**
      * 获取线的矩形边界
      * @returns 矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
@@ -4683,7 +4720,7 @@ export class Rectangle extends leaflet.Rectangle {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | Rectangle;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | Rectangle;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -4694,7 +4731,7 @@ export class Rectangle extends leaflet.Rectangle {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): any | Rectangle;
+    openPopup(latlng?: L.LatLng): any | Rectangle;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -4710,19 +4747,19 @@ export class Rectangle extends leaflet.Rectangle {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | Rectangle;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | Rectangle;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | Rectangle;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | Rectangle;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -4733,7 +4770,7 @@ export class Rectangle extends leaflet.Rectangle {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | Rectangle;
+    openTooltip(latlng?: L.LatLng): any | Rectangle;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -4749,12 +4786,12 @@ export class Rectangle extends leaflet.Rectangle {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | Rectangle;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | Rectangle;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -4834,11 +4871,11 @@ export class Rectangle extends leaflet.Rectangle {
     /**
      * 坐标位置数组
      */
-    latlngs: leaflet.LatLng[];
+    latlngs: L.LatLng[];
     /**
      * 矩形的边线坐标集合
      */
-    readonly outlineLatlngs: leaflet.LatLng[];
+    readonly outlineLatlngs: L.LatLng[];
     /**
      * 经纬度位置坐标(数组对象)，示例 [ [123.123456,32.654321], [111.123456,22.654321] ]
      */
@@ -4846,7 +4883,7 @@ export class Rectangle extends leaflet.Rectangle {
     /**
      * 中心点
      */
-    readonly center: leaflet.LatLng;
+    readonly center: L.LatLng;
     /**
      * 周长距离（单位：米）
      */
@@ -4883,7 +4920,7 @@ export class Rectangle extends leaflet.Rectangle {
      * @param latlng - 坐标
      * @returns 是否在矩形内
      */
-    isInPoly(latlng: leaflet.LatLng): any | boolean;
+    isInPoly(latlng: L.LatLng): any | boolean;
 }
 
 /**
@@ -4894,7 +4931,7 @@ export class Rectangle extends leaflet.Rectangle {
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class CanvasMarkerLayer extends leaflet.Layer {
+declare class CanvasMarkerLayer extends L.Layer {
     constructor(options: {
         id?: string | number;
         pid?: string | number;
@@ -4970,13 +5007,13 @@ export class CanvasMarkerLayer extends leaflet.Layer {
     addOnHoverListener(listener: (...params: any[]) => any): any | CanvasMarkerLayer;
 }
 
-export namespace ClusterLayer {
+declare namespace ClusterLayer {
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
      * @example
      * //绑定监听事件
      * markers.on('clusterclick', function (a) {
-     * 	a.layer.zoomToBounds({padding: [20, 20]});
+     *  a.layer.zoomToBounds({padding: [20, 20]});
      * });
      * @property clusterclick - 单击聚合点
      * @property clustermouseover - 鼠标移入聚合点
@@ -5007,18 +5044,19 @@ export namespace ClusterLayer {
  * @param [options.removeOutsideVisibleBounds = true] - 当离开视图太远的集群和标记，是否将其从地图中移除以获得性能。
  * @param [options.spiderfyOnMaxZoom = true] - 当在最底层级别时，点击一个集群时，如果他们重叠着，我们是否可以通过spiderLeg连接线散开方式看到它的所有标记。
  * @param [options.spiderfyDistanceMultiplier = 1] - 从1增加增加距离中心的距离，spiderfied marker被放置。如果您使用大标记图标，则使用
- * @param [options.animate = true] - 在缩放时是否有平滑分割/合并群集子项的动画。如果leaflet.DomUtil.TRANSITION为false，则此选项不起作用（不可能有动画）
+ * @param [options.animate = true] - 在缩放时是否有平滑分割/合并群集子项的动画。如果L.DomUtil.TRANSITION为false，则此选项不起作用（不可能有动画）
  * @param [options.chunkedLoading = false] - 在执行addLayer方法时，将处理分成很小的时间间隔，这样页面就不会冻结。
  * @param [options.chunkInterval = 200] - 在执行addLayer方法时， 暂停之前让页面的其他部分处理的时间间隔（以毫秒为单位）。 特别是，这样可以防止页面在添加大量标记时被冻结。
  * @param [options.chunkDelay = 50] - 在执行addLayer方法时， 连续处理周期之间的时间延迟（以毫秒为单位）
  * @param [options.chunkProgress = true] - 在每个chunkInterval结尾调用的回调函数。通常用于实现进度指示器。
- * @param [options.iconCreateFunction = true] - 自定义创建集群图标的功能
+ * @param [options.iconCreateFunction] - 自定义创建集群图标的功能
+ * @param [options.disableClusteringAtZoom] - 如果设置，在此缩放级别及以下，标记将不会聚集,注意：在使用disableClusteringAtZoom时，您可能有兴趣禁用spiderfyOnMaxZoom选项。
  * @param [options.id = uuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class ClusterLayer extends leaflet.Layer {
+declare class ClusterLayer extends L.Layer {
     constructor(options: {
         zoomToBoundsOnClick?: boolean;
         showCoverageOnHover?: boolean;
@@ -5033,8 +5071,9 @@ export class ClusterLayer extends leaflet.Layer {
         chunkedLoading?: boolean;
         chunkInterval?: number;
         chunkDelay?: number;
-        chunkProgress?: (...params: any[]) => any;
+        chunkProgress?: boolean;
         iconCreateFunction?: (...params: any[]) => any;
+        disableClusteringAtZoom?: number;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -5081,7 +5120,7 @@ export class ClusterLayer extends leaflet.Layer {
      * 获取图层矩形边界
      * @returns 矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 将图层内的矢量数据转为GeoJSON格式对象
      * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。
@@ -5110,7 +5149,7 @@ export class ClusterLayer extends leaflet.Layer {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | ClusterLayer;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | ClusterLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -5121,7 +5160,7 @@ export class ClusterLayer extends leaflet.Layer {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): any | ClusterLayer;
+    openPopup(latlng?: L.LatLng): any | ClusterLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -5137,19 +5176,19 @@ export class ClusterLayer extends leaflet.Layer {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | ClusterLayer;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | ClusterLayer;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | ClusterLayer;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | ClusterLayer;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -5160,7 +5199,7 @@ export class ClusterLayer extends leaflet.Layer {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | ClusterLayer;
+    openTooltip(latlng?: L.LatLng): any | ClusterLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -5176,12 +5215,12 @@ export class ClusterLayer extends leaflet.Layer {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | ClusterLayer;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | ClusterLayer;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -5314,9 +5353,9 @@ export class ClusterLayer extends leaflet.Layer {
      * @returns 当前对象本身，可以链式调用
      */
     flyTo(options?: {
-        paddingTopLeft?: leaflet.Point | number[];
-        paddingBottomRight?: leaflet.Point | number[];
-        padding?: leaflet.Point | number[];
+        paddingTopLeft?: L.Point | number[];
+        paddingBottomRight?: L.Point | number[];
+        padding?: L.Point | number[];
         maxZoom?: number;
         animate?: boolean;
         duration?: number;
@@ -5336,7 +5375,7 @@ export class ClusterLayer extends leaflet.Layer {
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class DayNightLayer extends leaflet.Polygon {
+declare class DayNightLayer extends L.Polygon {
     constructor(options: {
         time?: Date;
         fillColor?: string;
@@ -5374,7 +5413,7 @@ export class DayNightLayer extends leaflet.Polygon {
     setTime(date: Date): any | DayNightLayer;
 }
 
-export namespace GeoJsonLayer {
+declare namespace GeoJsonLayer {
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
      * @example
@@ -5438,9 +5477,10 @@ export namespace GeoJsonLayer {
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
+ * @param [options.zIndex] - 瓦片层的显式zIndex
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class GeoJsonLayer extends GraphicLayer {
+declare class GeoJsonLayer extends GraphicLayer {
     constructor(options: {
         url?: string;
         data?: any;
@@ -5475,6 +5515,7 @@ export class GeoJsonLayer extends GraphicLayer {
         pid?: string | number;
         name?: string;
         show?: boolean;
+        zIndex?: number;
         pane?: string;
     });
     /**
@@ -5515,7 +5556,7 @@ export class GeoJsonLayer extends GraphicLayer {
     unbindContextMenu(): any | Map;
 }
 
-export namespace GraphicLayer {
+declare namespace GraphicLayer {
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
      * @example
@@ -5605,9 +5646,10 @@ export namespace GraphicLayer {
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
+ * @param [options.zIndex] - 瓦片层的显式zIndex
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class GraphicLayer extends leaflet.FeatureGroup {
+declare class GraphicLayer extends L.FeatureGroup {
     constructor(options?: {
         hasEdit?: boolean;
         isAutoEditing?: boolean;
@@ -5636,6 +5678,7 @@ export class GraphicLayer extends leaflet.FeatureGroup {
         pid?: string | number;
         name?: string;
         show?: boolean;
+        zIndex?: number;
         pane?: string;
     });
     /**
@@ -5652,7 +5695,7 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * 获取图层矩形边界
      * @returns 矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 将图层内的矢量数据转为GeoJSON格式对象
      * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。
@@ -5681,7 +5724,7 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | GraphicLayer;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | GraphicLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -5702,19 +5745,19 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | GraphicLayer;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | GraphicLayer;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | GraphicLayer;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | GraphicLayer;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -5725,7 +5768,7 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | GraphicLayer;
+    openTooltip(latlng?: L.LatLng): any | GraphicLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -5741,12 +5784,12 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | GraphicLayer;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | GraphicLayer;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -5858,19 +5901,23 @@ export class GraphicLayer extends leaflet.FeatureGroup {
     /**
      * 当前图层内的矢量数据数组
      */
-    readonly graphics: leaflet.Layer[];
+    readonly graphics: L.Layer[];
+    /**
+     * 图层顺序，数字大的在上面。
+     */
+    zIndex: number;
     /**
      * 添加Graphic矢量数据
      * @param graphic - 待添加的矢量数据 或 矢量数据构造参数
      * @returns 矢量数据
      */
-    addGraphic(graphic: leaflet.Layer | any | leaflet.Layer[]): any | leaflet.Layer | leaflet.Layer[];
+    addGraphic(graphic: L.Layer | any | L.Layer[]): any | L.Layer | L.Layer[];
     /**
      * 移除Graphic矢量数据
      * @param graphic - 矢量数据
      * @returns 当前对象本身，可以链式调用
      */
-    removeGraphic(graphic: leaflet.Layer): any | GraphicLayer;
+    removeGraphic(graphic: L.Layer): any | GraphicLayer;
     /**
      * 是否包含Graphic矢量数据
      * @param graphic - 矢量数据
@@ -5888,13 +5935,13 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * 获取图层内 所有矢量数据
      * @returns 矢量数据数组
      */
-    getGraphics(): any | leaflet.Layer[];
+    getGraphics(): any | L.Layer[];
     /**
      * 根据id或uuid取矢量数据对象
      * @param id - 矢量数据id或uuid
      * @returns 矢量数据对象
      */
-    getGraphicById(id: number | string): any | leaflet.Layer;
+    getGraphicById(id: number | string): any | L.Layer;
     /**
      * 清除图层内所有矢量数据
      * @returns 无
@@ -5945,7 +5992,7 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * @param [latlng] - 指定弹出的位置
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(graphic: Marker | Polyline | Polygon | any, latlng?: leaflet.LatLng): any | GraphicLayer;
+    openPopup(graphic: Marker | Polyline | Polygon | any, latlng?: L.LatLng): any | GraphicLayer;
     /**
      * 执行平滑的飞行动画，移动缩放地图范围至指定的数据范围
      * @param [options] - 定位参数，包括:
@@ -5960,9 +6007,9 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * @returns 当前对象本身，可以链式调用
      */
     flyTo(options?: {
-        paddingTopLeft?: leaflet.Point | number[];
-        paddingBottomRight?: leaflet.Point | number[];
-        padding?: leaflet.Point | number[];
+        paddingTopLeft?: L.Point | number[];
+        paddingBottomRight?: L.Point | number[];
+        padding?: L.Point | number[];
         maxZoom?: number;
         animate?: boolean;
         duration?: number;
@@ -5974,14 +6021,16 @@ export class GraphicLayer extends leaflet.FeatureGroup {
      * @param options - Graphic构造参数,包含：
      * @param options.type - 类型
      * @param [options.style] - 按type支持 {@link GraphicType} 类的构造方法参数
+     * @param [options.attr] - 附带的属性信息
      * @param [options.success] - 绘制创建完成的回调方法，同drawCreated事件，例如： success: function (graphic){  }
      * @returns 创建完成的矢量数据对象
      */
     startDraw(options: {
         type: GraphicType | string;
         style?: any;
+        attr?: any;
         success?: (...params: any[]) => any;
-    }): any | leaflet.Layer;
+    }): any | L.Layer;
     /**
      * 停止绘制，如有未完成的绘制会自动删除
      * @returns 当前对象本身,可以链式调用
@@ -6046,7 +6095,7 @@ export class GraphicLayer extends leaflet.FeatureGroup {
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class GraticuleLayer extends leaflet.Layer {
+declare class GraticuleLayer extends L.Layer {
     constructor(options: {
         show?: boolean;
         color?: string;
@@ -6128,8 +6177,8 @@ export class GraticuleLayer extends leaflet.Layer {
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class HeatLayer extends leaflet.Layer {
-    constructor(latlngs?: leaflet.LatLng[] | any, options?: {
+declare class HeatLayer extends L.Layer {
+    constructor(latlngs?: L.LatLng[] | any, options?: {
         minOpacity?: number;
         maxZoom?: number;
         max?: number;
@@ -6166,13 +6215,13 @@ export class HeatLayer extends leaflet.Layer {
      * @param latlngs - 坐标数组
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latlngs: leaflet.LatLng[]): any | HeatLayer;
+    setLatLngs(latlngs: L.LatLng[]): any | HeatLayer;
     /**
      * 添加新的坐标点
      * @param latlng - 坐标
      * @returns 当前对象本身，可以链式调用
      */
-    addLatLng(latlng: leaflet.LatLng): any | HeatLayer;
+    addLatLng(latlng: L.LatLng): any | HeatLayer;
     /**
      * 设置新的配置信息
      * @param options - 同当前类构造参数
@@ -6199,7 +6248,7 @@ export class HeatLayer extends leaflet.Layer {
  * they are.
  * @param options - 参数对象
  */
-export class VectorGrid extends leaflet.GridLayer {
+declare class VectorGrid extends L.GridLayer {
     constructor(options: any);
 }
 
@@ -6219,7 +6268,7 @@ export class VectorGrid extends leaflet.GridLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class PbfLayer extends VectorGrid {
+declare class PbfLayer extends VectorGrid {
     constructor(options: {
         url: string;
         subdomains?: string | string[];
@@ -6277,7 +6326,7 @@ export class PbfLayer extends VectorGrid {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class VirtualGrid extends leaflet.Layer {
+declare class VirtualGrid extends L.Layer {
     constructor(options: {
         rectangle?: {
             xmin: number;
@@ -6286,7 +6335,7 @@ export class VirtualGrid extends leaflet.Layer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         cellSize?: number;
         id?: string | number;
         pid?: string | number;
@@ -6368,7 +6417,7 @@ export class VirtualGrid extends leaflet.Layer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class WfsLayer extends VirtualGrid {
+declare class WfsLayer extends VirtualGrid {
     constructor(options: {
         url: string;
         subdomains?: string | string[];
@@ -6384,7 +6433,7 @@ export class WfsLayer extends VirtualGrid {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         cellSize?: number;
         maxFeatures?: number;
         symbol?: {
@@ -6436,7 +6485,7 @@ export class WfsLayer extends VirtualGrid {
      * @param id - 矢量数据id或uuid
      * @returns 矢量数据对象
      */
-    getGraphicById(id: number): any | leaflet.Layer;
+    getGraphicById(id: number): any | L.Layer;
     /**
      * 将图层置于所有图层之下
      * @returns 当前对象本身,可以链式调用
@@ -6449,7 +6498,7 @@ export class WfsLayer extends VirtualGrid {
     bringToFront(): any | WfsLayer;
 }
 
-export namespace GroupLayer {
+declare namespace GroupLayer {
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
      * @example
@@ -6483,9 +6532,9 @@ export namespace GroupLayer {
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class GroupLayer extends leaflet.LayerGroup {
+declare class GroupLayer extends L.LayerGroup {
     constructor(options?: {
-        layers?: leaflet.Layer | any;
+        layers?: L.Layer | any;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -6518,18 +6567,18 @@ export class GroupLayer extends leaflet.LayerGroup {
      * @param id - 图层id
      * @returns 图层
      */
-    getLayer(id: number): any | leaflet.Layer;
+    getLayer(id: number): any | L.Layer;
     /**
      * 获取图层的id
      * @param layer - 图层
      * @returns 图层的id
      */
-    getLayerId(layer: leaflet.Layer): any | number;
+    getLayerId(layer: L.Layer): any | number;
     /**
      * 返回添加到组中的所有图层的数组
      * @returns 图层数组
      */
-    getLayers(): any | leaflet.Layer[];
+    getLayers(): any | L.Layer[];
     /**
      * 调用setZIndex此组中包含的每个图层，传递z-index。
      * @param zIndex - 图层顺序值
@@ -6553,7 +6602,7 @@ export class GroupLayer extends leaflet.LayerGroup {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | GroupLayer;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | GroupLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -6564,7 +6613,7 @@ export class GroupLayer extends leaflet.LayerGroup {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): any | GroupLayer;
+    openPopup(latlng?: L.LatLng): any | GroupLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -6580,12 +6629,12 @@ export class GroupLayer extends leaflet.LayerGroup {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | GroupLayer;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | GroupLayer;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -6608,7 +6657,7 @@ export class GroupLayer extends leaflet.LayerGroup {
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | GroupLayer;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | GroupLayer;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -6619,7 +6668,7 @@ export class GroupLayer extends leaflet.LayerGroup {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | GroupLayer;
+    openTooltip(latlng?: L.LatLng): any | GroupLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -6635,12 +6684,12 @@ export class GroupLayer extends leaflet.LayerGroup {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | GroupLayer;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | GroupLayer;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -6746,13 +6795,13 @@ export class GroupLayer extends leaflet.LayerGroup {
      * @param childlayer - 添加的子图层
      * @returns 当前对象本身，可以链式调用
      */
-    addLayer(childlayer: leaflet.Layer): any | GroupLayer;
+    addLayer(childlayer: L.Layer): any | GroupLayer;
     /**
      * 移除图层
      * @param childlayer - 移除的子图层 或 图层ID
      * @returns 当前对象本身，可以链式调用
      */
-    removeLayer(childlayer: leaflet.Layer | number): any | GroupLayer;
+    removeLayer(childlayer: L.Layer | number): any | GroupLayer;
     /**
      * 定位地图至当前图层数据区域
      * @param [options] - 定位参数，包括:
@@ -6767,9 +6816,9 @@ export class GroupLayer extends leaflet.LayerGroup {
      * @returns 当前对象本身，可以链式调用
      */
     flyTo(options?: {
-        paddingTopLeft?: leaflet.Point | number[];
-        paddingBottomRight?: leaflet.Point | number[];
-        padding?: leaflet.Point | number[];
+        paddingTopLeft?: L.Point | number[];
+        paddingBottomRight?: L.Point | number[];
+        padding?: L.Point | number[];
         maxZoom?: number;
         animate?: boolean;
         duration?: number;
@@ -6808,7 +6857,7 @@ export class GroupLayer extends leaflet.LayerGroup {
  * @param [options.zoomReverse = false] - 如果设置为true，则URL网址中使用的缩放z数字将被颠倒（maxZoom - zoom而不是zoom）
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -6823,7 +6872,7 @@ export class GroupLayer extends leaflet.LayerGroup {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class ArcGisCacheLayer extends TileLayer {
+declare class ArcGisCacheLayer extends TileLayer {
     constructor(options: {
         url: string;
         upperCase?: boolean;
@@ -6841,13 +6890,13 @@ export class ArcGisCacheLayer extends TileLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -6894,7 +6943,7 @@ export class ArcGisCacheLayer extends TileLayer {
  * @param [options.zoomReverse = false] - 如果设置为true，则URL网址中使用的缩放z数字将被颠倒（maxZoom - zoom而不是zoom）
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -6908,7 +6957,7 @@ export class ArcGisCacheLayer extends TileLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class ArcGisCompactLayer extends TileLayer {
+declare class ArcGisCompactLayer extends TileLayer {
     constructor(options: {
         url: string;
         upperCase?: boolean;
@@ -6926,13 +6975,13 @@ export class ArcGisCompactLayer extends TileLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -6971,7 +7020,7 @@ export class ArcGisCompactLayer extends TileLayer {
  * @param [options.zoomReverse = false] - 如果设置为true，则URL网址中使用的缩放z数字将被颠倒（maxZoom - zoom而不是zoom）
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -6986,7 +7035,7 @@ export class ArcGisCompactLayer extends TileLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class ArcGisLayer extends TileLayer {
+declare class ArcGisLayer extends TileLayer {
     constructor(options: {
         url: string;
         subdomains?: string | string[];
@@ -7003,13 +7052,13 @@ export class ArcGisLayer extends TileLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -7062,7 +7111,7 @@ export class ArcGisLayer extends TileLayer {
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -7076,7 +7125,7 @@ export class ArcGisLayer extends TileLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class BaiduLayer extends TileLayer {
+declare class BaiduLayer extends TileLayer {
     constructor(options: {
         layer?: string;
         url?: string;
@@ -7096,7 +7145,7 @@ export class BaiduLayer extends TileLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
@@ -7104,7 +7153,7 @@ export class BaiduLayer extends TileLayer {
         yOffset?: number;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -7153,7 +7202,7 @@ export class BaiduLayer extends TileLayer {
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -7167,7 +7216,7 @@ export class BaiduLayer extends TileLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class GaodeLayer extends TileLayer {
+declare class GaodeLayer extends TileLayer {
     constructor(options: {
         layer?: string;
         url?: string;
@@ -7186,7 +7235,7 @@ export class GaodeLayer extends TileLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
@@ -7194,7 +7243,7 @@ export class GaodeLayer extends TileLayer {
         yOffset?: number;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -7242,7 +7291,7 @@ export class GaodeLayer extends TileLayer {
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -7257,7 +7306,7 @@ export class GaodeLayer extends TileLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class GoogleLayer extends TileLayer {
+declare class GoogleLayer extends TileLayer {
     constructor(options: {
         layer?: string;
         url?: string;
@@ -7275,7 +7324,7 @@ export class GoogleLayer extends TileLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
@@ -7283,7 +7332,7 @@ export class GoogleLayer extends TileLayer {
         yOffset?: number;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -7300,7 +7349,7 @@ export class GoogleLayer extends TileLayer {
     });
 }
 
-export namespace ImageLayer {
+declare namespace ImageLayer {
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
      * @example
@@ -7356,7 +7405,7 @@ export namespace ImageLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class ImageLayer extends leaflet.ImageOverlay {
+declare class ImageLayer extends L.ImageOverlay {
     constructor(options: {
         url: string;
         subdomains?: string | string[];
@@ -7367,7 +7416,7 @@ export class ImageLayer extends leaflet.ImageOverlay {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         opacity?: number;
         interactive?: boolean;
         crossOrigin?: boolean;
@@ -7398,12 +7447,12 @@ export class ImageLayer extends leaflet.ImageOverlay {
      * @param bounds - 矩形边界
      * @returns 当前对象本身,可以链式调用
      */
-    setBounds(bounds: leaflet.LatLngBounds): any | ImageLayer;
+    setBounds(bounds: L.LatLngBounds): any | ImageLayer;
     /**
      * 获取图层矩形边界
      * @returns 矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
@@ -7421,7 +7470,7 @@ export class ImageLayer extends leaflet.ImageOverlay {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Popup, options?: Map.PopupOptions | any): any | ImageLayer;
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | ImageLayer;
     /**
      * 解除绑定Popup弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -7432,7 +7481,7 @@ export class ImageLayer extends leaflet.ImageOverlay {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(latlng?: leaflet.LatLng): any | ImageLayer;
+    openPopup(latlng?: L.LatLng): any | ImageLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -7448,19 +7497,19 @@ export class ImageLayer extends leaflet.ImageOverlay {
      * @param content - Popup弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setPopupContent(content: string | HTMLElement | leaflet.Popup): any | ImageLayer;
+    setPopupContent(content: string | HTMLElement | L.Popup): any | ImageLayer;
     /**
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定Tooltip弹窗配置
      * @param content - Tooltip弹窗内容
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | leaflet.Tooltip, options?: Map.TooltipOptions | any): any | ImageLayer;
+    bindTooltip(content: string | HTMLElement | ((...params: any[]) => any) | L.Tooltip, options?: Map.TooltipOptions | any): any | ImageLayer;
     /**
      * 解除绑定Tooltip弹窗配置
      * @returns 当前对象本身，可以链式调用
@@ -7471,7 +7520,7 @@ export class ImageLayer extends leaflet.ImageOverlay {
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(latlng?: leaflet.LatLng): any | ImageLayer;
+    openTooltip(latlng?: L.LatLng): any | ImageLayer;
     /**
      * 关闭打开的弹窗
      * @returns 当前对象本身，可以链式调用
@@ -7487,12 +7536,12 @@ export class ImageLayer extends leaflet.ImageOverlay {
      * @param content - Tooltip弹窗内容
      * @returns 当前对象本身，可以链式调用
      */
-    setTooltipContent(content: string | HTMLElement | leaflet.Tooltip): any | ImageLayer;
+    setTooltipContent(content: string | HTMLElement | L.Tooltip): any | ImageLayer;
     /**
      * 获取当前绑定在图层上的Tooltip弹窗对象
      * @returns Tooltip弹窗对象
      */
-    getTooltip(): any | leaflet.Tooltip;
+    getTooltip(): any | L.Tooltip;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -7613,13 +7662,13 @@ export class ImageLayer extends leaflet.ImageOverlay {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class ImageRotatedLayer extends ImageLayer {
+declare class ImageRotatedLayer extends ImageLayer {
     constructor(options: {
         url: string;
         subdomains?: string | string[];
-        topleft?: leaflet.LatLng;
-        topright?: leaflet.LatLng;
-        bottomleft?: leaflet.LatLng;
+        topleft?: L.LatLng;
+        topright?: L.LatLng;
+        bottomleft?: L.LatLng;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -7657,7 +7706,7 @@ export class ImageRotatedLayer extends ImageLayer {
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -7672,7 +7721,7 @@ export class ImageRotatedLayer extends ImageLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class MapboxLayer extends TileLayer {
+declare class MapboxLayer extends TileLayer {
     constructor(options: {
         url?: string;
         username?: string;
@@ -7693,7 +7742,7 @@ export class MapboxLayer extends TileLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
@@ -7701,7 +7750,7 @@ export class MapboxLayer extends TileLayer {
         yOffset?: number;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -7743,7 +7792,7 @@ export class MapboxLayer extends TileLayer {
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -7758,7 +7807,7 @@ export class MapboxLayer extends TileLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class OsmLayer extends TileLayer {
+declare class OsmLayer extends TileLayer {
     constructor(options: {
         url?: string;
         subdomains?: string | string[];
@@ -7775,7 +7824,7 @@ export class OsmLayer extends TileLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
@@ -7783,7 +7832,7 @@ export class OsmLayer extends TileLayer {
         yOffset?: number;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -7835,7 +7884,7 @@ export class OsmLayer extends TileLayer {
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -7850,7 +7899,7 @@ export class OsmLayer extends TileLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class TdtLayer extends WmtsLayer {
+declare class TdtLayer extends WmtsLayer {
     constructor(options: {
         layer?: string;
         key?: string[];
@@ -7867,7 +7916,7 @@ export class TdtLayer extends WmtsLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
@@ -7875,7 +7924,7 @@ export class TdtLayer extends WmtsLayer {
         yOffset?: number;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -7925,7 +7974,7 @@ export class TdtLayer extends WmtsLayer {
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -7940,7 +7989,7 @@ export class TdtLayer extends WmtsLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class TencentLayer extends TileLayer {
+declare class TencentLayer extends TileLayer {
     constructor(options: {
         layer?: string;
         style?: string;
@@ -7959,7 +8008,7 @@ export class TencentLayer extends TileLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
@@ -7967,7 +8016,7 @@ export class TencentLayer extends TileLayer {
         yOffset?: number;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -7984,7 +8033,7 @@ export class TencentLayer extends TileLayer {
     });
 }
 
-export namespace TileLayer {
+declare namespace TileLayer {
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
      * @example
@@ -8053,7 +8102,7 @@ export namespace TileLayer {
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -8068,7 +8117,7 @@ export namespace TileLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class TileLayer extends leaflet.TileLayer {
+declare class TileLayer extends L.TileLayer {
     constructor(options: {
         url: string;
         subdomains?: string | string[];
@@ -8085,7 +8134,7 @@ export class TileLayer extends leaflet.TileLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
@@ -8093,7 +8142,7 @@ export class TileLayer extends leaflet.TileLayer {
         yOffset?: number;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -8129,12 +8178,12 @@ export class TileLayer extends leaflet.TileLayer {
      * @param bounds - 矩形边界
      * @returns 当前对象本身,可以链式调用
      */
-    setBounds(bounds: leaflet.LatLngBounds): any | TileLayer;
+    setBounds(bounds: L.LatLngBounds): any | TileLayer;
     /**
      * 获取图层矩形边界
      * @returns 矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
@@ -8241,7 +8290,7 @@ export class TileLayer extends leaflet.TileLayer {
     /**
      * 图层矩形边界
      */
-    bounds: leaflet.LatLngBounds;
+    bounds: L.LatLngBounds;
     /**
      * 透明度
      */
@@ -8299,7 +8348,7 @@ export class TileLayer extends leaflet.TileLayer {
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -8314,7 +8363,7 @@ export class TileLayer extends leaflet.TileLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class WmsLayer extends leaflet.TileLayer.WMS {
+declare class WmsLayer extends L.TileLayer.WMS {
     constructor(options: {
         url: string;
         subdomains?: string | string[];
@@ -8324,7 +8373,7 @@ export class WmsLayer extends leaflet.TileLayer.WMS {
         transparent?: boolean;
         uppercase?: boolean;
         version?: string;
-        crs?: leaflet.CRS;
+        crs?: L.CRS;
         interactive?: boolean;
         opacity?: number;
         minZoom?: number;
@@ -8339,7 +8388,7 @@ export class WmsLayer extends leaflet.TileLayer.WMS {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
@@ -8347,7 +8396,7 @@ export class WmsLayer extends leaflet.TileLayer.WMS {
         yOffset?: number;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -8390,12 +8439,12 @@ export class WmsLayer extends leaflet.TileLayer.WMS {
      * @param bounds - 矩形边界
      * @returns 当前对象本身,可以链式调用
      */
-    setBounds(bounds: leaflet.LatLngBounds): any | WmsLayer;
+    setBounds(bounds: L.LatLngBounds): any | WmsLayer;
     /**
      * 获取图层矩形边界
      * @returns 矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
@@ -8421,7 +8470,7 @@ export class WmsLayer extends leaflet.TileLayer.WMS {
      * 获取当前绑定在图层上的Popup弹窗对象
      * @returns Popup弹窗对象
      */
-    getPopup(): any | leaflet.Popup;
+    getPopup(): any | L.Popup;
     /**
      * 绑定指定类型事件监听器
      * @param type - 事件类型，当是Object时可以添加一组类型/侦听器对，例如 {click: onClick, mousemove: onMouseMove}
@@ -8530,10 +8579,10 @@ export class WmsLayer extends leaflet.TileLayer.WMS {
  * @param options.url - WMTS GetTile操作(用于kvp编码的请求)或tile-URL模板(用于RESTful请求)的基本URL。tile-URL模板应该包含以下变量:&#123;style&#125;, &#123;TileMatrixSet&#125;, &#123;TileMatrix&#125;, &#123;TileRow&#125;, &#123;TileCol&#125; 前两个是可选的，如果实际值是硬编码的或者服务器不需要。 &#123;s&#125;关键字可用于指定子域。
  * @param [options.subdomains] - URL模板中用于 {s} 占位符的子域。 如果此参数是单个字符串，则字符串中的每个字符都是一个子域。如果是 一个数组，数组中的每个元素都是一个子域。
  * @param options.layer - WMTS请求的层名。
- * @param [options.style = 'default'] - WMTS请求的样式名称。
- * @param options.tileMatrixSetID - 用于WMTS请求的TileMatrixSet的标识符。
- * @param [options.tileMatrixLabels] - 瓦片矩阵中用于WMTS请求的标识符列表，对应tilematrix参数，每个瓦片矩阵级别一个。
- * @param [options.tilematrixBefore] - 当tileMatrixLabels是有规律的前缀+层级时，可以用tilematrixBefore配置前缀字符串即可。
+ * @param [options.style = ''] - WMTS请求的样式名称。
+ * @param [options.tilematrixSet] - 用于WMTS请求的TileMatrixSet的标识符。
+ * @param [options.tileMatrixLabels] - 用于WMTS请求的tilematrix，瓦片矩阵中用于WMTS请求的标识符列表，对应tilematrix参数，每个瓦片矩阵级别一个。
+ * @param [options.tilematrixBefore] - 用于WMTS请求的tilematrix，当tileMatrixLabels是有规律的前缀+层级时，可以用tilematrixBefore配置前缀字符串即可。
  * @param [options.format = 'image/png'] - 要从服务器检索的瓦片图像的MIME类型。
  * @param [options.version = '1.0.0'] - 使用WMTS服务版本
  * @param [options.opacity = 1] - 瓦片的不透明度。
@@ -8554,7 +8603,7 @@ export class WmsLayer extends leaflet.TileLayer.WMS {
  * @param [options.zoomReverse = false] - 如果设置为true，则URL网址中使用的缩放z数字将被颠倒（maxZoom - zoom而不是zoom）
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -8569,13 +8618,13 @@ export class WmsLayer extends leaflet.TileLayer.WMS {
  * @param [options.show = true] - 图层是否显示
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class WmtsLayer extends TileLayer {
+declare class WmtsLayer extends TileLayer {
     constructor(options: {
         url: string;
         subdomains?: string | string[];
         layer: string;
         style?: string;
-        tileMatrixSetID: string;
+        tilematrixSet?: string;
         tileMatrixLabels?: string[];
         tilematrixBefore?: string;
         format?: string;
@@ -8593,13 +8642,13 @@ export class WmtsLayer extends TileLayer {
             ymax: number;
         };
         bbox?: number[];
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -8622,7 +8671,7 @@ export class WmtsLayer extends TileLayer {
     getTileUrl(coords: any): any | string;
 }
 
-export namespace Map {
+declare namespace Map {
     /**
      * 地图参数
      * @property zoom - 当前地图层级
@@ -8640,7 +8689,7 @@ export namespace Map {
      * @property [maxBounds] - 当这个选项被设置后，地图被限制在给定的地理边界内， 当用户平移将地图拖动到视图以外的范围时会出现弹回的效果， 并且也不允许缩小视图到给定范围以外的区域（这取决于地图的尺寸）. 要动态设置此限制，请使用setMaxBounds方法。
      * @property [crs = CRS.EPSG3857] - 地图坐标系。如果你不确定坐标系这是什么意思，请不要改变它
      * @property [chinaCRS = ChinaCRS.WGS84] - 标识当前地图的国内坐标系（用于部分图层内对比判断来自动纠偏或加偏）
-     * @property [renderer] - 在地图上绘制矢量图层的默认方法，使用 leaflet.SVG 或 leaflet.Canvas 默认情况下取决于浏览器支持。
+     * @property [renderer] - 在地图上绘制矢量图层的默认方法，使用 L.SVG 或 L.Canvas 默认情况下取决于浏览器支持。
      * @property [closePopupOnClick = true] - 如果你不想让Popup弹窗在用户点击地图时关闭，那就把它设为false
      * @property [zoomSnap = 1] - 强制地图的缩放级别始终为此的倍数，特别是在 fitBounds() 缩放或缩小后。默认情况下，缩放级别将捕捉到最接近的整数; 较低的值（例如0.5 or 0.1）允许更大的粒度。数值0意味着缩放级别将不会被fitBounds放大或缩小。 可以设置小于1（例如0.5）的值允许更大的展示粒度。
      * @property [zoomDelta = 1] - 控制当使用了 zoomIn()、 zoomOut()以及按+ -键或者使用Zoom控件之后，地图的缩放级别的改变的级别值
@@ -8662,7 +8711,7 @@ export namespace Map {
      * @property [keyboardPanDelta = 80] - 按箭头键时平移地图时，平移的像素数量。
      * @property [scrollWheelZoom = true] - 是否可以使用鼠标滚轮放大地图。如果设置为'center'，它将缩放到视图的中心，而不管鼠标在哪里。
      * @property [wheelDebounceTime = 40] - 限制鼠标滚轮的速度（以毫秒为单位）。默认情况下，用户无法通过鼠标滚轮比40 ms更多的缩放一次。
-     * @property [wheelPxPerZoomLevel = 60] - 多少滚动像素（由leaflet.DomEvent.getWheelDelta报告）意味着一个完整缩放级别的更改。 较小的值将使滚轮变焦更快（反之亦然）
+     * @property [wheelPxPerZoomLevel = 60] - 多少滚动像素（由L.DomEvent.getWheelDelta报告）意味着一个完整缩放级别的更改。 较小的值将使滚轮变焦更快（反之亦然）
      * @property [tap = true] - 是否启用移动设备以支持即时点击（在iOS / Android上修复200ms点击延迟）和触控（触发contextmenu事件）。
      * @property [tapTolerance = 15] - 用户在触摸时，移动手指的像素数超过此值时被认为是有效的tap。
      * @property [touchZoom] - 是否可以通过用两根手指触摸拖动来缩放地图。如果设置为'center'，它将缩放到视图的中心，而不管触摸事件（手指）在哪里。 仅在具有触控功能的网络浏览器中有效，旧版Android除外。
@@ -8690,10 +8739,10 @@ export namespace Map {
             ymax: number;
         };
         centerAutoLevel?: number;
-        maxBounds?: leaflet.LatLngBounds;
-        crs?: CRS | leaflet.CRS | any;
+        maxBounds?: L.LatLngBounds;
+        crs?: CRS | L.CRS | any;
         chinaCRS?: ChinaCRS;
-        renderer?: leaflet.Renderer;
+        renderer?: L.Renderer;
         closePopupOnClick?: boolean;
         zoomSnap?: number;
         zoomDelta?: number;
@@ -8726,7 +8775,7 @@ export namespace Map {
         control?: Map.controlOptions;
         basemaps: Map.basemapOptions[];
         operationallayers?: Map.layerOptions[];
-        layers?: leaflet.Layer[];
+        layers?: L.Layer[];
     };
     /**
      * 底图图层配置,只支持{@link TileLayer}等瓦片图层
@@ -8766,14 +8815,14 @@ export namespace Map {
      * 控件参数
      *
      * 以下是mars2d.control定义的控件
-     * @property [scale = false] - 显示比例尺   {@link leaflet.control.scale}
-     * @property [zoom] - 放大缩小控件   {@link leaflet.control.scale}
+     * @property [scale = false] - 显示比例尺   {@link L.control.scale}
+     * @property [zoom] - 放大缩小控件   {@link L.control.scale}
      * @property [zoom.position = "bottomright"] - 控件的位置
      * @property [zoom.zoomInText = "+"] - 在“放大”按钮上设置的显示文本
      * @property [zoom.zoomInTitle = "Zoom in"] - 在“放大”按钮上设置鼠标悬停提示文本
      * @property [zoom.zoomOutText = "-"] - 在“缩小”按钮上设置显示文本
      * @property [zoom.zoomOutTitle = "Zoom out"] - 在“缩小”按钮上设置鼠标悬停提示文本
-     * @property [layers] - 图层控制控件,    {@link leaflet.control.layers}
+     * @property [layers] - 图层控制控件,    {@link L.control.layers}
      * @property [layers.position = "bottomright"] - 控件的位置
      * @property [locationBar] - 鼠标提示控件,    {@link LocationBar}
      * @property [locationBar.template] - 展示的内容格式化字符串, 支持以下模版配置：【鼠标所在位置】 经度:{lng}， 纬度:{lat}，【地图的】 层级：{level}，
@@ -8906,13 +8955,13 @@ export namespace Map {
      * @property [autoPan = true] - 如果您不希望地图进行平移动画以适应打开的弹出窗口， 请将其设置为false
      * @property [autoPanPaddingTopLeft] - 执行自动平移后，弹窗和地图视图左上角之间的边距
      * @property [autoPanPaddingBottomRight] - 执行自动平移后，弹窗和地图视图右下角之间的边距
-     * @property [autoPanPadding = leaflet.Point(5, 5)] - 相当于将左上角和右下角的自动平移填充设置为相同的值
+     * @property [autoPanPadding = L.Point(5, 5)] - 相当于将左上角和右下角的自动平移填充设置为相同的值
      * @property [keepInView = false] - 如果你想防止用户在屏幕打开时弹出屏幕上的弹出窗口，将其设置为true
      * @property [closeButton = true] - 弹窗中是否存在关闭按钮
      * @property [closeOnClick] - 如果要覆盖用户在地图上单击的弹出窗口关闭的默认行为，请设置它。默认为Map的closePopupOnClick选项。
      * @property [autoClose = true] - 如果在打开另一个弹窗时，是否自动关闭之前的弹窗.
      * @property [className] - 要分配给弹窗的自定义的css类名
-     * @property [offset = leaflet.Point(0, 7)] - 弹出位置的偏移量。用于在某些叠加层上打开弹出窗口时控制该锚点
+     * @property [offset = L.Point(0, 7)] - 弹出位置的偏移量。用于在某些叠加层上打开弹出窗口时控制该锚点
      * @property [pane = 'popupPane'] - 指定添加popup弹窗至地图的pane窗格名称
      */
     type PopupOptions = {
@@ -8920,21 +8969,21 @@ export namespace Map {
         minWidth?: number;
         maxHeight?: number;
         autoPan?: boolean;
-        autoPanPaddingTopLeft?: leaflet.Point;
-        autoPanPaddingBottomRight?: leaflet.Point;
-        autoPanPadding?: leaflet.Point;
+        autoPanPaddingTopLeft?: L.Point;
+        autoPanPaddingBottomRight?: L.Point;
+        autoPanPadding?: L.Point;
         keepInView?: boolean;
         closeButton?: boolean;
         closeOnClick?: boolean;
         autoClose?: boolean;
         className?: string;
-        offset?: leaflet.Point;
+        offset?: L.Point;
         pane?: string;
     };
     /**
      * Tooltip弹窗的构造参数
      * @property [pane = 'tooltipPane'] - 指定添加popup弹窗至地图的pane窗格名称
-     * @property [offset = leaflet.Point(0, 0)] - 弹出位置的偏移量。用于在某些叠加层上打开弹出窗口时控制该锚点
+     * @property [offset = L.Point(0, 0)] - 弹出位置的偏移量。用于在某些叠加层上打开弹出窗口时控制该锚点
      * @property [direction = 'auto'] - 方向打开工具提示。可能的值有：right，left， top，bottom，center，auto。 auto将间dynamicaly切换right并left根据地图上的工具提示位置。
      * @property [permanent = false] - 是否永久打开tooltip提示，仅在鼠标悬停时显示
      * @property [sticky = false] - 如果为true，则tooltip将跟随鼠标，而不是固定在功能中心。
@@ -8944,7 +8993,7 @@ export namespace Map {
      */
     type TooltipOptions = {
         pane?: string;
-        offset?: leaflet.Point;
+        offset?: L.Point;
         direction?: string;
         permanent?: boolean;
         sticky?: boolean;
@@ -8959,7 +9008,7 @@ export namespace Map {
  * @param id - 地图div容器的id或dom
  * @param options - 地图构造参数
  */
-export class Map extends leaflet.Map {
+declare class Map extends L.Map {
     constructor(id: string | HTMLElement, options: Map.Options);
     /**
      * 当前类的原始构造参数
@@ -8976,7 +9025,7 @@ export class Map extends leaflet.Map {
     /**
      * 获取或设置当前显示的底图，设置时可以传入图层id或name
      */
-    basemap: string | number | leaflet.TileLayer;
+    basemap: string | number | L.TileLayer;
     /**
      * 当前地图层级
      */
@@ -8984,11 +9033,11 @@ export class Map extends leaflet.Map {
     /**
      * 当前地图中心点
      */
-    center: leaflet.LatLng;
+    center: L.LatLng;
     /**
      * 当前地图层级
      */
-    bounds: leaflet.LatLngBounds;
+    bounds: L.LatLngBounds;
     /**
      * 默认绑定的图层，简单场景时快捷方便使用
      */
@@ -9008,14 +9057,14 @@ export class Map extends leaflet.Map {
      * @param [addToControl = false] - 当存在layers控件时，是否添加到图层管理控件
      * @returns 当前对象本身，可以链式调用
      */
-    addLayer(layer: leaflet.Layer, addToControl?: boolean): any | Map;
+    addLayer(layer: L.Layer, addToControl?: boolean): any | Map;
     /**
      * 从地图上移除一个指定的图层
      * @param layer - 图层
      * @param [removeFromControl = false] - 当存在layers控件时，是否从图层管理控件移除
      * @returns 当前对象本身，可以链式调用
      */
-    removeLayer(layer: leaflet.Layer, removeFromControl?: boolean): any | Map;
+    removeLayer(layer: L.Layer, removeFromControl?: boolean): any | Map;
     /**
      * 获取图层ID值，按顺序取值。
      * 没有id的图层，会自动使用本方法进行id赋值处理
@@ -9027,14 +9076,14 @@ export class Map extends leaflet.Map {
      * @param id - 图层id或uuid
      * @returns 图层
      */
-    getLayerById(id: string | number): any | leaflet.Layer;
+    getLayerById(id: string | number): any | L.Layer;
     /**
      * 根据属性获取指定图层
      * @param key - 对应的属性值
      * @param attrName - 属性字段名称
      * @returns 图层
      */
-    getLayer(key: any, attrName: string): any | leaflet.Layer;
+    getLayer(key: any, attrName: string): any | L.Layer;
     /**
      * 获取所有图层
      * @param [options] - 参数对象，包括以下：
@@ -9045,18 +9094,18 @@ export class Map extends leaflet.Map {
     getLayers(options?: {
         basemaps?: boolean;
         layers?: boolean;
-    }): any | leaflet.Layer[];
+    }): any | L.Layer[];
     /**
      * 获取所有basemps底图图层
      * @param [removeEmptyGroup = false] - 是否移除 空图层组
      * @returns 图层数组
      */
-    getBasemaps(removeEmptyGroup?: boolean): any | leaflet.TileLayer[];
+    getBasemaps(removeEmptyGroup?: boolean): any | L.TileLayer[];
     /**
      * 获取所有瓦片图层，可以用于卷帘对比
      * @returns 图层数组
      */
-    getTileLayers(): any | leaflet.TileLayer[];
+    getTileLayers(): any | L.TileLayer[];
     /**
      * 绑定右键菜单幕
      * @param arr - 菜单配置
@@ -9074,7 +9123,7 @@ export class Map extends leaflet.Map {
      * @param message - 显示的内容
      * @returns 当前对象本身，可以链式调用
      */
-    openSmallTooltip(position: leaflet.Point | leaflet.LatLng, message: string | any): any | Map;
+    openSmallTooltip(position: L.Point | L.LatLng, message: string | any): any | Map;
     /**
      * 关闭小提示窗
      * @returns 当前对象本身，可以链式调用
@@ -9152,9 +9201,9 @@ export class Map extends leaflet.Map {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-        paddingTopLeft?: leaflet.Point | number[];
-        paddingBottomRight?: leaflet.Point | number[];
-        padding?: leaflet.Point | number[];
+        paddingTopLeft?: L.Point;
+        paddingBottomRight?: L.Point;
+        padding?: L.Point;
         maxZoom?: number;
     }): any | Map;
     /**
@@ -9178,9 +9227,9 @@ export class Map extends leaflet.Map {
         duration?: number;
         easeLinearity?: number;
         noMoveStart?: boolean;
-        paddingTopLeft?: leaflet.Point | number[];
-        paddingBottomRight?: leaflet.Point | number[];
-        padding?: leaflet.Point | number[];
+        paddingTopLeft?: L.Point;
+        paddingBottomRight?: L.Point;
+        padding?: L.Point;
         maxZoom?: number;
     }): any | Map;
     /**
@@ -9193,7 +9242,7 @@ export class Map extends leaflet.Map {
      * @param [options.noMoveStart = false] - 如果true，平移不会movestart在启动时触发事件（内部用于平移惯性）。
      * @returns 当前对象本身，可以链式调用
      */
-    flyToPoint(center: leaflet.LatLng, options?: {
+    flyToPoint(center: L.LatLng, options?: {
         animate?: boolean;
         duration?: number;
         easeLinearity?: number;
@@ -9205,7 +9254,7 @@ export class Map extends leaflet.Map {
      * @param latlng - 经纬度坐标
      * @returns 像素坐标
      */
-    latLngToAccurateContainerPoint(latlng: leaflet.LatLng): any | leaflet.Point;
+    latLngToAccurateContainerPoint(latlng: L.LatLng): any | L.Point;
     /**
      * 判断是否在加载瓦片中
      * @returns 是否在加载瓦片中
@@ -9233,13 +9282,13 @@ export class Map extends leaflet.Map {
      * @param control - 控件
      * @returns 当前对象本身，可以链式调用
      */
-    addControl(control: leaflet.Control): any | Map;
+    addControl(control: L.Control): any | Map;
     /**
      * 从地图上移除一个指定的控件
      * @param control - 控件
      * @returns 当前对象本身，可以链式调用
      */
-    removeControl(control: leaflet.Control): any | Map;
+    removeControl(control: L.Control): any | Map;
     /**
      * 遍历地图的图层
      * @param method - 回调方法
@@ -9275,13 +9324,13 @@ export class Map extends leaflet.Map {
      * @param [options] - Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(content: string | HTMLElement | leaflet.Popup | any, latlng?: leaflet.LatLng, options?: Map.PopupOptions | any): any | Map;
+    openPopup(content: string | HTMLElement | L.Popup | any, latlng?: L.LatLng, options?: Map.PopupOptions | any): any | Map;
     /**
      * 关闭之前打开的（或给定某个）Popup弹窗
      * @param [popup] - 关闭之前打开的（或给定某个）Popup弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closePopup(popup?: leaflet.Popup): any | Map;
+    closePopup(popup?: L.Popup): any | Map;
     /**
      * 创建并打开具有指定内容和选项的Tooltip鼠标工具提示。
      * @param content - Tooltip弹窗内容
@@ -9289,13 +9338,13 @@ export class Map extends leaflet.Map {
      * @param [options] - Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(content: string | HTMLElement | leaflet.Tooltip | any, latlng?: leaflet.LatLng, options?: Map.TooltipOptions | any): any | Map;
+    openTooltip(content: string | HTMLElement | L.Tooltip | any, latlng?: L.LatLng, options?: Map.TooltipOptions | any): any | Map;
     /**
      * 关闭之前打开的（或给定某个）Tooltip鼠标工具提示
      * @param [tooltip] - 关闭之前打开的（或给定某个）Tooltip弹窗
      * @returns 当前对象本身，可以链式调用
      */
-    closeTooltip(tooltip?: leaflet.Tooltip): any | Map;
+    closeTooltip(tooltip?: L.Tooltip): any | Map;
     /**
      * 定位地图至指定位置和层级
      * @param center - 经纬度坐标
@@ -9307,7 +9356,7 @@ export class Map extends leaflet.Map {
      * @param [options.noMoveStart = false] - 如果true，平移不会movestart在启动时触发事件（内部用于平移惯性）。
      * @returns 当前对象本身，可以链式调用
      */
-    setView(center: leaflet.LatLng, zoom?: number, options?: {
+    setView(center: L.LatLng, zoom?: number, options?: {
         animate?: boolean;
         duration?: number;
         easeLinearity?: number;
@@ -9324,7 +9373,7 @@ export class Map extends leaflet.Map {
      * @param [options.noMoveStart = false] - 如果true，平移不会movestart在启动时触发事件（内部用于平移惯性）。
      * @returns 当前对象本身，可以链式调用
      */
-    flyTo(latlng: leaflet.LatLng, zoom?: number, options?: {
+    flyTo(latlng: L.LatLng, zoom?: number, options?: {
         animate?: boolean;
         duration?: number;
         easeLinearity?: number;
@@ -9368,7 +9417,7 @@ export class Map extends leaflet.Map {
      * @param [options.animate = true] - 是否进行动画缩放。false时始终重置视图完全没有动画。
      * @returns 当前对象本身，可以链式调用
      */
-    setZoomAround(latlng: leaflet.LatLng | leaflet.Point, zoom: number, options?: {
+    setZoomAround(latlng: L.LatLng | L.Point, zoom: number, options?: {
         animate?: boolean;
     }): any | Map;
     /**
@@ -9385,10 +9434,10 @@ export class Map extends leaflet.Map {
      * @param [options.noMoveStart = false] - 如果true，平移不会movestart在启动时触发事件（内部用于平移惯性）。
      * @returns 当前对象本身，可以链式调用
      */
-    fitBounds(bounds: leaflet.LatLngBounds, options?: {
-        paddingTopLeft?: leaflet.Point | number[];
-        paddingBottomRight?: leaflet.Point | number[];
-        padding?: leaflet.Point | number[];
+    fitBounds(bounds: L.LatLngBounds, options?: {
+        paddingTopLeft?: L.Point | number[];
+        paddingBottomRight?: L.Point | number[];
+        padding?: L.Point | number[];
         maxZoom?: number;
         animate?: boolean;
         duration?: number;
@@ -9409,10 +9458,10 @@ export class Map extends leaflet.Map {
      * @param [options.noMoveStart = false] - 如果true，平移不会movestart在启动时触发事件（内部用于平移惯性）。
      * @returns 当前对象本身，可以链式调用
      */
-    flyToBounds(bounds: leaflet.LatLngBounds, options?: {
-        paddingTopLeft?: leaflet.Point | number[];
-        paddingBottomRight?: leaflet.Point | number[];
-        padding?: leaflet.Point | number[];
+    flyToBounds(bounds: L.LatLngBounds, options?: {
+        paddingTopLeft?: L.Point | number[];
+        paddingBottomRight?: L.Point | number[];
+        padding?: L.Point | number[];
         maxZoom?: number;
         animate?: boolean;
         duration?: number;
@@ -9429,7 +9478,7 @@ export class Map extends leaflet.Map {
      * @param [options.noMoveStart = false] - 如果true，平移不会movestart在启动时触发事件（内部用于平移惯性）。
      * @returns 当前对象本身，可以链式调用
      */
-    panTo(latlng: leaflet.LatLng, options?: {
+    panTo(latlng: L.LatLng, options?: {
         animate?: boolean;
         duration?: number;
         easeLinearity?: number;
@@ -9440,13 +9489,13 @@ export class Map extends leaflet.Map {
      * @param offset - 平移的像素偏移值
      * @returns 当前对象本身，可以链式调用
      */
-    panBy(offset: leaflet.Point): any | Map;
+    panBy(offset: L.Point): any | Map;
     /**
      * 限制地图的视图在给定的边界里面 (参考 地图的 maxBounds 参数选项)
      * @param bounds - 最大边界
      * @returns 当前对象本身，可以链式调用
      */
-    setMaxBounds(bounds: leaflet.LatLngBounds): any | Map;
+    setMaxBounds(bounds: L.LatLngBounds): any | Map;
     /**
      * 设置地图最小缩放级别 (参考 minZoom 参数选项)
      * @param zoom - 最小缩放级别
@@ -9469,7 +9518,7 @@ export class Map extends leaflet.Map {
      * @param [options.noMoveStart = false] - 如果true，平移不会movestart在启动时触发事件（内部用于平移惯性）。
      * @returns 当前对象本身，可以链式调用
      */
-    panInsideBounds(bounds: leaflet.LatLngBounds, options?: {
+    panInsideBounds(bounds: L.LatLngBounds, options?: {
         animate?: boolean;
         duration?: number;
         easeLinearity?: number;
@@ -9515,12 +9564,12 @@ export class Map extends leaflet.Map {
      * 返回地图视图的中心点经纬度
      * @returns 中心点经纬度
      */
-    getCenter(): any | leaflet.LatLng;
+    getCenter(): any | L.LatLng;
     /**
      * 返回当前地图视图的矩形边界
      * @returns 地图矩形边界
      */
-    getBounds(): any | leaflet.LatLngBounds;
+    getBounds(): any | L.LatLngBounds;
     /**
      * 返回地图此时的缩放级别
      * @returns 地图级别
@@ -9542,28 +9591,28 @@ export class Map extends leaflet.Map {
      * @param [inside = false] - 设置为true，则该方法将返回地图视图适合整个给定边界的最小缩放级别。
      * @returns 适合地图视图的最大缩放级别
      */
-    getBoundsZoom(bounds: leaflet.LatLngBounds, inside?: boolean): any | number;
+    getBoundsZoom(bounds: L.LatLngBounds, inside?: boolean): any | number;
     /**
      * 返回地图容器的当前大小
      * @returns 地图容器的当前大小（以像素为单位）
      */
-    getSize(): any | leaflet.Point;
+    getSize(): any | L.Point;
     /**
      * 返回当前地图视图的像素坐标的边界（在自定义层和覆盖实现中有用）
      * @returns 地图视图的像素坐标的边界
      */
-    getPixelBounds(): any | leaflet.Bounds;
+    getPixelBounds(): any | L.Bounds;
     /**
      * 返回当前地图视图左上角的像素坐标（在自定义层和覆盖实现中有用）
      * @returns 地图视图左上角的像素坐标
      */
-    getPixelOrigin(): any | leaflet.Bounds;
+    getPixelOrigin(): any | L.Bounds;
     /**
      * 返回zoom缩放级别的世界边界的像素坐标
      * @param [zoom] - 缩放级别, zoom为空时使用地图的当前缩放级别。
      * @returns 地图视图的像素坐标的边界
      */
-    getPixelWorldBounds(zoom?: number): any | leaflet.Bounds;
+    getPixelWorldBounds(zoom?: number): any | L.Bounds;
     /**
      * 返回要应用于 从fromZoom缩放级别 到 toZoom缩放级别 地图缩放的转换的比例因子Scale。（内部使用来帮助缩放动画）
      * @param toZoom - 结束缩放级别
@@ -9584,7 +9633,7 @@ export class Map extends leaflet.Map {
      * @param zoom - 地图级别
      * @returns 像素坐标（相对于CRS原点）
      */
-    project(latlng: leaflet.LatLng, zoom: number): any | leaflet.Point;
+    project(latlng: L.LatLng, zoom: number): any | L.Point;
     /**
      * 根据地图CRS坐标系进行投影转换方法, 像素坐标 转 地理坐标。
      * 逆向 project 方法
@@ -9592,82 +9641,82 @@ export class Map extends leaflet.Map {
      * @param zoom - 地图级别
      * @returns 地理位置
      */
-    unproject(point: leaflet.Point, zoom: number): any | leaflet.LatLng;
+    unproject(point: L.Point, zoom: number): any | L.LatLng;
     /**
      * 给定相应像素坐标，转换为相应的地理坐标（对于当前缩放级别）
      * @param point - 像素坐标(相对于[origin pixel]{@link Map#getPixelOrigin})
      * @returns 地理位置
      */
-    layerPointToLatLng(point: leaflet.Point): any | leaflet.LatLng;
+    layerPointToLatLng(point: L.Point): any | L.LatLng;
     /**
      * 给定地理坐标，转换为相应像素坐标。（在地图上进行位置叠加时比较有用）
      * @param latlng - 地理位置
      * @returns 像素坐标(相对于[origin pixel]{@link Map#getPixelOrigin})
      */
-    latLngToLayerPoint(latlng: leaflet.LatLng): any | leaflet.Point;
+    latLngToLayerPoint(latlng: L.LatLng): any | L.Point;
     /**
      * 如果它们在CRS的边界之外，则返回一个LatLng，lat并lng根据地图的CRS wrapLat和wrapLng属性进行包装。默认情况下，这意味着经度包裹在数据线周围，所以它的值在-180和+180度之间。
      * @param latlng - 地理位置
      * @returns 地理位置
      */
-    wrapLatLng(latlng: leaflet.LatLng): any | leaflet.LatLng;
+    wrapLatLng(latlng: L.LatLng): any | L.LatLng;
     /**
      * 返回LatLngBounds与给定的大小相同的大小，确保其中心在CRS的边界内。默认情况下，这意味着中心经度被包裹在数据线周围，因此它的值在-180和+180度之间，并且大多数边界与CRS的界限重叠。
      * @param bounds - 地图范围
      * @returns 地图范围
      */
-    wrapLatLngBounds(bounds: leaflet.LatLngBounds): any | leaflet.LatLngBounds;
+    wrapLatLngBounds(bounds: L.LatLngBounds): any | L.LatLngBounds;
     /**
      * 根据地图的参考系来返回两个地理位置之间的距离
      * @param latlng1 - 地理位置1
      * @param latlng2 - 地理位置2
      * @returns 距离，单位：米
      */
-    distance(latlng1: leaflet.LatLng, latlng2: leaflet.LatLng): any | leaflet.LatLngBounds;
+    distance(latlng1: L.LatLng, latlng2: L.LatLng): any | L.LatLngBounds;
     /**
      * 给定相对于地图container容器的像素坐标，返回相对于[origin pixel]{@link Map#getPixelOrigin}的相应像素坐标。
      * @param point - 像素坐标，相对于地图container容器
      * @returns 像素坐标，相对于 [origin pixel]{@link Map#getPixelOrigin}
      */
-    containerPointToLayerPoint(point: leaflet.Point): any | leaflet.Point;
+    containerPointToLayerPoint(point: L.Point): any | L.Point;
     /**
      * 给定相对于[origin pixel]{@link Map#getPixelOrigin}的像素坐标，返回相对于地图container容器的相应像素坐标。
      * @param point - 像素坐标， 相对于 [origin pixel]{@link Map#getPixelOrigin}
      * @returns 像素坐标，相对于地图container容器
      */
-    layerPointToContainerPoint(point: leaflet.Point): any | leaflet.Point;
+    layerPointToContainerPoint(point: L.Point): any | L.Point;
     /**
      * 给定相对于地图container容器的像素坐标，返回对应的地理坐标（对于当前缩放级别）。
      * @param point - 像素坐标， 相对于 [origin pixel]{@link Map#getPixelOrigin}
      * @returns 地理坐标
      */
-    containerPointToLatLng(point: leaflet.Point): any | leaflet.LatLng;
+    containerPointToLatLng(point: L.Point): any | L.LatLng;
     /**
      * 给定地理坐标，返回相对于地图container容器的相应像素坐标。
      * @param latlng - 地理坐标
      * @returns 像素坐标， 相对于地图container容器
      */
-    latLngToContainerPoint(latlng: leaflet.LatLng): any | leaflet.Point;
+    latLngToContainerPoint(latlng: L.LatLng): any | L.Point;
     /**
      * 给定一个MouseEvent对象，返回相对于发生事件的地图容器的像素坐标（与地图左上角相关）。
      * @param event - MouseEvent对象
      * @returns 像素坐标，相对于地图container容器
      */
-    mouseEventToContainerPoint(event: leaflet.LeafletMouseEvent | any): any | leaflet.Point;
+    mouseEventToContainerPoint(event: L.LeafletMouseEvent | any): any | L.Point;
     /**
      * 给定一个MouseEvent对象，返回相对于事件发生的[origin pixel]{@link Map#getPixelOrigin}的像素坐标。
      * @param event - MouseEvent对象
      * @returns 像素坐标，相对于地图container容器
      */
-    mouseEventToLayerPoint(event: leaflet.LeafletMouseEvent | any): any | leaflet.Point;
+    mouseEventToLayerPoint(event: L.LeafletMouseEvent | any): any | L.Point;
     /**
      * 给定一个MouseEvent对象，返回发生事件的地理坐标。
      * @param event - MouseEvent对象
      * @returns 地理坐标
      */
-    mouseEventToLatLng(event: leaflet.LeafletMouseEvent | any): any | leaflet.LatLng;
+    mouseEventToLatLng(event: L.LeafletMouseEvent | any): any | L.LatLng;
     /**
-     * 加一个新的 leaflet.Handler到地图上，给他一个名字和构造函数。
+     * 加一个新的 L.Handler到地图上，给他一个名字和构造函数。
      * @param name - 名称
      * @param handler - Handler构造函数
      * @returns 当前对象本身，可以链式调用
@@ -9756,7 +9805,7 @@ export class Map extends leaflet.Map {
     removeEventParent(obj: any): any | Map;
 }
 
-export namespace EchartsLayer {
+declare namespace EchartsLayer {
     /**
      * Echarts图层参数
      * @property [Echarts本身] - 支持Echarts本身所有Options参数，具体查阅 [Echarts配置项手册]{@link https://echarts.apache.org/zh/option.html}
@@ -9779,19 +9828,8 @@ export namespace EchartsLayer {
  * 【需要引入 echarts 库 和 mars2d-echarts 插件库】
  * @param options - 参数对象
  */
-export class EchartsLayer extends leaflet.Layer {
+declare class EchartsLayer extends L.Layer {
     constructor(options: EchartsLayer.Options | any);
-    /**
-     * 将图层添加到地图
-     * @param map - 地图对象
-     * @returns 当前对象本身，可以链式调用
-     */
-    addTo(map: Map | any): any | EchartsLayer;
-    /**
-     * 将图层从地图上移除
-     * @returns 当前对象本身，可以链式调用
-     */
-    remove(): any | EchartsLayer;
     /**
      * 内置唯一标识ID
      */
@@ -9835,7 +9873,7 @@ export class EchartsLayer extends leaflet.Layer {
     setEchartsOption(option: any, notMerge?: boolean, lazyUpdate?: boolean): any | void;
 }
 
-export namespace ArcGisDynamicLayer {
+declare namespace ArcGisDynamicLayer {
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
      * @example
@@ -9886,7 +9924,7 @@ export namespace ArcGisDynamicLayer {
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class ArcGisDynamicLayer extends leaflet.TileLayer {
+declare class ArcGisDynamicLayer extends L.TileLayer {
     constructor(options: {
         url: string;
         layers?: string[];
@@ -9989,7 +10027,7 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      *   });
      * @param callback - 回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
-     * @returns [leaflet.esri.services.IdentifyFeatures对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/identify-features.html}
+     * @returns [L.esri.services.IdentifyFeatures对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/identify-features.html}
      */
     identify(callback: (...params: any[]) => any, context?: any): any | any;
     /**
@@ -10003,11 +10041,11 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      *   });
      * @param callback - 回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
-     * @returns [leaflet.esri.Find对象]{@link http://esri.github.io/esri-leaflet//api-reference/tasks/find.html}
+     * @returns [L.esri.Find对象]{@link http://esri.github.io/esri-leaflet//api-reference/tasks/find.html}
      */
     find(callback: (...params: any[]) => any, context?: any): any | any;
     /**
-     * 返回leaflet.esri.Query可用于查询此服务的新对象。
+     * 返回L.esri.Query可用于查询此服务的新对象。
      * @example
      * mapService.query()
      *   .layer(0)
@@ -10017,7 +10055,7 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
      *   });
      * @param callback - 回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
-     * @returns [leaflet.esri.Query对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/query.html}
+     * @returns [L.esri.Query对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/query.html}
      */
     query(callback: (...params: any[]) => any, context?: any): any | any;
     /**
@@ -10083,7 +10121,7 @@ export class ArcGisDynamicLayer extends leaflet.TileLayer {
     remove(): any | ArcGisDynamicLayer;
 }
 
-export namespace ArcGisFeatureLayer {
+declare namespace ArcGisFeatureLayer {
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
      * @example
@@ -10153,7 +10191,7 @@ export namespace ArcGisFeatureLayer {
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class ArcGisFeatureLayer extends leaflet.Layer {
+declare class ArcGisFeatureLayer extends L.Layer {
     constructor(options: {
         url: string;
         where?: string;
@@ -10200,7 +10238,7 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      */
     metadata(callback: (...params: any[]) => any, context?: any): any | ArcGisFeatureLayer;
     /**
-     * 返回leaflet.esri.Query可用于查询此服务的新对象。
+     * 返回L.esri.Query可用于查询此服务的新对象。
      * @example
      * featureLayer.query()
      *   .within(latlngbounds)
@@ -10210,7 +10248,7 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      *   });
      * @param callback - 回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
-     * @returns [leaflet.esri.Query对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/query.html}
+     * @returns [L.esri.Query对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/query.html}
      */
     query(callback: (...params: any[]) => any, context?: any): any | any;
     /**
@@ -10299,10 +10337,10 @@ export class ArcGisFeatureLayer extends leaflet.Layer {
      * @param id - Feature 的 id
      * @returns 矢量数据对象
      */
-    getGraphicById(id: string | number): any | leaflet.Layer;
+    getGraphicById(id: string | number): any | L.Layer;
 }
 
-export namespace ArcGisImageLayer {
+declare namespace ArcGisImageLayer {
     /**
      * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
      * @example
@@ -10356,7 +10394,7 @@ export namespace ArcGisImageLayer {
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class ArcGisImageLayer extends leaflet.TileLayer {
+declare class ArcGisImageLayer extends L.TileLayer {
     constructor(options: {
         url: string;
         format?: string;
@@ -10449,7 +10487,7 @@ export class ArcGisImageLayer extends leaflet.TileLayer {
      */
     metadata(callback: (...params: any[]) => any, context?: any): any | ArcGisImageLayer;
     /**
-     * 返回leaflet.esri.Query可用于查询此服务的新对象。
+     * 返回L.esri.Query可用于查询此服务的新对象。
      * @example
      * imageService.query()
      *   .within(latlngbounds)
@@ -10458,7 +10496,7 @@ export class ArcGisImageLayer extends leaflet.TileLayer {
      * });
      * @param callback - 回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
-     * @returns [leaflet.esri.Query对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/query.html}
+     * @returns [L.esri.Query对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/query.html}
      */
     query(callback: (...params: any[]) => any, context?: any): any | any;
     /**
@@ -10552,7 +10590,7 @@ export class ArcGisImageLayer extends leaflet.TileLayer {
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
  * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则leaflet.point(width, height)。
+ * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
  * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
@@ -10566,7 +10604,7 @@ export class ArcGisImageLayer extends leaflet.TileLayer {
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  */
-export class ArcGisTileLayer extends leaflet.TileLayer {
+declare class ArcGisTileLayer extends L.TileLayer {
     constructor(options: {
         url: string;
         zoomOffsetAllowance?: number;
@@ -10579,7 +10617,7 @@ export class ArcGisTileLayer extends leaflet.TileLayer {
         maxNativeZoom?: number;
         minNativeZoom?: number;
         zIndex?: number;
-        bounds?: leaflet.LatLngBounds;
+        bounds?: L.LatLngBounds;
         errorTileUrl?: string;
         tms?: boolean;
         zoomReverse?: boolean;
@@ -10587,7 +10625,7 @@ export class ArcGisTileLayer extends leaflet.TileLayer {
         yOffset?: number;
         zOffset?: number;
         customTags?: (...params: any[]) => any;
-        tileSize?: number | leaflet.Point;
+        tileSize?: number | L.Point;
         className?: string;
         keepBuffer?: number;
         detectRetina?: boolean;
@@ -10622,7 +10660,7 @@ export class ArcGisTileLayer extends leaflet.TileLayer {
      *   });
      * @param callback - 回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
-     * @returns [leaflet.esri.services.IdentifyFeatures对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/identify-features.html}
+     * @returns [L.esri.services.IdentifyFeatures对象]{@link http://esri.github.io/esri-leaflet/api-reference/tasks/identify-features.html}
      */
     identify(callback: (...params: any[]) => any, context?: any): any | any;
     /**
@@ -10670,7 +10708,7 @@ export class ArcGisTileLayer extends leaflet.TileLayer {
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  * @param [dataSet] - mapv.DataSet数据集,可以参考[ MapV数据集对象说明]{@link https://github.com/huiyan-fe/mapv/blob/master/src/data/DataSet.md}
  */
-export class MapVLayer extends leaflet.Layer {
+declare class MapVLayer extends L.Layer {
     constructor(options: {
         data?: any;
         多个参数?: any;
@@ -10763,10 +10801,10 @@ export class MapVLayer extends leaflet.Layer {
      * 获取左上角坐标。
      * @returns 返回左上角坐标。
      */
-    getTopLeft(): any | leaflet.Bounds;
+    getTopLeft(): any | L.Bounds;
 }
 
-export namespace BaseWidget {
+declare namespace BaseWidget {
     /**
      * widget 配置参数
      * @property name - 必须，中文名称，用于标识和弹窗标题。
@@ -10873,7 +10911,7 @@ export namespace BaseWidget {
  * @param map - 地图对象
  * @param options - 配置参数
  */
-export class BaseWidget extends BaseClass {
+declare class BaseWidget extends BaseClass {
     constructor(map: Map, options: BaseWidget.widgetOptions);
     /**
      * 获取当前地图
@@ -11043,7 +11081,7 @@ export class BaseWidget extends BaseClass {
  * widget事件类型枚举, mars2d.widget.EventType
  * 【需要引入  mars2d-widget 插件库】
  */
-export const enum WidgetEventType {
+declare const enum WidgetEventType {
     /**
      * 在实例初始化之后、创建之前执行
      */
@@ -11086,7 +11124,7 @@ export const enum WidgetEventType {
  * widget模块化框架，公共处理类
  * 【需要引入  mars2d-widget 插件库】
  */
-namespace widget {
+declare namespace widget {
     /**
      * 初始化widget管理器，在构造完成map后调用一次即可。
      * @example
@@ -11288,7 +11326,7 @@ namespace widget {
  * @param [options.key = mars2d.Token.gaodeArr] - 百度KEY,在实际项目中请使用自己申请的高德KEY，因为我们的key不保证长期有效。
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  */
-export class GaodePOI {
+declare class GaodePOI {
     constructor(options?: {
         key?: string[];
         headers?: any;
@@ -11310,7 +11348,7 @@ export class GaodePOI {
      * @returns 当前对象本身，可以链式调用
      */
     getAddress(queryOptions: {
-        location?: leaflet.LatLng;
+        location?: L.LatLng;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): any | GaodePOI;
@@ -11327,7 +11365,7 @@ export class GaodePOI {
      */
     autoTip(queryOptions: {
         text: string;
-        location?: leaflet.LatLng;
+        location?: L.LatLng;
         city?: string;
         citylimit?: boolean;
         success?: (...params: any[]) => any;
@@ -11396,7 +11434,7 @@ export class GaodePOI {
     queryCircle(queryOptions: {
         text: string;
         types?: string;
-        location?: leaflet.LatLng;
+        location?: L.LatLng;
         radius?: number;
         limit?: boolean;
         count?: number;
@@ -11419,7 +11457,7 @@ export class GaodePOI {
     queryPolygon(queryOptions: {
         text: string;
         types?: string;
-        polygon: leaflet.LatLng[];
+        polygon: L.LatLng[];
         count?: number;
         page?: number;
         success?: (...params: any[]) => any;
@@ -11434,7 +11472,7 @@ export class GaodePOI {
  * @param [options.key = mars2d.Token.gaodeArr] - 百度KEY,在实际项目中请使用自己申请的高德KEY，因为我们的key不保证长期有效。
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  */
-export class GaodeRoute {
+declare class GaodeRoute {
     constructor(options?: {
         key?: string[];
         headers?: any;
@@ -11533,7 +11571,7 @@ export class GaodeRoute {
     }): any | void;
 }
 
-export namespace GaodeRoute {
+declare namespace GaodeRoute {
     /**
      * 路径规划方式
      */
@@ -11544,12 +11582,12 @@ export namespace GaodeRoute {
     }
 }
 
-export namespace QueryArcServer {
+declare namespace QueryArcServer {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
      * //绑定监听事件
-     * layer.on(mars3d.EventType.load, function (event) {
+     * layer.on(mars2d.EventType.load, function (event) {
      *   console.log('矢量数据对象加载完成', event)
      * })
      * @property click - 左键单击 鼠标事件
@@ -11564,7 +11602,7 @@ export namespace QueryArcServer {
 /**
  * ArcGIS WFS矢量服务查询类
  * @param options - 参数对象，包括以下：
- * @param options.url - ArcGIS服务地址, 示例：'http://server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer/37'
+ * @param options.url - ArcGIS服务地址, 示例：'http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/37'
  * @param [options.pageSize = 10] - 每页条数
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  *
@@ -11577,7 +11615,7 @@ export namespace QueryArcServer {
  * @param [options.popup] - 赋予给layer图层，图层绑定的popup弹窗值，参考{@link GeoJsonLayer}
  * @param [options.tooltip] - 赋予给layer图层，图层绑定的tooltip弹窗值，参考{@link GeoJsonLayer}
  */
-export class QueryArcServer extends BaseClass {
+declare class QueryArcServer extends BaseClass {
     constructor(options: {
         url: string;
         pageSize?: number;
@@ -11672,7 +11710,7 @@ export class QueryArcServer extends BaseClass {
 /**
  * GeoServer WFS服务查询类
  * @param options - 参数对象，包括以下：
- * @param options.url - GeoServer服务地址, 示例：'http://server.mars3d.cn/geoserver/mars/wfs'
+ * @param options.url - GeoServer服务地址, 示例：'http://server.mars2d.cn/geoserver/mars/wfs'
  * @param options.layer - 图层名称（命名空间:图层名称），多个图层名称用逗号隔开
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  *
@@ -11685,7 +11723,7 @@ export class QueryArcServer extends BaseClass {
  * @param [options.popup] - 赋予给layer图层，图层绑定的popup弹窗值，参考{@link GeoJsonLayer}
  * @param [options.tooltip] - 赋予给layer图层，图层绑定的tooltip弹窗值，参考{@link GeoJsonLayer}
  */
-export class QueryGeoServer extends BaseClass {
+declare class QueryGeoServer extends BaseClass {
     constructor(options: {
         url: string;
         layer: string;
@@ -11771,7 +11809,7 @@ export class QueryGeoServer extends BaseClass {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class ExpImg extends BaseThing {
+declare class ExpImg extends BaseThing {
     constructor(options?: {
         eleid?: string;
         id?: string | number;
@@ -11840,7 +11878,7 @@ export class ExpImg extends BaseThing {
  * @param [options.pid = -1] - 量算对应的图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 量算对应的图层名称
  */
-export class Measure extends BaseThing {
+declare class Measure extends BaseThing {
     constructor(options?: {
         hasEdit?: boolean;
         isAutoEditing?: boolean;
@@ -11924,27 +11962,85 @@ export class Measure extends BaseThing {
  * 转换options参数处理基类
  * @param options - 参数名称
  */
-export class BaseOptsConver {
+declare class BaseOptsConver {
     constructor(options: any);
 }
 
 /**
- * Polygon矢量数据style转换处理类
+ * Circle 转换options参数处理类
+ * @param options - 参数名称
  */
-export class PolygonStyleConver extends BaseOptsConver {
+declare class CircleStyleConver extends BaseOptsConver {
+    constructor(options: any);
+}
+
+/**
+ * DivGraphic 转换options样式参数处理类
+ * @param options - 参数名称
+ */
+declare class DivGraphicStyleConver extends MarkerStyleConver {
+    constructor(options: any);
+}
+
+/**
+ * Label 转换options样式参数处理类
+ * @param options - 参数名称
+ */
+declare class LabelStyleConver extends DivGraphicStyleConver {
+    constructor(options: any);
+}
+
+/**
+ * Marker 转换options样式参数处理类
+ * @param options - 参数名称
+ */
+declare class MarkerStyleConver extends BaseOptsConver {
+    constructor(options: any);
+}
+
+/**
+ * Point 转换options样式参数处理类
+ * @param options - 参数名称
+ */
+declare class PointStyleConver extends BaseOptsConver {
+    constructor(options: any);
+}
+
+/**
+ * Polygon 转换options样式参数处理类
+ * @param options - 参数名称
+ */
+declare class PolygonStyleConver extends BaseOptsConver {
+    constructor(options: any);
     /**
      * style样式属性赋值到 entity
      * @param style - 样式
      * @param entityGraphic - 矢量数据对应的 Leaflet内部对象
      * @returns 矢量数据所需的Leaflet内部对象
      */
-    static toLeafletVal(style: Polygon.StyleOptions, entityGraphic: leaflet.Polygon | null): any | leaflet.Polygon;
+    static toLeafletVal(style: Polygon.StyleOptions, entityGraphic: L.Polygon | null): any | L.Polygon;
+}
+
+/**
+ * Polyline 转换options样式参数处理类
+ * @param options - 参数名称
+ */
+declare class PolylineStyleConver extends BaseOptsConver {
+    constructor(options: any);
+}
+
+/**
+ * Rectangle 转换options样式参数处理类
+ * @param options - 参数名称
+ */
+declare class RectangleStyleConver extends BaseOptsConver {
+    constructor(options: any);
 }
 
 /**
  * 矢量数据 相关静态方法
  */
-namespace DrawUtil {
+declare namespace DrawUtil {
     /**
      * 是否有指定类型矢量对象
      * @param type - 矢量标绘类型
@@ -11967,13 +12063,13 @@ namespace DrawUtil {
     /**
      * 标绘中tooltip提示文字对象
      */
-    let DrawMsg: any;
+    const DrawMsg: any;
 }
 
 /**
  * 矢量数据 相关静态方法
  */
-namespace GraphicUtil {
+declare namespace GraphicUtil {
     /**
      * 是否有指定类型矢量对象
      * @param type - 矢量数据类型
@@ -12011,20 +12107,20 @@ namespace GraphicUtil {
 /**
  * 图层相关 静态方法
  */
-namespace LayerUtil {
+declare namespace LayerUtil {
     /**
      * 注册图层类
      * @param type - 图层类型
      * @param layerClass - 图层类
      * @returns 无
      */
-    function register(type: string, layerClass: leaflet.Layer | any): any | void;
+    function register(type: string, layerClass: L.Layer | any): any | void;
     /**
      * 根据 图层类型 获取 图层类
      * @param type - 图层类型
      * @returns 图层类
      */
-    function getClass(type: LayerType): any | leaflet.Layer | any | undefined;
+    function getClass(type: LayerType): any | L.Layer | any | undefined;
     /**
      * 创建图层工厂方法
      * @param options - 图层参数，包括：
@@ -12036,7 +12132,7 @@ namespace LayerUtil {
     function create(options: {
         type: LayerType;
         其他: any;
-    }, templateValues?: any): any | leaflet.Layer | any;
+    }, templateValues?: any): any | L.Layer | any;
     /**
      * 克隆图层
      * @param layer - 图层
@@ -12048,7 +12144,7 @@ namespace LayerUtil {
 /**
  * SDK内部统一调用console.* 打印日志的控制类，在外部可以按需开启和关闭。
  */
-namespace Log {
+declare namespace Log {
     /**
      * 是否 console.log 打印普通日志信息，可以按需关闭或开启
      * @param val - 是否打印
@@ -12090,19 +12186,19 @@ namespace Log {
 /**
  * 图上量算 的 常用静态方法
  */
-namespace MeasureUtil {
+declare namespace MeasureUtil {
     /**
      * 求坐标数组的空间距离
      * @param coords - 坐标数组
      * @returns 距离（单位：米）
      */
-    function getDistance(coords: leaflet.LatLng[]): any | number;
+    function getDistance(coords: L.LatLng[]): any | number;
     /**
      * 计算面积（空间平面）
      * @param coords - 坐标数组
      * @returns 面积，单位：平方米
      */
-    function getArea(coords: leaflet.LatLng[]): any | number;
+    function getArea(coords: L.LatLng[]): any | number;
     /**
      * 度数值 转 弧度值
      * @param degrees - 度数值
@@ -12116,7 +12212,7 @@ namespace MeasureUtil {
      * @param pt2 - 目标点，以该点为参考中心。 像素坐标
      * @returns 返回角度值，0-360度
      */
-    function getAngle(pt1: leaflet.Point, pt2: leaflet.Point): any | number;
+    function getAngle(pt1: L.Point | number[], pt2: L.Point | number[]): any | number;
     /**
      * 格式化显示距离值, 可指定单位
      * @param val - 距离值，米
@@ -12137,43 +12233,43 @@ namespace MeasureUtil {
  * 坐标点的转换 相关静态方法。
  * 提供了平台内部不同坐标系之间的坐标转换、提供了国内偏移坐标系与标准坐标的转换。
  */
-namespace PointTrans {
+declare namespace PointTrans {
     /**
      * 经度纬度数组 转为 LatLng坐标值
      * @param coord - 经度纬度数组
      * @returns LatLng坐标值
      */
-    function coord2latlng(coord: number[]): any | leaflet.LatLng;
+    function coord2latlng(coord: number[]): any | L.LatLng;
     /**
      * 经度纬度数组列表 转为 LatLng坐标值列表
      * @param coords - 经度纬度数组列表
      * @returns LatLng坐标值列表
      */
-    function coords2latlngs(coords: any[][]): any | leaflet.LatLng[];
+    function coords2latlngs(coords: any[][]): any | L.LatLng[];
     /**
      * LatLng坐标值 转为 经度纬度数组
      * @param latlng - LatLng坐标值
      * @returns 经度纬度数组
      */
-    function latlng2coord(latlng: leaflet.LatLng): any | number[];
+    function latlng2coord(latlng: L.LatLng): any | number[];
     /**
      * LatLng坐标值列表 转为 经度纬度数组列表
      * @param latlngs - LatLng坐标值列表
      * @returns 经度纬度数组列表
      */
-    function latlngs2coords(latlngs: leaflet.LatLng[]): any | any[][];
+    function latlngs2coords(latlngs: L.LatLng[]): any | any[][];
     /**
      * LatLng坐标值数组 转为 WebMercator投影平面坐标数组
      * @param arr - LatLng坐标值数组
      * @returns WebMercator投影平面坐标数组
      */
-    function latlngs2mercators(arr: leaflet.LatLng[]): any | any[][];
+    function latlngs2mercators(arr: L.LatLng[]): any | any[][];
     /**
      * WebMercator投影平面坐标数组 转为  LatLng坐标值数组
      * @param arr - WebMercator投影平面坐标数组
      * @returns LatLng坐标值数组
      */
-    function mercators2latlngs(arr: any[][]): any | leaflet.LatLng[];
+    function mercators2latlngs(arr: any[][]): any | L.LatLng[];
     /**
      * 经度/纬度 十进制 转为 度分秒格式
      * @param value - 经度或纬度值
@@ -12302,7 +12398,7 @@ namespace PointTrans {
 /**
  * 单个坐标或位置矩阵相关的处理 静态方法
  */
-namespace PointUtil {
+declare namespace PointUtil {
     /**
      * 获取PointTrans中对应的坐标转换方法
      * srcCoordType 转 dstCoordType 对应的方法名称
@@ -12316,13 +12412,13 @@ namespace PointUtil {
      * @param latlngs - 坐标数组
      * @returns 新的坐标数组
      */
-    function cloneLatLngs(latlngs: leaflet.LatLng[]): any | leaflet.LatLng[];
+    function cloneLatLngs(latlngs: L.LatLng[]): any | L.LatLng[];
     /**
      * 克隆坐标
      * @param latlng - 坐标
      * @returns 新的坐标
      */
-    function cloneLatLng(latlng: leaflet.LatLng): any | leaflet.LatLng;
+    function cloneLatLng(latlng: L.LatLng): any | L.LatLng;
     /**
      * 从起点到终点按"curr/all"比例的新的位置点坐标
      * @param p1 - 起点坐标
@@ -12331,13 +12427,13 @@ namespace PointUtil {
      * @param curr - 当前秒数
      * @returns 新的坐标
      */
-    function interpolatePosition(p1: leaflet.LatLng, p2: leaflet.LatLng, all: number, curr: number): any | leaflet.LatLng;
+    function interpolatePosition(p1: L.LatLng, p2: L.LatLng, all: number, curr: number): any | L.LatLng;
 }
 
 /**
  * 线面对象 静态方法
  */
-namespace PolyUtil {
+declare namespace PolyUtil {
     /**
      * 检查两条线段是否相交
      * @param p - 线段1起点
@@ -12346,20 +12442,20 @@ namespace PolyUtil {
      * @param p3 - 线段2终点
      * @returns 两条线段是否相交
      */
-    function segmentsIntersect(p: leaflet.Point, p1: leaflet.Point, p2: leaflet.Point, p3: leaflet.Point): any | boolean;
+    function segmentsIntersect(p: L.Point | number[], p1: L.Point | number[], p2: L.Point | number[], p3: L.Point | number[]): any | boolean;
     /**
      * 计算平行线坐标
      * @param pts - 坐标数组
      * @param offset - 偏移值
      * @returns 平行线坐标数组
      */
-    function getOffsetPoints(pts: leaflet.LatLng[], offset: number): any | leaflet.LatLng[];
+    function getOffsetPoints(pts: L.LatLng[], offset: number): any | L.LatLng[];
 }
 
 /**
  * 常用静态方法
  */
-namespace Util {
+declare namespace Util {
     /**
      * 赋予默认值
      * @param a - 判断的对象
@@ -12706,153 +12802,162 @@ namespace Util {
 
 
 
-  /**
-   * 控件类 命名空间，
-   * 教程 http://mars2d.cn/dev/guide/map/control.html
-   */
-  namespace control {
-    export { ToolBar }
-    export { LocationBar }
-    export { MapSwich }
-    export { OverviewMap }
-    export { Slider }
-    export { ToolButton }
-  }
-
-  /**
-   * 矢量数据类 命名空间，
-   * 教程 http://mars2d.cn/dev/guide/map/graphic.html
-   */
-  namespace graphic {
-
-    //edit
-    export { BaseEditSimpleShape }
-    export { EditMarker }
-    export { EditCircleMarker }
-    export { EditCircle }
-    export { EditEllipse }
-    export { EditPoly }
-    export { EditRectangle }
-
-    //
-    export { Marker }
-    export { MovingMarker }
-    export { Label }
-    export { DivGraphic }
-    export { DivLightPoint }
-    export { DivBoderLabel }
-    export { DivUpLabel }
-    export { Point }
-    export { Polyline }
-    export { Polygon }
-    export { Circle }
-    export { Ellipse }
-    export { Rectangle }
-    export { Image }
-    export { CanvasImage }
-
-    export { AttackArrow }
-    export { AttackArrowPW }
-    export { AttackArrowYW }
-    export { CloseVurve }
-    export { DoubleArrow }
-    export { FineArrow }
-    export { FineArrowYW }
-    export { GatheringPlace }
-    export { StraightArrow }
-
-    export { DistanceMeasure }
-    export { AreaMeasure }
-
-    //draw
-    export { BaseDraw }
-    export { BaseSimpleShape }
-    export { DrawMarker }
-    export { DrawPoint }
-    export { DrawFontGraphic }
-    export { DrawLabel }
-    export { DrawDivGraphic }
-    export { DrawPolyline }
-    export { DrawPolygon }
-    export { DrawBrushLine }
-    export { DrawDistanceMeasure }
-    export { DrawAreaMeasure }
-
-    export { DrawCircle }
-    export { DrawEllipse }
-    export { DrawRectangle }
-    export { DrawImage }
-    export { BaseDrawPlot }
-    export { DrawAttackArrow }
-    export { DrawAttackArrowPW }
-    export { DrawAttackArrowYW }
-    export { DrawCloseVurve }
-    export { DrawDoubleArrow }
-    export { DrawFineArrow }
-    export { DrawFineArrowYW }
-    export { DrawGatheringPlace }
-    export { DrawStraightArrow }
-  }
-
-  /**
-   * 图层类 命名空间，
-   * 教程 http://mars2d.cn/dev/guide/map/layer.html
-   */
-  namespace layer {
-    export { GroupLayer }
-    export { TileLayer }
-    export { TileLayer as XyzLayer }
-    export { ArcGisLayer }
-    export { ArcGisCacheLayer }
-    export { ArcGisCompactLayer }
-    export { BaiduLayer }
-    export { GoogleLayer }
-    export { ImageLayer }
-    export { ImageRotatedLayer }
-    export { OsmLayer }
-    export { TdtLayer }
-    export { TencentLayer }
-    export { WmsLayer }
-    export { WmtsLayer }
-    export { GaodeLayer }
-    export { MapboxLayer }
-
-    export { VirtualGrid }
-    export { GraphicLayer }
-    export { GeoJsonLayer }
-    export { DayNightLayer }
-    export { GraticuleLayer }
-    export { ClusterLayer }
-    export { PbfLayer }
-    export { WfsLayer }
-    export { HeatLayer }
-    export { CanvasMarkerLayer }
-
-
-    export { EchartsLayer }
-    export { MapVLayer }
-    export { ArcGisDynamicLayer }
-    export { ArcGisFeatureLayer }
-    export { ArcGisImageLayer }
-    export { ArcGisTileLayer }
-  }
-
-  /**
-   * 服务查询类 命名空间
-   */
-  namespace query {
-    export { GaodePOI }
-    export { GaodeRoute }
-  }
-
-
-  /**
-   * 管理或分析类 命名空间，
-   * 教程 http://mars2d.cn/dev/guide/map/thing.html
-   */
-  namespace thing {
-    export { Measure }
-    export { ExpImg }
-  }
-
+/**
+ * 控件类 命名空间，
+ * 教程 http://mars2d.cn/dev/guide/map/control.html
+ */
+declare namespace control {
+  export { ToolBar }
+  export { LocationBar }
+  export { MapSwich }
+  export { OverviewMap }
+  export { Slider }
+  export { ToolButton }
 }
+
+/**
+ * 矢量数据类 命名空间，
+ * 教程 http://mars2d.cn/dev/guide/map/graphic.html
+ */
+declare namespace graphic {
+
+  //edit
+  export { BaseEditSimpleShape }
+  export { EditMarker }
+  export { EditCircleMarker }
+  export { EditCircle }
+  export { EditEllipse }
+  export { EditPoly }
+  export { EditRectangle }
+
+  //
+  export { Marker }
+  export { MovingMarker }
+  export { Label }
+  export { DivGraphic }
+  export { DivLightPoint }
+  export { DivBoderLabel }
+  export { DivUpLabel }
+  export { Point }
+  export { Polyline }
+  export { Polygon }
+  export { Circle }
+  export { Ellipse }
+  export { Rectangle }
+  export { Image }
+  export { CanvasImage }
+
+  export { AttackArrow }
+  export { AttackArrowPW }
+  export { AttackArrowYW }
+  export { CloseVurve }
+  export { DoubleArrow }
+  export { FineArrow }
+  export { FineArrowYW }
+  export { GatheringPlace }
+  export { StraightArrow }
+
+  export { DistanceMeasure }
+  export { AreaMeasure }
+
+  //draw
+  export { BaseDraw }
+  export { BaseSimpleShape }
+  export { DrawMarker }
+  export { DrawPoint }
+  export { DrawFontGraphic }
+  export { DrawLabel }
+  export { DrawDivGraphic }
+  export { DrawPolyline }
+  export { DrawPolygon }
+  export { DrawBrushLine }
+  export { DrawDistanceMeasure }
+  export { DrawAreaMeasure }
+
+  export { DrawCircle }
+  export { DrawEllipse }
+  export { DrawRectangle }
+  export { DrawImage }
+  export { BaseDrawPlot }
+  export { DrawAttackArrow }
+  export { DrawAttackArrowPW }
+  export { DrawAttackArrowYW }
+  export { DrawCloseVurve }
+  export { DrawDoubleArrow }
+  export { DrawFineArrow }
+  export { DrawFineArrowYW }
+  export { DrawGatheringPlace }
+  export { DrawStraightArrow }
+}
+
+/**
+ * 图层类 命名空间，
+ * 教程 http://mars2d.cn/dev/guide/map/layer.html
+ */
+declare namespace layer {
+  export { GroupLayer }
+  export { TileLayer }
+  export { TileLayer as XyzLayer }
+  export { ArcGisLayer }
+  export { ArcGisCacheLayer }
+  export { ArcGisCompactLayer }
+  export { BaiduLayer }
+  export { GoogleLayer }
+  export { ImageLayer }
+  export { ImageRotatedLayer }
+  export { OsmLayer }
+  export { TdtLayer }
+  export { TencentLayer }
+  export { WmsLayer }
+  export { WmtsLayer }
+  export { GaodeLayer }
+  export { MapboxLayer }
+
+  export { VirtualGrid }
+  export { GraphicLayer }
+  export { GeoJsonLayer }
+  export { DayNightLayer }
+  export { GraticuleLayer }
+  export { ClusterLayer }
+  export { PbfLayer }
+  export { WfsLayer }
+  export { HeatLayer }
+  export { CanvasMarkerLayer }
+
+  export { EchartsLayer }
+  export { MapVLayer }
+  export { ArcGisDynamicLayer }
+  export { ArcGisFeatureLayer }
+  export { ArcGisImageLayer }
+  export { ArcGisTileLayer }
+}
+
+/**
+ * 服务查询类 命名空间
+ */
+declare namespace query {
+  export { GaodePOI }
+  export { GaodeRoute }
+  export { QueryArcServer }
+  export { QueryGeoServer }
+}
+
+
+/**
+ * 管理或分析类 命名空间，
+ * 教程 http://mars2d.cn/dev/guide/map/thing.html
+ */
+declare namespace thing {
+  export { Measure }
+  export { ExpImg }
+}
+
+
+export {
+  name, update, version, proj4, esri,
+  BaseClass, BaseThing, SmallTooltip, Token, CRS, ChinaCRS, EventType, GraphicType, LayerType, HorizontalOrigin, VerticalOrigin, MapSwichType, State,
+  Util, Log, GraphicUtil, LayerUtil, PointUtil, PointTrans, PolyUtil, DrawUtil, MeasureUtil,
+  BaseOptsConver, MarkerStyleConver, DivGraphicStyleConver, LabelStyleConver, PointStyleConver, CircleStyleConver, PolylineStyleConver, PolygonStyleConver, RectangleStyleConver,
+  control, graphic, layer, thing, query,
+  Map,
+};

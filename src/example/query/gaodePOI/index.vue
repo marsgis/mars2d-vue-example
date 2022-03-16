@@ -96,7 +96,7 @@ const customRow = (record: DataItem) => {
       }
       // 预留功能，后续支持该方法
       /* record.graphic.openHighlight() */
-      mapWork.flyToGraphic(record.graphic)
+      mapWork.flytoGraphic(record.graphic)
     }
   }
 }
@@ -128,7 +128,7 @@ const query = () => {
 
     // 视角操作
   setTimeout(function () {
-    mapWork.flyToGraphic()
+    mapWork.flytoGraphic()
   }, 1000)
 }
 

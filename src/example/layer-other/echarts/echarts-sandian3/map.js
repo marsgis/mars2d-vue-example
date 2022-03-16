@@ -1,7 +1,6 @@
 import * as mars2d from "mars2d"
 
 let map
-let echartsLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {}
@@ -16,7 +15,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.basemap = 2017 // 切换到蓝色底图
-  map.setView([33.652, 107.661], 5)
+  map.setView([34.885931, 125.024414], 5)
 
   showEchartsLayer()
 }

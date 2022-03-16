@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 let queryMapserver
 let drawGraphic
 let geoJsonLayer

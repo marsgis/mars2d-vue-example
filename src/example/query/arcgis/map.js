@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 let queryMapserver
 let geoJsonLayer
@@ -8,9 +8,7 @@ let drawGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
-  scene: {
-    center: { lat: 31.79536, lng: 117.255222, alt: 16294, heading: 358, pitch: -76 }
-  }
+  center: { lat: 31.79536, lng: 117.255222, alt: 16294, heading: 358, pitch: -76 }
 }
 
 export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中

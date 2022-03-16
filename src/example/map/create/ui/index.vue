@@ -136,7 +136,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue"
+import { onMounted, nextTick, reactive, ref } from "vue"
 import * as mapWork from "./map.js"
 import { TableColumnType, TableProps } from "ant-design-vue"
 import axios from "axios"
@@ -357,6 +357,7 @@ const customTableRow = (selectedRow: any) => {
 
 // ========================= 树控件相关处理============================
 
+let layers: any
 const layersObj: any = {}
 const treeData = ref<any[]>([])
 const expandedKeys = ref<string[]>([])
@@ -367,47 +368,74 @@ mapWork.eventTarget.on("loadOK", () => {
 })
 
 function initTree() {
-  const layers = window.mapWork.map.getLayers({
-    basemaps: true, // 是否取config.json中的basempas
-    layers: true // 是否取config.json中的layers
-  })
-
-  // 遍历出config.json中所有的basempas和layers
+  layers = mapWork.getLayers()
   for (let i = layers.length - 1; i >= 0; i--) {
-    const layer = layers[i]
+    const layer = layers[i] // 创建图层
+
+    if (!layer._hasMapInit && layer.pid === -1) {
+      layer.pid = 99 // 示例中创建的图层都放到99分组下面
+    }
+
     if (layer && layer.pid === -1) {
-      const node: any = {
-        title: layer.name,
-        key: layer.uuid,
+      const node: any = reactive({
+        index: i,
+        title: layer.name || `未命名(${layer.type})`,
+        key: layer.id,
         id: layer.id,
         pId: layer.pid,
-        uuid: layer.uuid
-      }
+        uuid: layer.uuid,
+        hasZIndex: layer.hasZIndex,
+        hasOpacity: layer.hasOpacity,
+        opacity: 100 * (layer.opacity || 0)
+      })
+      layersObj[layer.id] = layer
+
       node.children = findChild(node, layers)
       treeData.value.push(node)
-      layersObj[layer.uuid] = layer
+
       expandedKeys.value.push(node.key)
     }
   }
+
+  treeData.value.forEach((data: any) => {
+    data.children.forEach((item: any) => {
+      if (item.children) {
+        item.children.forEach((chil: any) => {
+          if (layersObj[chil.key].options.radio) {
+            chil.parent.disabled = true
+          }
+        })
+      }
+    })
+  })
 }
 
 function findChild(parent: any, list: any[]) {
   return list
     .filter((item: any) => item.pid === parent.id)
-    .map((item: any) => {
+    .reverse()
+    .map((item: any, i: number) => {
       const node: any = {
-        title: item.name,
-        key: item.uuid,
+        index: i,
+        title: item.name || `未命名(${item.type})`,
+        key: item.id,
         id: item.id,
         pId: item.pid,
-        uuid: item.uuid
+        uuid: item.uuid,
+        hasZIndex: item.hasZIndex,
+        hasOpacity: item.hasOpacity,
+        opacity: 100 * (item.opacity || 0),
+        parent: parent
       }
-      layersObj[item.uuid] = item
-      if (item.hasChildLayer) {
-        node.children = findChild(node, list)
-      }
-      if (item.isAdded && item.show) {
-        checkedKeys.value.push(node.key)
+
+      layersObj[item.id] = item
+      node.children = findChild(node, list)
+      expandedKeys.value.push(node.key)
+
+      if (item.isAdded) {
+        nextTick(() => {
+          checkedKeys.value.push(node.key)
+        })
       }
       return node
     })
@@ -415,22 +443,45 @@ function findChild(parent: any, list: any[]) {
 
 // 勾选了树节点
 const checkedChange = (keys: string[], e: any) => {
-  const layer = layersObj[e.node.key]
+  const layer = layersObj[e.node.id]
 
   if (layer) {
     if (!layer.isAdded) {
       mapWork.addLayer(layer)
     }
 
+    // 特殊处理同目录下的单选的互斥的节点，可在config对应图层节点中配置"radio":true即可
+    if (layer.options.radio && e.checked) {
+      // 循环所有的图层
+      for (const i in layersObj) {
+        const item = layersObj[i]
+        // 循环所有的打开的图层
+        checkedKeys.value.forEach((key, index) => {
+          // 在所有图层中筛选与打开图层对应key值的图层 以及 与当前操作的图层的pid相同的图层
+          if (item === layersObj[key] && layer.pid === layersObj[key].pid) {
+            // 筛选出不是当前的其他图层进行图层隐藏以及移除
+            if (item !== layer) {
+              checkedKeys.value.splice(index, 1)
+              item.show = false
+            }
+          }
+        })
+      }
+    }
+
     // 处理子节点
     if (e.node.children && e.node.children.length) {
       renderChildNode(keys, e.node.children)
     }
-
-    if (keys.indexOf(e.node.key) !== -1) {
+    if (keys.indexOf(e.node.id) !== -1) {
       layer.show = true
+
+      if (layer.options.center) {
+        layer.flyTo()
+      }
     } else {
       layer.show = false
+      mapWork.removeLayer(layer, layers)
     }
   }
 }

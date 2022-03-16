@@ -1,7 +1,7 @@
 <template>
   <a-collapse v-model:activeKey="styleCollapse">
     <a-collapse-panel v-if="props.styleConfig" key="1" :showArrow="false" header="+ 样式信息">
-      <table class="mars-primary-table" border="1" bordercolor="#ffffff" cellspacing="0" cellpadding="0">
+      <table class="mars-primary-table" border="1" bordercolor="#4db3ff" cellspacing="0" cellpadding="0">
         <tr>
           <td>所在图层</td>
           <td>{{ layerName || "默认分组" }}</td>
@@ -20,8 +20,8 @@
                 :is="getComponent(item.type)"
                 size="small"
                 v-model:value="styleValue[item.name]"
-                :min="item.min || item.min === 0 ? item.min : -Infinity"
-                :max="item.max || item.max === 0 ? item.max : Infinity"
+                :min="item.min ? item.min : 0  || item.min === 0 ? item.min : -Infinity"
+                :max="item.max ? item.max : 1  || item.max === 0 ? item.max : Infinity"
                 :step="item.step || 0.1"
                 :options="item.data || []"
                 @change="unionChange(item)"
@@ -42,8 +42,8 @@
                 :is="getComponent(item.type)"
                 size="small"
                 v-model:value="styleValue.label[item.name]"
-                :min="item.min || item.min === 0 ? item.min : -Infinity"
-                :max="item.max || item.max === 0 ? item.max : Infinity"
+                :min="item.min ? item.min : 0 || item.min === 0 ? item.min : -Infinity"
+                :max="item.max ? item.max : 1 || item.max === 0 ? item.max : Infinity"
                 :step="item.step || 0.1"
                 :options="item.data || []"
                 @change="unionLabelChange"

@@ -19,6 +19,7 @@ export const mapOptions = function (option) {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
     // 第二种添加控件方法
     // const layers = L.control.layers({ position: "bottomleft" })
     // map.addControl(layers)

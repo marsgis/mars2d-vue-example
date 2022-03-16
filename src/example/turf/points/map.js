@@ -8,9 +8,7 @@ const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 11,
-  scene: {
-    center: { lat: 31.880473, lng: 117.200775 }
-  }
+  center: { lat: 31.880473, lng: 117.200775 }
 }
 
 /**
@@ -49,7 +47,7 @@ export function randomPoints() {
   points.features.forEach((e, index) => {
     const position = e.geometry.coordinates
     const latlngs = mars2d.PointTrans.coords2latlngs([position])
-    const primitive = new mars2d.graphic.Marker({
+    const graphic = new mars2d.graphic.Marker({
       latlng: latlngs[0],
       style: {
         image: "img/marker/mark3.png",
@@ -59,7 +57,7 @@ export function randomPoints() {
       },
       popup: "第" + index + "个"
     })
-    pointsLayer.addGraphic(primitive)
+    pointsLayer.addGraphic(graphic)
   })
 }
 // 计算包围面

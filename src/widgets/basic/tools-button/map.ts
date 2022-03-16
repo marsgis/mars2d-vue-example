@@ -31,7 +31,7 @@ export function onMounted(mapInstance: mars2d.Map): void {
   })
   map.addControl(layersTool)
 
-  if (map.options.basemaps?.length > 1) {
+  if (map.marsOptions.basemaps?.length > 1) {
     const basemapsTool = new mars2d.control.ToolButton({
       title: "底图切换",
       position: "bottomleft",

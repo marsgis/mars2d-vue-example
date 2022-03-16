@@ -7,9 +7,7 @@ const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000"
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 11,
-  scene: {
-    center: { lat: 31.868811, lng: 117.234421 }
-  }
+  center: { lat: 31.868811, lng: 117.234421 }
 }
 
 /**
@@ -53,7 +51,7 @@ export function randomPoints() {
     const position = e.geometry.coordinates
     const latlngs = mars2d.PointTrans.coords2latlngs([position])
 
-    const primitive = new mars2d.graphic.Marker({
+    const graphic = new mars2d.graphic.Marker({
       latlng: latlngs[0],
       style: {
         image: "img/marker/mark3.png",
@@ -63,7 +61,7 @@ export function randomPoints() {
       },
       popup: "第" + index + "个"
     })
-    graphicLayer.addGraphic(primitive)
+    graphicLayer.addGraphic(graphic)
   })
 }
 
@@ -84,7 +82,7 @@ export function randomPolylines() {
 
     const latlngs = mars2d.PointTrans.coords2latlngs([positions])
 
-    const primitive = new mars2d.graphic.Polyline({
+    const graphic = new mars2d.graphic.Polyline({
       latlngs: latlngs,
       style: {
         width: 4,
@@ -94,7 +92,7 @@ export function randomPolylines() {
       },
       popup: "第" + index + "个"
     })
-    graphicLayer.addGraphic(primitive)
+    graphicLayer.addGraphic(graphic)
   })
 }
 
@@ -115,7 +113,7 @@ export function randomPolygons() {
 
     const latlngs = mars2d.PointTrans.coords2latlngs([positions])
 
-    const primitive = new mars2d.graphic.Polygon({
+    const graphic = new mars2d.graphic.Polygon({
       latlngs: latlngs,
       style: {
         fillColor: getColor(),
@@ -123,7 +121,7 @@ export function randomPolygons() {
       },
       popup: "第" + index + "个"
     })
-    graphicLayer.addGraphic(primitive)
+    graphicLayer.addGraphic(graphic)
   })
 }
 

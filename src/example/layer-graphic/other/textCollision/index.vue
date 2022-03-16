@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-pannel :visible="true" right="10" top="10" height="46">
     <a-checkbox v-model:checked="enabled" @change="onChangeEnabled"> 是否文本碰撞检测</a-checkbox>
   </mars-pannel>
 </template>

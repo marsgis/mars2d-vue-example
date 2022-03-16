@@ -73,3 +73,21 @@ export function createLayer(layer) {
 export function addLayer(layer) {
   map.addLayer(layer)
 }
+
+export function getLayers() {
+  return map.getLayers({
+    basemaps: true, // 是否取config.json中的basempas
+    layers: true // 是否取config.json中的layers
+  })
+}
+
+export function removeLayer(layer, list) {
+  const children = list.filter((item) => item.pid === layer.id)
+  if (children.length > 0) {
+    for (let i = 0; i < children.length; i++) {
+      map.removeLayer(children[i])
+    }
+  } else {
+    map.removeLayer(layer)
+  }
+}

@@ -18,19 +18,13 @@ export const mapOptions = function (option) {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  const geolocation = new Geolocation()
-  const toolButton = new mars2d.control.ToolButton({
-    title: "示例按钮bookmark",
-    icon: "img/icon/tubiao_location.svg",
-    insertIndex: 1, // 插入的位置顺序, 1是home按钮后面
-    click: () => {
-      // 手动调用，开始定位
-      geolocation.startTracking(map)
-    }
+  const geolocation = new Geolocation({
+    insertIndex: 1 // 插入的位置顺序, 1是home按钮后面
   })
-  map.addControl(toolButton)
+  map.addControl(geolocation)
+
   // 手动调用，开始定位
-  geolocation.startTracking(map)
+  geolocation.startTracking()
 }
 
 /**

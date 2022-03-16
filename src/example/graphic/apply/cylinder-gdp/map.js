@@ -112,7 +112,7 @@ function showYearZT(data) {
     createZT(p1, html)
 
     // 添加文字
-    const primitive = new mars2d.graphic.Label({
+    const graphic = new mars2d.graphic.Label({
       latlng: L.latLng(jwd[1], jwd[0]),
       style: {
         text: numall,
@@ -126,8 +126,8 @@ function showYearZT(data) {
         verticalOrigin: mars2d.VerticalOrigin.TOP
       }
     })
-    graphicLayer.addGraphic(primitive)
-    primitive.bindTooltip(html)
+    graphicLayer.addGraphic(graphic)
+    graphic.bindTooltip(html)
   }
 }
 

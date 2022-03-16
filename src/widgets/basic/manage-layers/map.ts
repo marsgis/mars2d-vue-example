@@ -18,6 +18,7 @@ export const eventTarget = new mars2d.BaseClass()
  */
 export function onMounted(mapInstance: mars2d.Map): void {
   map = mapInstance // 记录首次创建的map
+
   eventTarget.fire("loadOK")
 }
 
@@ -31,16 +32,17 @@ export function onUnmounted(): void {
 
 export function addLayer(layer: any) {
   map.addLayer(layer)
+  layer.show = true
 }
 
-export function removeLayer(layer:any, list:any) {
-  const children = list.filter((item:any) => item.pid === layer.id)
+export function removeLayer(layer: any, list: any) {
+  const children = list.filter((item: any) => item.pid === layer.id)
   if (children.length > 0) {
     for (let i = 0; i < children.length; i++) {
-      map.removeLayer(children[i])
+      children[i].show = false
     }
   } else {
-    map.removeLayer(layer)
+    layer.show = false
   }
 }
 
@@ -50,4 +52,3 @@ export function getLayers() {
     layers: true // 是否取config.json中的layers
   })
 }
-

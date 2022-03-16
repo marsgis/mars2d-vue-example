@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 let poiLayer
 let queryGaodePOI
@@ -85,8 +85,8 @@ export function query(radioFanwei, cityShi, text) {
         {
           page: 0,
           polygon: [
-            [extent.xmin, extent.ymin],
-            [extent.xmax, extent.ymax]
+            [extent.ymax, extent.xmin],
+            [extent.ymin, extent.xmax]
           ],
           limit: true
         },
@@ -175,24 +175,16 @@ function addDemoGraphics(arr) {
       style: {
         image: "img/marker/mark3.png",
         width: 32,
-        height: 44
-        // rotationAngle: 90,
+        height: 44,
         // 预留功能，后续支持高亮操作
-        /* highlight: { type: "click", image: "img/marker/mark1.png" } */
+        highlight: { type: "click", image: "img/marker/mark1.png" },
         // 预留功能，后续支持附带文字的显示
-        /* label: {
+        label: {
           text: item.name,
           font: "20px 楷体",
-          color: Cesium.Color.AZURE,
           outline: true,
-          outlineColor: Cesium.Color.BLACK,
-          outlineWidth: 2,
-          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(0, -30), // 偏移量
-          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 200000),
-          clampToGround: true // 贴地
-        } */
+          outlineWidth: 2
+        }
       },
       attr: item
     })
@@ -200,9 +192,8 @@ function addDemoGraphics(arr) {
 
     item.graphic = graphic
   }
+  map.flyToGraphic(graphic)
 }
-
-
 
 // 框选查询 矩形
 export function drawRectangle() {
@@ -262,6 +253,7 @@ export function drawPolygon() {
   })
 }
 
-export function flyToGraphic(graphic) {
+export function flytoGraphic(graphic) {
   map.flyToGraphic(graphic)
+  console.log(graphic)
 }

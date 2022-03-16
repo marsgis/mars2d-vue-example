@@ -139,7 +139,8 @@
             "name": "OpenStreetMap（OSM）",
             "thumbnail": "layer-tile-online-osm.jpg",
             "main_es5": "layer-tile-online-osm",
-            "main": "layer-tile/online/osm"
+            "main": "layer-tile/online/osm",
+            "vuePanel": true
           },
           {
             "name": "谷歌(已被封)",
@@ -454,7 +455,7 @@
             "thumbnail": "control-basis-geolocation.jpg",
             "main_es5": "control-basis-geolocation",
             "main": "control/basis/geolocation",
-            "resources": ["https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0", "Geolocation.js", "Geolocation.css"]
+            "resources": ["https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0", "Geolocation.js"]
           },
           {
             "name": "POI兴趣点搜索",
@@ -866,7 +867,7 @@
             "name": "军事标绘",
             "thumbnail": "layer-graphic-draw-military.jpg",
             "main_es5": "layer-graphic-draw-military",
-            "main": "layer-graphic/draw-military",
+            "main": "layer-graphic/draw/military",
             "vuePanel": true
           },
           {

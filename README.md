@@ -23,7 +23,7 @@
  这是一个基于 Vue3.0 开发的 Mars2D 功能示例 演示项目。
 
  > 如果您不熟悉Vue，对原生JS比较熟悉，可以阅读： 
- [功能示例原生版教程](http://mars2d.cn/dev/guide/start/example-old.html) 、
+ [功能示例原生JS版教程](http://mars2d.cn/dev/guide/start/example-old.html) 、
  [mars2d-es5-example代码](https://gitee.com/marsgis/mars2d-es5-example) 
 
  
@@ -34,7 +34,7 @@
 
 
 ## 视频讲解
-建议先看一遍视频讲解，再实际操作，您可以[新页面查看高清视频](https://www.bilibili.com/video/BV1PL41177SS/)
+建议先看一遍视频讲解，再实际操作，您可以[新页面查看高清视频](https://www.bilibili.com/video/BV1pb4y1W7NG/)
 
 
 
@@ -84,6 +84,7 @@ git clone git@gitee.com:marsgis/mars2d-vue-example.git
 
 
 ### 运行命令
+Node环境需要v14及以上版本
 
 #### 首次运行前安装依赖
 ```
@@ -190,9 +191,9 @@ mars2d-vue-example
  
 ```json
 {
-  "name": "POI兴趣点搜索(Cesium原生)",
-  "main": "control/cesium/geocoder",
-  "resources": ["cesiumControl.css"],
+  "name": "POI兴趣点搜索(Leaflet原生)",
+  "main": "control/leaflet/geocoder",
+  "resources": ["leafletControl.css"],
   "thumbnail": "d10_geocoder.jpg"
 }
 ```
@@ -232,7 +233,7 @@ mars2d-vue-example
   "main": "map/sample", //示例的相对路径
   "vuePanel": true, // 可选参数，表示是否存在ui面板，默认false
   "libs": [], // 通用依赖项，可选参数 默认 ["mars2d"]
-  "resources": ["cesiumControl.css"], // 个性化依赖项, 可选参数，默认 []
+  "resources": ["leafletControl.css"], // 个性化依赖项, 可选参数，默认 []
   "thumbnail": "thumbnail.jpg" // 缩略图可选, 默认为 thumbnail.jpg
 }
 ```
@@ -246,7 +247,7 @@ mars2d-vue-example
 ### 3. 新建 map.js 地图业务文件
 
 在目录下新建`map.js`（文件名固定不可修改）主入口文件 map.js 主要用于处理地图相关业务。
-在文件中必须加上 initMap 方法来初始化地球和相关业务,比如：
+在文件中必须加上 initMap 方法来初始化地图和相关业务,比如：
 
 最简结构如下
 ```js
@@ -256,7 +257,7 @@ var eventTarget = new mars2d.BaseClass()
 
 // 构造地图主方法【必须】
 function initMap(options) {
-  // 创建三维地球场景
+  // 创建二维地图场景
   map = new mars2d.Map("mars2dContainer", options)
 }
 ```
@@ -371,7 +372,7 @@ mapWork.eventTarget.on("loadOk", function (event: any) {})
  如果局域网内没有相关服务，可以按下面处理：
 - 修改config.json中`terrain`配置中，将已有的`"show": true`配置，改为`"show": false` 
 - 修改config.json中`basemaps`数组配置中，将已有的`"show": true`的图层，将该值改为`"show": false` ，并将单张图片或离线地图加上`"show": true`，并修改相关URL地址。
-- 您也可以参考教程[发布三维数据服务](/guide/data/server.html)进行部署离线地图服务，里面也有一些示例离线数据。
+- 您也可以参考教程[发布地图数据服务](/guide/data/server.html)进行部署离线地图服务，里面也有一些示例离线数据。
 
 
 ### 2. src\example\中增加的资源访问 404
