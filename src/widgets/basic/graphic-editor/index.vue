@@ -52,7 +52,7 @@ function updataLayer(graphicLayer?: any) {
   } else {
     gp = graphic
   }
-  if (gp && gp.isEditing) {
+  if (gp) {
     style.value = _.cloneDeep(gp.style)
     const config = (graphicAttr as any)[gp.options.edittype || gp.type] || {}
     styleConfig.value = config

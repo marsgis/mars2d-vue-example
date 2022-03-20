@@ -85,8 +85,8 @@ export function query(radioFanwei, cityShi, text) {
         {
           page: 0,
           polygon: [
-            [extent.ymax, extent.xmin],
-            [extent.ymin, extent.xmax]
+            [extent.ymin, extent.xmin],
+            [extent.ymax, extent.xmax]
           ],
           limit: true
         },
@@ -131,7 +131,7 @@ function loadData(queryOptions, text) {
     return
   }
   showLoading()
-
+  console.log(queryOptions)
   lastQueryOptions = {
     ...queryOptions,
     count: 25, // count 每页数量
@@ -192,7 +192,6 @@ function addDemoGraphics(arr) {
 
     item.graphic = graphic
   }
-  map.flyToGraphic(graphic)
 }
 
 // 框选查询 矩形
@@ -209,7 +208,7 @@ export function drawRectangle() {
     success: function (graphic) {
       drawGraphic = graphic
       // drawGraphic.type = "rectangle"
-
+      console.log(graphic)
       // console.log("矩形：", drawGraphic.toGeoJSON({ outline: true }))
     }
   })

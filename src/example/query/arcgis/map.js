@@ -37,11 +37,12 @@ export function query(text) {
     globalMsg("请绘制区域")
     return
   }
-
+  geoJsonLayer.clear()
   queryMapserver.query({
     where: `项目名称 like '%${text}%'`, // 类sql语句
     graphic: drawGraphic,
     success: (result) => {
+      console.log(result)
       if (result.count === 0) {
         globalMsg("未查询到相关记录！")
         return

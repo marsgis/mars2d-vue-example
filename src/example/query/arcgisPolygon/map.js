@@ -115,7 +115,11 @@ export function queryData(queryVal) {
     globalMsg("请绘制查询区域！")
     return
   }
-
+  if (!queryVal) {
+    globalMsg("请输入查询关键词！")
+    return
+  }
+    console.log(queryVal)
   queryMapserver.query({
     column: "用地名称",
     text: queryVal,

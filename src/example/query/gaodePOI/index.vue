@@ -126,10 +126,6 @@ const query = () => {
 
   mapWork.query(radioFanwei.value, cityShi.value, serverName.value)
 
-    // 视角操作
-  setTimeout(function () {
-    mapWork.flytoGraphic()
-  }, 1000)
 }
 
 // 城市的数据
