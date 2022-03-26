@@ -397,7 +397,7 @@
             "thumbnail": "control-basis-toolBar.jpg",
             "main_es5": "control-basis-toolBar",
             "main": "control/basis/toolBar",
-            "resources": ["http://api.map.baidu.com-getscript?v=2.0&ak=qObioeG8HeeQVrOVAGScPVhDzlmv6rL9&services="]
+            "resources": ["http://api.map.baidu.com/getscript?v=2.0&ak=qObioeG8HeeQVrOVAGScPVhDzlmv6rL9&services="]
           },
           {
             "name": "下侧状态栏",

@@ -20,6 +20,39 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
+  // 绑定标绘相关事件监听(可以自行加相关代码实现业务需求，此处主要做示例)
+  graphicLayer.on(mars2d.EventType.drawStart, function (e) {
+    console.log("开始绘制", e)
+  })
+  graphicLayer.on(mars2d.EventType.drawAddPoint, function (e) {
+    console.log("绘制过程中增加了点", e)
+  })
+  graphicLayer.on(mars2d.EventType.drawRemovePoint, function (e) {
+    console.log("绘制过程中删除了点", e)
+  })
+
+  graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
+    console.log("创建完成", e)
+  })
+
+  graphicLayer.on(mars2d.EventType.editStart, function (e) {
+    console.log("开始编辑", e)
+    eventTarget.fire("graphicEditor-start", e)
+    // startEditing(e.graphic)
+  })
+
+  graphicLayer.on(mars2d.EventType.editMovePoint, function (e) {
+    console.log("编辑修改了点", e)
+    // startEditing(e.graphic)
+    eventTarget.fire("graphicEditor-start", e)
+  })
+  graphicLayer.on(mars2d.EventType.editRemovePoint, function (e) {
+    console.log("编辑删除了点", e)
+
+    // startEditing(e.graphic)
+    eventTarget.fire("graphicEditor-start", e)
+  })
+
   // 图层管理的相关处理，
   initLayerManager()
 
@@ -273,4 +306,57 @@ function addDemoGraphic3() {
     attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
+}
+export function drawDivMarker() {
+  graphicLayer.startDraw({
+    type: "divGraphic",
+    style: {
+      html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
+          <div class="marsTiltPanel-wrap">
+              <div class="area">
+                  <div class="arrow-lt"></div>
+                  <div class="b-t"></div>
+                  <div class="b-r"></div>
+                  <div class="b-b"></div>
+                  <div class="b-l"></div>
+                  <div class="arrow-rb"></div>
+                  <div class="label-wrap">
+                      <div class="title">火星水厂</div>
+                      <div class="label-content">
+                          <div class="data-li">
+                              <div class="data-label">实时流量：</div>
+                              <div class="data-value"><span id="lablLiuliang" class="label-num">39</span><span class="label-unit">m³/s</span>
+                              </div>
+                          </div>
+                          <div class="data-li">
+                              <div class="data-label">水池液位：</div>
+                              <div class="data-value"><span id="lablYeWei"  class="label-num">10.22</span><span class="label-unit">m</span>
+                              </div>
+                          </div>
+                          <div class="data-li">
+                              <div class="data-label">水泵状态：</div>
+                              <div class="data-value">
+                                <span id="lablSBZT1"  class="label-tag data-value-status-1" alt="中间状态">1号</span>
+                                <span id="lablSBZT2"  class="label-tag data-value-status-0" alt="关闭状态">2号</span>
+                               </div>
+                          </div>
+                          <div class="data-li">
+                              <div class="data-label">出水阀门：</div>
+                              <div class="data-value">
+                                <span id="lablCSFM1"   class="label-tag data-value-status-1" alt="中间状态">1号</span>
+                                <span id="lablCSFM2"   class="label-tag data-value-status-2" alt="打开状态">2号</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="b-t-l"></div>
+              <div class="b-b-r"></div>
+          </div>
+          <div class="arrow" ></div>
+      </div>`,
+      horizontalOrigin: mars2d.HorizontalOrigin.LEFT,
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
+    }
+  })
 }
