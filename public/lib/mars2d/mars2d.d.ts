@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.0
- * 编译日期：2022-03-26 13:00:48
+ * 版本信息：v3.1.1
+ * 编译日期：2022-04-01 18:18:49
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -20,7 +20,7 @@ declare const esri: any
 /**
  * 国内偏移坐标系 枚举
  */
-declare const enum ChinaCRS {
+declare enum ChinaCRS {
     /**
      * 标准无偏坐标系
      */
@@ -34,7 +34,7 @@ declare const enum ChinaCRS {
 /**
  * 坐标系 枚举
  */
-declare const enum CRS {
+declare enum CRS {
     /**
      * Web墨卡托投影坐标系
      */
@@ -84,7 +84,7 @@ declare const enum CRS {
 /**
  * 事件类型 枚举（所有事件统一的入口）
  */
-declare const enum EventType {
+declare enum EventType {
     /**
      * 添加对象
      */
@@ -290,7 +290,7 @@ declare const enum EventType {
 /**
  * 矢量数据类型
  */
-declare const enum GraphicType {
+declare enum GraphicType {
     marker,
     movingMarker,
     divGraphic,
@@ -328,7 +328,7 @@ declare const enum GraphicType {
 /**
  * 一个原点相对于一个物体的水平位置
  */
-declare const enum HorizontalOrigin {
+declare enum HorizontalOrigin {
     /**
      * 原点在物体的左边
      */
@@ -346,7 +346,7 @@ declare const enum HorizontalOrigin {
 /**
  * 图层类型
  */
-declare const enum LayerType {
+declare enum LayerType {
     group,
     tdt,
     baidu,
@@ -384,7 +384,7 @@ declare const enum LayerType {
 /**
  * 地图切换控件内使用的图层类型
  */
-declare const enum MapSwichType {
+declare enum MapSwichType {
     /**
      * 电子地图
      */
@@ -406,7 +406,7 @@ declare const enum MapSwichType {
 /**
  * 状态 枚举
  */
-declare const enum State {
+declare enum State {
     /**
      * 初始化
      */
@@ -426,55 +426,48 @@ declare const enum State {
 }
 
 /**
- * SDK中涉及到的所有第3放地图服务的Token令牌key，
+ * SDK中涉及到的所有第3方地图服务的Token令牌key，
  * 【重要提示：为了避免后期失效，请全部重新赋值换成自己的key】
  */
 declare namespace Token {
     /**
+     * mapbox地图key，
+     * 官网：{@link https://account.mapbox.com}
+     */
+    const mapbox: string;
+    /**
      * 天地图key数组，
      * 官网： {@link https://console.tianditu.gov.cn/api/key}
      */
-    const enum tiandituArr {
-    }
+    const tiandituArr: string[];
     /**
      * 天地图key，
      */
-    const enum tianditu {
-    }
+    const tianditu: string;
     /**
      * 高德key数组，
      * 官网： {@link https://console.amap.com/dev/key/app}
      */
-    const enum gaodeArr {
-    }
+    const gaodeArr: string[];
     /**
      * 高德key，
      */
-    const enum gaode {
-    }
+    const gaode: string;
     /**
      * 百度key数组，
      * 官网： {@link http://lbsyun.baidu.com/apiconsole/key#/home}
      */
-    const enum baiduArr {
-    }
+    const baiduArr: string[];
     /**
      * 百度key，
      */
-    const enum baidu {
-    }
-    /**
-     * mapbox地图key，
-     * 官网：{@link https://account.mapbox.com}
-     */
-    const enum mapbox {
-    }
+    const baidu: string;
 }
 
 /**
  * 一个原点相对于一个物体的垂直位置
  */
-declare const enum VerticalOrigin {
+declare enum VerticalOrigin {
     /**
      * 原点在物体的顶部
      */
@@ -6383,6 +6376,7 @@ declare class VirtualGrid extends L.Layer {
  * @param options.typeNS - 要包含的图层的空间名
  * @param options.typeName - 要包含的图层名
  * @param [options.geometryField = "the_geom"] - 服务内的geometry字段名称
+ * @param [options.filter] - 筛选数据，如 new L.Filter.Like("OBJECTID", 68) 更多filter参考{@link https://github.com/Flexberry/Leaflet-WFST#filter}
  * @param [options.minZoom = 0] - 最小的缩放级别，一般建议设置大些，与图层数据量有关系。
  * @param [options.maxZoom = 21] - 最大的缩放级别
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
@@ -6424,6 +6418,7 @@ declare class WfsLayer extends VirtualGrid {
         typeNS: string;
         typeName: string;
         geometryField?: string;
+        filter?: any;
         minZoom?: number;
         maxZoom?: number;
         rectangle?: {
@@ -11081,7 +11076,7 @@ declare class BaseWidget extends BaseClass {
  * widget事件类型枚举, mars2d.widget.EventType
  * 【需要引入  mars2d-widget 插件库】
  */
-declare const enum WidgetEventType {
+declare enum WidgetEventType {
     /**
      * 在实例初始化之后、创建之前执行
      */
