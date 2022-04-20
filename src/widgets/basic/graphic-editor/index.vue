@@ -2,9 +2,9 @@
   <mars-dialog title="属性编辑" width="260" top="60" bottom="40" left="10" :minWidth="200">
     <div class="top-handle-bar">
       <a-space>
-        <mars-icon icon="icon-park-outline:send" width="20" @click="flyToGraphic" title="飞行定位"></mars-icon>
-        <mars-icon icon="icon-park-outline:delete" width="20" @click="deleteEntity" title="删除"></mars-icon>
-        <mars-icon icon="icon-park-outline:save" width="20" @click="getGeoJson" title="导出geojson"></mars-icon>
+        <mars-icon icon="send" width="20" @click="flyToGraphic" title="飞行定位"></mars-icon>
+        <mars-icon icon="delete" width="20" @click="deleteEntity" title="删除"></mars-icon>
+        <mars-icon icon="save" width="20" @click="getGeoJson" title="导出geojson"></mars-icon>
       </a-space>
     </div>
     <div class="attr-editor-main">
@@ -22,8 +22,7 @@ import * as mapWork from "./map"
 import _ from "lodash"
 import { useWidget } from "@mars/widgets/common/store/widget"
 
-const { getWidget } = useWidget()
-const widget = getWidget("graphic-editor")
+const { currentWidget } = useWidget()
 
 // 启用map.ts生命周期
 useLifecycle(mapWork)
@@ -32,7 +31,7 @@ provide("getGraphicAttr", () => {
   return graphicAttr
 })
 
-const graphic = widget.data.graphic
+const graphic = currentWidget.data.graphic
 provide("getGraphic", () => {
   return graphic
 })
@@ -59,9 +58,8 @@ function updataLayer(graphicLayer?: any) {
   }
 }
 
-const updataWidget = getWidget("graphic-editor")
-if (updataWidget) {
-  updataWidget.onUpdate((e) => {
+if (currentWidget) {
+  currentWidget.onUpdate((e) => {
     updataLayer(e.data.graphic)
   })
 }

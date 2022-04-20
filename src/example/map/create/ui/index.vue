@@ -3,12 +3,12 @@
     <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-collapse v-model:activeKey="activeKey">
         <template #expandIcon>
-          <mars-icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
+          <mars-icon icon="down-c" class="icon-vertical-a" />
         </template>
         <a-collapse-panel key="1" header="表单控件">
           自定义面板右侧图标
           <template #extra>
-            <mars-icon icon="icon-park-outline:config" class="icon-vertical-a" />
+            <mars-icon icon="config" class="icon-vertical-a" />
           </template>
 
           <a-form-item label="简单文本" name="url">
@@ -77,15 +77,15 @@
           <div class="f-tac">
             <a-space>
               <mars-button size="middle" @click="onClickMessage">
-                <template #icon><mars-icon icon="icon-park-outline:alarm" class="icon-vertical-a" /></template>
+                <template #icon><mars-icon icon="alarm" class="icon-vertical-a" /></template>
                 消息
               </mars-button>
               <mars-button size="middle" @click="onClickNotify">
-                <template #icon><mars-icon icon="icon-park-outline:download-one" class="icon-vertical-a" /></template>
+                <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
                 提示
               </mars-button>
               <mars-button size="middle" @click="onClickAlert">
-                <template #icon><mars-icon icon="icon-park-outline:download-one" class="icon-vertical-a" /></template>
+                <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
                 弹窗
               </mars-button>
             </a-space>
@@ -122,11 +122,11 @@
       <div class="f-tac">
         <a-space>
           <mars-button size="middle" @click="onClickLoading">
-            <template #icon><mars-icon icon="icon-park-outline:find" class="icon-vertical-a" /></template>
+            <template #icon><mars-icon icon="find" class="icon-vertical-a" /></template>
             进度条1
           </mars-button>
           <mars-button size="middle" @click="onClickTopLoading">
-            <template #icon><mars-icon icon="iconoir:planet" class="icon-vertical-a" /></template>
+            <template #icon><mars-icon icon="planet" class="icon-vertical-a" /></template>
             进度条2
           </mars-button>
         </a-space>

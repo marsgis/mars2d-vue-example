@@ -21,13 +21,13 @@ function initMap() {
             name: "底图",
             type: "tdt",
             layer: "vec_d",
-            key: ["ad5bee3fe473a639887fa9d57a670c6e"]
+            key: ["bcc62222fc634ec736589c483de933e6"]
           },
           {
             name: "注记",
             type: "tdt",
             layer: "vec_z",
-            key: ["ad5bee3fe473a639887fa9d57a670c6e"]
+            key: ["bcc62222fc634ec736589c483de933e6"]
           }
         ],
         show: true
@@ -49,7 +49,7 @@ function initMap() {
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
   const layer = new mars2d.layer.TileLayer({
     name: "行政区划界线",
-    url: "https://t{s}.tianditu.gov.cn/DataServer?T=ibo_w&x={x}&y={y}&l={z}&tk=9ae78c51a0a28f06444d541148496e36",
+    url: "https://t{s}.tianditu.gov.cn/DataServer?T=ibo_w&x={x}&y={y}&l={z}&tk=bcc62222fc634ec736589c483de933e6",
     subdomains: "01234567",
     maxZoom: 10
   })

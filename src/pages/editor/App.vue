@@ -6,12 +6,7 @@
 
         <template v-if="mapLoaded">
           <template v-for="comp in widgets" :key="comp.key">
-            <component
-              v-if="openAtStart.includes(comp.name) && comp.visible"
-              :is="comp.component"
-              v-model:visible="comp.visible"
-              v-bind="getWidgetAttr(comp)"
-            />
+            <mars-widget v-if="openAtStart.includes(comp.name) && comp.visible" v-model:visible="comp.visible" :widget="comp" />
           </template>
         </template>
       </div>
@@ -21,18 +16,21 @@
 
 <script setup lang="ts">
 import { getQueryString } from "@mars/utils/mars-util"
-import { getCurrentInstance, ref, provide } from "vue"
+import { getCurrentInstance, ref, provide, computed } from "vue"
 import MainOperation from "@mars/components/mars-work/main-operation.vue"
-import { useWidget, Widget } from "@mars/widgets/common/store/widget"
+import { useWidgetStore } from "@mars/widgets/common/store/widget"
+import MarsWidget from "@mars/widgets/widget.vue"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
 
 const globalProperties = getCurrentInstance()!.appContext.config.globalProperties
+const widgetStore = useWidgetStore()
 
 const loading = ref(false)
 const mapLoaded = ref(false) // map加载完成
 
-const { widgets, openAtStart, activate, isActivate, disable } = useWidget()
+const widgets = computed(() => widgetStore.state.widgets)
+const openAtStart = computed(() => widgetStore.state.openAtStart)
 
 const id = getQueryString("id")
 const name = getQueryString("name")
@@ -58,22 +56,6 @@ function childUnmounted() {
   editorRef.value.unloadMap()
 }
 
-const getWidgetAttr = (widget: Widget) => {
-  let attr = {}
-  if (widget.meta && widget.meta.props) {
-    attr = {
-      ...attr,
-      ...widget.meta.props
-    }
-  }
-  if (widget.data && widget.data.props) {
-    attr = {
-      ...attr,
-      ...widget.data.props
-    }
-  }
-  return attr
-}
 
 let loadingNum = 0
 window.$showLoading = globalProperties.$showLoading = (type = "mask") => {

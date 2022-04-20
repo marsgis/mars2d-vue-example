@@ -11,6 +11,7 @@
         "crs": "CGCS2000_GK_Zone_3",
         "template": "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div class='hide700'>横{crsx}  纵{crsy}</div> <div>层级:{level}</div>"
       },
+      "layers": { "position": "topleft" },
       "zoom": { "position": "bottomleft" },
       "toolBar": { "position": "bottomleft" }
     },
@@ -30,13 +31,13 @@
             "name": "底图",
             "type": "tdt",
             "layer": "vec_d",
-            "key": ["ad5bee3fe473a639887fa9d57a670c6e"]
+            "key": ["bcc62222fc634ec736589c483de933e6"]
           },
           {
             "name": "注记",
             "type": "tdt",
             "layer": "vec_z",
-            "key": ["ad5bee3fe473a639887fa9d57a670c6e"]
+            "key": ["bcc62222fc634ec736589c483de933e6"]
           }
         ],
         "show": true
@@ -51,13 +52,13 @@
             "name": "底图",
             "type": "tdt",
             "layer": "img_d",
-            "key": ["ad5bee3fe473a639887fa9d57a670c6e"]
+            "key": ["bcc62222fc634ec736589c483de933e6"]
           },
           {
             "name": "注记",
             "type": "tdt",
             "layer": "img_z",
-            "key": ["ad5bee3fe473a639887fa9d57a670c6e"]
+            "key": ["bcc62222fc634ec736589c483de933e6"]
           }
         ]
       },
@@ -67,7 +68,7 @@
         "icon": "img/basemaps/tianditudem.png",
         "type": "tdt",
         "layer": "ter",
-        "key": ["ad5bee3fe473a639887fa9d57a670c6e"],
+        "key": ["bcc62222fc634ec736589c483de933e6"],
         "maxNativeZoom": 14,
         "errorTileUrl": "img/tile/errortile.png"
       },
@@ -165,6 +166,30 @@
         "type": "group"
       },
       {
+        "id": 4030,
+        "pid": 40,
+        "name": "PBF矢量瓦片",
+        "type": "group"
+      },
+      {
+        "pid": 4030,
+        "name": "规划图",
+        "type": "pbf",
+        "url": "http://server.mars2d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf",
+        "interactive": true,
+        "style":{
+          "color": "rgba(110, 110, 110, 255)",
+          "opacity": 1,
+          "weight": 1,
+          "fill": true,
+          "fillColor": "rgba(205, 233, 247, 255)",
+          "fillOpacity": 1
+        },
+        "zIndex": 999,
+        "popup": "{用地名称}"
+      },
+
+      {
         "id": 4020,
         "pid": 40,
         "name": "OGC WMS数据",
@@ -211,7 +236,6 @@
         "transparent": true,
         "format": "image/png"
       },
-
       {
         "id": 4010,
         "pid": 40,
@@ -469,8 +493,8 @@
         "symbol": {
           "styleOptions": {
             "fillColor": "#3388ff",
-            "fillOpacity": 0.2,
-            "outlineColor": "#3388ff",
+            "fillOpacity": 0.3,
+            "outlineColor": "#0000FF",
             "outlineOpacity": 1,
             "outlineWidth": 1
           }

@@ -3,7 +3,7 @@
     <span class="mars-pannel-item-label">数据管理:</span>
     <mars-button @click="onClickClear">清除</mars-button>
     <mars-button @click="onClickExpFile" title="保存GeoJSON">
-      <mars-icon icon="icon-park-outline:save" class="icon-vertical-a" />
+      <mars-icon icon="save" class="icon-vertical-a" />
       保存
     </mars-button>
     <a-upload
@@ -17,7 +17,7 @@
       @change="onClickImpFile"
     >
       <mars-button title="打开GeoJSON">
-        <mars-icon icon="icon-park-outline:upload-one" class="icon-vertical-a" />
+        <mars-icon icon="upload-one" class="icon-vertical-a" />
         打开
       </mars-button>
     </a-upload>

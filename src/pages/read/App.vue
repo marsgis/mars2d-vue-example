@@ -9,12 +9,7 @@
 
         <template v-if="mapLoaded">
           <template v-for="comp in widgets" :key="comp.key">
-            <component
-              v-if="openAtStart.includes(comp.name) && comp.visible"
-              :is="comp.component"
-              v-model:visible="comp.visible"
-              v-bind="getWidgetAttr(comp)"
-            />
+            <mars-widget v-if="openAtStart.includes(comp.name) && comp.visible" v-model:visible="comp.visible" :widget="comp" />
           </template>
         </template>
       </div>
@@ -29,20 +24,22 @@
  * @author 火星吴彦祖 2022-02-19
  */
 import zhCN from "ant-design-vue/es/locale/zh_CN"
-import { getCurrentInstance, onMounted, provide, ref } from "vue"
+import { getCurrentInstance, onMounted, provide, ref, computed } from "vue"
 import { ConfigProvider } from "ant-design-vue"
 import { getQueryString } from "@mars/utils/mars-util"
 import MainOperation from "@mars/components/mars-work/main-operation.vue"
 import { getResourcesByLibs, loadScript, LoadSource, getCompConfig } from "mars-editor"
-import { useWidget, Widget } from "@mars/widgets/common/store/widget"
+import { useWidgetStore } from "@mars/widgets/common/store/widget"
+import MarsWidget from "@mars/widgets/widget.vue"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
 
 const globalProperties = getCurrentInstance()!.appContext.config.globalProperties
 
 const resourcePath = (process.env.EXAMPLE_SOURCE_PATH || "") + "example/"
-
-const { widgets, openAtStart, activate, isActivate, disable } = useWidget()
+const widgetStore = useWidgetStore()
+const widgets = computed(() => widgetStore.state.widgets)
+const openAtStart = computed(() => widgetStore.state.openAtStart)
 
 const locale = zhCN
 
@@ -62,23 +59,6 @@ const loading = ref(false)
 const marsOnload = (map: any) => {
   mapInstance = map
   mapLoaded.value = true
-}
-
-const getWidgetAttr = (widget: Widget) => {
-  let attr = {}
-  if (widget.meta && widget.meta.props) {
-    attr = {
-      ...attr,
-      ...widget.meta.props
-    }
-  }
-  if (widget.data && widget.data.props) {
-    attr = {
-      ...attr,
-      ...widget.data.props
-    }
-  }
-  return attr
 }
 
 onMounted(async () => {
@@ -134,7 +114,6 @@ function onChildMounted() {
   globalProperties.map = map // map的挂载,方便vue组件内使用
 
   if (mapWork) {
-
     mapWork.map = map
     if (mapWork.onMounted) {
       mapWork.onMounted(map)

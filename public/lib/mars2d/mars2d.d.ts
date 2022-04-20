@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.1
- * 编译日期：2022-04-01 18:18:49
+ * 版本信息：v3.1.2
+ * 编译日期：2022-04-20 12:21:05
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -12750,17 +12750,19 @@ declare namespace Util {
      */
     function formatTime(strtime: number): any | string;
     /**
-     * 使用axios请求服务返回JSON结果
-     * @param options - 请求参数，更多参数可以查询axios的API
+     * 请求服务返回json结果，方法是基于axios库精简的
+     * @param options - 请求参数
      * @param options.url - 服务URL地址
      * @param [options.queryParameters] - 与请求一起发送的 URL 参数,例如 {id: 1987 }
-     * @param [options.timeout = 1000] - 请求超时的毫秒数 (0表示无超时时间)
-     * @param [options.headers] - 被发送的自定义请求头,例如：{'X-Requested-With': 'mars2d'}
-     * @returns 返回Promise异步处理结果，对象为JSON数据
+     * @param [options.method = "get"] - 请求类型
+     * @param [options.timeout = 0] - 是否超时
+     * @param [options.headers] - 一个对象，将发送的其他HTTP标头。比如：headers: { 'X-My-Header': 'valueOfHeader' }
+     * @returns 返回Promise异步处理结果，对象为response对象
      */
     function fetchJson(options: {
         url: string;
         queryParameters?: any;
+        method?: string;
         timeout?: number;
         headers?: any;
     }): any | Promise<any>;

@@ -44,8 +44,8 @@ export function drawExtent(extent) {
       outlineColor: "#0000ff"
     },
     success: function (graphic) {
-      // const rectangle = mars2d.PolyUtil.formatRectangle(graphic._rectangle_draw)
-      // eventTarget.fire("drawExtent", { extent: JSON.stringify(rectangle) }) // 抛出事件，可以vue中去监听事件
+      const rectangle = graphic.coordinates
+      eventTarget.fire("drawExtent", { extent: JSON.stringify(rectangle) }) // 抛出事件，可以vue中去监听事件
     }
   })
 }

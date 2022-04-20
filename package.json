@@ -12,7 +12,7 @@
     "lint": "eslint ./src/**/*.{js,jsx,vue,ts,tsx} --fix && vue-tsc --noEmit"
   },
   "dependencies": {
-    "@iconify/vue": "^3.1.3",
+    "@icon-park/vue-next": "^1.3.6",
     "ant-design-vue": "3.0.0-beta.13",
     "axios": "^0.25.0",
     "core-js": "^3.20.3",

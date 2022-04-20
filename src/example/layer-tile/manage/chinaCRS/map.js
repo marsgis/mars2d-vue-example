@@ -21,13 +21,13 @@ export const mapOptions = {
           name: "底图",
           type: "tdt",
           layer: "vec_d",
-          key: ["ad5bee3fe473a639887fa9d57a670c6e"]
+          key: ["bcc62222fc634ec736589c483de933e6"]
         },
         {
           name: "注记",
           type: "tdt",
           layer: "vec_z",
-          key: ["ad5bee3fe473a639887fa9d57a670c6e"]
+          key: ["bcc62222fc634ec736589c483de933e6"]
         }
       ],
       show: true

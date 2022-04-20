@@ -25,13 +25,13 @@ function initMap() {
             name: "底图",
             type: "tdt",
             layer: "vec_d",
-            key: ["ad5bee3fe473a639887fa9d57a670c6e"]
+            key: ["bcc62222fc634ec736589c483de933e6"]
           },
           {
             name: "注记",
             type: "tdt",
             layer: "vec_z",
-            key: ["ad5bee3fe473a639887fa9d57a670c6e"]
+            key: ["bcc62222fc634ec736589c483de933e6"]
           }
         ],
         show: true
@@ -42,7 +42,7 @@ function initMap() {
         icon: "img/basemaps/tiandituimage.png",
         type: "tdt",
         layer: "img",
-        key: ["ad5bee3fe473a639887fa9d57a670c6e"]
+        key: ["bcc62222fc634ec736589c483de933e6"]
       },
       {
         pid: 10,
@@ -50,7 +50,7 @@ function initMap() {
         icon: "img/basemaps/tianditudem.png",
         type: "tdt",
         layer: "ter",
-        key: ["ad5bee3fe473a639887fa9d57a670c6e"],
+        key: ["bcc62222fc634ec736589c483de933e6"],
         maxNativeZoom: 14,
         errorTileUrl: "img/tile/errortile.png"
       },
