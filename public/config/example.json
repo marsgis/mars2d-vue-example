@@ -432,10 +432,9 @@
           },
           {
             "name": "卷帘对比",
-            "thumbnail": "control-basis-sideBySide.jpg",
-            "main_es5": "control-basis-sideBySide",
-            "main": "control/basis/sideBySide",
-            "libs": ["mars2d", "leaflet-sideBySide"]
+            "thumbnail": "control-basis-mapSplit.jpg",
+            "main_es5": "control-basis-mapSplit",
+            "main": "control/basis/mapSplit"
           },
           {
             "name": "控件控制",

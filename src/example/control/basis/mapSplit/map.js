@@ -3,7 +3,6 @@ const L = mars2d.L
 
 let map
 
-
 // 合并属性参数，可覆盖config.json中的对应配置
 export const mapOptions = {
   control: {
@@ -27,7 +26,12 @@ export function onMounted(mapInstance) {
   const osmLayer = new mars2d.layer.OsmLayer()
   map.addLayer(osmLayer)
 
-  L.control.sideBySide(gaodeLayer, osmLayer).addTo(map)
+  // 卷帘控件
+  const control = new mars2d.control.MapSplit({
+    leftLayer: gaodeLayer,
+    rightLayer: osmLayer
+  })
+  map.addControl(control)
 }
 
 /**
