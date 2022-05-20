@@ -1,8 +1,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.2
- * 编译日期：2022-04-20 12:21:06
+ * 版本信息：v3.1.3
+ * 编译日期：2022-04-29 13:57:35
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -622,6 +622,119 @@
   width: 27px;
   height: 18px;
   top: 0px;
+}
+.mars2d-split-range {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  z-index: 999;
+}
+.mars2d-split-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -2px;
+  width: 4px;
+  background-color: #fff;
+  pointer-events: none;
+  z-index: 999;
+}
+.mars2d-split-range {
+  -webkit-appearance: none;
+  display: inline-block !important;
+  vertical-align: middle;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: rgba(0, 0, 0, 0.25);
+  min-width: 100px;
+  cursor: pointer;
+  pointer-events: none;
+  z-index: 999;
+}
+.mars2d-split-range::-ms-fill-upper {
+  background: transparent;
+}
+.mars2d-split-range::-ms-fill-lower {
+  background: rgba(255, 255, 255, 0.25);
+}
+/* Browser thingies */
+.mars2d-split-range::-moz-range-track {
+  opacity: 0;
+}
+.mars2d-split-range::-ms-track {
+  opacity: 0;
+}
+.mars2d-split-range::-ms-tooltip {
+  display: none;
+}
+/* For whatever reason, these need to be defined
+ * on their own so dont group them */
+.mars2d-split-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  cursor: ew-resize;
+  pointer-events: auto;
+  border: 1px solid #ddd;
+  background-image: url(./img/split-range.png);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+}
+.mars2d-split-range::-ms-thumb {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  cursor: ew-resize;
+  pointer-events: auto;
+  border: 1px solid #ddd;
+  background-image: url(./img/split-range.png);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+}
+.mars2d-split-range::-moz-range-thumb {
+  padding: 0;
+  right: 0;
+  background: #fff;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  cursor: ew-resize;
+  pointer-events: auto;
+  border: 1px solid #ddd;
+  background-image: url(./img/split-range.png);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+}
+.mars2d-split-range:disabled::-moz-range-thumb {
+  cursor: default;
+}
+.mars2d-split-range:disabled::-ms-thumb {
+  cursor: default;
+}
+.mars2d-split-range:disabled::-webkit-slider-thumb {
+  cursor: default;
+}
+.mars2d-split-range:disabled {
+  cursor: default;
+}
+.mars2d-split-range:focus {
+  outline: none !important;
+}
+.mars2d-split-range::-moz-focus-outer {
+  border: 0;
 }
 .mars2d-smallTooltip {
   background: #363636;

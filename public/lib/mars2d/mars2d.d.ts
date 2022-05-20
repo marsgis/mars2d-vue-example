@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.2
- * 编译日期：2022-04-20 12:21:05
+ * 版本信息：v3.1.3
+ * 编译日期：2022-04-29 13:57:34
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -436,6 +436,11 @@ declare namespace Token {
      */
     const mapbox: string;
     /**
+     * 更新mapbox地图key
+     * @param item - token值
+     */
+    function updateMapbox(item: string): any | void;
+    /**
      * 天地图key数组，
      * 官网： {@link https://console.tianditu.gov.cn/api/key}
      */
@@ -444,6 +449,11 @@ declare namespace Token {
      * 天地图key，
      */
     const tianditu: string;
+    /**
+     * 更新天地图key
+     * @param item - token值
+     */
+    function updateTianditu(item: string | string[]): any | void;
     /**
      * 高德key数组，
      * 官网： {@link https://console.amap.com/dev/key/app}
@@ -454,6 +464,11 @@ declare namespace Token {
      */
     const gaode: string;
     /**
+     * 更新高德key
+     * @param item - token值
+     */
+    function updateGaode(item: string | string[]): any | void;
+    /**
      * 百度key数组，
      * 官网： {@link http://lbsyun.baidu.com/apiconsole/key#/home}
      */
@@ -462,6 +477,25 @@ declare namespace Token {
      * 百度key，
      */
     const baidu: string;
+    /**
+     * 更新百度key
+     * @param item - token值
+     */
+    function updateBaidu(item: string | string[]): any | void;
+    /**
+     * 更新所有SDK涉及的第3放Token值（如果具体使用类中传入时，已传入值优先）
+     * @param token - 集合
+     * @param [token.tianditu] - 天地图
+     * @param [token.gaode] - 高德
+     * @param [token.baidu] - 百度
+     * @param [token.mapbox] - mapbox地图
+     */
+    function updateAll(token: {
+        tianditu?: string | string[];
+        gaode?: string | string[];
+        baidu?: string | string[];
+        mapbox?: string;
+    }): any | void;
 }
 
 /**
@@ -520,6 +554,27 @@ declare class LocationBar extends L.Control {
      * 显示的数据
      */
     readonly locationData: any;
+}
+
+/**
+ * 卷帘对比 控件
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.leftLayer] - 左侧区域瓦片图层
+ * @param [options.rightLayer] - 右侧区域瓦片图层
+ */
+declare class MapSplit extends L.Control {
+    constructor(options?: {
+        leftLayer?: L.TileLayer | L.TileLayer[];
+        rightLayer?: L.TileLayer | L.TileLayer[];
+    });
+    /**
+     * 左侧区域瓦片图层
+     */
+    leftLayer: L.TileLayer | L.TileLayer[];
+    /**
+     * 右侧区域瓦片图层
+     */
+    rightLayer: L.TileLayer | L.TileLayer[];
 }
 
 /**
