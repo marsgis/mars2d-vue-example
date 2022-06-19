@@ -20,14 +20,12 @@ function initMap() {
           {
             name: "底图",
             type: "tdt",
-            layer: "vec_d",
-            key: ["bcc62222fc634ec736589c483de933e6"]
+            layer: "vec_d"
           },
           {
             name: "注记",
             type: "tdt",
-            layer: "vec_z",
-            key: ["bcc62222fc634ec736589c483de933e6"]
+            layer: "vec_z"
           }
         ],
         show: true

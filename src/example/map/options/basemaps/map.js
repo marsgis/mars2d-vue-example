@@ -24,14 +24,12 @@ function initMap() {
           {
             name: "底图",
             type: "tdt",
-            layer: "vec_d",
-            key: ["bcc62222fc634ec736589c483de933e6"]
+            layer: "vec_d"
           },
           {
             name: "注记",
             type: "tdt",
-            layer: "vec_z",
-            key: ["bcc62222fc634ec736589c483de933e6"]
+            layer: "vec_z"
           }
         ],
         show: true
@@ -41,8 +39,7 @@ function initMap() {
         name: "天地图卫星",
         icon: "img/basemaps/tiandituimage.png",
         type: "tdt",
-        layer: "img",
-        key: ["bcc62222fc634ec736589c483de933e6"]
+        layer: "img"
       },
       {
         pid: 10,
@@ -50,7 +47,6 @@ function initMap() {
         icon: "img/basemaps/tianditudem.png",
         type: "tdt",
         layer: "ter",
-        key: ["bcc62222fc634ec736589c483de933e6"],
         maxNativeZoom: 14,
         errorTileUrl: "img/tile/errortile.png"
       },
