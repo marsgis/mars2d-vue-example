@@ -1,14 +1,16 @@
 <template>
-  <mars-editor-list @jump="jumpUrl"></mars-editor-list>
+  <example-list @jump="jumpUrl"></example-list>
 </template>
 
 <script lang="ts" setup>
+import ExampleList from "@mars/components/mars-work/example-list.vue"
+
 const jumpUrl = (item: any) => {
   let url = process.env.BASE_URL
   if (process.env.EDITOR_MODE) {
-    url += "editor.html"
+    url += "editor-vue.html"
   } else {
-    url += "read.html"
+    url += "read-vue.html"
   }
 
   // 处理参数

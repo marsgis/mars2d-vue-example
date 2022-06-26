@@ -102,7 +102,7 @@ module.exports = {
     "no-dupe-keys": "error", // 禁止对象字面量中出现重复的 key
     "no-func-assign": "error", // 禁止对 function 声明重新赋值
     "no-nested-ternary": "error", // 禁用嵌套的三元表达式
-    "no-multiple-empty-lines": ["error", { max: 3 }], // 空行最多不能超过两行
+    "no-multiple-empty-lines": ["error", { max: 4 }], // 空行最多不能超过max行
     "new-cap": "off" // 关闭eslint fromDegrees方法报错
   }
 }

@@ -1,8 +1,8 @@
 "use script"
 
-const vueGlobal = window.parent || window
+const parentGlobal = window.parent || window
 
-vueGlobal.mars2d = mars2d// widget中使用
+parentGlobal.mars2d = mars2d// widget中使用
 
 function init() {
   // 读取 config.json 配置文件
@@ -12,8 +12,8 @@ function init() {
 
       // 构建地图
       const initMapFun = window.initMap ? window.initMap : globalInitMap
-      vueGlobal._mapInstance = initMapFun(json.mars2d)
-      vueGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
+      parentGlobal._mapInstance = initMapFun(json.mars2d)
+      parentGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
     })
     .catch(function (error) {
       console.log("加载JSON出错", error)
@@ -36,25 +36,25 @@ function globalInitMap(options) {
   return new mars2d.Map("mars2dContainer", options)
 }
 
-// 调用vue的消息提示（自动消失）
-function globalMsg(msg, type, ...args) {
-  return vueGlobal.$message(msg, type, ...args)
+// 调用项目的消息提示（自动消失）
+function globalMsg(content) {
+  return parentGlobal.$message(content)
 }
 
-// 调用vue的弹窗提示（手动单击确定关闭窗口）
-function globalAlert(msg, title, ...args) {
-  return vueGlobal.$alert(msg, title, ...args)
+// 调用项目的弹窗提示（手动单击确定关闭窗口）
+function globalAlert(content, title) {
+  return parentGlobal.$alert(content, title)
 }
 
-// 调用vue的右上角信息提示（可关闭）
-function globalNotify(msg, disc, ...args) {
-  return vueGlobal.$notify(msg, disc, ...args)
+// 调用项目的右上角信息提示（可关闭）
+function globalNotify(title, content) {
+  return parentGlobal.$notify(title, content)
 }
 
 function showLoading(type) {
-  vueGlobal.$showLoading(type)
+  parentGlobal.$showLoading(type)
 }
 
 function hideLoading(type) {
-  vueGlobal.$hideLoading(type)
+  parentGlobal.$hideLoading(type)
 }

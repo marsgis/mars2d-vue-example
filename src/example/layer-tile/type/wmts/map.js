@@ -7,8 +7,31 @@ let map // mars2d.Map三维地图对象
 export const mapOptions = function (option) {
   option = {
     crs: L.CRS.EPSG4326,
-    zoom: 3,
-    center: [30.234618, 119.713235]
+    zoom: 7,
+    center: { lng: 117.301025, lat: 32.019653 },
+    control: option.control,
+
+    // 方式1：在创建地球前的参数中配置
+    basemaps: [
+      {
+        name: "山西天地图",
+        icon: "img/basemaps/blackMarble.png",
+        type: "wmts",
+        url: "http://shanxi.tianditu.gov.cn/service/SX_DOM/wmts",
+        layer: "WD_DOM",
+        format: "image/tile",
+        tileMatrixSetID: "Matrix_WD_DOM_1",
+        crs: "EPSG:4490",
+        show: true
+      },
+      {
+        name: "单张图片",
+        icon: "img/basemaps/offline.png",
+        type: "image",
+        url: "//data.mars3d.cn/file/img/world/world.jpg",
+        show: false
+      }
+    ]
   }
   return option
 }
@@ -25,22 +48,15 @@ export const eventTarget = new mars2d.BaseClass()
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  // 添加控件
-  L.control.zoom({ position: "bottomleft" }).addTo(map)
-  L.control.scale({ metric: true, imperial: false }).addTo(map)
-  // L.control.toolbar({ item: ["home", "location", "fullscreen"], position: "bottomleft" }).addTo(map);
-
-  // 添加底图
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
   const layer = new mars2d.layer.WmtsLayer({
-    name: "合肥市",
-    type: "wmts",
-    url: "http://shanxi.tianditu.gov.cn/service/SX_DOM/wmts",
-    layer: "WD_DOM",
-    style: "",
-    format: "image/tile",
-    tileMatrixSetID: "Matrix_WD_DOM_1",
-    zOffset: 1
+    url: "//server.mars3d.cn/geoserver/gwc/service/wmts",
+    layer: "mars:hfgh",
+    format: "image/png",
+    tileMatrixSetID: "EPSG:4326", // 对应wmts请求的 tilematrixSet
+    tilematrixBefore: "EPSG:4326:", // 对应wmts请求的 tilematrix
+    crs: "EPSG:4326",
+    alpha: 0.8
   })
   map.addLayer(layer)
 }

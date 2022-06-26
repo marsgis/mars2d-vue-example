@@ -40,9 +40,6 @@ export function setAutoHeight(callback: (v: number) => void, lose = 0, container
   window.addEventListener("resize", resize)
 
   resize()
-  // return () => {
-  //   window.removeEventListener("resize", resize)
-  // }
 }
 
 /**
@@ -55,6 +52,21 @@ export function setAutoHeight(callback: (v: number) => void, lose = 0, container
 export function getQueryString(parameter: string): string | null {
   return new URL(window.location.href).searchParams.get(parameter)
 }
+/**
+ *  获取示例ID
+ * @export
+ * @return {string}  示例ID
+ */
+export function getExampleId(): string {
+  let exampleId = getQueryString("id")
+  if (!exampleId) {
+    throw new Error("id不能为空")
+  }
+  exampleId = exampleId.replace(/\\/gm, "/").replace("src/example/", "").replace("/map.js", "")
+
+  return exampleId
+}
+
 /**
  * 判断是否是pc端
  *

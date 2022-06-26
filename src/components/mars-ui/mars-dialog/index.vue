@@ -194,11 +194,15 @@ function initSize() {
 function resize() {
   const pb = pannelBox.value
   const warpper = document.getElementById(mergeProps.value.warpper)
-  if (pb.offsetTop + pb.offsetHeight > warpper!.offsetHeight) {
-    pb.style.height = antoUnit(Math.max(warpper!.offsetHeight - pb.offsetTop, mergeProps.value.minHeight))
+  if (!warpper) {
+    return
   }
-  if (pb.offsetLeft + pb.offsetWidth > warpper!.offsetWidth) {
-    pb.style.width = antoUnit(Math.max(warpper!.offsetWidth - pb.offsetLeft, mergeProps.value.minWidth))
+
+  if (pb.offsetTop + pb.offsetHeight > warpper.offsetHeight) {
+    pb.style.height = antoUnit(Math.max(warpper.offsetHeight - pb.offsetTop, mergeProps.value.minHeight))
+  }
+  if (pb.offsetLeft + pb.offsetWidth > warpper.offsetWidth) {
+    pb.style.width = antoUnit(Math.max(warpper.offsetWidth - pb.offsetLeft, mergeProps.value.minWidth))
   }
 }
 

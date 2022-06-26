@@ -699,7 +699,7 @@
             "main_es5": "graphic-divGraphic-basis",
             "main": "graphic/divGraphic/basis",
             "vuePanel": true,
-            "resources": ["/temp/styles/divGraphic.css"]
+            "resources": ["/temp/css/divGraphic.css"]
           },
           {
             "name": "动态效果点",
@@ -714,7 +714,7 @@
             "main_es5": "graphic-divGraphic-ident",
             "main": "graphic/divGraphic/ident",
             "vuePanel": true,
-            "resources": ["/temp/styles/divGraphic.css"]
+            "resources": ["/temp/css/divGraphic.css"]
           },
           {
             "name": "浮动监控点",
@@ -831,14 +831,14 @@
             "thumbnail": "graphic-apply-quyu-num.jpg",
             "main_es5": "graphic-apply-quyu-num",
             "main": "graphic/apply/quyu-num",
-            "resources": ["/temp/styles/divGraphic.css"]
+            "resources": ["/temp/css/divGraphic.css"]
           },
           {
             "name": "行政区突出展示",
             "thumbnail": "graphic-apply-district.jpg",
             "main_es5": "graphic-apply-district",
             "main": "graphic/apply/district",
-            "resources": ["/temp/styles/divGraphic.css"]
+            "resources": ["/temp/css/divGraphic.css"]
           },
           {
             "name": "台风轨迹",
@@ -860,7 +860,7 @@
             "main": "layer-graphic/draw/draw",
             "vuePanel": true,
             "libs": ["mars2d", "terraformer"],
-            "resources": ["/lib/kml/kml-geojson.js", "/temp/styles/divGraphic.css"]
+            "resources": ["/lib/kml/kml-geojson.js", "/temp/css/divGraphic.css"]
           },
           {
             "name": "军事标绘",

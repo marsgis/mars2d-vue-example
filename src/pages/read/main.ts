@@ -1,55 +1,78 @@
-import { createApp } from "vue"
+import { createApp, defineComponent } from "vue"
 import Application from "./App.vue"
 import MarsUIInstall from "@mars/components/mars-ui"
-import { setConfig } from "mars-editor"
-import { injectState, key } from "@mars/widgets/common/store/widget"
+import { injectState, getInjectKey } from "@mars/widgets/common/store/widget"
+import { getExampleId, getQueryString } from "@mars/utils/mars-util"
+import { cloneDeep } from "lodash"
 import store from "@mars/widgets/widget-store"
+import { Editor as MarsgisEditor } from "@marsgis/editor"
+import "@marsgis/editor/dist/style.css"
 
 // https跳转处理
 const protocol = window.location.protocol
 if (protocol === "https:") {
   window.location.href = window.location.href.replace("https", "http")
 }
-
-const app = createApp(Application)
-
-MarsUIInstall(app, {
-  dialog: {
-    position: {
-      left: 50,
-      bottom: 50
-    }
-  }
-})
-app.use(injectState(store), key)
-
 document.oncontextmenu = function (e) {
   e.preventDefault()
 }
 
-setConfig(app, {
+const marsEditor = new MarsgisEditor({
   packageName: "mars2d",
   baseUrl: process.env.BASE_URL,
-  resourcePath: process.env.EXAMPLE_SOURCE_PATH,
+  fullScreen: "1",
+  alwaysUseOrigin: process.env.mode === "development",
   configLibs: window.configLibs,
-  configSource: `${process.env.BASE_URL}config/example.json`,
-  sourceFile: false
+  resourcePublicPath: process.env.EXAMPLE_SOURCE_PATH,
+  thumbnailPublicPath: "/config/",
+  libPublicPath: "/lib/",
+  framework: "vue",
+  configSourceUrl: `${process.env.BASE_URL}config/example.json`,
+  UIFile: "{main}/index.vue"
 })
+window.marsEditor = marsEditor
 
-// 设置自适应高度指令
-app.directive("auto-height", {
-  mounted(el, binding) {
-    const container = document.getElementById("mars-main-view")
-    const loseHeight = binding.value || 0
-    let wapperHeight = container?.clientHeight || 0
-    el.style.height = `${wapperHeight - loseHeight}px`
-
-    window.onresize = () => {
-      wapperHeight = container?.clientHeight || 0
-      const resizeHeight = wapperHeight - loseHeight
-      el.style.height = `${resizeHeight}px`
-    }
+let inited = false
+marsEditor.on("loaded", (exampleConfig) => {
+  if (inited) {
+    destoryUI()
   }
+  initUI(!exampleConfig.hasPannel)
+  inited = true
 })
 
-app.mount("#app")
+let vueApp
+
+function initUI(simple: boolean) {
+  if (simple) {
+    vueApp = createApp(
+      defineComponent({
+        template: "<div><div>"
+      })
+    )
+  } else {
+    vueApp = createApp(Application)
+    const key = getInjectKey()
+
+    vueApp.use(injectState(cloneDeep(store)), key)
+  }
+
+  MarsUIInstall(vueApp, {
+    dialog: {
+      position: {
+        left: 50,
+        bottom: 50
+      },
+      warpper: "sanbox-warpper"
+    }
+  })
+
+  vueApp.mount("#mars-main-view")
+}
+
+function destoryUI() {
+  vueApp.unmount()
+  vueApp = null
+}
+
+marsEditor.render(document.getElementById("root"), getExampleId(), getQueryString("name"))

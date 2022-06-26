@@ -3,7 +3,7 @@
  * Mars2D地理信息平台  mars2d
  *
  * 版本信息：v3.1.4
- * 编译日期：2022-06-19 15:01:34
+ * 编译日期：2022-06-26 12:19:54
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -28,7 +28,11 @@ declare enum ChinaCRS {
     /**
      * 国测局(GCJ02)偏移坐标系
      */
-    GCJ02 = "GCJ02"
+    GCJ02 = "GCJ02",
+    /**
+     * 百度(BD09) 偏移坐标系  [暂未支持直接转换]
+     */
+    BAIDU = "BD09"
 }
 
 /**
@@ -5498,6 +5502,7 @@ declare namespace GeoJsonLayer {
  * @param [options.url] - geojson文件或服务url地址
  * @param [options.data] - geojson格式规范数据对象，与url二选一即可。
  * @param [options.crs] - 原始数据的坐标系，如'EPSG:3857'
+ * @param [options.chinaCRS] - 标识数据的国内坐标系（用于自动纠偏或加偏）
  * @param [options.format] - 可以对加载的geojson数据进行格式化或转换操作
  * @param [options.onCreateGraphic] - 解析geojson后，外部自定义方法来创建Graphic对象
  * @param [options.mask] - 标识是否绘制区域边界的反选遮罩层
@@ -5533,6 +5538,7 @@ declare class GeoJsonLayer extends GraphicLayer {
         url?: string;
         data?: any;
         crs?: string;
+        chinaCRS?: ChinaCRS;
         format?: (...params: any[]) => any;
         onCreateGraphic?: (...params: any[]) => any;
         mask?: boolean | any;
@@ -6025,6 +6031,7 @@ declare class GraphicLayer extends L.FeatureGroup {
      * @param [options.type] - 转为指定的类型
      * @param [options.style] - 可以设置指定style样式,每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
      * @param [options.crs] - 原始数据的坐标系，如'EPSG:3857' （可以从 {@link http://epsg.io }查询）
+     * @param [options.onEachFeature] - 创建每个Graphic前的回调
      * @returns 转换后的Graphic对象数组
      */
     loadGeoJSON(geojson: string | any, options?: {
@@ -6033,6 +6040,7 @@ declare class GraphicLayer extends L.FeatureGroup {
         type?: GraphicType | string;
         style?: any;
         crs?: string;
+        onEachFeature?: (...params: any[]) => any;
     }): any | Marker[] | Polyline[] | Polygon[] | Circle[] | Rectangle[] | any;
     /**
      * 打开Popup弹窗
@@ -12700,7 +12708,6 @@ declare namespace Util {
      * @param [symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
      * @param [symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
      * @param [attr] - 数据属性对象
-     * @param [mergeStyle] - 需要合并到styleOptions的默认Style样式
      * @returns style样式
      */
     function getSymbolStyle(symbol: {
@@ -12708,7 +12715,7 @@ declare namespace Util {
         styleField?: string;
         styleFieldOptions?: any;
         callback?: (...params: any[]) => any;
-    }, attr?: any, mergeStyle?: any): any | any;
+    }, attr?: any): any | any;
     /**
      * 获取GeoJSON中的features数组集合（自动判断数据来源）
      * @param geojson - geojson对象
@@ -12753,12 +12760,14 @@ declare namespace Util {
      * @param [options.type] - 转为指定的类型
      * @param [options.style = {}] - Style样式，每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
      * @param [options.crs] - 原始数据的坐标系，如'EPSG:3857' （可以从 {@link http://epsg.io }查询）
+     * @param [options.onPointTrans] - 坐标转换方法，可用于对每个坐标做额外转换处理
      * @returns Graphic构造参数（用于创建Graphic）
      */
     function featureToGraphic(feature: any, options?: {
         type?: GraphicType | string;
         style?: any;
         crs?: string;
+        onPointTrans?: (...params: any[]) => any;
     }): any | any;
     /**
      * 导出下载图片文件
@@ -12777,12 +12786,12 @@ declare namespace Util {
     /**
      * 执行alert弹窗
      * @param msg - 弹窗内的内容
-     * @param title - 弹窗的标题
+     * @param [title] - 弹窗的标题
      * @returns 无
      */
-    function alert(msg: string, title: string): any | void;
+    function alert(msg: string, title?: string): any | void;
     /**
-     * 执行msg提示窗
+     * 执行msg提示窗（自动消失）
      * @param msg - 弹窗内的内容
      * @returns 无
      */

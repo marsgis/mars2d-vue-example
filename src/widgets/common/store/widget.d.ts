@@ -17,7 +17,7 @@ declare module "@mars/widgets/common/store/widget" {
 
   export interface Widget {
     name: string // 唯一标识
-    key?: string // 作为vue diff 环节的key，用于控制组件重载
+    key?: string // 作为组件 diff 环节的key，用于控制组件重载
     component?: any // widget关联的异步组件
     autoDisable?: boolean // 是否能够被自动关闭
     disableOther?: boolean | string[] // 是否自动关闭其他widget,或通过数组指定需要被关闭的widget
@@ -28,19 +28,21 @@ declare module "@mars/widgets/common/store/widget" {
   }
 
   export interface WidgetState {
-    widgets: Widget[] // widget具体配置
-    openAtStart: string[] // 默认加载的widget
+    widgets?: Widget[] // widget具体配置
+    openAtStart?: string[] // 默认加载的widget
     defaultOption?: DefaultOption // 支持配置默认参数
   }
 
   export const key: InjectionKey<Store<WidgetState>>
+
+  export const getInjectKey: () => string
 
   export const injectState: (options: StoreOptions<WidgetState>) => Store<WidgetState>
 
   export const useWidgetStore: any
 
   export const useWidget: () => {
-    currentWidget:any
+    currentWidget: any
     // 获取指定的widget
     getWidget: (name: string) => any
     // 出发对应widget的onUpdate
@@ -48,9 +50,9 @@ declare module "@mars/widgets/common/store/widget" {
     // 获取widget的当前激活状态
     isActivate: (name: string) => boolean
     // 激活指定 widget模块
-    activate: (widget: string | Widget| (string | Widget)[], reload?:boolean) => void
+    activate: (widget: string | Widget | (string | Widget)[], reload?: boolean) => void
     // 释放指定的widget
-    disable: (name: string| string[]) => void
+    disable: (name: string | string[]) => void
     // 关闭释放所有widget ，hasAll传true值强制释放所有widget(默认autoDisable为false的widet不会释放)
     disableAll: (hasAll?: boolean) => void
   }

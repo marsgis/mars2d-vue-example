@@ -12,6 +12,9 @@ export default ({ mode }: ConfigEnv) => {
   const root = process.cwd()
   const ENV = loadEnv(mode, root)
 
+  console.log(`当前环境信息：`, mode)
+  console.log(`ENV：`, ENV)
+
   return defineConfig({
     base: ENV.VITE_BASE_URL,
     server: {
@@ -52,6 +55,10 @@ export default ({ mode }: ConfigEnv) => {
     build: {
       // 输出路径
       outDir: path.join("./dist", ENV.VITE_BASE_URL),
+      // 默认情况下 若 outDir 在 root 目录下， 则 Vite 会在构建时清空该目录。
+      emptyOutDir: true,
+      // 静态资源文件生成的目录
+      assetsDir: "example/assets-vue",
       // 小于此阈值的导入或引用资源将内联为 base64 编码， 以避免额外的http请求， 设置为 0, 可以完全禁用此项，
       assetsInlineLimit: 4096,
       // 启动 / 禁用 CSS 代码拆分
@@ -62,14 +69,12 @@ export default ({ mode }: ConfigEnv) => {
       commonjsOptions: {
         include: /node_modules|src\/widgets\/common/
       },
-      // 静态资源生成的目录
-      assetsDir: "example/assets",
       // 自定义底层的 Rollup 打包配置
       rollupOptions: {
         input: {
-          // index: path.resolve(__dirname, "index.html"),
-          editor: path.resolve(__dirname, "editor.html"),
-          read: path.resolve(__dirname, "read.html")
+          index: path.resolve(__dirname, "index.html"),
+          editor: path.resolve(__dirname, "editor-vue.html"),
+          read: path.resolve(__dirname, "read-vue.html")
         }
       },
       // 当设置为 true, 构建后将会生成 manifest.json 文件
@@ -79,9 +84,7 @@ export default ({ mode }: ConfigEnv) => {
       // 传递给 Terser 的更多 minify 选项
       terserOptions: {},
       // 设置为false 来禁用将构建好的文件写入磁盘
-      write: true,
-      // 默认情况下 若 outDir 在 root 目录下， 则 Vite 会在构建时清空该目录。
-      emptyOutDir: true
+      write: true
     },
     plugins: [
       vue(),
@@ -99,7 +102,7 @@ export default ({ mode }: ConfigEnv) => {
         ]
       }),
       examplePlugin(mode),
-      monacoEditorPlugin({ publicPath: "example/assets" }),
+      monacoEditorPlugin({ publicPath: "example/assets-monaco" }),
       {
         ...copyPlugin({
           hook: "closeBundle",

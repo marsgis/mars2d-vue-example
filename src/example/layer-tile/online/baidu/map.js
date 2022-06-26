@@ -6,7 +6,7 @@ let map // mars2d.Map三维地图对象
 export const mapOptions = {
   crs: mars2d.CRS.BAIDU,
   zoom: 12,
-  center: [31.834912, 117.220102],
+  center: { lng: 117.220102, lat: 31.834912 },
   control: {
     scale: true,
     locationBar: {
