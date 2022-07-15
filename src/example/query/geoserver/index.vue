@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="328">
+  <mars-dialog :visible="true" right="10" top="10" width="328">
     <a-form>
       <a-form-item label="名称">
         <mars-input v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
@@ -34,7 +34,7 @@
         </a-form-item>
       </div>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

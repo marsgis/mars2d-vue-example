@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
 
     <a-space>
       <span>图上标绘：</span>
@@ -9,7 +9,7 @@
       <mars-button @click="removeAll">清除</mars-button>
 
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

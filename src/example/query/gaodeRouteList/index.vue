@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="300">
+  <mars-dialog :visible="true" right="10" top="10" width="300">
     <a-form>
       <a-form-item label="方式">
         <mars-select class="selectWidth" v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
@@ -40,7 +40,7 @@
         ></a-table>
       </div>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

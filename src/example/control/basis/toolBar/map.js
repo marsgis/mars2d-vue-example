@@ -43,7 +43,7 @@ function onGoLocate(e) {
   L.DomUtil.removeClass(this.btnLocation, this._iconLocation)
   L.DomUtil.addClass(this.btnLocation, this._iconLocationLoading)
 
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  // eslint-disable-next-line
   const that = this
   geolocation.getCurrentPosition(
     function (r) {

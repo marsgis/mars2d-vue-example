@@ -1,10 +1,10 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="createMap"> 创建地图 </mars-button>
       <mars-button @click="destroyMap"> 销毁地图 </mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

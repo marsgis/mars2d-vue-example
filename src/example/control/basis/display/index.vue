@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span>按钮:</span>
@@ -17,7 +17,7 @@
         <a-checkbox v-model:checked="formState.enabledLocation" @change="onBindLocation">鼠标提示信息(左下角)</a-checkbox>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

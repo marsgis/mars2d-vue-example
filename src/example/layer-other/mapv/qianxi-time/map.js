@@ -71,7 +71,7 @@ function showMapVLayer(rs) {
         if (item[0] === "起点城市" || item[0] === "迁出城市") {
           cityBegin = item[1]
         }
-        if ((item[0] !== "起点城市" || (item[0] !== "迁出城市" && item.length > 1))) {
+        if (item[0] !== "起点城市" || (item[0] !== "迁出城市" && item.length > 1)) {
           const cityCenter1 = this.mapv.utilCityCenter.getCenterByCityName(item[0].replace(/市|省/, ""))
           const cityCenter2 = this.mapv.utilCityCenter.getCenterByCityName(cityBegin.replace(/市|省/, "").trim())
           if (cityCenter1 && cityCenter2) {

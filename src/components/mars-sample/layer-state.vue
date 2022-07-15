@@ -1,6 +1,6 @@
 <template>
   <a-space>
-    <span class="mars-pannel-item-label" v-if="props.label !== ''">{{ props.label }}</span>
+    <span class="mars-dialog-item-label" v-if="props.label !== ''">{{ props.label }}</span>
     <a-checkbox v-model:checked="formState.enabledShowHide" @change="onChangeShow" title="显示隐藏状态">显示</a-checkbox>
     <a-checkbox v-model:checked="formState.enabledPopup" @change="onChangePopup" title="是否绑定Popup鼠标单击弹窗">Popup</a-checkbox>
     <a-checkbox v-model:checked="formState.enabledTooltip" @change="onChangeTooltip" title="是否绑定Tooltip鼠标移入弹窗">Tooltip</a-checkbox>

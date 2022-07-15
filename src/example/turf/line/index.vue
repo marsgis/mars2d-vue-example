@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span>原始数据:</span>
@@ -21,7 +21,7 @@
         <mars-button @click="calculationCurve">计算</mars-button>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

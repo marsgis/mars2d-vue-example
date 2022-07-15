@@ -1,12 +1,12 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       效果：
       <mars-button @click="divGraphicYellow"> 效果一 </mars-button>
       <mars-button @click="divGraphicBule"> 效果二</mars-button>
       <mars-button @click="divGraphicWhite"> 效果三 </mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

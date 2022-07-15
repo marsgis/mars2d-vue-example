@@ -58,7 +58,7 @@
 
 .deleteInput {
   position: absolute;
-  top: -15px;
+  top: 15px;
   right: 7px;
   line-height: 0;
   font-size: 18px;

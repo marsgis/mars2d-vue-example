@@ -1,7 +1,7 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div v-html="html"></div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

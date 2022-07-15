@@ -1,10 +1,10 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       rgb叠加颜色：
       <mars-color-picker v-model:value="color" @change="onChangeColor" />
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

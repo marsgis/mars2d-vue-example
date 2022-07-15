@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel width="300" left="10" top="10">
+  <mars-dialog width="300" left="10" top="10">
     <p class="mars-load-head">One Belt One Road 图例</p>
     <ul class="mars-load-introduce">
       <li>
@@ -25,7 +25,7 @@
         </div>
       </li>
     </ul>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

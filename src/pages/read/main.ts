@@ -63,11 +63,11 @@ function initUI(simple: boolean) {
         left: 50,
         bottom: 50
       },
-      warpper: "sanbox-warpper"
+      warpper: "#mars-main-view"
     }
   })
 
-  vueApp.mount("#mars-main-view")
+  vueApp.mount("#mars-ui-root")
 }
 
 function destoryUI() {

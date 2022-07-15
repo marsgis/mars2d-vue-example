@@ -2,7 +2,6 @@ import * as mars2d from "mars2d"
 
 let map
 
-
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -30,6 +29,24 @@ export function onMounted(mapInstance) {
       }
     }
   ])
+
+  // 对矢量数据绑定右键菜单
+  const latlng = map.getCenter()
+  const marker = L.marker(latlng).addTo(map)
+
+  marker.name = "火星科技"
+  marker.bindContextMenu([
+    {
+      text: "显示名称",
+      iconCls: "fa fa-info",
+      callback: function (e) {
+        const marker = e.relatedTarget
+        globalMsg(marker.name)
+      }
+    }
+  ])
+
+  // marker.unbindContextMenu();
 }
 
 /**

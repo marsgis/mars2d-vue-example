@@ -1,11 +1,11 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="40">
+  <mars-dialog :visible="true" right="10" top="10" bottom="40">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
     </mars-tree>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 <script lang="ts" setup>
 import { ref, nextTick, reactive } from "vue"
@@ -164,7 +164,7 @@ function findChild(parent: any, list: any[]) {
 </script>
 
 <style scoped lang="less">
-.manager-mars-pannel {
+.manager-mars-dialog {
   width: 220px;
   overflow-y: auto;
 }

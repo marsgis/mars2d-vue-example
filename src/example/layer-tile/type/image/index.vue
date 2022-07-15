@@ -1,10 +1,10 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="addLayer">叠加图层</mars-button>
       <mars-button @click="removeLayer">移除图层</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

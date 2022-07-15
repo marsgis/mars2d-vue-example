@@ -1,11 +1,11 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="drawLine">绘制线</mars-button>
       <mars-button @click="crossPoint">计算相交点</mars-button>
       <mars-button @click="clearAll">清除</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

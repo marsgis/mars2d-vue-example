@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="350">
+  <mars-dialog :visible="true" right="10" top="10" width="350">
     <div class="arcgis-contain">
       <a-form>
         <div class="f-mb">
@@ -42,7 +42,7 @@
         </div>
       </a-form>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

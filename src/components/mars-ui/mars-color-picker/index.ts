@@ -7,7 +7,7 @@ import "./mars-color-picker.less"
 /**
  * 颜色选择器
  *
- * @copyright 火星科技 mars2d.cn
+ * @copyright 火星科技 mars3d.cn
  * @author 木遥 2022-01-01
  */
 const MarsColorPicker = defineComponent({
@@ -16,7 +16,7 @@ const MarsColorPicker = defineComponent({
   props: {
     value: {
       type: String,
-      default: "#FFFFFF"
+      default: "rgba(255,255,255,1)"
     }
   },
   emits: ["update:value", "change"],
@@ -26,7 +26,7 @@ const MarsColorPicker = defineComponent({
     let colorObject: any = null
 
     const changeColor = (color: any) => {
-      pointColor = color.hex
+      pointColor = `rgba(${color.rgba.r},${color.rgba.g},${color.rgba.b},${color.rgba.a})`// color.hex
       colorObject = color
     }
     const cancel = () => {
@@ -56,7 +56,10 @@ const MarsColorPicker = defineComponent({
       )
     ]
 
-    const content = [h(ColorPicker, { suckerHide: false, color: pointColor, onChangeColor: changeColor } as any /* TODO 强制给any类型 */), h("div", { class: "f-tac" }, Buttons)]
+    const content = [
+      h(ColorPicker, { suckerHide: true, color: pointColor, onChangeColor: changeColor } as any /* TODO 强制给any类型 */),
+      h("div", { class: "f-tac" }, Buttons)
+    ]
 
     return () =>
       h(

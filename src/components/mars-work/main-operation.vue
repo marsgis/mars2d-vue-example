@@ -7,7 +7,7 @@
  * @copyright 火星科技 mars2d.cn
  * @author 木遥 2022-01-01
  */
-import { defineAsyncComponent, h, ref } from "vue"
+import { defineAsyncComponent, h, ref, provide } from "vue"
 import { getExampleId } from "@mars/utils/mars-util"
 
 const modules = import.meta.glob("../../example/**/index.vue")
@@ -15,6 +15,12 @@ const modules = import.meta.glob("../../example/**/index.vue")
 let componentName: string | null = ""
 
 let PannelComponent: any
+
+provide("getCurrentWidget", () => {
+  console.log(`注意：${componentName}为非widget组件，通过无法获取到currentWidget`)
+
+  return null
+})
 
 const emits = defineEmits(["childMounted", "childUnmounted"])
 

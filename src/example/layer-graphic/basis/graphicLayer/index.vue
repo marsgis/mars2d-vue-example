@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <layer-state />
     </div>
@@ -34,7 +34,7 @@
         </a-col>
       </a-row>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

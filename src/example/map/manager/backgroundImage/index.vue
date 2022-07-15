@@ -1,10 +1,10 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <span>底图透明度：</span>
       <mars-slider @change="opacityChange" v-model:value="opacity" :min="0" :max="100" :step="1.0" />{{opacity}}%
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

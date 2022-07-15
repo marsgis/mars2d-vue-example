@@ -20,38 +20,38 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-    // 绑定标绘相关事件监听(可以自行加相关代码实现业务需求，此处主要做示例)
-    graphicLayer.on(mars2d.EventType.drawStart, function (e) {
-      console.log("开始绘制", e)
-    })
-    graphicLayer.on(mars2d.EventType.drawAddPoint, function (e) {
-      console.log("绘制过程中增加了点", e)
-    })
-    graphicLayer.on(mars2d.EventType.drawRemovePoint, function (e) {
-      console.log("绘制过程中删除了点", e)
-    })
+  // 绑定标绘相关事件监听(可以自行加相关代码实现业务需求，此处主要做示例)
+  graphicLayer.on(mars2d.EventType.drawStart, function (e) {
+    console.log("开始绘制", e)
+  })
+  graphicLayer.on(mars2d.EventType.drawAddPoint, function (e) {
+    console.log("绘制过程中增加了点", e)
+  })
+  graphicLayer.on(mars2d.EventType.drawRemovePoint, function (e) {
+    console.log("绘制过程中删除了点", e)
+  })
 
-    graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
-      console.log("创建完成", e)
-    })
+  graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
+    console.log("创建完成", e)
+  })
 
-    graphicLayer.on(mars2d.EventType.editStart, function (e) {
-      console.log("开始编辑", e)
-      eventTarget.fire("graphicEditor-start", e)
-      // startEditing(e.graphic)
-    })
+  graphicLayer.on(mars2d.EventType.editStart, function (e) {
+    console.log("开始编辑", e)
+    eventTarget.fire("graphicEditor-start", e)
+    // startEditing(e.graphic)
+  })
 
-    graphicLayer.on(mars2d.EventType.editMovePoint, function (e) {
-      console.log("编辑修改了点", e)
-      // startEditing(e.graphic)
-      eventTarget.fire("graphicEditor-start", e)
-    })
-    graphicLayer.on(mars2d.EventType.editRemovePoint, function (e) {
-      console.log("编辑删除了点", e)
+  graphicLayer.on(mars2d.EventType.editMovePoint, function (e) {
+    console.log("编辑修改了点", e)
+    // startEditing(e.graphic)
+    eventTarget.fire("graphicEditor-start", e)
+  })
+  graphicLayer.on(mars2d.EventType.editRemovePoint, function (e) {
+    console.log("编辑删除了点", e)
 
-      // startEditing(e.graphic)
-      eventTarget.fire("graphicEditor-start", e)
-    })
+    // startEditing(e.graphic)
+    eventTarget.fire("graphicEditor-start", e)
+  })
 
   // 加一些演示数据
   addDemoGraphic1()
@@ -65,6 +65,127 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
+}
+
+function addDemoGraphic1() {
+  const graphic = new mars2d.graphic.Marker({
+    latlng: [31.854628, 117.245425],
+    style: {
+      image: "img/marker/mark1.png",
+      width: 32,
+      height: 44,
+      horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
+    },
+    attr: { remark: "示例1" }
+  })
+  graphicLayer.addGraphic(graphic)
+
+  initLayerManager()
+
+  // graphic.testPoint = true; //打开测试点，与点进行对比调整参数
+
+  // 演示个性化处理graphic，
+  initGraphicManager(graphic)
+}
+
+function addDemoGraphic2() {
+  const graphic = new mars2d.graphic.Marker({
+    latlng: L.latLng(31.810858, 117.21),
+    style: {
+      image: "img/marker/fx1.png",
+      width: 30,
+      horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+      verticalOrigin: mars2d.VerticalOrigin.CENTER
+    },
+    attr: { remark: "示例2" }
+  })
+  graphicLayer.addGraphic(graphic)
+
+  // graphic.bindTooltip("我是maker", { className: "demo-tooltip", direction: "top" });
+}
+
+function addDemoGraphic3() {
+  const graphic = new mars2d.graphic.Marker({
+    latlng: L.latLng(31.818606, 117.296904),
+    style: {
+      image: "img/marker/emergency.gif",
+      width: 40,
+      horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+      verticalOrigin: mars2d.VerticalOrigin.CENTER
+    },
+    attr: { remark: "示例3" }
+  })
+  graphicLayer.addGraphic(graphic)
+
+  // graphic.bindPopup("我是maker", { className: "demo-popup" });
+}
+
+export function onClickStartDraw() {
+  graphicLayer.startDraw({
+    type: "marker",
+    style: {
+      image: "img/marker/mark1.png",
+      width: 32,
+      height: 44
+    },
+    success: function (graphic) {
+      console.log("标绘完成", graphic)
+    }
+  })
+}
+export function drawDivMarker() {
+  graphicLayer.startDraw({
+    type: "divGraphic",
+    style: {
+      html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
+          <div class="marsTiltPanel-wrap">
+              <div class="area">
+                  <div class="arrow-lt"></div>
+                  <div class="b-t"></div>
+                  <div class="b-r"></div>
+                  <div class="b-b"></div>
+                  <div class="b-l"></div>
+                  <div class="arrow-rb"></div>
+                  <div class="label-wrap">
+                      <div class="title">火星水厂</div>
+                      <div class="label-content">
+                          <div class="data-li">
+                              <div class="data-label">实时流量：</div>
+                              <div class="data-value"><span id="lablLiuliang" class="label-num">39</span><span class="label-unit">m³/s</span>
+                              </div>
+                          </div>
+                          <div class="data-li">
+                              <div class="data-label">水池液位：</div>
+                              <div class="data-value"><span id="lablYeWei"  class="label-num">10.22</span><span class="label-unit">m</span>
+                              </div>
+                          </div>
+                          <div class="data-li">
+                              <div class="data-label">水泵状态：</div>
+                              <div class="data-value">
+                                <span id="lablSBZT1"  class="label-tag data-value-status-1" alt="中间状态">1号</span>
+                                <span id="lablSBZT2"  class="label-tag data-value-status-0" alt="关闭状态">2号</span>
+                               </div>
+                          </div>
+                          <div class="data-li">
+                              <div class="data-label">出水阀门：</div>
+                              <div class="data-value">
+                                <span id="lablCSFM1"   class="label-tag data-value-status-1" alt="中间状态">1号</span>
+                                <span id="lablCSFM2"   class="label-tag data-value-status-2" alt="打开状态">2号</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="b-t-l"></div>
+              <div class="b-b-r"></div>
+          </div>
+          <div class="arrow" ></div>
+      </div>`,
+      horizontalOrigin: mars2d.HorizontalOrigin.LEFT,
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
+    }
+  })
 }
 
 // 在图层级处理一些事物
@@ -242,125 +363,4 @@ function initGraphicManager(graphic) {
       }
     }
   ])
-}
-
-function addDemoGraphic1() {
-  const graphic = new mars2d.graphic.Marker({
-    latlng: [31.854628, 117.245425],
-    style: {
-      image: "img/marker/mark1.png",
-      width: 32,
-      height: 44,
-      horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
-      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
-    },
-    attr: { remark: "示例1" }
-  })
-  graphicLayer.addGraphic(graphic)
-
-  initLayerManager()
-
-  // graphic.testPoint = true; //打开测试点，与点进行对比调整参数
-
-  // 演示个性化处理graphic，
-  initGraphicManager(graphic)
-}
-
-function addDemoGraphic2() {
-  const graphic = new mars2d.graphic.Marker({
-    latlng: L.latLng(31.810858, 117.21),
-    style: {
-      image: "img/marker/fx1.png",
-      width: 30,
-      horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
-      verticalOrigin: mars2d.VerticalOrigin.CENTER
-    },
-    attr: { remark: "示例2" }
-  })
-  graphicLayer.addGraphic(graphic)
-
-  // graphic.bindTooltip("我是maker", { className: "demo-tooltip", direction: "top" });
-}
-
-function addDemoGraphic3() {
-  const graphic = new mars2d.graphic.Marker({
-    latlng: L.latLng(31.818606, 117.296904),
-    style: {
-      image: "img/marker/emergency.gif",
-      width: 40,
-      horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
-      verticalOrigin: mars2d.VerticalOrigin.CENTER
-    },
-    attr: { remark: "示例3" }
-  })
-  graphicLayer.addGraphic(graphic)
-
-  // graphic.bindPopup("我是maker", { className: "demo-popup" });
-}
-
-export function onClickStartDraw() {
-  graphicLayer.startDraw({
-    type: "marker",
-    style: {
-      image: "img/marker/mark1.png",
-      width: 32,
-      height: 44
-    },
-    success: function (graphic) {
-      console.log("标绘完成", graphic)
-    }
-  })
-}
-export function drawDivMarker() {
-  graphicLayer.startDraw({
-    type: "divGraphic",
-    style: {
-      html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
-          <div class="marsTiltPanel-wrap">
-              <div class="area">
-                  <div class="arrow-lt"></div>
-                  <div class="b-t"></div>
-                  <div class="b-r"></div>
-                  <div class="b-b"></div>
-                  <div class="b-l"></div>
-                  <div class="arrow-rb"></div>
-                  <div class="label-wrap">
-                      <div class="title">火星水厂</div>
-                      <div class="label-content">
-                          <div class="data-li">
-                              <div class="data-label">实时流量：</div>
-                              <div class="data-value"><span id="lablLiuliang" class="label-num">39</span><span class="label-unit">m³/s</span>
-                              </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">水池液位：</div>
-                              <div class="data-value"><span id="lablYeWei"  class="label-num">10.22</span><span class="label-unit">m</span>
-                              </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">水泵状态：</div>
-                              <div class="data-value">
-                                <span id="lablSBZT1"  class="label-tag data-value-status-1" alt="中间状态">1号</span>
-                                <span id="lablSBZT2"  class="label-tag data-value-status-0" alt="关闭状态">2号</span>
-                               </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">出水阀门：</div>
-                              <div class="data-value">
-                                <span id="lablCSFM1"   class="label-tag data-value-status-1" alt="中间状态">1号</span>
-                                <span id="lablCSFM2"   class="label-tag data-value-status-2" alt="打开状态">2号</span>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="b-t-l"></div>
-              <div class="b-b-r"></div>
-          </div>
-          <div class="arrow" ></div>
-      </div>`,
-      horizontalOrigin: mars2d.HorizontalOrigin.LEFT,
-      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
-    }
-  })
 }

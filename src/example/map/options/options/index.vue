@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-table :columns="columns" :data-source="data" bordered :pagination="false">
       <template #bodyCell="{ column, text, index }">
         <template v-if="column.dataIndex === 'name'">
@@ -37,7 +37,7 @@
         </template>
       </template>
     </a-table>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

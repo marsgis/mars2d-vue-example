@@ -1,12 +1,12 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="onCheckDefault">默认样式</mars-button>
       <mars-button @click="onCheckCustom">自定义样式</mars-button>
       <mars-button @click="onCheckPhoto">照片点</mars-button>
       <mars-button @click="onCheckClear">清除</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

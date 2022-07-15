@@ -1,7 +1,7 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" height="46">
+  <mars-dialog :visible="true" right="10" top="10" height="46">
     <a-checkbox v-model:checked="enabled" @change="onChangeEnabled"> 是否文本碰撞检测</a-checkbox>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

@@ -269,6 +269,7 @@ export default {
         this.list = this.examples_list
         return
       }
+      const searchValue = this.searchValue.toLowerCase()
       const newList = JSON.parse(JSON.stringify(this.examples_list))
       newList.forEach((item) => {
         if (item.children) {
@@ -277,7 +278,7 @@ export default {
             if (ite.children) {
               const lis = []
               ite.children.forEach((itemes) => {
-                if (itemes.name.search(this.searchValue) !== -1) {
+                if (itemes.name.toLowerCase().search(searchValue) !== -1) {
                   lis.push(itemes)
                 }
               })

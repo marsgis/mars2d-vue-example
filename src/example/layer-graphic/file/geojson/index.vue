@@ -1,12 +1,12 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       示例：
       <div v-for="(item, index) in dom" :key="index">
         <mars-button @click="item.callback">{{ item.name }}</mars-button>
       </div>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 <script setup lang="ts">
 import * as mapWork from "./map.js"

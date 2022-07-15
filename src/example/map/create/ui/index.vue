@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="400">
+  <mars-dialog :visible="true" right="10" top="10" bottom="40" width="400">
     <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-collapse v-model:activeKey="activeKey">
         <template #expandIcon>
@@ -132,7 +132,7 @@
         </a-space>
       </div>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

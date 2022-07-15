@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.4
- * 编译日期：2022-06-26 12:19:54
+ * 版本信息：v3.1.5
+ * 编译日期：2022-07-11 21:51:31
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -3237,9 +3237,9 @@ declare class DistanceMeasure extends Polyline {
  * @param options - 参数对象，包括以下：
  * @param options.latlngs - 运动的坐标轨迹点
  * @param options.durations - 运动轨迹点对应的时长（单位：毫秒）
- * @param [options.style] - 样式参数，还包括：
- * @param [options.style.autostart] - 是否添加后就开始运动
- * @param [options.style.loop] - 是否重复运动
+ * @param [options.style] - 样式参数，还包括：<br/>
+ * //  * @param {Boolean} [options.style.autostart] 是否添加后就开始运动
+ * //  * @param {Boolean} [options.style.loop] 是否重复运动
  * @param [options.attr] - 属性信息
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
@@ -3251,10 +3251,7 @@ declare class MovingMarker extends Marker {
     constructor(options: {
         latlngs: L.LatLng[];
         durations: number[] | number;
-        style?: {
-            autostart?: boolean;
-            loop?: boolean;
-        };
+        style?: Marker.StyleOptions | any;
         attr?: any;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
@@ -6837,6 +6834,10 @@ declare class GroupLayer extends L.LayerGroup {
      */
     name: string;
     /**
+     * 透明度
+     */
+    opacity: number;
+    /**
      * 是否空组 ，空组目前就图层管理用于图层分组节点（虚拟节点）。
      */
     readonly hasEmptyGroup: boolean;
@@ -9097,6 +9098,10 @@ declare class Map extends L.Map {
      */
     bounds: L.LatLngBounds;
     /**
+     * 当前地图坐标系
+     */
+    crs: string;
+    /**
      * 默认绑定的图层，简单场景时快捷方便使用
      */
     readonly graphicLayer: GraphicLayer;
@@ -9378,11 +9383,11 @@ declare class Map extends L.Map {
     /**
      * 打开指定的Popup弹窗（如果之前有打开其他的，会自动关闭，确保只有一个）
      * @param content - Popup弹窗内容
-     * @param [latlng] - 位置
-     * @param [options] - Popup弹窗参数
+     * //  * @param {L.LatLng} [latlng] 位置
+     * //  * @param {Map.PopupOptions|Object} [options] Popup弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(content: string | HTMLElement | L.Popup | any, latlng?: L.LatLng, options?: Map.PopupOptions | any): any | Map;
+    openPopup(content: string | HTMLElement | L.Popup | any): any | Map;
     /**
      * 关闭之前打开的（或给定某个）Popup弹窗
      * @param [popup] - 关闭之前打开的（或给定某个）Popup弹窗
@@ -9392,11 +9397,11 @@ declare class Map extends L.Map {
     /**
      * 创建并打开具有指定内容和选项的Tooltip鼠标工具提示。
      * @param content - Tooltip弹窗内容
-     * @param [latlng] - 位置
-     * @param [options] - Tooltip弹窗参数
+     * //  * @param {L.LatLng} [latlng] 位置
+     * //  * @param {Map.TooltipOptions|Object} [options] Tooltip弹窗参数
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(content: string | HTMLElement | L.Tooltip | any, latlng?: L.LatLng, options?: Map.TooltipOptions | any): any | Map;
+    openTooltip(content: string | HTMLElement | L.Tooltip | any): any | Map;
     /**
      * 关闭之前打开的（或给定某个）Tooltip鼠标工具提示
      * @param [tooltip] - 关闭之前打开的（或给定某个）Tooltip弹窗
@@ -11255,6 +11260,9 @@ declare namespace widget {
      *   uri: "widgets/bookmark/widget.js",
      *   autoDisable: true,
      *   testdata:'测试数据1987', //传数据进widget内部，widget内部使用this.config.testdata获取到传的数据
+     *   success:function(thisWidget){
+     *     //创建完成的回调方法
+     *   }
      * });
      * @param item - 指widget模块的uri 或 指模块的配置参数,当有配置参数时，参数优先级是：
      * 【activate方法传入的配置 > init方法传入的配置(widget.json) > widget.js内部配置的】

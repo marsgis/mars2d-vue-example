@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" customClass="gaodeRoutePannel">
+  <mars-dialog :visible="true" right="10" top="10" customClass="gaodeRoutePannel">
     <a-form>
       <a-form-item label="方式">
         <mars-select v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
@@ -32,7 +32,7 @@
         <p style="color: #cad1d1">导航：{{ dh }}</p>
       </div>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

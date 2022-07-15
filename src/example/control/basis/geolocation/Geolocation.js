@@ -1,5 +1,5 @@
- // 采用高德地图定位的算法 ， 参考帮助文档：https://lbs.amap.com/api/javascript-api/guide/services/geolocation
- class Geolocation extends mars2d.control.ToolButton {
+// 采用高德地图定位的算法 ， 参考帮助文档：https://lbs.amap.com/api/javascript-api/guide/services/geolocation
+class Geolocation extends mars2d.control.ToolButton {
   constructor(options = {}) {
     super({
       position: "bottomleft",
@@ -36,7 +36,7 @@
         })
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      // eslint-disable-next-line
       const that = this
       this.geolocation.getCurrentPosition()
 

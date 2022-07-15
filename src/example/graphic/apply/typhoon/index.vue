@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="45" top="10" width="338">
+  <mars-dialog :visible="true" right="45" top="10" width="338">
     <a-table
       size="small"
       :row-selection="rowSelection"
@@ -37,7 +37,7 @@
         <a>{{ text }}</a>
       </template>
     </a-table>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

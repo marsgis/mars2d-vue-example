@@ -21,8 +21,13 @@ export function onMounted(mapInstance) {
       styleOptions: {
         image: "img/marker/mark1.png",
         width: 32,
-        height: 44
+        height: 44,
+        horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+        verticalOrigin: mars2d.VerticalOrigin.BOTTOM
       }
+    },
+    popupOptions: {
+      title: "合肥市"
     },
     popup: [
       { field: "项目名称", name: "项目名称" },

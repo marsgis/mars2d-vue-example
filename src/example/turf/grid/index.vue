@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <a-space>
         <span>步长:</span>
@@ -11,7 +11,7 @@
         <mars-button @click="hexGrid">蜂窝网</mars-button>
       </a-space>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

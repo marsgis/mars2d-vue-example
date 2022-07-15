@@ -6,7 +6,7 @@ import "./notify.less"
  * 消息提醒
  * @export
  * @param {App} app vue实例
- * @copyright 火星科技 mars2d.cn
+ * @copyright 火星科技 mars3d.cn
  * @author 木遥 2022-01-01
  * @returns { void }
  */
@@ -15,13 +15,15 @@ export const $notify = (message: any, description: any, options: any = {}, type:
     return new Promise((resolve) => {
       notification.config({
         placement: "bottomRight",
-        right: 20,
-        duration: undefined,
+        right: 10,
+        bottom: 40,
+        duration: 10,
         ...options
       })
       const func = notification[type] as (a: any) => any
       func({
         message,
+        icon: () => null,
         description,
         class: "mars-notify-message",
         onClose() {

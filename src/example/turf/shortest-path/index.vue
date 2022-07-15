@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span>数据:</span>
@@ -16,7 +16,7 @@
         <mars-button @click="clearAll">清除</mars-button>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -44,7 +44,7 @@ const clearAll = () => {
 }
 </script>
 <style scoped lang="less">
-.mars-pannel-item-label {
+.mars-dialog-item-label {
   width: 30px;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="showMapImg">查看场景出图</mars-button>
       <mars-button @click="downLoad">全屏导出</mars-button>
       <mars-button @click="downLoad2">框选导出</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 
   <mars-dialog top="50" left="50" width="calc(100% - 100px)" title="场景出图" v-model:visible="showImg">
     <img :src="imges" class="show-img" />

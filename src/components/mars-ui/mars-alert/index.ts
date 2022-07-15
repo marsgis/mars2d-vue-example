@@ -6,7 +6,7 @@ import "./alert.less"
  * alert弹窗
  * @export
  * @param {App} app vue实例
- * @copyright 火星科技 mars2d.cn
+ * @copyright 火星科技 mars3d.cn
  * @author 木遥 2022-01-01
  * @returns { void }
  */
@@ -17,6 +17,7 @@ export const $alert = (content: any, title = "提示", type: keyof typeof Modal 
       func({
         title,
         content,
+        icon: null,
         okType: "default",
         okText: "确定",
         class: "mars-global-alert",
@@ -24,7 +25,7 @@ export const $alert = (content: any, title = "提示", type: keyof typeof Modal 
           resolve(true)
         },
         onCancel() {
-          reject(new Error("用户取消"))
+          resolve(false)
         }
       })
     })

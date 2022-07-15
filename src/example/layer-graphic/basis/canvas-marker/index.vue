@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div>
       <a-space>
         显示：
@@ -13,7 +13,7 @@
     <div>
       <a-space> </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

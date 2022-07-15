@@ -1,5 +1,5 @@
 /* @preserve
- * Leaflet 1.8.0, a JS library for interactive maps. https://leafletjs.com
+ * Leaflet 1.8.1+main.7f43299, a JS library for interactive maps. https://leafletjs.com
  * (c) 2010-2022 Vladimir Agafonkin, (c) 2010-2011 CloudMade
  */
 
@@ -9,7 +9,7 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.leaflet = {}));
 })(this, (function (exports) { 'use strict';
 
-  var version = "1.8.0";
+  var version = "1.8.1+main.4a5f1920";
 
   /*
    * @namespace Util
@@ -505,35 +505,30 @@
   	},
 
   	// attach listener (without syntactic sugar now)
-  	_on: function (type, fn, context) {
+  	_on: function (type, fn, context, _once) {
   		if (typeof fn !== 'function') {
   			console.warn('wrong listener type: ' + typeof fn);
   			return;
   		}
-  		this._events = this._events || {};
 
-  		/* get/init listeners for type */
-  		var typeListeners = this._events[type];
-  		if (!typeListeners) {
-  			typeListeners = [];
-  			this._events[type] = typeListeners;
+  		// check if fn already there
+  		if (this._listens(type, fn, context) !== false) {
+  			return;
   		}
 
   		if (context === this) {
   			// Less memory footprint.
   			context = undefined;
   		}
-  		var newListener = {fn: fn, ctx: context},
-  		    listeners = typeListeners;
 
-  		// check if fn already there
-  		for (var i = 0, len = listeners.length; i < len; i++) {
-  			if (listeners[i].fn === fn && listeners[i].ctx === context) {
-  				return;
-  			}
+  		var newListener = {fn: fn, ctx: context};
+  		if (_once) {
+  			newListener.once = true;
   		}
 
-  		listeners.push(newListener);
+  		this._events = this._events || {};
+  		this._events[type] = this._events[type] || [];
+  		this._events[type].push(newListener);
   	},
 
   	_off: function (type, fn, context) {
@@ -541,10 +536,11 @@
   		    i,
   		    len;
 
-  		if (!this._events) { return; }
+  		if (!this._events) {
+  			return;
+  		}
 
   		listeners = this._events[type];
-
   		if (!listeners) {
   			return;
   		}
@@ -562,32 +558,24 @@
   			return;
   		}
 
-  		if (context === this) {
-  			context = undefined;
-  		}
-
   		if (typeof fn !== 'function') {
   			console.warn('wrong listener type: ' + typeof fn);
   			return;
   		}
+
   		// find fn and remove it
-  		for (i = 0, len = listeners.length; i < len; i++) {
-  			var l = listeners[i];
-  			if (l.ctx !== context) { continue; }
-  			if (l.fn === fn) {
-  				if (this._firingCount) {
-  					// set the removed listener to noop so that's not called if remove happens in fire
-  					l.fn = falseFn;
+  		var index = this._listens(type, fn, context);
+  		if (index !== false) {
+  			var listener = listeners[index];
+  			if (this._firingCount) {
+  				// set the removed listener to noop so that's not called if remove happens in fire
+  				listener.fn = falseFn;
 
-  					/* copy array in case events are being fired */
-  					this._events[type] = listeners = listeners.slice();
-  				}
-  				listeners.splice(i, 1);
-
-  				return;
+  				/* copy array in case events are being fired */
+  				this._events[type] = listeners = listeners.slice();
   			}
+  			listeners.splice(index, 1);
   		}
-  		console.warn('listener not found');
   	},
 
   	// @method fire(type: String, data?: Object, propagate?: Boolean): this
@@ -605,12 +593,16 @@
 
   		if (this._events) {
   			var listeners = this._events[type];
-
   			if (listeners) {
   				this._firingCount = (this._firingCount + 1) || 1;
   				for (var i = 0, len = listeners.length; i < len; i++) {
   					var l = listeners[i];
-  					l.fn.call(l.ctx || this, event);
+  					// off overwrites l.fn, so we need to copy fn to a var
+  					var fn = l.fn;
+  					if (l.once) {
+  						this.off(type, fn, l.ctx);
+  					}
+  					fn.call(l.ctx || this, event);
   				}
 
   				this._firingCount--;
@@ -626,45 +618,83 @@
   	},
 
   	// @method listens(type: String, propagate?: Boolean): Boolean
+  	// @method listens(type: String, fn: Function, context?: Object, propagate?: Boolean): Boolean
   	// Returns `true` if a particular event type has any listeners attached to it.
   	// The verification can optionally be propagated, it will return `true` if parents have the listener attached to it.
-  	listens: function (type, propagate) {
+  	listens: function (type, fn, context, propagate) {
   		if (typeof type !== 'string') {
   			console.warn('"string" type argument expected');
   		}
+
+  		if (typeof fn !== 'function') {
+  			propagate = !!fn;
+  			fn = undefined;
+  			context = undefined;
+  		}
+
   		var listeners = this._events && this._events[type];
-  		if (listeners && listeners.length) { return true; }
+  		if (listeners && listeners.length) {
+  			if (this._listens(type, fn, context) !== false) {
+  				return true;
+  			}
+  		}
 
   		if (propagate) {
   			// also check parents for listeners if event propagates
   			for (var id in this._eventParents) {
-  				if (this._eventParents[id].listens(type, propagate)) { return true; }
+  				if (this._eventParents[id].listens(type, fn, context, propagate)) { return true; }
   			}
   		}
   		return false;
+  	},
+
+  	// returns the index (number) or false
+  	_listens: function (type, fn, context) {
+  		if (!this._events) {
+  			return false;
+  		}
+
+  		var listeners = this._events[type] || [];
+  		if (!fn) {
+  			return !!listeners.length;
+  		}
+
+  		if (context === this) {
+  			// Less memory footprint.
+  			context = undefined;
+  		}
+
+  		for (var i = 0, len = listeners.length; i < len; i++) {
+  			if (listeners[i].fn === fn && listeners[i].ctx === context) {
+  				return i;
+  			}
+  		}
+  		return false;
+
   	},
 
   	// @method once(…): this
   	// Behaves as [`on(…)`](#evented-on), except the listener will only get fired once and then removed.
   	once: function (types, fn, context) {
 
+  		// types can be a map of types/handlers
   		if (typeof types === 'object') {
   			for (var type in types) {
-  				this.once(type, types[type], fn);
+  				// we don't process space-separated events here for performance;
+  				// it's a hot path since Layer uses the on(obj) syntax
+  				this._on(type, types[type], fn, true);
   			}
-  			return this;
+
+  		} else {
+  			// types can be a string of space-separated words
+  			types = splitWords(types);
+
+  			for (var i = 0, len = types.length; i < len; i++) {
+  				this._on(types[i], fn, context, true);
+  			}
   		}
 
-  		var handler = bind(function () {
-  			this
-  			    .off(types, fn, context)
-  			    .off(types, handler, context);
-  		}, this);
-
-  		// add a listener that's executed once and removed after that
-  		return this
-  		    .on(types, fn, context)
-  		    .on(types, handler, context);
+  		return this;
   	},
 
   	// @method addEventParent(obj: Evented): this
@@ -980,21 +1010,36 @@
   Bounds.prototype = {
   	// @method extend(point: Point): this
   	// Extends the bounds to contain the given point.
-  	extend: function (point) { // (Point)
-  		point = toPoint(point);
+
+  	// @alternative
+  	// @method extend(otherBounds: Bounds): this
+  	// Extend the bounds to contain the given bounds
+  	extend: function (obj) {
+  		var min2, max2;
+  		if (!obj) { return this; }
+
+  		if (obj instanceof Point || typeof obj[0] === 'number' || 'x' in obj) {
+  			min2 = max2 = toPoint(obj);
+  		} else {
+  			obj = toBounds(obj);
+  			min2 = obj.min;
+  			max2 = obj.max;
+
+  			if (!min2 || !max2) { return this; }
+  		}
 
   		// @property min: Point
   		// The top left corner of the rectangle.
   		// @property max: Point
   		// The bottom right corner of the rectangle.
   		if (!this.min && !this.max) {
-  			this.min = point.clone();
-  			this.max = point.clone();
+  			this.min = min2.clone();
+  			this.max = max2.clone();
   		} else {
-  			this.min.x = Math.min(point.x, this.min.x);
-  			this.max.x = Math.max(point.x, this.max.x);
-  			this.min.y = Math.min(point.y, this.min.y);
-  			this.max.y = Math.max(point.y, this.max.y);
+  			this.min.x = Math.min(min2.x, this.min.x);
+  			this.max.x = Math.max(max2.x, this.max.x);
+  			this.min.y = Math.min(min2.y, this.min.y);
+  			this.max.y = Math.max(max2.y, this.max.y);
   		}
   		return this;
   	},
@@ -1002,7 +1047,7 @@
   	// @method getCenter(round?: Boolean): Point
   	// Returns the center point of the bounds.
   	getCenter: function (round) {
-  		return new Point(
+  		return toPoint(
   		        (this.min.x + this.max.x) / 2,
   		        (this.min.y + this.max.y) / 2, round);
   	},
@@ -1010,13 +1055,13 @@
   	// @method getBottomLeft(): Point
   	// Returns the bottom-left point of the bounds.
   	getBottomLeft: function () {
-  		return new Point(this.min.x, this.max.y);
+  		return toPoint(this.min.x, this.max.y);
   	},
 
   	// @method getTopRight(): Point
   	// Returns the top-right point of the bounds.
   	getTopRight: function () { // -> Point
-  		return new Point(this.max.x, this.min.y);
+  		return toPoint(this.max.x, this.min.y);
   	},
 
   	// @method getTopLeft(): Point
@@ -1096,9 +1141,40 @@
   		return xOverlaps && yOverlaps;
   	},
 
+  	// @method isValid(): Boolean
+  	// Returns `true` if the bounds are properly initialized.
   	isValid: function () {
   		return !!(this.min && this.max);
-  	}
+  	},
+
+
+  	// @method pad(bufferRatio: Number): Bounds
+  	// Returns bounds created by extending or retracting the current bounds by a given ratio in each direction.
+  	// For example, a ratio of 0.5 extends the bounds by 50% in each direction.
+  	// Negative values will retract the bounds.
+  	pad: function (bufferRatio) {
+  		var min = this.min,
+  		max = this.max,
+  		heightBuffer = Math.abs(min.x - max.x) * bufferRatio,
+  		widthBuffer = Math.abs(min.y - max.y) * bufferRatio;
+
+
+  		return toBounds(
+  			toPoint(min.x - heightBuffer, min.y - widthBuffer),
+  			toPoint(max.x + heightBuffer, max.y + widthBuffer));
+  	},
+
+
+  	// @method equals(otherBounds: Bounds, maxMargin?: Number): Boolean
+  	// Returns `true` if the rectangle is equivalent (within a small margin of error) to the given bounds. The margin of error can be overridden by setting `maxMargin` to a small number.
+  	equals: function (bounds) {
+  		if (!bounds) { return false; }
+
+  		bounds = toBounds(bounds);
+
+  		return this.min.equals(bounds.getTopLeft()) &&
+  			this.max.equals(bounds.getBottomRight());
+  	},
   };
 
 
@@ -2187,6 +2263,25 @@
   			return;
   		}
 
+  		// When clicking on an <input>, the browser generates a click on its
+  		// <label> (and vice versa) triggering two clicks in quick succession.
+  		// This ignores clicks on elements which are a label with a 'for'
+  		// attribute (or children of such a label), but not children of
+  		// a <input>.
+  		var path = getPropagationPath(e);
+  		if (path.some(function (el) {
+  			return el instanceof HTMLLabelElement && el.attributes.for;
+  		}) &&
+  			!path.some(function (el) {
+  				return (
+  					el instanceof HTMLInputElement ||
+  					el instanceof HTMLSelectElement
+  				);
+  			})
+  		) {
+  			return;
+  		}
+
   		var now = Date.now();
   		if (now - last <= delay) {
   			detail++;
@@ -2808,6 +2903,26 @@
   	return this;
   }
 
+  // @function getPropagationPath(ev: DOMEvent): Array
+  // Compatibility polyfill for [`Event.composedPath()`](https://developer.mozilla.org/en-US/docs/Web/API/Event/composedPath).
+  // Returns an array containing the `HTMLElement`s that the given DOM event
+  // should propagate to (if not stopped).
+  function getPropagationPath(ev) {
+  	if (ev.composedPath) {
+  		return ev.composedPath();
+  	}
+
+  	var path = [];
+  	var el = ev.target;
+
+  	while (el) {
+  		path.push(el);
+  		el = el.parentNode;
+  	}
+  	return path;
+  }
+
+
   // @function getMousePosition(ev: DOMEvent, container?: HTMLElement): Point
   // Gets normalized mouse position from a DOM event relative to the
   // `container` (border excluded) or to the whole page if not specified.
@@ -2876,6 +2991,7 @@
     disableClickPropagation: disableClickPropagation,
     preventDefault: preventDefault,
     stop: stop,
+    getPropagationPath: getPropagationPath,
     getMousePosition: getMousePosition,
     getWheelDelta: getWheelDelta,
     isExternalTarget: isExternalTarget,
@@ -2891,8 +3007,21 @@
    *
    * @example
    * ```js
-   * var fx = new L.PosAnimation();
-   * fx.run(el, [300, 500], 0.5);
+   * var myPositionMarker = L.marker([48.864716, 2.294694]).addTo(map);
+   *
+   * myPositionMarker.on("click", function() {
+   * 	var pos = map.latLngToLayerPoint(myPositionMarker.getLatLng());
+   * 	pos.y -= 25;
+   * 	var fx = new L.PosAnimation();
+   *
+   * 	fx.once('end',function() {
+   * 		pos.y += 25;
+   * 		fx.run(myPositionMarker._icon, pos, 0.8);
+   * 	});
+   *
+   * 	fx.run(myPositionMarker._icon, pos, 0.3);
+   * });
+   *
    * ```
    *
    * @constructor L.PosAnimation()
@@ -3172,7 +3301,7 @@
   		}
 
   		// animation didn't start, just reset the map view
-  		this._resetView(center, zoom);
+  		this._resetView(center, zoom, options.pan && options.pan.noMoveStart);
 
   		return this;
   	},
@@ -3415,11 +3544,13 @@
   	setMaxBounds: function (bounds) {
   		bounds = toLatLngBounds(bounds);
 
+  		if (this.listens('moveend', this._panInsideMaxBounds)) {
+  			this.off('moveend', this._panInsideMaxBounds);
+  		}
+
   		if (!bounds.isValid()) {
   			this.options.maxBounds = null;
-  			return this.off('moveend', this._panInsideMaxBounds);
-  		} else if (this.options.maxBounds) {
-  			this.off('moveend', this._panInsideMaxBounds);
+  			return this;
   		}
 
   		this.options.maxBounds = bounds;
@@ -3789,7 +3920,7 @@
   		this._checkIfLoaded();
 
   		if (this._lastCenter && !this._moved()) {
-  			return this._lastCenter;
+  			return this._lastCenter.clone();
   		}
   		return this.layerPointToLatLng(this._getCenterLayerPoint());
   	},
@@ -4138,7 +4269,7 @@
   	// private methods that modify map state
 
   	// @section Map state change events
-  	_resetView: function (center, zoom) {
+  	_resetView: function (center, zoom, noMoveStart) {
   		setPosition(this._mapPane, new Point(0, 0));
 
   		var loading = !this._loaded;
@@ -4149,7 +4280,7 @@
 
   		var zoomChanged = this._zoom !== zoom;
   		this
-  			._moveStart(zoomChanged, false)
+  			._moveStart(zoomChanged, noMoveStart)
   			._move(center, zoom)
   			._moveEnd(zoomChanged);
 
@@ -4346,7 +4477,7 @@
   	},
 
   	_isClickDisabled: function (el) {
-  		while (el !== this._container) {
+  		while (el && el !== this._container) {
   			if (el['_leaflet_disable_click']) { return true; }
   			el = el.parentNode;
   		}
@@ -5572,7 +5703,7 @@
   	return new Scale(options);
   };
 
-  var ukrainianFlag = '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8"><path fill="#4C7BE1" d="M0 0h12v4H0z"/><path fill="#FFD500" d="M0 4h12v3H0z"/><path fill="#E0BC00" d="M0 7h12v1H0z"/></svg>';
+  var ukrainianFlag = '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"/><path fill="#FFD500" d="M0 4h12v3H0z"/><path fill="#E0BC00" d="M0 7h12v1H0z"/></svg>';
 
 
   /*
@@ -5641,7 +5772,7 @@
   	},
 
   	// @method addAttribution(text: String): this
-  	// Adds an attribution text (e.g. `'Vector data &copy; Mapbox'`).
+  	// Adds an attribution text (e.g. `'&copy; OpenStreetMap contributors'`).
   	addAttribution: function (text) {
   		if (!text) { return this; }
 
@@ -8851,14 +8982,24 @@
 
   	case 'GeometryCollection':
   		for (i = 0, len = geometry.geometries.length; i < len; i++) {
-  			var layer = geometryToLayer({
+  			var geoLayer = geometryToLayer({
   				geometry: geometry.geometries[i],
   				type: 'Feature',
   				properties: geojson.properties
   			}, options);
 
-  			if (layer) {
-  				layers.push(layer);
+  			if (geoLayer) {
+  				layers.push(geoLayer);
+  			}
+  		}
+  		return new FeatureGroup(layers);
+
+  	case 'FeatureCollection':
+  		for (i = 0, len = geometry.features.length; i < len; i++) {
+  			var featureLayer = geometryToLayer(geometry.features[i], options);
+
+  			if (featureLayer) {
+  				layers.push(featureLayer);
   			}
   		}
   		return new FeatureGroup(layers);
@@ -9881,6 +10022,8 @@
   		// @option maxHeight: Number = null
   		// If set, creates a scrollable container of the given height
   		// inside a popup if its content exceeds it.
+  		// The scrollable container can be styled using the
+  		// `leaflet-popup-scrolled` CSS class selector.
   		maxHeight: null,
 
   		// @option autoPan: Boolean = true
@@ -10026,7 +10169,10 @@
   			closeButton.href = '#close';
   			closeButton.innerHTML = '<span aria-hidden="true">&#215;</span>';
 
-  			on(closeButton, 'click', this.close, this);
+  			on(closeButton, 'click', function (ev) {
+  				preventDefault(ev);
+  				this.close();
+  			}, this);
   		}
   	},
 
@@ -10407,6 +10553,9 @@
   		    className = prefix + ' ' + (this.options.className || '') + ' leaflet-zoom-' + (this._zoomAnimated ? 'animated' : 'hide');
 
   		this._contentNode = this._container = create$1('div', className);
+
+  		this._container.setAttribute('role', 'tooltip');
+  		this._container.setAttribute('id', 'leaflet-tooltip-' + stamp(this));
   	},
 
   	_updateLayout: function () {},
@@ -10575,6 +10724,11 @@
   			events.mouseover = this._openTooltip;
   			events.mouseout = this.closeTooltip;
   			events.click = this._openTooltip;
+  			if (this._map) {
+  				this._addFocusListeners();
+  			} else {
+  				events.add = this._addFocusListeners;
+  			}
   		} else {
   			events.add = this._openTooltip;
   		}
@@ -10591,6 +10745,12 @@
   		if (this._tooltip && this._tooltip._prepareOpen(latlng)) {
   			// open the tooltip on the map
   			this._tooltip.openOn(this._map);
+
+  			if (this.getElement) {
+  				this._setAriaDescribedByOnLayer(this);
+  			} else if (this.eachLayer) {
+  				this.eachLayer(this._setAriaDescribedByOnLayer, this);
+  			}
   		}
   		return this;
   	},
@@ -10632,6 +10792,27 @@
   	getTooltip: function () {
   		return this._tooltip;
   	},
+
+  	_addFocusListeners: function () {
+  		if (this.getElement) {
+  			this._addFocusListenersOnLayer(this);
+  		} else if (this.eachLayer) {
+  			this.eachLayer(this._addFocusListenersOnLayer, this);
+  		}
+  	},
+
+  	_addFocusListenersOnLayer: function (layer) {
+  		on(layer.getElement(), 'focus', function () {
+  			this._tooltip._source = layer;
+  			this.openTooltip();
+  		}, this);
+  		on(layer.getElement(), 'blur', this.closeTooltip, this);
+  	},
+
+  	_setAriaDescribedByOnLayer: function (layer) {
+  		layer.getElement().setAttribute('aria-describedby', this._tooltip._container.id);
+  	},
+
 
   	_openTooltip: function (e) {
   		if (!this._tooltip || !this._map || (this._map.dragging && this._map.dragging.moving())) {
@@ -11738,13 +11919,19 @@
 
   			if (!options.zoomReverse) {
   				options.zoomOffset++;
-  				options.maxZoom--;
+  				options.maxZoom = Math.max(options.minZoom, options.maxZoom - 1);
   			} else {
   				options.zoomOffset--;
-  				options.minZoom++;
+  				options.minZoom = Math.min(options.maxZoom, options.minZoom + 1);
   			}
 
   			options.minZoom = Math.max(0, options.minZoom);
+  		} else if (!options.zoomReverse) {
+  			// make sure maxZoom is gte minZoom
+  			options.maxZoom = Math.max(options.minZoom, options.maxZoom);
+  		} else {
+  			// make sure minZoom is lte maxZoom
+  			options.minZoom = Math.min(options.maxZoom, options.minZoom);
   		}
 
   		if (typeof options.subdomains === 'string') {
@@ -11791,17 +11978,11 @@
   			tile.referrerPolicy = this.options.referrerPolicy;
   		}
 
-  		/*
-  		 Alt tag is set to empty string to keep screen readers from reading URL and for compliance reasons
-  		 https://www.w3.org/TR/WCAG20-TECHS/H67
-  		*/
+  		// The alt attribute is set to the empty string,
+  		// allowing screen readers to ignore the decorative image tiles.
+  		// https://www.w3.org/WAI/tutorials/images/decorative/
+  		// https://www.w3.org/TR/html-aria/#el-img-empty-alt
   		tile.alt = '';
-
-  		/*
-  		 Set role="presentation" to force screen readers to ignore this
-  		 https://www.w3.org/TR/wai-aria/roles#textalternativecomputation
-  		*/
-  		tile.setAttribute('role', 'presentation');
 
   		tile.src = this.getTileUrl(coords);
 
@@ -13995,7 +14176,7 @@
 
   		cancelAnimFrame(this._animRequest);
 
-  		var moveFn = bind(map._move, map, this._center, this._zoom, {pinch: true, round: false});
+  		var moveFn = bind(map._move, map, this._center, this._zoom, {pinch: true, round: false}, undefined);
   		this._animRequest = requestAnimFrame(moveFn, this, true);
 
   		preventDefault(e);

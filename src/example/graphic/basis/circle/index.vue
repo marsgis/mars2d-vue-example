@@ -1,19 +1,19 @@
 <template>
-  <mars-pannel
+  <mars-dialog
     ><div class="f-mb">
       <layer-state />
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">数据维护:</span>
+        <span class="mars-dialog-item-label">数据维护:</span>
         <mars-button @click="onClickStartDraw">图上标绘</mars-button>
         <a-checkbox v-model:checked="enabledEdit" @change="mapWork.graphicLayer.hasEdit = enabledEdit">是否编辑</a-checkbox>
       </a-space>
     </div>
 
     <data-manage />
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

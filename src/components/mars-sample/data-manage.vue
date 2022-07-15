@@ -1,6 +1,6 @@
 <template>
   <a-space>
-    <span class="mars-pannel-item-label">数据管理:</span>
+    <span class="mars-dialog-item-label">数据管理:</span>
     <mars-button @click="onClickClear">清除</mars-button>
     <mars-button @click="onClickExpFile" title="保存GeoJSON">
       <mars-icon icon="save" class="icon-vertical-a" />

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-form>
       <a-form-item label="范围">
         <a-radio-group v-model:value="formState.radioFanwei" @change="changeFanwei">
@@ -60,7 +60,7 @@
         </a-space>
       </a-form-item>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

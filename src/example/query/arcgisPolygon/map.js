@@ -119,7 +119,6 @@ export function queryData(queryVal) {
     globalMsg("请输入查询关键词！")
     return
   }
-    console.log(queryVal)
   queryMapserver.query({
     column: "用地名称",
     text: queryVal,

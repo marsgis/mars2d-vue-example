@@ -38,9 +38,9 @@ marsEditor.on("loaded", (exampleConfig) => {
     destoryUI()
   }
 
-  window.document.getElementById("btn-jump-stack").style.display = "none" // 隐藏技术栈
+  window.document.getElementById("btn-jump-react").style.display = "none" // 隐藏技术栈
 
-  initUI(!exampleConfig.vuePanel)
+  initUI(!exampleConfig.hasPannel)
   inited = true
 })
 
@@ -65,11 +65,11 @@ function initUI(simple: boolean) {
         left: 50,
         bottom: 50
       },
-      warpper: "sanbox-warpper"
+      warpper: "#mars-main-view"
     }
   })
 
-  vueApp.mount("#mars-main-view")
+  vueApp.mount("#mars-ui-root")
 }
 
 function destoryUI() {

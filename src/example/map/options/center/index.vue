@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <label>景点视角:</label>
       <mars-button @click="changeView1">故宫</mars-button>
@@ -7,7 +7,7 @@
       <mars-button @click="changeView3">华山</mars-button>
       <mars-button @click="changeView4">大别山</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

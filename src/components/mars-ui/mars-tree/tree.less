@@ -1,60 +1,79 @@
 .mars-main-view {
+
   // 树控件
   .ant-tree {
     background: none;
-    color: @mars-basecolor;
+    color: @mars-base-color;
+    padding-bottom: 2px;
   }
+
   .ant-tree-checkbox {
     margin-right: 0;
   }
+
   .ant-tree-show-line .ant-tree-switcher,
   .ant-tree-checkbox-inner {
     background: none !important;
-    border-color: @border-color-ordinary;
   }
+
   .ant-tree-checkbox-checked {
-    background: @primary-color;
+    background: @mars-primary-color;
+
     .ant-tree-checkbox-inner {
-      border-color: @primary-color;
+      border-color: @mars-primary-color;
     }
   }
+
   .anticon-file.ant-tree-switcher-line-icon {
     display: none;
   }
+
   .ant-tree-show-line .ant-tree-indent-unit::before {
-    border-right: 1px dotted @mars-basecolor;
+    border-right: 1px dotted @mars-base-color;
   }
+
   .ant-tree-switcher-noop {
     width: 20px;
   }
+
+  .ant-tree-node-selected {
+    background: none !important;
+  }
+
   .ant-tree-switcher-noop::before {
     content: "";
     display: inline-block;
     position: absolute;
     height: 26px;
-    border-right: 1px dotted @mars-basecolor;
+    border-right: 1px dotted @mars-base-color;
   }
+
   .ant-tree-treenode-leaf-last {
     .ant-tree-switcher-noop::before {
       content: "";
       display: inline-block;
       position: absolute;
       height: 10px;
-      border-right: 1px dotted @mars-basecolor;
+      border-right: 1px dotted @mars-base-color;
     }
   }
+
   .ant-tree-switcher-noop::after {
     content: "";
     display: inline-block;
     width: 8px;
     position: absolute;
     top: 10px;
-    border-bottom: 1px dotted @mars-basecolor;
+    border-bottom: 1px dotted @mars-base-color;
   }
+
   .ant-tree-node-content-wrapper {
+    color: @mars-base-color !important;
+
     .ant-tree-iconEle {
       line-height: 2.2;
     }
+
     &:hover {
       background: hsla(0, 0%, 100%, 0.08) !important;
     }
