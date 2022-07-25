@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://muyao1987.gitee.io/cdn/mars2d.cn/logo.png" width="300px" />
+<img src="http://mars2d.cn/logo.png" width="300px" />
 </p>
 
 <p align="center">基于 Vue3.x 的 Mars2D🌎功能示例项目 </p>
@@ -107,8 +107,8 @@ npm run build
 
 ### 运行效果  
  [在线体验](http://mars2d.cn/example.html)  
-
- ![image](https://muyao1987.gitee.io/cdn/mars2d.cn/xm/example/1.jpg)
+ 
+ ![image](http://marsgis.cn/img/project/mars2d-doc/example1.jpg)
 
 
  
