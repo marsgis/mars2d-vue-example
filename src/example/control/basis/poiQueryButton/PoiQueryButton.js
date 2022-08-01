@@ -80,10 +80,10 @@ class PoiQueryButton extends mars2d.control.ToolButton {
     let cacheTarget
     this._container.addEventListener("mouseover", (e) => {
       // 缓存，提高效率
-      if (cacheTarget === this.uuid) {
+      if (cacheTarget === this.id) {
         return
       }
-      cacheTarget = this.uuid
+      cacheTarget = this.id
 
       if (this._queryInputContainer.style.display !== "block") {
         this.toolSearchNoShow("block")

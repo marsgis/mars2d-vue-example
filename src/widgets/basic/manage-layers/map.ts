@@ -18,8 +18,6 @@ export const eventTarget = new mars2d.BaseClass()
  */
 export function onMounted(mapInstance: mars2d.Map): void {
   map = mapInstance // 记录首次创建的map
-
-  eventTarget.fire("loadOK")
 }
 
 /**
@@ -35,16 +33,6 @@ export function addLayer(layer: any) {
   layer.show = true
 }
 
-export function removeLayer(layer: any, list: any) {
-  const children = list.filter((item: any) => item.pid === layer.id)
-  if (children.length > 0) {
-    for (let i = 0; i < children.length; i++) {
-      children[i].show = false
-    }
-  } else {
-    layer.show = false
-  }
-}
 
 export function getLayers() {
   return map.getLayers({

@@ -54,7 +54,7 @@ interface DataItem {
   key: number
   name: string
   type: string
-  uuid: string
+  id: string
 }
 
 const serverName = ref("")
@@ -70,7 +70,7 @@ onMounted(() => {
     show.value = true
     dataSource.value = []
     event.list.forEach((item: any, index: number) => {
-      dataSource.value.push({ index: index + 1, name: item["项目名称"], type: item["设施级别"], uuid: item.graphic.uuid })
+      dataSource.value.push({ index: index + 1, name: item["项目名称"], type: item["设施级别"], id: item.graphic.id })
     })
   })
 })
@@ -96,11 +96,11 @@ const columns = ref([
 const customRow = (record: DataItem) => {
   return {
     onClick: () => {
-      if (record.uuid == null) {
+      if (record.id == null) {
         $message(record.name + " 无经纬度坐标信息！")
         return
       }
-      mapWork.flyToGraphic(toRaw(record.uuid))
+      mapWork.flyToGraphic(toRaw(record.id))
     }
   }
 }

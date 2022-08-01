@@ -104,7 +104,6 @@ function initTree() {
         key: layer.id,
         id: layer.id,
         pId: layer.pid,
-        uuid: layer.uuid,
         hasZIndex: layer.hasZIndex,
         hasOpacity: layer.hasOpacity,
         opacity: 100 * (layer.opacity || 0)
@@ -142,7 +141,6 @@ function findChild(parent: any, list: any[]) {
         key: item.id,
         id: item.id,
         pId: item.pid,
-        uuid: item.uuid,
         hasZIndex: item.hasZIndex,
         hasOpacity: item.hasOpacity,
         opacity: 100 * (item.opacity || 0),

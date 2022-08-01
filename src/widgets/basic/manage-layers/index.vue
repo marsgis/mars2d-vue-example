@@ -5,7 +5,7 @@
         <mars-dropdown :trigger="['contextmenu']">
           <span @dblclick="flyTo(node)">{{ node.title }}</span>
           <template #overlay v-if="node.hasZIndex">
-            <a-menu @click="(menu: any) => onContextMenuClick(node, menu.key)">
+            <a-menu @click="(menu) => onContextMenuClick(node, menu.key)">
               <a-menu-item key="1">图层置为顶层</a-menu-item>
               <a-menu-item key="2">图层上移一层</a-menu-item>
               <a-menu-item key="3">图层下移一层</a-menu-item>
@@ -21,19 +21,20 @@
   </mars-dialog>
 </template>
 <script lang="ts" setup>
-import { onUnmounted, nextTick, reactive, ref } from "vue"
+import { onUnmounted, nextTick, reactive, ref, onMounted } from "vue"
 import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
 import * as mapWork from "./map"
 import { useWidget } from "@mars/widgets/common/store/widget"
 
 const { activate, disable, currentWidget } = useWidget()
-
+onMounted(() => {
+  initTree()
+})
 onUnmounted(() => {
   disable("layer-tree")
 })
 
 useLifecycle(mapWork)
-
 
 currentWidget.onUpdate(() => {
   treeData.value = []
@@ -52,23 +53,17 @@ const layersObj: any = {}
 
 const opacityObj: any = reactive({})
 
-let layers: any
-
-mapWork.eventTarget.on("loadOK", () => {
-  initTree()
-})
-
 let lastWidget: any
 const checkedChange = (keys: string[], e: any) => {
   const layer = layersObj[e.node.id]
-
+  // console.log("点击的矢量图层", layer)
   if (layer) {
     if (!layer.isAdded) {
       mapWork.addLayer(layer)
     }
 
     // 特殊处理同目录下的单选的互斥的节点，可在config对应图层节点中配置"radio":true即可
-    if (layer.options.radio && e.checked) {
+    if (layer.options?.radio && e.checked) {
       // 循环所有的图层
       for (const i in layersObj) {
         const item = layersObj[i]
@@ -87,7 +82,7 @@ const checkedChange = (keys: string[], e: any) => {
     }
 
     // 处理图层的关联事件
-    if (layer.options.onWidget) {
+    if (layer.options?.onWidget) {
       if (e.checked) {
         if (lastWidget) {
           disable(lastWidget)
@@ -111,12 +106,7 @@ const checkedChange = (keys: string[], e: any) => {
         layer.flyTo()
       }
     } else {
-      mapWork.removeLayer(layer, layers)
-    }
-
-    // 处理图层构件树控件
-    if (layer.options.scenetree) {
-      initLayerTree(layer)
+      layer.show = false
     }
 
     if (layer.options.onWidght) {
@@ -129,7 +119,6 @@ const checkedChange = (keys: string[], e: any) => {
 function renderChildNode(keys: string[], children: any[]) {
   children.forEach((child) => {
     const layer = layersObj[child.id]
-
     if (layer) {
       if (!layer.isAdded) {
         mapWork.addLayer(layer)
@@ -141,9 +130,6 @@ function renderChildNode(keys: string[], children: any[]) {
       }
       if (child.children) {
         renderChildNode(keys, child.children)
-      }
-      if (layer.options.scenetree) {
-        initLayerTree(layer)
       }
     }
   })
@@ -198,13 +184,15 @@ function flyTo(item: any) {
 }
 
 function initTree() {
-  layers = mapWork.getLayers()
+  const layers = mapWork.getLayers()
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i] // 创建图层
 
-    if (!layer._hasMapInit && layer.pid === -1) {
+    if (!layer._hasMapInit && layer.pid === -1 && layer.id !== 99) {
       layer.pid = 99 // 示例中创建的图层都放到99分组下面
     }
+
+    layersObj[layer.id] = layer
 
     if (layer && layer.pid === -1) {
       const node: any = reactive({
@@ -213,7 +201,6 @@ function initTree() {
         key: layer.id,
         id: layer.id,
         pId: layer.pid,
-        uuid: layer.uuid,
         hasZIndex: layer.hasZIndex,
         hasOpacity: layer.hasOpacity,
         opacity: 100 * (layer.opacity || 0)
@@ -221,12 +208,18 @@ function initTree() {
       if (layer.hasOpacity) {
         opacityObj[layer.id] = 100 * (layer.opacity || 0)
       }
-      layersObj[layer.id] = layer
-
       node.children = findChild(node, layers)
       treeData.value.push(node)
 
-      expandedKeys.value.push(node.key)
+      if (layer.options.open !== false) {
+        expandedKeys.value.push(node.key)
+      }
+
+      if (layer.isAdded && layer.show) {
+        nextTick(() => {
+          checkedKeys.value.push(node.key)
+        })
+      }
     }
   }
 
@@ -253,18 +246,22 @@ function findChild(parent: any, list: any[]) {
         key: item.id,
         id: item.id,
         pId: item.pid,
-        uuid: item.uuid,
         hasZIndex: item.hasZIndex,
         hasOpacity: item.hasOpacity,
         opacity: 100 * (item.opacity || 0),
         parent: parent
       }
+
       if (item.hasOpacity) {
         opacityObj[item.id] = 100 * (item.opacity || 0)
       }
       layersObj[item.id] = item
+
       node.children = findChild(node, list)
-      expandedKeys.value.push(node.key)
+
+      if (item.options.open !== false) {
+        expandedKeys.value.push(node.key)
+      }
 
       if (item.isAdded && item.show) {
         nextTick(() => {
@@ -274,24 +271,6 @@ function findChild(parent: any, list: any[]) {
       return node
     })
 }
-
-function initLayerTree(layer: any) {
-  disable("layer-tree")
-  // 处理图层构件树控件
-  if (layer.options.scenetree) {
-    layer.on("click", () => {
-      const url = layer.options.url
-      const id = layer.id
-      activate({
-        name: "layer-tree",
-        data: {
-          url,
-          id
-        }
-      })
-    })
-  }
-}
 </script>
 
 <style scoped lang="less">
@@ -300,5 +279,8 @@ function initLayerTree(layer: any) {
   width: 70px;
   margin-left: 5px;
   vertical-align: middle;
+}
+.ant-slider {
+  width: 80px !important;
 }
 </style>

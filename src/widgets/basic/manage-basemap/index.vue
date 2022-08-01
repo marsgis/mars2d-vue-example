@@ -1,7 +1,7 @@
 <template>
   <mars-dialog :draggable="true" title="底图" :width="380" :position="{ top:50, left: 50 }">
     <ul class="basemap">
-      <li v-for="(item, i) in baseMaps" :key="i" class="basemap-card" :class="{ 'active-card': active === item.uuid }" @click="changeBaseMaps(item)">
+      <li v-for="(item, i) in baseMaps" :key="i" class="basemap-card" :class="{ 'active-card': active === item.id }" @click="changeBaseMaps(item)">
         <div><img class="icon" :src="`${item.options.icon || 'img/basemaps/bingAerial.png'}`" /></div>
         <div>{{ item.name }}</div>
       </li>
@@ -32,11 +32,12 @@ onUnmounted(() => {
 function initData(e: any) {
   baseMaps.value = e.baseMaps.map((m: any) => {
     if (m.isAdded && m.show) {
-      active.value = m.uuid
+      active.value = m.id
     }
+
     return {
       name: m.name,
-      uuid: m.uuid,
+      id: m.id,
       options: markRaw(m.options)
     }
   })
@@ -45,7 +46,7 @@ function initData(e: any) {
 }
 
 function changeBaseMaps(item: any) {
-  mapWork.changeBaseMaps((active.value = item.uuid))
+  mapWork.changeBaseMaps((active.value = item.id))
 }
 </script>
 <style lang="less" scoped>

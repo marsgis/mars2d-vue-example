@@ -3,7 +3,7 @@
  * Mars2D地理信息平台  mars2d
  *
  * 版本信息：v3.1.5
- * 编译日期：2022-07-23 23:22:55
+ * 编译日期：2022-08-01 19:35:35
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -920,7 +920,7 @@ declare namespace BaseThing {
 /**
  * Thing对象(如分析、量算类等) 的基类
  * @param [options] - 参数对象，包括以下：
- * @param [options.id = uuid()] - 对象的id标识
+ * @param [options.id = createGuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
@@ -930,10 +930,6 @@ declare class BaseThing extends BaseClass {
         enabled?: boolean;
         eventParent?: BaseClass | boolean;
     });
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 当前对象的状态
      */
@@ -990,6 +986,74 @@ declare class BaseThing extends BaseClass {
      * @returns 无
      */
     destroy(noDel?: boolean): any | void;
+}
+
+/**
+ * 自定义集合存储管理类
+ */
+declare class MarsArray {
+    /**
+     * 获取总数量
+     */
+    readonly length: number;
+    /**
+     * 获取集合中的数组列表
+     */
+    readonly values: any[];
+    /**
+     * 确定提供的键是否在数组中
+     * @param key - 主键
+     * @returns 是否在数组中
+     */
+    contains(key: string | number): any | boolean;
+    /**
+     * 将提供的键与提供的值关联起来。如果密钥已经存在, 存在时，它将被新值覆盖。
+     * @param key - 主键
+     * @param value - 与提供的键相关联的值
+     */
+    set(key: string | number, value: any): any | void;
+    /**
+     * 检索与提供的键关联的值
+     * @param key - 主键
+     * @returns 关联的值，如果键在集合中不存在，则为未定义。
+     */
+    get(key: string | number): any | any;
+    /**
+     * 根据指定属性获取对象
+     * @param attrValue - 属性值
+     * @param [attrName = 'id'] - 属性键
+     * @param [exObj = 'options'] - 查找的二级对象属性键
+     * @returns 关联的值，如果键在集合中不存在，则为未定义。
+     */
+    getByAttr(attrValue: string | number, attrName?: string, exObj?: string): any | any;
+    /**
+     * 根据指定属性获取符合条件对象数组
+     * @param attrValue - 属性值
+     * @param [attrName = 'id'] - 属性键
+     * @param [exObj = 'options'] - 查找的二级对象属性键
+     * @returns 数组
+     */
+    getListByAttr(attrValue: string | number, attrName?: string, exObj?: string): any | any[];
+    /**
+     * 从集合中移除键值对
+     * @param key - 主键
+     * @returns 是否移除
+     */
+    remove(key: string | number): any | boolean;
+    /**
+     * 遍历每一个对象并将其作为参数传递给回调函数
+     * @param method - 回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
+     */
+    forEach(method: (...params: any[]) => any, context?: any): any | void;
+    /**
+     * 清空集合
+     */
+    removeAll(): any | void;
+    /**
+     * 销毁对象
+     */
+    destroy(): any | void;
 }
 
 /**
@@ -1239,10 +1303,6 @@ declare class CanvasImage extends L.Path {
      * @returns 当前对象本身,可以链式调用
      */
     removeEventParent(obj: any): any | CanvasImage;
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 对象的id标识
      */
@@ -1616,10 +1676,6 @@ declare class Circle extends L.Circle {
      * @returns 当前对象本身,可以链式调用
      */
     removeEventParent(obj: any): any | Circle;
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 对象的id标识
      */
@@ -2503,10 +2559,6 @@ declare class Ellipse extends L.Path {
      */
     removeEventParent(obj: any): any | Ellipse;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 对象的id标识
      */
     id: string | number;
@@ -3109,10 +3161,6 @@ declare class Marker extends L.Marker {
      * @returns 当前对象本身,可以链式调用
      */
     removeEventParent(obj: any): any | Marker;
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 对象的id标识
      */
@@ -3854,10 +3902,6 @@ declare class Point extends L.CircleMarker {
      */
     removeEventParent(obj: any): any | Point;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 对象的id标识
      */
     id: string | number;
@@ -4203,10 +4247,6 @@ declare class Polygon extends L.Polygon {
      */
     removeEventParent(obj: any): any | Polygon;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 对象的id标识
      */
     id: string | number;
@@ -4548,10 +4588,6 @@ declare class Polyline extends L.Polyline {
      * @returns 当前对象本身,可以链式调用
      */
     removeEventParent(obj: any): any | Polyline;
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 对象的id标识
      */
@@ -4910,10 +4946,6 @@ declare class Rectangle extends L.Rectangle {
      */
     removeEventParent(obj: any): any | Rectangle;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 对象的id标识
      */
     id: string | number;
@@ -4975,7 +5007,7 @@ declare class Rectangle extends L.Rectangle {
 /**
  * 大数据Marker点 图层（基于Canvas渲染）
  * @param options - 参数对象，包括以下：
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -4992,10 +5024,6 @@ declare class CanvasMarkerLayer extends L.Layer {
      * @returns 当前对象本身，可以链式调用
      */
     remove(): any | CanvasMarkerLayer;
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 是否已添加到地图
      */
@@ -5100,7 +5128,7 @@ declare namespace ClusterLayer {
  * @param [options.chunkProgress = true] - 在每个chunkInterval结尾调用的回调函数。通常用于实现进度指示器。
  * @param [options.iconCreateFunction] - 自定义创建集群图标的功能
  * @param [options.disableClusteringAtZoom] - 如果设置，在此缩放级别及以下，标记将不会聚集,注意：在使用disableClusteringAtZoom时，您可能有兴趣禁用spiderfyOnMaxZoom选项。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -5339,10 +5367,6 @@ declare class ClusterLayer extends L.Layer {
      */
     removeEventParent(obj: any): any | ClusterLayer;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 是否已添加到地图
      */
     readonly isAdded: boolean;
@@ -5419,7 +5443,7 @@ declare class ClusterLayer extends L.Layer {
  * @param [options.time = new Date()] - 当前时间
  * @param [options.fillColor = "#00"] - 填充颜色
  * @param [options.fillOpacity = 0.5] - 填充透明度
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -5434,10 +5458,6 @@ declare class DayNightLayer extends L.Polygon {
         name?: string;
         pane?: string;
     });
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 是否已添加到地图
      */
@@ -5523,7 +5543,7 @@ declare namespace GeoJsonLayer {
  * @param [options.tooltipOptions.titleField] - 标题对应的属性字段名称
  * @param [options.tooltipOptions.noTitle] - 不显示标题
  * @param [options.contextmenuItems] - 绑定的右键菜单值，也可以bindContextMenu方法绑定
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -5693,7 +5713,7 @@ declare namespace GraphicLayer {
  * @param [options.tooltipOptions.titleField] - 标题对应的属性字段名称
  * @param [options.tooltipOptions.noTitle] - 不显示标题
  * @param [options.contextmenuItems] - 绑定的右键菜单值，也可以bindContextMenu方法绑定
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -5910,10 +5930,6 @@ declare class GraphicLayer extends L.FeatureGroup {
      */
     removeEventParent(obj: any): any | GraphicLayer;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 是否已添加到地图
      */
     readonly isAdded: boolean;
@@ -5988,8 +6004,8 @@ declare class GraphicLayer extends L.FeatureGroup {
      */
     getGraphics(): any | L.Layer[];
     /**
-     * 根据id或uuid取矢量数据对象
-     * @param id - 矢量数据id或uuid
+     * 根据id取矢量数据对象
+     * @param id - 矢量数据id
      * @returns 矢量数据对象
      */
     getGraphicById(id: number | string): any | L.Layer;
@@ -6143,7 +6159,7 @@ declare class GraphicLayer extends L.FeatureGroup {
  * @param [options.weight = 0.8] - 线的宽度
  * @param [options.showLabel = true] - 是否显示文本
  * @param [options.font = "12px Verdana"] - 文本的大小和字体
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -6161,10 +6177,6 @@ declare class GraticuleLayer extends L.Layer {
         name?: string;
         pane?: string;
     });
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 是否已添加到地图
      */
@@ -6225,7 +6237,7 @@ declare class GraticuleLayer extends L.Layer {
  * @param [options.radius = 25] - 默认情况下，热图的每个“点”的半径
  * @param [options.blur = 15] - 默认情况下的模糊量
  * @param [options.gradient] - 颜色渐变配置，例如：{0.4: 'blue', 0.65: 'lime', 1: 'red'}
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -6243,10 +6255,6 @@ declare class HeatLayer extends L.Layer {
         name?: string;
         pane?: string;
     });
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 是否已添加到地图
      */
@@ -6315,7 +6323,7 @@ declare class VectorGrid extends L.GridLayer {
  * @param [options.filter] - 筛选数据的回调方法
  * @param [options.tms] - 如果此值为true，反转切片Y轴的编号（对于TMS服务需将此项打开）
  * @param [options.fetchOptions] - fetch方法请求瓦片时的第2个参数
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -6336,10 +6344,6 @@ declare class PbfLayer extends VectorGrid {
         show?: boolean;
         pane?: string;
     });
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 是否已添加到地图
      */
@@ -6373,7 +6377,7 @@ declare class PbfLayer extends VectorGrid {
  * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.bounds] - leaflet原生写法，同rectangle或bbox
  * @param [options.cellSize = 512] - 网格中瓦片的宽度和高度。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -6396,10 +6400,6 @@ declare class VirtualGrid extends L.Layer {
         show?: boolean;
         pane?: string;
     });
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 是否已添加到地图
      */
@@ -6465,7 +6465,7 @@ declare class VirtualGrid extends L.Layer {
  * @param [options.tooltipOptions.titleField] - 标题对应的属性字段名称
  * @param [options.tooltipOptions.noTitle] - 不显示标题
  * @param [options.contextmenuItems] - 绑定的右键菜单值，也可以bindContextMenu方法绑定
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -6536,8 +6536,8 @@ declare class WfsLayer extends VirtualGrid {
      */
     clear(): any | void;
     /**
-     * 根据id或uuid取矢量数据对象
-     * @param id - 矢量数据id或uuid
+     * 根据id取矢量数据对象
+     * @param id - 矢量数据id
      * @returns 矢量数据对象
      */
     getGraphicById(id: number): any | L.Layer;
@@ -6582,7 +6582,7 @@ declare namespace GroupLayer {
  * 图层组  图层
  * @param [options] - 参数对象，包括以下：
  * @param [options.layers] - 子图层列表,支持 {@link LayerType} 所有图层
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -6814,10 +6814,6 @@ declare class GroupLayer extends L.LayerGroup {
      */
     removeEventParent(obj: any): any | GroupLayer;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 是否已添加到地图
      */
     readonly isAdded: boolean;
@@ -6837,6 +6833,10 @@ declare class GroupLayer extends L.LayerGroup {
      * 透明度
      */
     opacity: number;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
     /**
      * 是否空组 ，空组目前就图层管理用于图层分组节点（虚拟节点）。
      */
@@ -6925,7 +6925,7 @@ declare class GroupLayer extends L.LayerGroup {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -7010,7 +7010,7 @@ declare class ArcGisCacheLayer extends TileLayer {
  * @param [options.updateInterval = 200] - 当平移时，updateInterval毫秒不会更新一次瓦片。
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -7088,7 +7088,7 @@ declare class ArcGisCompactLayer extends TileLayer {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -7178,7 +7178,7 @@ declare class ArcGisLayer extends TileLayer {
  * @param [options.updateInterval = 200] - 当平移时，updateInterval毫秒不会更新一次瓦片。
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -7269,7 +7269,7 @@ declare class BaiduLayer extends TileLayer {
  * @param [options.updateInterval = 200] - 当平移时，updateInterval毫秒不会更新一次瓦片。
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -7359,7 +7359,7 @@ declare class GaodeLayer extends TileLayer {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -7458,7 +7458,7 @@ declare namespace ImageLayer {
  * @param [options.opacity = 1] - 瓦片的不透明度。
  * @param [options.interactive = false] - 如果true，当点击或悬停时，图像叠加层将发出鼠标事件mouse events 。
  * @param [options.crossOrigin = false] - 如果为true，则所有图块将其crossOrigin属性设置为“*”。如果要访问像素数据，则需要这样做。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -7670,10 +7670,6 @@ declare class ImageLayer extends L.ImageOverlay {
      */
     removeEventParent(obj: any): any | ImageLayer;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 是否已添加到地图
      */
     readonly isAdded: boolean;
@@ -7715,7 +7711,7 @@ declare class ImageLayer extends L.ImageOverlay {
  * @param [options.topleft] - 图片左上角坐标
  * @param [options.topright] - 图片右上角坐标
  * @param [options.bottomleft] - 图片左下角坐标
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -7774,7 +7770,7 @@ declare class ImageRotatedLayer extends ImageLayer {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -7860,7 +7856,7 @@ declare class MapboxLayer extends TileLayer {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -7952,7 +7948,7 @@ declare class OsmLayer extends TileLayer {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -8042,7 +8038,7 @@ declare class TdtLayer extends WmtsLayer {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -8170,7 +8166,7 @@ declare namespace TileLayer {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -8307,10 +8303,6 @@ declare class TileLayer extends L.TileLayer {
      */
     removeEventParent(obj: any): any | TileLayer;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 获取图层对应的DOM容器
      */
     readonly container: HTMLElement;
@@ -8416,7 +8408,7 @@ declare class TileLayer extends L.TileLayer {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -8583,10 +8575,6 @@ declare class WmsLayer extends L.TileLayer.WMS {
      */
     removeEventParent(obj: any): any | WmsLayer;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 是否已添加到地图
      */
     readonly isAdded: boolean;
@@ -8671,7 +8659,7 @@ declare class WmsLayer extends L.TileLayer.WMS {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示
@@ -9135,18 +9123,32 @@ declare class Map extends L.Map {
      */
     getNextLayerId(): any | number;
     /**
+     * 根据属性获取指定图层，包括config.json配置的图层
+     * @param attrValue - 属性值
+     * @param [attrName = 'id'] - 属性键
+     * @returns 图层
+     */
+    getLayer(attrValue: string | number, attrName?: string): any | L.Layer;
+    /**
      * 根据ID或取图层
-     * @param id - 图层id或uuid
+     * @param id - 图层id
      * @returns 图层
      */
     getLayerById(id: string | number): any | L.Layer;
     /**
-     * 根据属性获取指定图层
-     * @param key - 对应的属性值
-     * @param attrName - 属性字段名称
+     * 根据指定属性获取图层
+     * @param attrValue - 属性值
+     * @param [attrName = 'id'] - 属性键
      * @returns 图层
      */
-    getLayer(key: any, attrName: string): any | L.Layer;
+    getLayerByAttr(attrValue: string | number, attrName?: string): any | L.Layer | any;
+    /**
+     * 根据指定属性获取图层列表
+     * @param attrValue - 属性值
+     * @param [attrName = 'id'] - 属性键
+     * @returns 图层对象列表
+     */
+    getLayersByAttr(attrValue: string | number, attrName?: string): any | L.Layer[] | any;
     /**
      * 获取所有图层
      * @param [options] - 参数对象，包括以下：
@@ -9236,11 +9238,11 @@ declare class Map extends L.Map {
     eachThing(method: (...params: any[]) => any, context?: any): any | Map;
     /**
      * 根据指定属性获取Thing对象
-     * @param key - 属性值（如id、name值）
+     * @param attrValue - 属性值
      * @param [attrName = 'id'] - 属性名称
      * @returns Thing对象
      */
-    getThing(key: string | any, attrName?: string): any | BaseThing;
+    getThing(attrValue: string | number | boolean, attrName?: string): any | BaseThing;
     /**
      * 获取当前层级和中心点
      * @returns 获取当前层级和中心点
@@ -9872,7 +9874,7 @@ declare namespace EchartsLayer {
     /**
      * Echarts图层参数
      * @property [Echarts本身] - 支持Echarts本身所有Options参数，具体查阅 [Echarts配置项手册]{@link https://echarts.apache.org/zh/option.html}
-     * @property [id = uuid()] - 图层id标识
+     * @property [id = createGuid()] - 图层id标识
      * @property [pid = -1] - 图层父级的id，一般图层管理中使用
      * @property [name = ''] - 图层名称
      * @property [pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -9893,10 +9895,6 @@ declare namespace EchartsLayer {
  */
 declare class EchartsLayer extends L.Layer {
     constructor(options: EchartsLayer.Options | any);
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 是否已添加到地图
      */
@@ -9982,7 +9980,7 @@ declare namespace ArcGisDynamicLayer {
  * @param [options.proxy] - 代理服务URL
  * @param [options.useCors = true] - 如果此服务在发出 GET 请求时应使用 CORS。
  * @param [options.zIndex] - 用于图层间排序
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -10138,10 +10136,6 @@ declare class ArcGisDynamicLayer extends L.TileLayer {
      */
     remove(): any | ArcGisDynamicLayer;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 是否已添加到地图
      */
     readonly isAdded: boolean;
@@ -10249,7 +10243,7 @@ declare namespace ArcGisFeatureLayer {
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
  * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -10363,10 +10357,6 @@ declare class ArcGisFeatureLayer extends L.Layer {
      */
     deleteFeatures(ids: string[] | number[], callback?: (...params: any[]) => any, context?: any): any | ArcGisFeatureLayer;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 是否已添加到地图
      */
     readonly isAdded: boolean;
@@ -10452,7 +10442,7 @@ declare namespace ArcGisImageLayer {
  * @param [options.token] - 如果您在服务需要传递令牌，它将包含在对服务的所有请求中。
  * @param [options.proxy] - 代理服务URL
  * @param [options.useCors = true] - 如果此服务在发出 GET 请求时应使用 CORS。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -10601,10 +10591,6 @@ declare class ArcGisImageLayer extends L.TileLayer {
      */
     remove(): any | ArcGisImageLayer;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 是否已添加到地图
      */
     readonly isAdded: boolean;
@@ -10662,7 +10648,7 @@ declare class ArcGisImageLayer extends L.TileLayer {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -10738,10 +10724,6 @@ declare class ArcGisTileLayer extends L.TileLayer {
      */
     remove(): any | ArcGisTileLayer;
     /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
-    /**
      * 是否已添加到地图
      */
     readonly isAdded: boolean;
@@ -10765,7 +10747,7 @@ declare class ArcGisTileLayer extends L.TileLayer {
  * @param options - 图层参数，包括：
  * @param [options.data] - new mapv.DataSet(data)的data值，如有传入时可以用于替代dataSet参数
  * @param [options.多个参数] - 支持mapv本身所有drawOptions图层样式参数，具体查阅 [mapv库drawOptions文档]{@link https://github.com/huiyan-fe/mapv/wiki/%E7%B1%BB%E5%8F%82%E8%80%83} ，也可以 [在线编辑图层样式]{@link https://mapv.baidu.com/editor/}
- * @param [options.id = uuid()] - 图层id标识
+ * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
@@ -10791,10 +10773,6 @@ declare class MapVLayer extends L.Layer {
      * @returns 当前对象本身，可以链式调用
      */
     remove(): any | MapVLayer;
-    /**
-     * 内置唯一标识ID
-     */
-    readonly uuid: string;
     /**
      * 是否已添加到地图
      */
@@ -11673,7 +11651,7 @@ declare namespace QueryArcServer {
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  *
  * //以下是GeoJsonLayer图层参数
- * @param [options.id = uuid()] - 赋予给layer图层，图层id标识
+ * @param [options.id = createGuid()] - 赋予给layer图层，图层id标识
  * @param [options.pid = -1] - 赋予给layer图层，图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 赋予给layer图层，图层名称
  * @param [options.symbol] - 赋予给layer图层，图层矢量数据的style样式，参考{@link GeoJsonLayer}
@@ -11781,7 +11759,7 @@ declare class QueryArcServer extends BaseClass {
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  *
  * //以下是GeoJsonLayer图层参数
- * @param [options.id = uuid()] - 赋予给layer图层，图层id标识
+ * @param [options.id = createGuid()] - 赋予给layer图层，图层id标识
  * @param [options.pid = -1] - 赋予给layer图层，图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 赋予给layer图层，图层名称
  * @param [options.symbol] - 赋予给layer图层，图层矢量数据的style样式，参考{@link GeoJsonLayer}
@@ -11871,7 +11849,7 @@ declare class QueryGeoServer extends BaseClass {
  * 内部导出部分依赖domtoimage库，需要额外引入。
  * @param [options] - 参数对象，包括以下：
  * @param [options.eleid] - 导出的DIV对象id，默认为map所在的父容器
- * @param [options.id = uuid()] - 对象的id标识
+ * @param [options.id = createGuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
@@ -11938,7 +11916,7 @@ declare class ExpImg extends BaseThing {
  * @param [options.isAutoEditing = true] - 完成测量时是否自动启动编辑(需要hasEdit:true时)
  * @param [options.isContinued = false] - 是否连续测量
  * @param [options.label] - 测量结果文本的样式
- * @param [options.id = uuid()] - 对象的id标识
+ * @param [options.id = createGuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  * @param [options.pid = -1] - 量算对应的图层父级的id，一般图层管理中使用
@@ -12626,7 +12604,7 @@ declare namespace Util {
      * @param [prefix = 'M'] - 前缀
      * @returns 字符串
      */
-    function uuid(prefix?: string): any | string;
+    function createGuid(prefix?: string): any | string;
     /**
      * 获取Popup或Tooltip格式化Html字符串
      * @example
