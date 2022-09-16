@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog title="属性编辑" width="260" top="60" bottom="40" left="10" :minWidth="200">
+  <mars-dialog :draggable="true" title="属性编辑" width="260" top="60" bottom="40" left="10" :minWidth="200">
     <div class="top-handle-bar">
       <a-space>
         <mars-icon icon="send" width="20" @click="flyToGraphic" title="飞行定位"></mars-icon>
@@ -8,90 +8,84 @@
       </a-space>
     </div>
     <div class="attr-editor-main">
-      <mars-styles :styleConfig="styleConfig" :style="style" @styleChange="styleChange" />
+      <mars-styles :style="style" :layerName="layerName" :customType="customType" :graphicType="graphicType" @styleChange="styleChange" />
     </div>
   </mars-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, provide, onMounted } from "vue"
-import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
-import MarsStyles from "./mars-styles.vue"
-import graphicAttr from "./attr.json"
-import * as mapWork from "./map"
+import { ref, onMounted, toRaw } from "vue"
 import _ from "lodash"
+import MarsStyles from "./mars-styles.vue"
+import * as mapWork from "./map"
+import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
 import { useWidget } from "@mars/widgets/common/store/widget"
 
 const { currentWidget } = useWidget()
 
+const layerName = ref("")
+const customType = ref("")
+const graphicType = ref("")
+const style = ref(null)
+let graphic
+
 // 启用map.ts生命周期
 useLifecycle(mapWork)
 
-provide("getGraphicAttr", () => {
-  return graphicAttr
-})
-
-const graphic = currentWidget.data.graphic
-provide("getGraphic", () => {
-  return graphic
-})
-
-const styleConfig = ref(null)
-const style = ref(null)
-
 onMounted(() => {
+  graphic = currentWidget.data.graphic
   updataLayer()
 })
 
-// 监听到矢量数据发生变化
-function updataLayer(graphicLayer?: any) {
-  let gp: any
-  if (graphicLayer) {
-    gp = graphicLayer
-  } else {
-    gp = graphic
-  }
-  if (gp) {
-    style.value = _.cloneDeep(gp.style)
-    const config = (graphicAttr as any)[gp.options.edittype || gp.type] || {}
-    styleConfig.value = config
-  }
-}
-
 if (currentWidget) {
   currentWidget.onUpdate((e) => {
-    updataLayer(e.data.graphic)
+  graphic = e.data?.graphic
+    updataLayer()
   })
 }
 
-function flyToGraphic() {
-  // 事件处理
-  graphic.flyTo()
+// 监听到矢量数据发生变化
+function updataLayer() {
+  if (!graphic) {
+    return
+  }
+
+  layerName.value = graphic._layer.name || ""
+  graphicType.value = graphic.type
+  customType.value = currentWidget.data.styleType || graphic.options.styleType
+
+  // console.log("开始编辑style样式", graphic)
+  style.value = _.cloneDeep(graphic.style)
 }
 
-function deleteEntity() {
-  // 删除
-  graphic.remove()
+// 样式修改
+function styleChange(style: any) {
+  style = toRaw(style)
+  // console.log("修改了style样式", style)
+  graphic.setStyle(style)
 }
 
+// *********************  删除定位保存文件方法  ******************* //
 function getGeoJson() {
-  // 文件处理
-  const geojson = graphic.toGeoJSON()
+  const geojson = graphic.toGeoJSON() // 文件处理
   geojson.properties._layer = graphic._layer.name
 
   mapWork.downloadFile("标绘item.json", JSON.stringify(geojson))
 }
 
-function styleChange(style: any) {
-  console.log("修改了graphic样式", style)
-  graphic.setStyle(style)
+function flyToGraphic() {
+  mapWork.flyToGrapgic(graphic) // 事件处理
+}
+
+function deleteEntity() {
+  graphic.remove() // 删除
 }
 </script>
 <style lang="less" scoped>
 .top-handle-bar {
   border-bottom: 1px solid #cde1de;
   padding: 5px 0 2px 0;
-  :deep(.i-icon) {
+  :deep(.mars-icon) {
     cursor: pointer;
   }
 }

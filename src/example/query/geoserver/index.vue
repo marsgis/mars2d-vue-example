@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="328">
+  <mars-dialog :visible="true" right="10" top="10" width="335">
     <a-form>
       <a-form-item label="名称">
         <mars-input v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
@@ -142,6 +142,7 @@ const query = () => {
 }
 // 清除数据
 const removeAll = () => {
+  serverName.value = ""
   show.value = false
   dataSource.value = []
   mapWork.clearAll()

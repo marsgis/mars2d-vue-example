@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+export let map // mars2d.Map三维地图对象
 const L = mars2d.L
 
 export let graphicLayer
@@ -20,39 +20,6 @@ export function onMounted(mapInstance) {
   // 创建矢量数据图层
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
-
-  // 绑定标绘相关事件监听(可以自行加相关代码实现业务需求，此处主要做示例)
-  graphicLayer.on(mars2d.EventType.drawStart, function (e) {
-    console.log("开始绘制", e)
-  })
-  graphicLayer.on(mars2d.EventType.drawAddPoint, function (e) {
-    console.log("绘制过程中增加了点", e)
-  })
-  graphicLayer.on(mars2d.EventType.drawRemovePoint, function (e) {
-    console.log("绘制过程中删除了点", e)
-  })
-
-  graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
-    console.log("创建完成", e)
-  })
-
-  graphicLayer.on(mars2d.EventType.editStart, function (e) {
-    console.log("开始编辑", e)
-    eventTarget.fire("graphicEditor-start", e)
-    // startEditing(e.graphic)
-  })
-
-  graphicLayer.on(mars2d.EventType.editMovePoint, function (e) {
-    console.log("编辑修改了点", e)
-    // startEditing(e.graphic)
-    eventTarget.fire("graphicEditor-start", e)
-  })
-  graphicLayer.on(mars2d.EventType.editRemovePoint, function (e) {
-    console.log("编辑删除了点", e)
-
-    // startEditing(e.graphic)
-    eventTarget.fire("graphicEditor-start", e)
-  })
 
   // 图层管理的相关处理，
   initLayerManager(graphicLayer)
@@ -119,9 +86,7 @@ function bindLayerContextMenu() {
       },
       callback: function (e) {
         const graphic = e.graphic
-        if (graphic && graphic.editing) {
-          graphic.editing.enable()
-        }
+        graphicLayer.startEditing(graphic)
       }
     },
     {
@@ -136,9 +101,7 @@ function bindLayerContextMenu() {
       },
       callback: function (e) {
         const graphic = e.graphic
-        if (graphic && graphic.editing) {
-          graphic.editing.disable()
-        }
+        graphicLayer.stopEditing()
       }
     },
     {
@@ -248,7 +211,7 @@ function initGraphicManager(graphic) {
   ])
 }
 
-export function onClickStartDraw() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -264,6 +227,38 @@ export function onClickStartDraw() {
       console.log("标绘完成", graphic)
     }
   })
+}
+
+// 生成演示数据(测试数据量)
+export function addRandomGraphicByCount(count) {
+  graphicLayer.clear()
+
+  const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+  const result = mars2d.PolyUtil.getGridPoints(bbox, count, 30)
+  console.log("生成的测试网格坐标", result)
+
+  for (let j = 0; j < result.points.length; ++j) {
+    const latlng = result.points[j]
+    const index = j + 1
+
+    const graphic = new mars2d.graphic.Circle({
+      latlng: latlng,
+      style: {
+        radius: 1500, // 单位：米
+        fill: true,
+        fillColor: "#00ffff",
+        fillOpacity: 0.3,
+        outline: true,
+        outlineWidth: 2,
+        outlineColor: "#00ff00",
+        outlineOpacity: 0.5
+      },
+      attr: { index: index }
+    })
+    graphicLayer.addGraphic(graphic)
+  }
+
+  return count.length
 }
 
 function addDemoGraphic1() {

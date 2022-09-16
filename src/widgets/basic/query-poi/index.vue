@@ -1,11 +1,12 @@
 <template>
-  <mars-dialog customClass="query-poi-pannel" top="10" left="10">
-    <div class="query-poi">
+  <mars-dialog :draggable="false" customClass="query-poi-pannel" top="10" left="10">
+    <div class="query-poi" @mousedown="clickVoid">
       <div class="query-poi__search">
         <mars-input
           placeholder="搜索 地点"
           v-model:value="searchTxt"
           class="input"
+          data-event="prevent"
           @blur="startCloseSearch"
           @focus="showHistoryList"
           allowClear
@@ -17,7 +18,9 @@
       </div>
 
       <ul class="search-list" v-if="searchListShow">
-        <li v-for="(item, i) in dataSource" :key="i" class="search-list__item" @click="selectPoint(item.value)">{{ item.value }}</li>
+        <li v-for="(item, i) in dataSource" :key="i" class="search-list__item" @click="selectPoint(item.value)">
+          {{ item.value }}
+        </li>
       </ul>
       <div class="query-site" v-if="siteListShow">
         <template v-if="siteSource && siteSource.length">
@@ -32,7 +35,7 @@
           </ul>
           <div class="query-site__page">
             <p class="query-site-allcount">共{{ allCount }}条结果</p>
-            <a-pagination @change="(page: number) => querySiteList(searchTxt, page)" size="small" :total="allCount" pageSize="6" :simple="true" />
+            <a-pagination @change="(page: number) => querySiteList(searchTxt, page)" size="small" :total="allCount" :pageSize="6" :simple="true" />
           </div>
         </template>
         <a-empty class="f-push-10-t" v-else />
@@ -52,7 +55,7 @@ import { $hideLoading, $showLoading } from "@mars/components/mars-ui/mars-loadin
 // 启用map.ts生命周期
 useLifecycle(mapWork)
 
-const storageName = "mars3d_queryGaodePOI"
+const storageName = "mars2d_queryGaodePOI"
 const siteListShow = ref(false)
 
 // 各类数据
@@ -71,7 +74,7 @@ const startCloseSearch = () => {
     searchListShow.value = false
     clearTimeout(timer)
     timer = null
-  }, 100)
+  }, 500) // 时间太短会导致点击失败
 }
 
 // 搜寻输入框数据之前的提示数据 以及搜寻过的历史数据  通过列表展现
@@ -142,6 +145,12 @@ const pagination = {
   simple: true
 }
 
+function clickVoid(e) {
+  if (e.target.dataset?.event !== "prevent") {
+    e.preventDefault()
+  }
+}
+
 async function querySiteList(text: string, page: number) {
   const result = await mapWork.querySiteList(text, page)
 
@@ -193,6 +202,9 @@ function addHistory(data: any) {
   padding: 0 !important;
   overflow: visible !important;
 }
+.query-poi-pannel .mars-dialog__content {
+  padding: 0 !important;
+}
 </style>
 <style lang="less" scoped>
 .query-poi {
@@ -204,8 +216,8 @@ function addHistory(data: any) {
     align-items: center;
     width: 320px;
     height: 44px;
-    border: 1px solid @mars-primary-color;
-    background: @mars-bg-base;
+    border: 1px solid var(--mars-primary-color);
+    background: var(--mars-bg-base);
     .input {
       border: none;
       background: none;
@@ -215,7 +227,7 @@ function addHistory(data: any) {
       flex-grow: 1;
       :deep(.ant-input) {
         font-size: 16px;
-        color: @mars-base-color !important;
+        color: var(--mars-text-color) !important;
       }
     }
     .button {
@@ -227,22 +239,16 @@ function addHistory(data: any) {
 .search-list {
   min-height: 100px;
   width: 100%;
-  box-shadow: 0px 4px 15px 1px rgba(2, 33, 59, 0.7);
-  border-radius: 0px;
-  background: linear-gradient(to left, @mars-base-color, @mars-base-color) left bottom no-repeat,
-    linear-gradient(to bottom, @mars-base-color, @mars-base-color) left bottom no-repeat,
-    linear-gradient(to left, @mars-base-color, @mars-base-color) right bottom no-repeat,
-    linear-gradient(to left, @mars-base-color, @mars-base-color) right bottom no-repeat;
-  background-size: 1px 10px, 10px 1px, 1px 10px, 10px 1px;
-  background-color: @mars-bg-base !important;
+  .mars-drop-bg();
   position: absolute;
   .search-list__item {
     height: 36px;
     line-height: 36px;
     padding-left: 10px;
+    color: var(--mars-text-color);
     cursor: pointer;
     &:hover {
-      background: @mars-list-active;
+      background: var(--mars-list-active);
     }
   }
 }
@@ -252,24 +258,16 @@ function addHistory(data: any) {
   padding: 10px 20px;
   padding-top: 0;
   width: 100%;
-
-  border-bottom: 1px solid #008aff70;
-  border-left: 1px solid #008aff70;
-  border-right: 1px solid #008aff70;
   z-index: 100;
-  background: linear-gradient(to left, @mars-content-color, @mars-content-color) left bottom no-repeat,
-    linear-gradient(to bottom, @mars-content-color, @mars-content-color) left bottom no-repeat,
-    linear-gradient(to left, @mars-content-color, @mars-content-color) right bottom no-repeat,
-    linear-gradient(to left, @mars-content-color, @mars-content-color) right bottom no-repeat;
-  background-size: 1px 10px, 10px 1px, 1px 10px, 10px 1px;
-  background-color: @mars-bg-base;
+  .mars-drop-bg();
+
   .query-site__item {
     height: 80px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     &:hover {
-      background: @mars-list-active;
+      background: var(--mars-list-active);
     }
     .query-site__context {
       flex-grow: 1;
@@ -278,21 +276,21 @@ function addHistory(data: any) {
         width: 200px;
         font-family: Source Han Sans CN;
         font-weight: 400;
-        color: @mars-base-color;
+        color: var(--mars-text-color);
       }
       .query-site-sub {
         font-size: 14px;
         width: 200px;
         font-family: Source Han Sans CN;
         font-weight: 400;
-        color: @mars-content-color;
+        color: var(--mars-content-color);
       }
     }
     .query-site__more {
       font-size: 14px;
       font-family: Source Han Sans CN;
       font-weight: 400;
-      color: @mars-content-color;
+      color: var(--mars-content-color);
     }
   }
   .query-site__page {
@@ -301,6 +299,7 @@ function addHistory(data: any) {
     padding: 10px 0;
     .query-site-allcount {
       font-size: 14px;
+      color: var(--mars-text-color);
     }
   }
 }
@@ -311,6 +310,6 @@ function addHistory(data: any) {
 }
 
 :deep(.ant-input-clear-icon) {
-  color: @mars-content-color !important;
+  color: var(--mars-content-color) !important;
 }
 </style>

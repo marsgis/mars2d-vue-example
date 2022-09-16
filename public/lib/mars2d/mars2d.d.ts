@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.5
- * 编译日期：2022-08-01 19:35:35
+ * 版本信息：v3.1.6
+ * 编译日期：2022-09-15 20:29:34
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -1343,6 +1343,11 @@ declare class CanvasImage extends L.Path {
         precision?: number;
     }): any | any;
     /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
+    /**
      * 设置图片URL
      * @param url - 图片URL
      * @returns 当前对象本身，可以链式调用
@@ -1752,6 +1757,11 @@ declare class Circle extends L.Circle {
         precision?: number;
     }): any | any;
     /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
+    /**
      * 判断指定坐标是否在当前圆内
      * @param latlng - 坐标
      * @returns 是否在圆内
@@ -1836,6 +1846,7 @@ declare namespace DivGraphic {
      * @property [verticalOrigin] - 垂直方向的定位
      * @property [offsetX] - horizontalOrigin定位基础上，横向方向偏移数值
      * @property [offsetY] - verticalOrigin定位基础上，垂直方向偏移数值
+     * @property [iconSize] - icon图片的大小（单位：像素），设置后width、height即失效。
      * @property [iconAnchor] - 自定义图标的“指示地理位置的锚点”的坐标（相对于其左上角）。 以便图标显示准确位于标记的地理位置。 如果指定大小，则iconAnchor默认为图标中心点，也可以在带有负边距的CSS中设置。设置后horizontalOrigin、verticalOrigin即失效。
      * @property [className] - 自定义样式class名称
      * @property [draggable = false] - 标记是否可以用鼠标/触摸拖动
@@ -1854,6 +1865,7 @@ declare namespace DivGraphic {
         verticalOrigin?: VerticalOrigin;
         offsetX?: number;
         offsetY?: number;
+        iconSize?: L.Point | number[];
         iconAnchor?: L.Point | number[];
         className?: string;
         draggable?: boolean;
@@ -2614,6 +2626,11 @@ declare class Ellipse extends L.Path {
         precision?: number;
     }): any | any;
     /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
+    /**
      * 获取矩形边界
      * @returns 矩形边界
      */
@@ -3222,6 +3239,11 @@ declare class Marker extends L.Marker {
     toGeoJSON(options?: any | {
         precision?: number;
     }): any | any;
+    /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
 }
 
 /**
@@ -3948,6 +3970,11 @@ declare class Point extends L.CircleMarker {
     toGeoJSON(options?: any | {
         precision?: number;
     }): any | any;
+    /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
 }
 
 declare namespace Polygon {
@@ -4294,6 +4321,11 @@ declare class Polygon extends L.Polygon {
         precision?: number;
     }): any | any;
     /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
+    /**
      * 判断指定坐标是否在当前面内
      * @param latlng - 坐标
      * @returns 是否在面内
@@ -4635,6 +4667,11 @@ declare class Polyline extends L.Polyline {
     toGeoJSON(options?: any | {
         precision?: number;
     }): any | any;
+    /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
     /**
      * 设置线的偏移值，常用于平行线
      * @param offset - 偏移值（像素）
@@ -4996,6 +5033,11 @@ declare class Rectangle extends L.Rectangle {
     toGeoJSON(options?: any | {
         precision?: number;
     }): any | any;
+    /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
     /**
      * 判断指定坐标是否在当前矩形内
      * @param latlng - 坐标
@@ -6031,6 +6073,16 @@ declare class GraphicLayer extends L.FeatureGroup {
      */
     getContextMenu(): any | any;
     /**
+     * 是否有绑定的右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    hasContextMenu(): any | boolean;
+    /**
+     * 将图层转为Json简单对象，用于存储后再传参加载
+     * @returns Json简单对象
+     */
+    toJSON(): any | any;
+    /**
      * 将图层内的矢量数据转为GeoJSON格式对象
      * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。
      */
@@ -6085,6 +6137,16 @@ declare class GraphicLayer extends L.FeatureGroup {
         easeLinearity?: number;
         noMoveStart?: boolean;
     }): any | GraphicLayer;
+    /**
+     * 是否存在Popup绑定
+     * @returns 是否存在Popup绑定
+     */
+    hasPopup(): any | boolean;
+    /**
+     * 是否绑定了tooltip
+     * @returns 是否绑定
+     */
+    hasTooltip(): any | boolean;
     /**
      * 开始绘制矢量数据，绘制的数据会加载在当前图层。
      * @param options - Graphic构造参数,包含：
@@ -9172,6 +9234,11 @@ declare class Map extends L.Map {
      */
     getTileLayers(): any | L.TileLayer[];
     /**
+     * 获取默认右键菜单
+     * @returns 默认右键菜单数组
+     */
+    getDefaultContextMenu(): any | any;
+    /**
      * 绑定右键菜单幕
      * @param arr - 菜单配置
      * @returns 当前对象本身，可以链式调用
@@ -10156,6 +10223,10 @@ declare class ArcGisDynamicLayer extends L.TileLayer {
      */
     opacity: number;
     /**
+     * 显示隐藏状态
+     */
+    show: boolean;
+    /**
      * 用于向服务发出新请求并绘制响应。
      * @returns 当前对象本身，可以链式调用
      */
@@ -10372,6 +10443,10 @@ declare class ArcGisFeatureLayer extends L.Layer {
      * 名称 标识
      */
     name: string;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
     /**
      * 遍历所有矢量数据并将其作为参数传递给回调函数
      * @example
@@ -10614,6 +10689,10 @@ declare class ArcGisImageLayer extends L.TileLayer {
      * 波段值
      */
     bandIds: string | number[];
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
 }
 
 /**
@@ -10739,6 +10818,10 @@ declare class ArcGisTileLayer extends L.TileLayer {
      * 名称 标识
      */
     name: string;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
 }
 
 /**
@@ -12315,6 +12398,12 @@ declare namespace PointTrans {
      */
     function mercators2latlngs(arr: any[][]): any | L.LatLng[];
     /**
+     * WebMercator投影平面坐标数组 转为  LatLng坐标值数组
+     * @param point - WebMercator投影平面坐标数组
+     * @returns LatLng坐标值数组
+     */
+    function mercator2latlng(point: any[]): any | L.LatLng;
+    /**
      * 经度/纬度 十进制 转为 度分秒格式
      * @param value - 经度或纬度值
      * @returns 度分秒对象，如： { degree:113, minute:24, second:40 }
@@ -12472,6 +12561,14 @@ declare namespace PointUtil {
      * @returns 新的坐标
      */
     function interpolatePosition(p1: L.LatLng, p2: L.LatLng, all: number, curr: number): any | L.LatLng;
+    /**
+     * 计算指定角度和距离处的点
+     * @param center - 现有点
+     * @param distance - 距离
+     * @param angle - 角度
+     * @returns 目前点
+     */
+    function getPointByDistanceAngle(center: L.LatLng, distance: number, angle: number): any | L.LatLng;
 }
 
 /**
@@ -12494,6 +12591,22 @@ declare namespace PolyUtil {
      * @returns 平行线坐标数组
      */
     function getOffsetPoints(pts: L.LatLng[], offset: number): any | L.LatLng[];
+    /**
+     * 计算圆的边线坐标列表
+     * @param center - 中心点
+     * @param radius - 半径
+     * @param [count = 100] - 点个数
+     * @returns 边界线坐标数组
+     */
+    function getCircleOutlineLatlngs(center: L.LatLng, radius: number, count?: number): any | L.LatLng[];
+    /**
+     * 在 指定bbox区域 内生成 指定数量(概略) 的网格坐标点，
+     * 目前常用于生成坐标点，测试数据量
+     * @param bounds - 区域范围
+     * @param count - 数量(概略)，返回坐标接近此数字
+     * @returns 坐标集合 ,如： {points:[LngLatPoint,LngLatPoint], size: 500 }
+     */
+    function getGridPoints(bounds: L.LatLngBounds, count: number): any | any;
 }
 
 /**

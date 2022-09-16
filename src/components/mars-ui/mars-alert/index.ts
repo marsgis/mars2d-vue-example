@@ -25,7 +25,7 @@ export const $alert = (content: any, title = "提示", type: keyof typeof Modal 
           resolve(true)
         },
         onCancel() {
-          resolve(false)
+          reject(new Error("用户取消"))
         }
       })
     })

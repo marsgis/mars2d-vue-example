@@ -1,32 +1,39 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" width="435" right="10" top="10">
     <div class="f-mb">
       <layer-state />
     </div>
 
     <div class="f-mb">
-      <data-manage />
-        <a-space  class="save-file">
+      <a-space>
+        <data-manage>
           <mars-button @click="onClickSaveKml">另存KML</mars-button>
           <mars-button @click="onClickSaveWKT">另存WKT</mars-button>
-        </a-space>
+        </data-manage>
+      </a-space>
     </div>
 
-    <a-space>
-      <span>图上标绘：</span>
-      <mars-button @click="drawMarker">图标点</mars-button>
-      <mars-button @click="drawPoint">点</mars-button>
-      <mars-button @click="drawLabel">文字</mars-button>
-      <mars-button @click="drawDivMarker">DIV点</mars-button>
+    <a-row>
+      <a-col :span="5">
+        <span class="mars-dialog-item-label">图上标绘：</span>
+      </a-col>
+      <a-col :span="19">
+        <a-space>
+          <mars-button @click="drawMarker">图标点</mars-button>
+          <mars-button @click="drawPoint">点</mars-button>
+          <mars-button @click="drawLabel">文字</mars-button>
+          <mars-button @click="drawDivMarker">DIV点</mars-button>
 
-      <mars-button @click="drawPolyline">线</mars-button>
-      <mars-button @click="drawCurveLine">自由线</mars-button>
-      <mars-button @click="drawPolygon">面</mars-button>
-      <mars-button @click="drawCircle">圆</mars-button>
+          <mars-button @click="drawPolyline">线</mars-button>
+          <mars-button @click="drawCurveLine">自由线</mars-button>
+          <mars-button @click="drawPolygon">面</mars-button>
+          <mars-button @click="drawCircle">圆</mars-button>
 
-      <mars-button @click="drawRectangle">矩形</mars-button>
-      <mars-button @click="drawImage">图片</mars-button>
-    </a-space>
+          <mars-button @click="drawRectangle">矩形</mars-button>
+          <mars-button @click="drawImage">图片</mars-button></a-space
+        >
+      </a-col>
+    </a-row>
   </mars-dialog>
 </template>
 
@@ -85,8 +92,6 @@ const onClickSaveWKT = () => {
   mapWork.onClickSaveWKT()
 }
 
-
-
 // 属性面板
 const showEditor = (e: any) => {
   if (!isActivate("graphic-editor")) {
@@ -102,7 +107,7 @@ const showEditor = (e: any) => {
 }
 mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
   // if (enabledEdit.value) {
-    showEditor(e)
+  showEditor(e)
   // }
 })
 // 编辑修改了模型
@@ -114,11 +119,10 @@ mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
 mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
   disable("graphic-editor")
 })
-
 </script>
 
 <style scoped lang="less">
-.save-file {
-  margin-left: 10px;
+:deep(.ant-space) {
+  flex-wrap: wrap;
 }
 </style>

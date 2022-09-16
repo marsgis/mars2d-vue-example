@@ -14,15 +14,15 @@
         <mars-icon v-if="mergeProps.icon" :icon="mergeProps.icon" :width="18" color="#41A8FF" class="icon"></mars-icon>
         <slot v-if="slots.title" name="title"></slot>
         <span v-else class="title">{{ mergeProps.title }}</span>
-        <mars-icon v-if="mergeProps.closeable" icon="close" :width="18" color="#41A8FF" class="close-btn" @click="close"></mars-icon>
+        <mars-icon v-if="mergeProps.closeable" icon="close" :width="18" class="close-btn" @click="close"></mars-icon>
       </div>
-      <mars-icon v-else-if="mergeProps.closeable" icon="close-one" :width="18" color="#FFFFFF" class="close-btn__flot" @click="close"></mars-icon>
+      <mars-icon v-else-if="mergeProps.closeable" icon="close-one" :width="18" class="close-btn__flot" @click="close"></mars-icon>
 
-      <div class="my-dialog__content">
+      <div class="mars-dialog__content">
         <slot></slot>
       </div>
 
-      <div v-if="slots.footer" class="my-dialog__footer">
+      <div v-if="slots.footer" class="mars-dialog__footer">
         <slot name="footer"></slot>
       </div>
 
@@ -97,15 +97,15 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  visible: false,
+  visible: true, // 示例中默认显示
   closeable: false,
-  draggable: false,
+  draggable: false, // 示例中默认不拖拽
   animation: true,
   handles: false,
   defaultFold: false,
   minWidth: 100,
-  minHeight: 100,
-  maxWidth: Infinity,
+  minHeight: 55,
+  maxWidth: 1000,
   maxHeight: 1000,
   zIndex: 900
 })
@@ -145,8 +145,8 @@ const mergeProps = computed(() => {
   newProps.thumbnail.icon = newProps.thumbnail.icon ?? newProps.icon ?? "left-expand"
 
   if (!isAllowValue(newProps.left) && !isAllowValue(newProps.right)) {
-    // left right 都不存在时默认出现在左侧
-    newProps.left = 10
+    // left right 都不存在时默认出现在右侧
+    newProps.right = 10
   }
   if (!isAllowValue(newProps.top) && !isAllowValue(newProps.bottom)) {
     // top bottom 都不存在时默认出现在顶部
@@ -554,7 +554,7 @@ export default {
 
 <style lang="less" scoped>
 .mars-dialog-thumb {
-  background-color: @mars-bg-base;
+  background-color: var(--mars-bg-base);
   position: absolute;
   padding: 5px;
   border-radius: 5px;
@@ -565,54 +565,27 @@ export default {
   box-sizing: border-box;
   padding: 10px 10px 10px 10px;
   border-radius: 4px;
-  z-index: 100;
+  z-index: 999 !important;
   border-bottom: 1px solid #008aff70;
   border-left: 1px solid #008aff70;
   border-right: 1px solid #008aff70;
   z-index: 100;
-  background: linear-gradient(to left, @mars-content-color, @mars-content-color) left bottom no-repeat,
-    linear-gradient(to bottom, @mars-content-color, @mars-content-color) left bottom no-repeat,
-    linear-gradient(to left, @mars-content-color, @mars-content-color) right bottom no-repeat,
-    linear-gradient(to left, @mars-content-color, @mars-content-color) right bottom no-repeat;
-  background-size: 1px 10px, 10px 1px, 1px 10px, 10px 1px;
-  background-color: @mars-bg-base;
+  .mars-drop-bg();
 
   .mars-dialog__header {
     height: 44px;
     width: 100%;
     line-height: 44px;
     overflow: hidden;
+    .mars-msg-title();
     padding: 0 5px 0px 10px;
-    box-shadow: 1px 1px 0 0 @mars-primary-color;
-
-    background-image: url(../assets/images/dialog-title-slice.png);
-    background-size: 10px 44px;
-    color: @mars-base-color;
+    color: var(--mars-base-color);
     position: absolute;
     top: 0;
     left: 0;
-    &::before {
-      content: "";
-      display: block;
-      width: 50px;
-      height: 35px;
-      position: absolute;
-      left: 0px;
-      top: 0;
-      border-top: 1px solid @mars-primary-color;
-      border-left: 1px solid @mars-primary-color;
-    }
-    &::after {
-      content: "";
-      display: block;
-      width: 70px;
-      position: absolute;
-      right: 0;
-      top: 0;
-      border-top: 1px solid @mars-primary-color;
-    }
     .icon {
       margin-right: 5px;
+      color: #ffffff;
     }
     .title {
       font-size: 16px;
@@ -621,6 +594,7 @@ export default {
       float: right;
       cursor: pointer;
       margin-top: 12px;
+      color: #ffffff;
     }
   }
 
@@ -631,18 +605,23 @@ export default {
     cursor: pointer;
   }
 
-  .my-dialog__content {
+  .mars-dialog__content {
     height: 100%;
     overflow: auto;
     padding: 5px;
   }
 
-  .my-dialog__footer {
+  .mars-dialog__footer {
     height: 44px;
     width: 100%;
+    color: var(--mars-text-color);
     position: absolute;
     left: 0;
     bottom: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10px;
   }
 
   .mars-dialog__handle {

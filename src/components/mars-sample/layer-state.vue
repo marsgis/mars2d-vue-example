@@ -1,11 +1,17 @@
 <template>
-  <a-space>
-    <span class="mars-dialog-item-label" v-if="props.label !== ''">{{ props.label }}</span>
-    <a-checkbox v-model:checked="formState.enabledShowHide" @change="onChangeShow" title="显示隐藏状态">显示</a-checkbox>
-    <a-checkbox v-model:checked="formState.enabledPopup" @change="onChangePopup" title="是否绑定Popup鼠标单击弹窗">Popup</a-checkbox>
-    <a-checkbox v-model:checked="formState.enabledTooltip" @change="onChangeTooltip" title="是否绑定Tooltip鼠标移入弹窗">Tooltip</a-checkbox>
-    <a-checkbox v-model:checked="formState.enabledRightMenu" @change="onChangeRightMenu" title="是否绑定右键菜单">右键菜单</a-checkbox>
-  </a-space>
+  <a-row>
+    <a-col :span="5" v-if="props.label !== ''">
+      <span class="mars-dialog-item-label">{{ props.label }}</span>
+    </a-col>
+    <a-col :span="19">
+      <a-space>
+        <a-checkbox v-model:checked="formState.enabledShowHide" @change="onChangeShow" title="显示隐藏状态">显示</a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledPopup" @change="onChangePopup" title="是否绑定Popup鼠标单击弹窗">Popup</a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledTooltip" @change="onChangeTooltip" title="是否绑定Tooltip鼠标移入弹窗">Tooltip</a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledRightMenu" @change="onChangeRightMenu" title="是否绑定右键菜单">右键菜单</a-checkbox>
+      </a-space>
+    </a-col>
+  </a-row>
 </template>
 
 <script lang="ts" setup>
@@ -155,9 +161,7 @@ function bindLayerContextMenu() {
       },
       callback: function (e) {
         const graphic = e.graphic
-        if (graphic && graphic.editing) {
-          graphic.editing.enable()
-        }
+        graphicLayer.startEditing(graphic)
       }
     },
     {
@@ -172,9 +176,7 @@ function bindLayerContextMenu() {
       },
       callback: function (e) {
         const graphic = e.graphic
-        if (graphic && graphic.editing) {
-          graphic.editing.disable()
-        }
+        graphicLayer.stopEditing()
       }
     },
     {

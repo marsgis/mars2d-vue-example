@@ -72,6 +72,7 @@ export function createLayer(layer) {
 
 export function addLayer(layer) {
   map.addLayer(layer)
+  layer.show = true
 }
 
 export function getLayers() {

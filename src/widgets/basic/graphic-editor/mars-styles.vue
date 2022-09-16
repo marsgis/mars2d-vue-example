@@ -1,53 +1,59 @@
 <template>
-  <a-collapse v-model:activeKey="styleCollapse">
-    <a-collapse-panel v-if="props.styleConfig" key="1" :showArrow="false" header="+ 样式信息">
-      <table class="mars-primary-table" border="1" bordercolor="#4db3ff" cellspacing="0" cellpadding="0">
+  <a-collapse :key="globalKey" v-model:activeKey="styleCollapse">
+    <a-collapse-panel v-if="viewStyles" key="1" :showArrow="false" header="+ 样式信息">
+      <table class="mars-primary-table" border="1" bordercolor="#ffffff" cellspacing="0" cellpadding="0">
         <tr>
           <td>所在图层</td>
           <td>{{ layerName || "默认分组" }}</td>
         </tr>
         <tr>
           <td>标号类型</td>
-          <td>{{ entityName }}</td>
+          <td>{{ graphicType }}</td>
         </tr>
-        <template v-for="(item, i) in props.styleConfig.style" :key="i">
-          <tr v-if="styleValue && styleShowIt(item)">
-            <td>{{ item.label }}</td>
-            <td>
-              <span v-if="item.type === 'label'" class="attr-editor-label">{{ styleValue[item.name] }}</span>
-              <component
-                v-else
-                :is="getComponent(item.type)"
-                size="small"
-                v-model:value="styleValue[item.name]"
-                :min="item.min ? item.min : 0  || item.min === 0 ? item.min : -Infinity"
-                :max="item.max ? item.max : 1  || item.max === 0 ? item.max : Infinity"
-                :step="item.step || 0.1"
-                :options="item.data || []"
-                @change="unionChange(item)"
-              >
-              </component>
-            </td>
-          </tr>
+        <tr>
+          <td>样式类型</td>
+          <td>{{ styleType || "未配置" }}</td>
+        </tr>
+        <template v-if="styleValue">
+          <template v-for="(item, i) in viewStyles" :key="i">
+            <!-- 不是hidden类型 -->
+            <template v-if="item.type !== 'hidden'">
+              <tr>
+                <td>{{ item.label }}</td>
+                <td>
+                  <base-comp
+                    :type="item.type"
+                    size="small"
+                    v-model:value="styleValue[item.name]"
+                    :min="item.min || item.min === 0 ? item.min : -Infinity"
+                    :max="item.max || item.max === 0 ? item.max : Infinity"
+                    :step="item.step || 0.1"
+                    :options="item.data || []"
+                    @change="unionChange(item, item.data)"
+                  ></base-comp>
+                </td>
+              </tr>
+            </template>
+          </template>
         </template>
       </table>
     </a-collapse-panel>
     <a-collapse-panel v-if="styleValue && styleValue.label" key="2" :showArrow="false" header="+ 注记信息">
       <table class="mars-primary-table" border="1" bordercolor="#ffffff" cellspacing="0" cellpadding="0">
-        <template v-for="(item, i) in labelConfig.style" :key="i">
-          <tr v-if="labelShowIt(item)">
+        <template v-for="(item, i) in viewLabels" :key="i">
+          <tr>
             <td>{{ item.label }}</td>
             <td>
-              <component
-                :is="getComponent(item.type)"
+              <base-comp
+                :type="item.type"
                 size="small"
                 v-model:value="styleValue.label[item.name]"
-                :min="item.min ? item.min : 0 || item.min === 0 ? item.min : -Infinity"
-                :max="item.max ? item.max : 1 || item.max === 0 ? item.max : Infinity"
+                :min="item.min || item.min === 0 ? item.min : -Infinity"
+                :max="item.max || item.max === 0 ? item.max : Infinity"
                 :step="item.step || 0.1"
                 :options="item.data || []"
-                @change="unionLabelChange"
-              ></component>
+                @change="labelChange(item)"
+              ></base-comp>
             </td>
           </tr>
         </template>
@@ -57,46 +63,40 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, ref, watch } from "vue"
+import { nextTick, ref, watch, toRaw } from "vue"
 import _ from "lodash"
 import { $message } from "@mars/components/mars-ui/index"
+import BaseComp from "./component/base-comp.vue"
+import styleConfigAll from "./config/style.js"
 
 const props = defineProps<{
-  styleConfig: any
+  layerName: string
+  graphicType: string
+  customType?: string
   style: any
 }>()
 
 const emit = defineEmits(["styleChange"])
 
-const getGraphicAttr = inject<() => any>("getGraphicAttr")!
-const getGraphic = inject<() => any>("getGraphic")!
+const styleValue = ref<any>({})
+const viewStyles = ref<any[]>([])
+const styleType = ref("")
 
-const layerName = ref("")
-const entityName = ref("")
-const styleValue = ref<any>(null)
-const showImpacts = ref<any[]>([])
-const showLabelImpacts = ref<any[]>([])
-const labelConfig = getLabelConfig()
-
+let originStyles = [] // 原始的完整style配置
+const globalKey = ref(0)
 watch(
   props,
   () => {
     if (props && props.style) {
-      styleValue.value = _.cloneDeep(props.style)
-      setDefault()
-      const gp = getGraphic()
-      if (gp) {
-        layerName.value = gp._layer.name
-        entityName.value = gp.name || props.styleConfig.name
-      }
-      setImpacts()
-      if (props.style.label) {
+      globalKey.value++
+      setDefault() // 处理初始化默认值（不做任何修改之前的状态）
+      updateViewStyles() // 处理属性控件的显示隐藏
+
+      if (styleValue.value.label) {
         setLabelDefault()
-        setLabelImpacts()
+        updateViewLabels()
       }
     }
-
-    getLabelConfig()
   },
   {
     immediate: true
@@ -105,165 +105,103 @@ watch(
 
 const styleCollapse = ref(["1", "2"])
 
-const components = {
-  number: "mars-input-number",
-  radio: "mars-switch",
-  slider: "mars-slider",
-  color: "mars-color-picker",
-  combobox: "mars-select",
-  textarea: "mars-textarea",
-  label: "span"
-}
-function getComponent(type: keyof typeof components) {
-  return components[type]
-}
-
-function getLabelConfig() {
-  const graphicAttr = getGraphicAttr()
-
-  return graphicAttr.label
-}
-
-function setDefault() {
-  if (props.styleConfig.style) {
-    props.styleConfig.style.forEach((item: any) => {
-      if (!styleValue.value[item.name] && styleValue.value[item.name] !== 0 && styleValue.value[item.name] !== false) {
-        styleValue.value[item.name] = item.defval
-      }
-    })
-  }
-}
-
-function setImpacts() {
-  let allImpacts: any[] = []
-  if (props.styleConfig.style) {
-    props.styleConfig.style.forEach((item: any) => {
-      if (item.impact && styleValue.value[item.name] === true) {
-        allImpacts = allImpacts.concat(item.impact)
-      }
-      if (item.data && _.isArray(item.data)) {
-        item.data.forEach((op: any) => {
-          if (op.impact && styleValue.value[item.name] === op.value) {
-            allImpacts = allImpacts.concat(op.impact)
-          }
-        })
-      }
-    })
-  }
-  showImpacts.value = _.uniq(allImpacts)
-}
-
-function setLabelDefault() {
-  labelConfig.style.forEach((item: any) => {
-    if (!styleValue.value.label[item.name] && styleValue.value.label[item.name] !== 0) {
-      styleValue.value.label[item.name] = item.defval
-    }
-  })
-}
-function setLabelImpacts() {
-  let allImpacts: any[] = []
-
-  labelConfig.style.forEach((item: any) => {
-    if (item.impact && styleValue.value.label[item.name] === true) {
-      allImpacts = allImpacts.concat(item.impact)
-    }
-    if (item.data && _.isArray(item.data)) {
-      item.data.forEach((op: any) => {
-        if (op.impact && styleValue.value.label[item.name] === op.value) {
-          allImpacts = allImpacts.concat(op.impact)
-        }
+// 非材质属性改变
+function unionChange(item: any, selectOptions?: any[]) {
+  const name = item.name
+  if (name === "fill" || name === "outline") {
+    if (styleValue.value.fill === false && styleValue.value.outline === false) {
+      $message("填充和边框不能同时为否")
+      nextTick(() => {
+        styleValue.value[name] = true
       })
+      return
     }
+  }
+
+  // 处理属性控件的显示隐藏
+  updateViewStyles()
+
+  // 控制图层样式改变
+  updateStyle(item)
+}
+
+// 更新属性的显示隐藏，通过配置中的show属性来控制
+function updateViewStyles() {
+  viewStyles.value = originStyles.filter((item) => {
+    const isShow = getViewShow(item, styleValue.value)
+    return isShow
   })
-  showLabelImpacts.value = _.uniq(allImpacts)
+}
+
+function getViewShow(config, styleOptions) {
+  if (typeof config.show === "function") {
+    return config.show(styleOptions, styleValue.value, props.graphicType)
+  }
+  return true
+}
+
+function getViewDefval(config, styleOptions) {
+  if (typeof config.defval === "function") {
+    return config.defval(styleOptions, styleValue.value, props.graphicType)
+  } else {
+    return config.defval
+  }
+}
+
+// 设置初始化的默认值
+function setDefault() {
+  styleValue.value = _.cloneDeep(props.style)
+
+  const styleConfig = styleConfigAll[props.customType] || styleConfigAll[props.graphicType]
+  if (!styleConfig) {
+    return
+  }
+
+  styleType.value = styleConfig.type
+  originStyles = _.cloneDeep(styleConfig.style)
 }
 
 function updateStyle(item: any) {
+  const val = styleValue.value[item.name]
   const data: Record<string, any> = {
-    [item.name]: styleValue.value[item.name]
-  }
-  if (item.impact) {
-    item.impact.forEach((im: string) => {
-      data[im] = styleValue.value[im]
-    })
-  }
-  if (item.data && Array.isArray(item.data)) {
-    item.data.forEach((it: any) => {
-      if (it.impact) {
-        it.impact.forEach((im: string) => {
-          data[im] = styleValue.value[im]
-        })
-      }
-    })
+    [item.name]: val
   }
 
   emit("styleChange", data)
 }
 
-function unionChange(item: any) {
-  if (item.name === "fill" || item.name === "outline") {
-    if (styleValue.value.fill === false && styleValue.value.outline === false) {
-      $message("填充和边框不能同时为否")
-      styleValue.value[item.name] = true
-      return
-    }
+// label相关处理
+let originLabels
+const viewLabels = ref<any[]>([])
+
+function setLabelDefault() {
+  originLabels = _.cloneDeep(styleConfigAll.label.style)
+  if (originLabels) {
+    originLabels.forEach((item: any) => {
+      styleValue.value.label[item.name] = styleValue.value.label[item.name] ?? getViewDefval(item, styleValue.value.label) // 数据中没有的地方使用默认值
+    })
   }
-  setImpacts()
-  updateStyle(item)
+}
+// 更新属性的显示隐藏，通过配置中的show属性来控制
+function updateViewLabels() {
+  viewLabels.value = originLabels.filter((item) => {
+    return getViewShow(item, styleValue.value.label)
+  })
 }
 
-function unionLabelChange(item: any) {
-  setLabelDefault()
-  setLabelImpacts()
-  updateStyle({ name: "label" })
+function labelChange(item: any) {
+  // 处理属性控件的显示隐藏
+  updateViewLabels()
+
+  // 控制图层样式改变
+  updateLabel(item.name)
 }
 
-// style的显示处理
-function styleShowIt(item: any) {
-  if (item.type === "hidden") {
-    return false
+function updateLabel(name) {
+  const label: Record<string, any> = {
+    [name]: styleValue.value.label[name]
   }
-  if (item.isImpact && !showImpacts.value.includes(item.name)) {
-    return false
-  }
-
-  const attrName = item.name
-
-  // 以下对样式互斥的处理。
-
-  // 贴地对象
-  if (styleValue.value.clampToGround) {
-    if (
-      attrName === "fill" || // 不能取消填充。
-      attrName === "height" || // 没有高度
-      attrName === "outline" ||
-      attrName === "outlineWidth" ||
-      attrName === "outlineColor" ||
-      attrName === "outlineOpacity" ||
-      attrName === "hasShadows" ||
-      attrName === "diffHeight"
-    ) {
-      return false
-    }
-  } else {
-    if (attrName === "zIndex") {
-      return false
-    }
-  }
-
-  // 三维立体对象
-  if (styleValue.value.diffHeight > 0) {
-    if (attrName === "clampToGround" || attrName === "outlineWidth") {
-      return false
-    }
-  }
-
-  return true
-}
-
-// 注记属性的显示处理
-function labelShowIt(item: any) {
-  return item.type !== "hidden" && (!item.isImpact || (item.isImpact && showLabelImpacts.value.includes(item.name)))
+  emit("styleChange", { label })
 }
 </script>
 

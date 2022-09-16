@@ -1,137 +1,144 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" bottom="40" width="400">
-    <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-      <a-collapse v-model:activeKey="activeKey">
-        <template #expandIcon>
-          <mars-icon icon="down-c" class="icon-vertical-a" />
-        </template>
-        <a-collapse-panel key="1" header="表单控件">
-          自定义面板右侧图标
-          <template #extra>
-            <mars-icon icon="config" class="icon-vertical-a" />
-          </template>
+    <div class="ui-container">
+      <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+        <a-collapse v-model:activeKey="activeKey" expandIconPosition="right">
+          <a-collapse-panel key="1" header="表单控件">
+            <a-form-item label="简单文本" name="url">
+              <mars-input v-model:value="formState.url" :allowClear="true" @change="onTextChange" />
+            </a-form-item>
 
-          <a-form-item label="简单文本" name="url">
-            <mars-input v-model:value="formState.url" :allowClear="true" @change="onTextChange" />
-          </a-form-item>
+            <a-form-item label="地图交互" name="extent">
+              <a-row :gutter="5">
+                <a-col :span="19">
+                  <mars-input v-model:value="formState.extent" :allowClear="true"></mars-input>
+                </a-col>
+                <a-col :span="5">
+                  <a-space size="small">
+                    <mars-button class="small-btn" @click="onClickDrawExtent">绘制</mars-button>
+                  </a-space>
+                </a-col>
+              </a-row>
+            </a-form-item>
 
-          <a-form-item label="地图交互" name="extent">
-            <a-row :gutter="5">
-              <a-col :span="19">
-                <mars-input v-model:value="formState.extent" :allowClear="true"></mars-input>
-              </a-col>
-              <a-col :span="5">
-                <a-space size="small">
-                  <mars-button class="small-btn" @click="onClickDrawExtent">绘制</mars-button>
-                </a-space>
-              </a-col>
-            </a-row>
-          </a-form-item>
+            <a-form-item label="数字输入">
+              <mars-input-number v-model:value="formState.countCar" :step="0.1" @change="onNumberChange" />
+            </a-form-item>
 
-          <a-form-item label="数字输入">
-            <mars-input-number v-model:value="formState.countCar" :step="0.1" @change="onNumberChange" />
-          </a-form-item>
+            <a-form-item label="下拉选择">
+              <mars-select v-model:value="formState.model" :options="modelOptions" @change="onSelectChange"></mars-select>
+            </a-form-item>
 
-          <a-form-item label="下拉选择">
-            <mars-select v-model:value="formState.model" :options="modelOptions" @change="onSelectChange"></mars-select>
-          </a-form-item>
+            <a-form-item label="日期">
+              <mars-date-picker v-model:value="formState.date" format="YYYY-MM-DD" @change="onDateChange" />
+            </a-form-item>
 
-          <a-form-item label="日期">
-            <mars-date-picker v-model:value="formState.date" format="YYYY-MM-DD" @change="onDateChange" />
-          </a-form-item>
+            <a-form-item label="滑动条">
+              <mars-slider v-model:value="formState.brightness" :min="-0.5" :max="1.5" :step="0.05" @change="onSliderChange" />
+            </a-form-item>
 
-          <a-form-item label="滑动条">
-            <mars-slider v-model:value="formState.brightness" :min="-0.5" :max="1.5" :step="0.05" @change="onSliderChange" />
-          </a-form-item>
+            <a-form-item label="刻度滑动条">
+              <mars-slider v-model:value="formState.contrast" :marks="marks" :min="-255" :max="255" :step="1" @change="onMarkSliderChange" />
+            </a-form-item>
 
-          <a-form-item label="刻度滑动条">
-            <mars-slider v-model:value="formState.contrast" :marks="marks" :min="-255" :max="255" :step="1" @change="onMarkSliderChange" />
-          </a-form-item>
+            <a-form-item label="多选" class="f-push-20-t">
+              <a-checkbox-group v-model:value="formState.checkboxVal" @change="onCheckboxChange">
+                <a-checkbox value="mars">火星</a-checkbox>
+                <a-checkbox value="earth">地球</a-checkbox>
+                <a-checkbox value="sun">太阳</a-checkbox>
+              </a-checkbox-group>
+            </a-form-item>
 
-          <a-form-item label="多选">
-            <a-checkbox-group v-model:value="formState.checkboxVal" @change="onCheckboxChange">
-              <a-checkbox value="mars">火星</a-checkbox>
-              <a-checkbox value="earth">地球</a-checkbox>
-              <a-checkbox value="sun">太阳</a-checkbox>
-            </a-checkbox-group>
-          </a-form-item>
+            <a-form-item label="单选">
+              <a-radio-group v-model:value="formState.radioVal">
+                <a-radio value="1">2D</a-radio>
+                <a-radio value="2">2.5D</a-radio>
+                <a-radio value="3">3D</a-radio>
+              </a-radio-group>
+              <!-- 已选择：{{ formState.radioVal }} -->
+            </a-form-item>
 
-          <a-form-item label="单选">
-            <a-radio-group v-model:value="formState.radioVal">
-              <a-radio value="1">2D</a-radio>
-              <a-radio value="2">2.5D</a-radio>
-              <a-radio value="3">3D</a-radio>
-            </a-radio-group>
-            已选择：{{ formState.radioVal }}
-          </a-form-item>
+            <a-form-item label="鼠标操作">
+              <a-space>
+                <mars-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
+                <span>是否允许</span>
+              </a-space>
+            </a-form-item>
 
-          <a-form-item label="允许鼠标操作">
-            <a-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
-          </a-form-item>
+            <a-form-item label="颜色选择">
+              <a-space>
+                <mars-color-picker v-model:value="formState.color" />
+                <div class="color-state">已选择：{{ formState.color }}</div>
+              </a-space>
+            </a-form-item>
 
-          <a-form-item label="颜色选择">
-            <mars-color-picker v-model:value="formState.color" />
-            已选择：{{ formState.color }}
-          </a-form-item>
+            <a-form-item label="颜色选择2">
+              <a-space>
+                <mars-color v-model:value="formState.color1" @change="colorChange" />
+                <div class="color-state">已选择：{{ formState.color1 }}</div>
+              </a-space>
+            </a-form-item>
 
-          <div class="f-tac">
-            <a-space>
-              <mars-button size="middle" @click="onClickMessage">
-                <template #icon><mars-icon icon="alarm" class="icon-vertical-a" /></template>
-                消息
-              </mars-button>
-              <mars-button size="middle" @click="onClickNotify">
-                <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
-                提示
-              </mars-button>
-              <mars-button size="middle" @click="onClickAlert">
-                <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
-                弹窗
-              </mars-button>
-            </a-space>
-          </div>
-        </a-collapse-panel>
+            <div class="f-tac">
+              <a-space>
+                <mars-button size="middle" @click="onClickMessage">
+                  <template #icon><mars-icon icon="alarm" class="icon-vertical-a" /></template>
+                  消息
+                </mars-button>
+                <mars-button size="middle" @click="onClickNotify">
+                  <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
+                  提示
+                </mars-button>
+                <mars-button size="middle" @click="onClickAlert">
+                  <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
+                  弹窗
+                </mars-button>
+                <mars-button size="middle" disabled> 禁用 </mars-button>
+              </a-space>
+            </div>
+          </a-collapse-panel>
 
-        <a-collapse-panel key="2" header="表格控件">
-          <a-table
-            size="small"
-            :customRow="customTableRow"
-            :row-selection="rowSelection"
-            bordered
-            :pagination="{ pageSize: 5 }"
-            :columns="columns"
-            :data-source="typhoonList"
-            rowKey="id"
-          >
-            <template #bodyCell="{ column, text }">
-              <template v-if="column.dataIndex === 'name'">
-                <a>{{ text }}</a>
+          <a-collapse-panel key="2" header="表格控件">
+            <mars-table
+              size="small"
+              :customRow="customTableRow"
+              :row-selection="rowSelection"
+              bordered
+              :pagination="{ pageSize: 5 }"
+              :columns="columns"
+              :dataSource="typhoonList"
+              rowKey="id"
+            >
+              <template #bodyCell="{ column, text }">
+                <template v-if="column.dataIndex === 'name'">
+                  <a>{{ text }}</a>
+                </template>
               </template>
-            </template>
-          </a-table>
-        </a-collapse-panel>
-        <a-collapse-panel key="3" header="树控件">
-          <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
-            <template #title="{ title }">
-              <span>{{ title }}</span>
-            </template>
-          </mars-tree>
-        </a-collapse-panel>
-      </a-collapse>
+            </mars-table>
+          </a-collapse-panel>
+          <a-collapse-panel key="3" header="树控件">
+            <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
+              <template #title="{ title }">
+                <span>{{ title }}</span>
+              </template>
+            </mars-tree>
+          </a-collapse-panel>
+        </a-collapse>
 
-      <div class="f-tac">
-        <a-space>
-          <mars-button size="middle" @click="onClickLoading">
-            <template #icon><mars-icon icon="find" class="icon-vertical-a" /></template>
-            进度条1
-          </mars-button>
-          <mars-button size="middle" @click="onClickTopLoading">
-            <template #icon><mars-icon icon="planet" class="icon-vertical-a" /></template>
-            进度条2
-          </mars-button>
-        </a-space>
-      </div>
-    </a-form>
+        <div class="f-tac">
+          <a-space>
+            <mars-button size="middle" @click="onClickLoading">
+              <template #icon><mars-icon icon="find" class="icon-vertical-a" /></template>
+              进度条1
+            </mars-button>
+            <mars-button size="middle" @click="onClickTopLoading">
+              <template #icon><mars-icon icon="planet" class="icon-vertical-a" /></template>
+              进度条2
+            </mars-button>
+          </a-space>
+        </div>
+      </a-form>
+    </div>
   </mars-dialog>
 </template>
 
@@ -142,6 +149,7 @@ import { TableColumnType, TableProps } from "ant-design-vue"
 import axios from "axios"
 import type { Dayjs } from "dayjs"
 import { $message, $notify, $alert } from "@mars/components/mars-ui/index"
+import { format } from "path/posix"
 
 const activeKey = ref(["1", "2", "3"])
 
@@ -157,6 +165,7 @@ interface FormState {
   radioVal: string
   isScale: boolean
   color: string
+  color1: string
 }
 const formState = reactive<FormState>({
   url: "",
@@ -169,7 +178,8 @@ const formState = reactive<FormState>({
   checkboxVal: ["mars"],
   radioVal: "3",
   isScale: true,
-  color: "#ffff00"
+  color: "#ffff00",
+  color1: "#ffff00"
 })
 
 const rules = {
@@ -197,14 +207,14 @@ const onNumberChange = () => {
 // 下拉列表数据
 const modelOptions = [
   {
-    value: "jingche",
-    label: "警车",
-    style: { scale: 8, url: "//data.mars2d.cn/gltf/mars/jingche/jingche.gltf" }
-  },
-  {
     value: "qiche",
     label: "小汽车",
     style: { scale: 1, url: "//data.mars2d.cn/gltf/mars/qiche.gltf" }
+  },
+  {
+    value: "jingche",
+    label: "警车",
+    style: { scale: 1, url: "//data.mars2d.cn/gltf/mars/jingche/jingche.gltf" }
   }
 ]
 
@@ -217,6 +227,7 @@ const onSelectChange = (value: string, data: any) => {
 // 日期切换事件
 const onDateChange = (data: any, value: any) => {
   $message("您选择了日期：" + value)
+  // formState.date = value
 }
 
 // 多选框勾选事件
@@ -244,8 +255,14 @@ const onMarkSliderChange = () => {
   mapWork.updateContrast(formState.contrast) // 调用地图方法
 }
 
+// 颜色选择器2
+const colorChange = (item) => {
+  formState.color1 = item
+}
+
 // switch切换了
 const onSwitchChange = () => {
+  $message("当前值为" + formState.isScale)
   mapWork.enableMapMouseController(formState.isScale) // 调用地图方法
 }
 
@@ -419,7 +436,7 @@ function findChild(parent: any, list: any[]) {
         title: item.name || `未命名(${item.type})`,
         key: item.id,
         id: item.id,
-        pId: item.pid, 
+        pId: item.pid,
         hasZIndex: item.hasZIndex,
         hasOpacity: item.hasOpacity,
         opacity: 100 * (item.opacity || 0),
@@ -504,8 +521,3 @@ function renderChildNode(keys: string[], children: any[]) {
   })
 }
 </script>
-<style lang="less">
-// .infoView {
-//   overflow-y: auto;
-// }
-</style>

@@ -19,6 +19,14 @@ export function onMounted(mapInstance) {
   const control = new mars2d.control.LocationBar({
     crs: "CGCS2000_GK_Zone_3",
     template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>横{crsx}  纵{crsy}</div> <div>层级:{level}</div>"
+    // template: function (locationData) {
+    //   let dfmX = mars2d.PointTrans.degree2dms(locationData.lng).str
+    //   let dfmY = mars2d.PointTrans.degree2dms(locationData.lat).str
+
+    //   return ` <div>经度:${locationData.lat} , ${dfmY}</div>
+    //           <div>纬度:${locationData.lng} , ${dfmX}</div>
+    //           <div>层级:${locationData.level}</div>`
+    // }
   })
   map.addControl(control)
 }

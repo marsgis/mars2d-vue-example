@@ -45,55 +45,55 @@ const dom = [
   [
     {
       name: "图标点",
-      href: "editor.html?id=graphic/basis/marker"
+      href: "editor-vue.html?id=graphic/basis/marker"
     },
     {
       name: "运动点",
-      href: "editor.html?id=graphic/basis/marker-moving"
+      href: "editor-vue.html?id=graphic/basis/marker-moving"
     },
     {
       name: "像素点",
-      href: "editor.html?id=graphic/basis/point"
+      href: "editor-vue.html?id=graphic/basis/point"
     },
     {
       name: "文本",
-      href: "editor.html?id=graphic/basis/label"
+      href: "editor-vue.html?id=graphic/basis/label"
     },
     {
       name: "DIV点",
-      href: "editor.html?id=graphic/divGraphic/basis"
+      href: "editor-vue.html?id=graphic/divGraphic/basis"
     },
     {
       name: "圆",
-      href: "editor.html?id=graphic/basis/circle"
+      href: "editor-vue.html?id=graphic/basis/circle"
     }
   ],
   [
     {
       name: "椭圆",
-      href: "editor.html?id=graphic/basis/ellipse"
+      href: "editor-vue.html?id=graphic/basis/ellipse"
     }
   ],
   [
     {
       name: "线",
-      href: "editor.html?id=graphic/basis/polyline"
+      href: "editor-vue.html?id=graphic/basis/polyline"
     },
     {
       name: "平行线",
-      href: "editor.html?id=graphic/basis/polyline-offset"
+      href: "editor-vue.html?id=graphic/basis/polyline-offset"
     },
     {
       name: "矩形",
-      href: "editor.html?id=graphic/basis/rectangle"
+      href: "editor-vue.html?id=graphic/basis/rectangle"
     },
     {
       name: "图片",
-      href: "editor.html?id=graphic/basis/image"
+      href: "editor-vue.html?id=graphic/basis/image"
     },
     {
       name: "面",
-      href: "editor.html?id=graphic/basis/polygon"
+      href: "editor-vue.html?id=graphic/basis/polygon"
     }
   ]
 ]

@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+export let map // mars2d.Map三维地图对象
 export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
@@ -18,38 +18,6 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-   // 绑定标绘相关事件监听(可以自行加相关代码实现业务需求，此处主要做示例)
-   graphicLayer.on(mars2d.EventType.drawStart, function (e) {
-    console.log("开始绘制", e)
-  })
-  graphicLayer.on(mars2d.EventType.drawAddPoint, function (e) {
-    console.log("绘制过程中增加了点", e)
-  })
-  graphicLayer.on(mars2d.EventType.drawRemovePoint, function (e) {
-    console.log("绘制过程中删除了点", e)
-  })
-
-  graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
-    console.log("创建完成", e)
-  })
-
-  graphicLayer.on(mars2d.EventType.editStart, function (e) {
-    console.log("开始编辑", e)
-    eventTarget.fire("graphicEditor-start", e)
-    // startEditing(e.graphic)
-  })
-
-  graphicLayer.on(mars2d.EventType.editMovePoint, function (e) {
-    console.log("编辑修改了点", e)
-    // startEditing(e.graphic)
-    eventTarget.fire("graphicEditor-start", e)
-  })
-  graphicLayer.on(mars2d.EventType.editRemovePoint, function (e) {
-    console.log("编辑删除了点", e)
-
-    // startEditing(e.graphic)
-    eventTarget.fire("graphicEditor-start", e)
-  })
   // 图层管理的相关处理，
   initLayerManager()
 
@@ -105,7 +73,7 @@ function bindLayerPopup() {
 // 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-    {
+        {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
       show: function (e) {
@@ -117,9 +85,7 @@ function bindLayerContextMenu() {
       },
       callback: function (e) {
         const graphic = e.graphic
-        if (graphic && graphic.editing) {
-          graphic.editing.enable()
-        }
+        graphicLayer.startEditing(graphic)
       }
     },
     {
@@ -134,9 +100,7 @@ function bindLayerContextMenu() {
       },
       callback: function (e) {
         const graphic = e.graphic
-        if (graphic && graphic.editing) {
-          graphic.editing.disable()
-        }
+        graphicLayer.stopEditing()
       }
     },
     {
@@ -246,7 +210,7 @@ function initGraphicManager(graphic) {
   ])
 }
 
-export function onClickStartDraw() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -262,6 +226,43 @@ export function onClickStartDraw() {
       console.log("标绘完成", graphic)
     }
   })
+}
+
+// 生成演示数据(测试数据量)
+export function addRandomGraphicByCount(count) {
+  graphicLayer.clear()
+
+  const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+  const result = mars2d.PolyUtil.getGridPoints(bbox, count, 30)
+  console.log("生成的测试网格坐标", result)
+
+  for (let j = 0; j < result.points.length; ++j) {
+    const latlng = result.points[j]
+    const index = j + 1
+
+    const pt1 = mars2d.PointUtil.getPointByDistanceAngle(latlng, result.radius, 0)
+    const pt2 = mars2d.PointUtil.getPointByDistanceAngle(latlng, result.radius, 72)
+    const pt3 = mars2d.PointUtil.getPointByDistanceAngle(latlng, result.radius, 144)
+    const pt4 = mars2d.PointUtil.getPointByDistanceAngle(latlng, result.radius, 216)
+    const pt5 = mars2d.PointUtil.getPointByDistanceAngle(latlng, result.radius, 288)
+
+    const graphic = new mars2d.graphic.Polygon({
+      latlngs: [pt1, pt2, pt3, pt4, pt5],
+      style: {
+        fill: true,
+        fillColor: "#3388ff",
+        fillOpacity: 0.3,
+        outline: true,
+        outlineWidth: 2,
+        outlineColor: "#0000FF",
+        outlineOpacity: 0.5
+      },
+      attr: { index: index }
+    })
+    graphicLayer.addGraphic(graphic)
+  }
+
+  return count.length
 }
 
 function addDemoGraphic1() {
@@ -394,57 +395,4 @@ function addDemoGraphic5() {
     attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic)
-}
-export function drawDivMarker() {
-  graphicLayer.startDraw({
-    type: "divGraphic",
-    style: {
-      html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
-          <div class="marsTiltPanel-wrap">
-              <div class="area">
-                  <div class="arrow-lt"></div>
-                  <div class="b-t"></div>
-                  <div class="b-r"></div>
-                  <div class="b-b"></div>
-                  <div class="b-l"></div>
-                  <div class="arrow-rb"></div>
-                  <div class="label-wrap">
-                      <div class="title">火星水厂</div>
-                      <div class="label-content">
-                          <div class="data-li">
-                              <div class="data-label">实时流量：</div>
-                              <div class="data-value"><span id="lablLiuliang" class="label-num">39</span><span class="label-unit">m³/s</span>
-                              </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">水池液位：</div>
-                              <div class="data-value"><span id="lablYeWei"  class="label-num">10.22</span><span class="label-unit">m</span>
-                              </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">水泵状态：</div>
-                              <div class="data-value">
-                                <span id="lablSBZT1"  class="label-tag data-value-status-1" alt="中间状态">1号</span>
-                                <span id="lablSBZT2"  class="label-tag data-value-status-0" alt="关闭状态">2号</span>
-                               </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">出水阀门：</div>
-                              <div class="data-value">
-                                <span id="lablCSFM1"   class="label-tag data-value-status-1" alt="中间状态">1号</span>
-                                <span id="lablCSFM2"   class="label-tag data-value-status-2" alt="打开状态">2号</span>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="b-t-l"></div>
-              <div class="b-b-r"></div>
-          </div>
-          <div class="arrow" ></div>
-      </div>`,
-      horizontalOrigin: mars2d.HorizontalOrigin.LEFT,
-      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
-    }
-  })
 }

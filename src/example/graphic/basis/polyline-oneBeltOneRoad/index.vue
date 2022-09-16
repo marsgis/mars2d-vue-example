@@ -28,12 +28,10 @@
   </mars-dialog>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 <style lang="less" scoped>
 .mars-load-head {
   font-size: 16px;
-  color: #ffffff;
   line-height: 30px;
   text-align: center;
 }
@@ -62,7 +60,6 @@
   display: flex;
   flex-direction: column;
   font-size: 14px;
-  color: #ffffff;
 }
 
 .mars-load-introduce .mars-load-info p {

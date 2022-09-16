@@ -7,6 +7,7 @@ import { cloneDeep } from "lodash"
 import store from "@mars/widgets/widget-store"
 import { Editor as MarsgisEditor } from "@marsgis/editor"
 import "@marsgis/editor/dist/style.css"
+import "@mars/components/mars-ui/common"
 
 // https跳转处理
 const protocol = window.location.protocol

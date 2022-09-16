@@ -13,32 +13,27 @@ import * as mapWork from "./map.js"
 
 const color = ref("rgb(51, 59, 112)")
 const onChangeColor = () => {
-  mapWork.onChangeColor(colorRgb())
-}
+  const colorRgb = color.value.toLowerCase()
 
-function colorRgb() {
-  // 16进制颜色值的正则
-  const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
-  // 把颜色值变成小写
-  let colorRgb = color.value.toLowerCase()
-  if (reg.test(colorRgb)) {
-    // 如果只有三位的值，需变成六位，如：#fff => #ffffff
-    if (colorRgb.length === 4) {
-      let colorNew = "#"
-      for (let i = 1; i < 4; i += 1) {
-        colorNew += colorRgb.slice(i, i + 1).concat(colorRgb.slice(i, i + 1))
-      }
-      colorRgb = colorNew
-    }
-    // 处理六位的颜色值，转为RGB
-    const colorChange = []
-    for (let i = 1; i < 7; i += 2) {
-      colorChange.push(parseInt("0x" + colorRgb.slice(i, i + 2)))
-    }
+  const regRgba = /rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})(,([.\d]+))?\)/ // 判断rgb颜色值格式的正则表达式，如rgba(255,20,10,.54)
+  const rsa = colorRgb.replace(/\s+/g, "").match(regRgba)
+  if (rsa) {
+    let r = parseInt(rsa[1]).toString(16)
+    r = r.length === 1 ? "0" + r : r
+    let g = (+rsa[2]).toString(16)
+    g = g.length === 1 ? "0" + g : g
+    let b = (+rsa[3]).toString(16)
+    b = b.length === 1 ? "0" + b : b
+    // const a = +(rsa[5] ? rsa[5] : 1) * 100
 
-    return { r: colorChange[0], g: colorChange[1], b: colorChange[2] }
+    mapWork.onChangeColor({
+      r: parseInt(r, 16),
+      g: parseInt(g, 16),
+      b: parseInt(b, 16)
+      // alpha: Math.ceil(a)
+    })
   } else {
-    return color
+    console.log("颜色获取失败", colorRgb)
   }
 }
 </script>

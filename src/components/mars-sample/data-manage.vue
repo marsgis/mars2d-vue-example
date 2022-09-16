@@ -1,27 +1,34 @@
 <template>
-  <a-space>
-    <span class="mars-dialog-item-label">数据管理:</span>
-    <mars-button @click="onClickClear">清除</mars-button>
-    <mars-button @click="onClickExpFile" title="保存GeoJSON">
-      <mars-icon icon="save" class="icon-vertical-a" />
-      保存
-    </mars-button>
-    <a-upload
-      :multiple="false"
-      name="file"
-      accept="json,geojson"
-      :file-list="fileList"
-      :showUploadList="false"
-      :supportServerRender="true"
-      :beforeUpload="beforeUploade"
-      @change="onClickImpFile"
-    >
-      <mars-button title="打开GeoJSON">
-        <mars-icon icon="upload-one" class="icon-vertical-a" />
-        打开
-      </mars-button>
-    </a-upload>
-  </a-space>
+  <a-row>
+    <a-col :span="5">
+      <span class="mars-dialog-item-label">数据管理:</span>
+    </a-col>
+    <a-col :span="19">
+      <a-space>
+        <mars-button @click="onClickClear">清除</mars-button>
+        <mars-button @click="onClickExpFile" title="保存GeoJSON">
+          <mars-icon icon="save" class="icon-vertical-a" />
+          保存
+        </mars-button>
+        <a-upload
+          :multiple="false"
+          name="file"
+          accept="json,geojson"
+          :file-list="fileList"
+          :showUploadList="false"
+          :supportServerRender="true"
+          :beforeUpload="beforeUploade"
+          @change="onClickImpFile"
+        >
+          <mars-button title="打开GeoJSON">
+            <mars-icon icon="upload-one" class="icon-vertical-a" />
+            打开
+          </mars-button>
+        </a-upload>
+        <slot></slot>
+      </a-space>
+    </a-col>
+  </a-row>
 </template>
 
 <script setup lang="ts">

@@ -272,7 +272,7 @@ showLoading(type) // 显示loading
 hideLoading(type) // 关闭loading
 ```
 
-完成后我们即可访问 [http://localhost:8080/editor.html?id=map/sample](http://localhost:8080/editor.html?id=map/sample)来查看示例的效果。
+完成后我们即可访问 [http://localhost:8080/editor-vue.html?id=map/sample](http://localhost:8080/editor-vue.html?id=map/sample)来查看示例的效果。
 
 
 ### 4. (按需可选)配置其他依赖资源

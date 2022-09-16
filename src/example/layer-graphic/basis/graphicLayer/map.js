@@ -370,7 +370,7 @@ function bindLayerPopup() {
 // 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-    {
+        {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
       show: function (e) {
@@ -382,9 +382,7 @@ function bindLayerContextMenu() {
       },
       callback: function (e) {
         const graphic = e.graphic
-        if (graphic && graphic.editing) {
-          graphic.editing.enable()
-        }
+        graphicLayer.startEditing(graphic)
       }
     },
     {
@@ -399,9 +397,7 @@ function bindLayerContextMenu() {
       },
       callback: function (e) {
         const graphic = e.graphic
-        if (graphic && graphic.editing) {
-          graphic.editing.disable()
-        }
+        graphicLayer.stopEditing()
       }
     },
     {

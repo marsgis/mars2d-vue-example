@@ -25,19 +25,19 @@ export default defineComponent({
 .mars-slider {
   margin: 0px 6px 6px 6px;
   :deep(.ant-slider-mark-text) {
-    color: @mars-base-color !important;
+    color: var(--mars-base-color) !important;
     top: 5px;
   }
   /*滑动条 未选择、已选择部分 高度*/
   :deep(.ant-slider-rail) {
     height: 10px;
     border-radius: 5px;
-    background-color: #284660 !important;
+    background-color: #ccc !important;
   }
   :deep(.ant-slider-track) {
     height: 10px;
     border-radius: 5px;
-    background-color: @mars-primary-color !important;
+    background-color: var(--mars-primary-color) !important;
   }
   /*滑动条 刻度点*/
   :deep(.ant-slider-dot) {
@@ -59,10 +59,10 @@ export default defineComponent({
     width: 16px;
     height: 16px;
     margin-top: -3px;
-    border: 4px solid @mars-primary-color;
+    border: 4px solid var(--mars-primary-color);
   }
   :deep(.ant-slider-dot-active, .ant-slider-handle) {
-    border-color: @mars-primary-color !important;
+    border-color: var(--mars-primary-color) !important;
   }
 }
 </style>

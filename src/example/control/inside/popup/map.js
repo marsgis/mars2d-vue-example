@@ -82,13 +82,6 @@ export function bindLayerDemo() {
   geoJsonLayer.bindPopup(function (event) {
     const attr = event.attr
     return attr.type + " 我是layer上绑定的Popup" + new Date().toLocaleTimeString()
-
-    // return new Promise((resolve) => {
-    //   // 这里可以进行后端接口请求数据，setTimeout测试异步
-    //   setTimeout(() => {
-    //     resolve("Promise异步回调显示的弹窗内容信息")
-    //   }, 2000)
-    // })
   })
 
   geoJsonLayer.on(mars2d.EventType.popupopen, function (event) {

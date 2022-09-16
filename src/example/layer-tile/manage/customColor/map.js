@@ -1,9 +1,9 @@
 import * as mars2d from "mars2d"
+const L = mars2d.L
 
 let map // mars2d.Map三维地图对象
 let tileLayer // 底图
 let rgbObject // 颜色
-const L = mars2d.L
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -67,6 +67,7 @@ export function onChangeColor(color) {
       return
     }
   }
+
   rgbObject = color
 
   tileLayer.redraw()

@@ -2,7 +2,7 @@
   <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
-        <span>原始数据:</span>
+        <span class="mars-pannel-item-label">原始数据:</span>
         <mars-button @click="drawLine">绘制线</mars-button>
         <mars-button @click="clearAll">清除</mars-button>
       </a-space>
@@ -10,14 +10,14 @@
 
     <div class="f-mb">
       <a-space>
-        <span>计算平行线:</span>
+        <span class="mars-pannel-item-label">计算平行线:</span>
         <mars-input-number v-model:value="distance" :min="1" :max="10" />公里
         <mars-button @click="parallelLines">计算</mars-button>
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
-        <span>计算曲线:</span>
+        <span class="mars-pannel-item-label">计算曲线:</span>
         <mars-button @click="calculationCurve">计算</mars-button>
       </a-space>
     </div>
@@ -52,5 +52,7 @@ const calculationCurve = () => {
 </script>
 
 <style scoped>
-
+.mars-pannel-item-label {
+  width: 74px;
+}
 </style>

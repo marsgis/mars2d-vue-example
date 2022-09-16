@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :draggable="true" title="图层" width="280" :min-width="250" top="50" bottom="40" left="10">
+  <mars-dialog :draggable="true" title="图层" width="312" :min-width="250" top="50" left="10">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="node">
         <mars-dropdown :trigger="['contextmenu']">
@@ -279,8 +279,5 @@ function findChild(parent: any, list: any[]) {
   width: 70px;
   margin-left: 5px;
   vertical-align: middle;
-}
-.ant-slider {
-  width: 80px !important;
 }
 </style>

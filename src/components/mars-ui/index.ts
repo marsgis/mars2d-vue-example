@@ -20,7 +20,7 @@ import MarsDialog from "./mars-dialog/index.vue"
 import MarsSlider from "./mars-slider/index.vue"
 import MarsDropDown from "./mars-dropdown"
 import MarsGui from "./mars-gui/index.vue"
-import MarsTable from "./mars-table"
+import MarsTable from "./mars-table/index.vue"
 
 import MarsMessage, { $message as marsMessage } from "./mars-message"
 import MarsAlert, { $alert as marsAlert } from "./mars-alert/"
@@ -66,7 +66,7 @@ import {
 } from "ant-design-vue"
 
 import "./mars-echarts"
-
+import "./themes"
 import "./index.less"
 import "./function.less"
 
@@ -145,9 +145,9 @@ export default function (app: App, config: Record<string, any> = {}): App {
   components.forEach((comp) => {
     app.component(comp.name, comp)
   })
-  // MarsMessage(app)
-  // MarsAlert(app)
-  // MarsNotify(app)
-  // MarsLoading(app)
+  MarsMessage(app)
+  MarsAlert(app)
+  MarsNotify(app)
+  MarsLoading(app)
   return app
 }

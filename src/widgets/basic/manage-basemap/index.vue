@@ -59,11 +59,11 @@ function changeBaseMaps(item: any) {
   list-style-type: none;
   margin-top: 10px;
   margin-left: 10px;
-  float: left;
   text-align: center;
+  vertical-align: top;
   cursor: pointer;
   font-size: 12px;
-  color: #fff;
+  color: var(--mars-text-color);
   &:hover {
     .active-card();
   }
@@ -71,7 +71,6 @@ function changeBaseMaps(item: any) {
     border: 1px solid #4db3ff78;
     width: 75px;
     height: 70px;
-    padding: 1px;
   }
 }
 
