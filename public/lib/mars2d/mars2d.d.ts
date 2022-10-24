@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.6
- * 编译日期：2022-09-15 20:29:34
+ * 版本信息：v3.1.7
+ * 编译日期：2022-10-24 19:13:21
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -6613,6 +6613,34 @@ declare class WfsLayer extends VirtualGrid {
      * @returns 当前对象本身,可以链式调用
      */
     bringToFront(): any | WfsLayer;
+    /**
+     * 获取图层矩形边界
+     * @returns 矩形边界
+     */
+    getBounds(): any | L.LatLngBounds;
+    /**
+     * 定位地图至当前图层数据区域
+     * @param [options] - 定位参数，包括:
+     * @param [options.paddingTopLeft] - 设置在将视图设置为适合边界时不应考虑的地图容器左上角的填充量。如果您在地图上有一些控件重叠式（如侧边栏），而且您不希望它们遮挡您正在缩放的对象，则很有用。
+     * @param [options.paddingBottomRight] - 同上，不考虑地图容器右下角时使用。
+     * @param [options.padding] - 相当于将左上和右下填充设置为相同的值。
+     * @param [options.maxZoom] - 最大层级
+     * @param [options.animate = true] - 是否进行动画缩放。false时始终重置视图完全没有动画。
+     * @param [options.duration = 0.25] - 动画平移的持续时间，以秒为单位。
+     * @param [options.easeLinearity = 0.25] - 平移动画宽松的曲率因子 [Cubic Bezier curve曲线]{@link https://cubic-bezier.com/}的第三个参数。1.0表示线性动画，而这个数字越小，曲线越鞠躬。
+     * @param [options.noMoveStart = false] - 如果true，平移不会movestart在启动时触发事件（内部用于平移惯性）。
+     * @returns 当前对象本身，可以链式调用
+     */
+    flyTo(options?: {
+        paddingTopLeft?: L.Point | number[];
+        paddingBottomRight?: L.Point | number[];
+        padding?: L.Point | number[];
+        maxZoom?: number;
+        animate?: boolean;
+        duration?: number;
+        easeLinearity?: number;
+        noMoveStart?: boolean;
+    }): any | WfsLayer;
 }
 
 declare namespace GroupLayer {
@@ -8420,6 +8448,29 @@ declare class TileLayer extends L.TileLayer {
      * @returns 无
      */
     setCustomColor(customColor: (...params: any[]) => any): any | void;
+    /**
+     * 定位地图至当前图层数据区域
+     * @param [options] - 定位参数，包括:
+     * @param [options.paddingTopLeft] - 设置在将视图设置为适合边界时不应考虑的地图容器左上角的填充量。如果您在地图上有一些控件重叠式（如侧边栏），而且您不希望它们遮挡您正在缩放的对象，则很有用。
+     * @param [options.paddingBottomRight] - 同上，不考虑地图容器右下角时使用。
+     * @param [options.padding] - 相当于将左上和右下填充设置为相同的值。
+     * @param [options.maxZoom] - 最大层级
+     * @param [options.animate = true] - 是否进行动画缩放。false时始终重置视图完全没有动画。
+     * @param [options.duration = 0.25] - 动画平移的持续时间，以秒为单位。
+     * @param [options.easeLinearity = 0.25] - 平移动画宽松的曲率因子 [Cubic Bezier curve曲线]{@link https://cubic-bezier.com/}的第三个参数。1.0表示线性动画，而这个数字越小，曲线越鞠躬。
+     * @param [options.noMoveStart = false] - 如果true，平移不会movestart在启动时触发事件（内部用于平移惯性）。
+     * @returns 当前对象本身，可以链式调用
+     */
+    flyTo(options?: {
+        paddingTopLeft?: L.Point | number[];
+        paddingBottomRight?: L.Point | number[];
+        padding?: L.Point | number[];
+        maxZoom?: number;
+        animate?: boolean;
+        duration?: number;
+        easeLinearity?: number;
+        noMoveStart?: boolean;
+    }): any | TileLayer;
     /**
      * 销毁当前对象
      * @param [noDel = false] - false:会自动delete释放所有属性，true：不delete绑定的变量
@@ -10466,6 +10517,34 @@ declare class ArcGisFeatureLayer extends L.Layer {
      * @returns 矢量数据对象
      */
     getGraphicById(id: string | number): any | L.Layer;
+    /**
+     * 获取图层矩形边界
+     * @returns 矩形边界
+     */
+    getBounds(): any | L.LatLngBounds;
+    /**
+     * 定位地图至当前图层数据区域
+     * @param [options] - 定位参数，包括:
+     * @param [options.paddingTopLeft] - 设置在将视图设置为适合边界时不应考虑的地图容器左上角的填充量。如果您在地图上有一些控件重叠式（如侧边栏），而且您不希望它们遮挡您正在缩放的对象，则很有用。
+     * @param [options.paddingBottomRight] - 同上，不考虑地图容器右下角时使用。
+     * @param [options.padding] - 相当于将左上和右下填充设置为相同的值。
+     * @param [options.maxZoom] - 最大层级
+     * @param [options.animate = true] - 是否进行动画缩放。false时始终重置视图完全没有动画。
+     * @param [options.duration = 0.25] - 动画平移的持续时间，以秒为单位。
+     * @param [options.easeLinearity = 0.25] - 平移动画宽松的曲率因子 [Cubic Bezier curve曲线]{@link https://cubic-bezier.com/}的第三个参数。1.0表示线性动画，而这个数字越小，曲线越鞠躬。
+     * @param [options.noMoveStart = false] - 如果true，平移不会movestart在启动时触发事件（内部用于平移惯性）。
+     * @returns 当前对象本身，可以链式调用
+     */
+    flyTo(options?: {
+        paddingTopLeft?: L.Point | number[];
+        paddingBottomRight?: L.Point | number[];
+        padding?: L.Point | number[];
+        maxZoom?: number;
+        animate?: boolean;
+        duration?: number;
+        easeLinearity?: number;
+        noMoveStart?: boolean;
+    }): any | ArcGisFeatureLayer;
 }
 
 declare namespace ArcGisImageLayer {

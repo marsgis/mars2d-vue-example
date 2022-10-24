@@ -48,7 +48,8 @@ class Geolocation extends mars2d.control.ToolButton {
 
       function onError(data) {
         // 定位出错,参考：https://lbs.amap.com/faq/js-api/map-js-api/position-related
-        mars2d.Util.msg(data.message, "定位失败")
+        // mars2d.Util.msg(data.message, "定位失败")
+        mars2d.Util.msg("获取地理位置失败", data.message)
       }
       AMap.event.addListener(this.geolocation, "complete", onComplete)
       AMap.event.addListener(this.geolocation, "error", onError)

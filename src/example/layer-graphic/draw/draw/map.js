@@ -53,6 +53,16 @@ export function onMounted(mapInstance) {
     // startEditing(e.graphic)
     eventTarget.fire("graphicEditor-start", e)
   })
+
+  graphicLayer.on(mars2d.EventType.removeGraphic, function (e) {
+
+    eventTarget.fire("graphicEditor-stop", e)
+  })
+
+  graphicLayer.on(mars2d.EventType.editStop, function (e) {
+
+    eventTarget.fire("graphicEditor-stop", e)
+  })
 }
 
 /**
@@ -277,6 +287,3 @@ export function onClickSaveWKT() {
 
   mars2d.Util.downloadFile("我的标注wkt.txt", JSON.stringify(arrWKT))
 }
-
-
-

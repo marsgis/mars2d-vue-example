@@ -49,7 +49,7 @@ const dom = [
     },
     {
       name: "运动点",
-      href: "editor-vue.html?id=graphic/basis/marker-moving"
+      href: "editor-vue.html?id=graphic/basis/movingMarker"
     },
     {
       name: "像素点",

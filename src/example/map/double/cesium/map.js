@@ -2,7 +2,7 @@ import * as mars2d from "mars2d"
 const L = mars2d.L
 let map2d
 let map3d
-// const Cesium = mars3d.Cesium
+
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   center: { lat: 30.754115, lng: 116.341283 },

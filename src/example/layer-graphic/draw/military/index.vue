@@ -1,7 +1,18 @@
 <template>
-  <mars-dialog :visible="true" width="435" right="10" top="10">
+  <mars-dialog :visible="true" width="592" right="10" top="10">
     <div class="f-mb">
-      <layer-state />
+      <a-row>
+        <a-col :span="3">图层状态:</a-col>
+        <a-col :span="21">
+          <a-space>
+            <a-checkbox v-model:checked="enabledShowHide" @change="onChangeShow">显示隐藏</a-checkbox>
+            <a-checkbox v-model:checked="enabledPopup" @change="onChangePopup">Popup绑定</a-checkbox>
+            <a-checkbox v-model:checked="enabledTooltip" @change="onChangeTooltip">Tooltip</a-checkbox>
+            <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键绑定</a-checkbox>
+            <a-checkbox v-model:checked="isEditable" @change="isEditableChange">是否编辑</a-checkbox>
+          </a-space>
+        </a-col>
+      </a-row>
     </div>
 
     <div class="f-mb">
@@ -9,8 +20,8 @@
     </div>
 
     <a-row class="military-row">
-      <a-col :span="5">图上标绘：</a-col>
-      <a-col :span="19">
+      <a-col :span="3">图上标绘：</a-col>
+      <a-col :span="21">
         <a-space>
           <mars-button @click="drawPolygon('straightArrow')">粗直箭头</mars-button>
           <mars-button @click="drawPolygon('fineArrow')">粗单尖直箭头</mars-button>
@@ -30,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { markRaw } from "vue"
+import { ref, markRaw, onMounted } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import DataManage from "@mars/components/mars-sample/data-manage.vue"
 import { useWidget } from "@mars/widgets/common/store/widget"
@@ -41,38 +52,77 @@ const drawPolygon = (type: string) => {
   mapWork.drawPolygon(type)
 }
 
-// 属性面板
-/* const showEditor = (e: any) => {
-  if (!isActivate("graphic-editor")) {
-    activate({
-      name: "graphic-editor",
-      data: {
-        graphic: markRaw(e.graphic)
-      }
-    })
+onMounted(() => {
+  const mars2d = window.mapWork.mars2d
+  // 矢量数据创建完成
+  mapWork.graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
+    showEditor(e)
+  })
+  mapWork.graphicLayer.on("editStart editMovePoint editStyle editRemovePoint", function (e) {
+    showEditor(e)
+  })
+
+  mapWork.graphicLayer.on("editStop removeGraphic ", function (e) {
+    setTimeout(() => {
+      disable("graphic-editor")
+    }, 100)
+  })
+})
+
+const isEditable = ref(true)
+
+const isEditableChange = () => {
+  mapWork.graphicLayer.hasEdit = isEditable.value
+}
+
+// 显示隐藏
+const enabledShowHide = ref(true)
+const onChangeShow = () => {
+  mapWork.graphicLayer.show = enabledShowHide.value
+}
+
+// 是否绑定Popup
+const enabledPopup = ref(false)
+const onChangePopup = () => {
+  if (enabledPopup.value) {
+    mapWork.bindLayerPopup()
   } else {
-    updateWidget("graphic-editor", {
-      data: {
-        graphic: markRaw(e.graphic)
-      }
-    })
+    mapWork.graphicLayer.unbindPopup()
   }
 }
 
-mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  // if (enabledEdit.value) {
-  showEditor(e)
-  // }
-})
-// 编辑修改了模型
-mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  showEditor(e)
-})
+// 是否绑定Tooltip
+const enabledTooltip = ref(false)
+const onChangeTooltip = () => {
+  if (enabledTooltip.value) {
+    mapWork.graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
+  } else {
+    mapWork.graphicLayer.unbindTooltip()
+  }
+}
 
-// 停止编辑修改模型
-mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  disable("graphic-editor")
-}) */
+// 是否绑定右键菜单
+const enabledRightMenu = ref(true)
+const onChangeContextMenu = () => {
+  if (enabledRightMenu.value) {
+    mapWork.bindLayerContextMenu()
+  } else {
+    mapWork.graphicLayer.unbindContextMenu(true)
+  }
+}
+
+const showEditor = (e: any) => {
+  if (!isActivate("graphic-editor")) {
+    activate({
+      name: "graphic-editor",
+      data: { graphic: markRaw(e.graphic) }
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: { graphic: markRaw(e.graphic) }
+    })
+  }
+}
 </script>
 
 <style scoped lang="less">

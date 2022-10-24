@@ -172,7 +172,7 @@
         "type": "pbf",
         "url": "http://server.mars2d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf",
         "interactive": true,
-        "style":{
+        "style": {
           "color": "rgba(110, 110, 110, 255)",
           "opacity": 1,
           "weight": 1,
@@ -223,6 +223,7 @@
         "format": "image/png"
       },
       {
+        "id": 1987,
         "pid": 4020,
         "name": "规划面",
         "type": "wms",

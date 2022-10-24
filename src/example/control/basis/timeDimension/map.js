@@ -44,6 +44,10 @@ export function onMounted(mapInstance) {
   })
     .then((geojson) => {
       const customLayer = L.geoJson(geojson, {
+        style: {
+          color: "#FF0000",
+          weight: 3
+        },
         pointToLayer: function (feature, latLng) {
           if (feature.properties.hasOwnProperty("last")) {
             return new mars2d.graphic.Marker({

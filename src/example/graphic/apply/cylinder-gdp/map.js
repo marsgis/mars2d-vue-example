@@ -26,7 +26,7 @@ export function onMounted(mapInstance) {
 
   // 淮海市的区域图
   const geoJsonLayer = new mars2d.layer.GeoJsonLayer({
-    id: 1987,
+    id: 21987,
     type: "GeoJsonLayer",
     name: "淮海经济区11市",
     url: "//data.mars2d.cn/file/geojson/huaihai.json",
@@ -205,8 +205,7 @@ function conventChartsData(arrOld) {
 }
 
 function bindHaihuaiPopup() {
-  const layerHuaihai = map.getLayer(1987, "id") // 获取config.json中对应图层
-
+  const layerHuaihai = map.getLayerById(21987) // 获取config.json中对应图层
   // 在layer上绑定Popup单击弹窗
   layerHuaihai.bindPopup(
     `<div class="gdpView">

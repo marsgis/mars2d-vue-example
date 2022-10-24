@@ -10,7 +10,7 @@
     </a-space>
   </mars-dialog>
   <mars-dialog width="100%" left="100" right="100" top="100" bottom="100" title="查看详情" v-model:visible="showLayer">
-    <iframe src="http://marsgis.cn/" frameborder="0"></iframe>
+    <iframe class="mars-iframe" src="http://marsgis.cn/" frameborder="0"></iframe>
   </mars-dialog>
 </template>
 
@@ -58,5 +58,9 @@ const onBindGraphicDemo2 = () => {
 }
 .ant-space {
   display: grid;
+}
+.mars-iframe {
+  width: 100%;
+  height: 100%;
 }
 </style>

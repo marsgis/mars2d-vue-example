@@ -2,7 +2,7 @@
   <mars-dialog :visible="true" top="20" right="10" :width="400">
     <!-- 方式一： 通过组件api 删除或添加显示的元素， option不需要是响应式数据 -->
     <h3 class="f-push-10-t">表单一</h3>
-    <mars-gui ref="marsGuiRef" :options="options" @change="gui1Change"></mars-gui>
+    <mars-gui ref="marsGuiRef" :options="options" :labelCol="7" @change="gui1Change"></mars-gui>
 
     <!-- 方式二： 直接通过options控制显示元素， option需要是响应式数据 -->
     <h3 class="f-push-10-t">表单二</h3>
@@ -32,7 +32,7 @@ import { $message } from "@mars/components/mars-ui"
 import MarsButton from "@mars/components/mars-ui/mars-button/index.vue"
 import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
 import * as mapWork from "./map.js"
-import { ref, h, defineComponent } from "vue"
+import { ref, h } from "vue"
 
 const options: GuiItem[] = [
   {

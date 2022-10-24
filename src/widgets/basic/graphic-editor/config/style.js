@@ -3,7 +3,7 @@ const styleConfig = {
   label: {
     name: "文字",
     style: [
-      { name: "label", label: "内容", type: "textarea", defval: "文字" },
+      { name: "text", label: "内容", type: "textarea", defval: "文字" },
       { name: "opacity", label: "透明度", type: "slider", defval: 1, min: 0, max: 1, step: 0.01 },
 
       { name: "color", label: "颜色", type: "color", defval: "#0081c2" },
@@ -205,6 +205,7 @@ const styleConfig = {
   },
   polyline: {
     name: "线",
+    extends: ["brushLine"],
     style: [
       { name: "color", label: "颜色", type: "color", defval: "#3388ff" },
       { name: "width", label: "线宽", type: "number", defval: 3 },

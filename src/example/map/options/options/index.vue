@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10">
-    <a-table :columns="columns" :data-source="data" bordered :pagination="false">
+    <a-table :columns="columns" size="small" :data-source="data" bordered :pagination="false">
       <template #bodyCell="{ column, text, index }">
         <template v-if="column.dataIndex === 'name'">
           <a href="https://mars2d.cn/api/Map.html#.sceneOptions" target="_black">{{ text }}</a>
@@ -10,7 +10,7 @@
         <template v-if="column.dataIndex === 'operation'">
           <!-- radio -->
           <a-radio-group
-            @change="(data[index] as any).change(index)"
+            @change=";(data[index] as any).change(index)"
             v-if="data[index].operation === 'checked'"
             v-model:value="data[index].value"
             :name="'radioGroup' + index"
@@ -21,13 +21,13 @@
           <!-- 颜色选择器 -->
           <mars-color-picker
             v-if="data[index].operation === 'color'"
-            @change="(data[index] as any).change(index)"
+            @change=";(data[index] as any).change(index)"
             v-model:value="data[index].value"
           />
 
           <!-- range滑动 -->
           <mars-slider
-            @change="(data[index] as any).change(index)"
+            @change=";(data[index] as any).change(index)"
             v-if="data[index].operation === 'range'"
             v-model:value="data[index].value"
             :min="data[index].min"

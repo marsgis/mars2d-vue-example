@@ -1,5 +1,5 @@
 /* @preserve
- * Leaflet 1.8.1+main.7f43299, a JS library for interactive maps. https://leafletjs.com
+ * Leaflet 1.9.2, a JS library for interactive maps. https://leafletjs.com
  * (c) 2010-2022 Vladimir Agafonkin, (c) 2010-2011 CloudMade
  */
 
@@ -9,7 +9,7 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.leaflet = {}));
 })(this, (function (exports) { 'use strict';
 
-  var version = "1.8.1+main.4a5f1920";
+  var version = "1.9.2";
 
   /*
    * @namespace Util
@@ -626,15 +626,17 @@
   			console.warn('"string" type argument expected');
   		}
 
+  		// we don't overwrite the input `fn` value, because we need to use it for propagation
+  		var _fn = fn;
   		if (typeof fn !== 'function') {
   			propagate = !!fn;
-  			fn = undefined;
+  			_fn = undefined;
   			context = undefined;
   		}
 
   		var listeners = this._events && this._events[type];
   		if (listeners && listeners.length) {
-  			if (this._listens(type, fn, context) !== false) {
+  			if (this._listens(type, _fn, context) !== false) {
   				return true;
   			}
   		}
@@ -1165,8 +1167,8 @@
   	},
 
 
-  	// @method equals(otherBounds: Bounds, maxMargin?: Number): Boolean
-  	// Returns `true` if the rectangle is equivalent (within a small margin of error) to the given bounds. The margin of error can be overridden by setting `maxMargin` to a small number.
+  	// @method equals(otherBounds: Bounds): Boolean
+  	// Returns `true` if the rectangle is equivalent to the given bounds.
   	equals: function (bounds) {
   		if (!bounds) { return false; }
 
@@ -2082,6 +2084,13 @@
   	}
   }());
 
+
+  // @property mac: Boolean; `true` when the browser is running in a Mac platform
+  var mac = navigator.platform.indexOf('Mac') === 0;
+
+  // @property mac: Boolean; `true` when the browser is running in a Linux platform
+  var linux = navigator.platform.indexOf('Linux') === 0;
+
   function userAgentContains(str) {
   	return navigator.userAgent.toLowerCase().indexOf(str) >= 0;
   }
@@ -2120,7 +2129,9 @@
   	canvas: canvas$1,
   	svg: svg$1,
   	vml: vml,
-  	inlineSvg: inlineSvg
+  	inlineSvg: inlineSvg,
+  	mac: mac,
+  	linux: linux
   };
 
   /*
@@ -2942,12 +2953,15 @@
   	);
   }
 
-  // Chrome on Win scrolls double the pixels as in other platforms (see #4538),
-  // and Firefox scrolls device pixels, not CSS pixels
-  var wheelPxFactor =
-  	(Browser.win && Browser.chrome) ? 2 * window.devicePixelRatio :
-  	Browser.gecko ? window.devicePixelRatio : 1;
 
+  //  except , Safari and
+  // We need double the scroll pixels (see #7403 and #4538) for all Browsers
+  // except OSX (Mac) -> 3x, Chrome running on Linux 1x
+
+  var wheelPxFactor =
+  	(Browser.linux && Browser.chrome) ? window.devicePixelRatio :
+  	Browser.mac ? window.devicePixelRatio * 3 :
+  	window.devicePixelRatio > 0 ? 2 * window.devicePixelRatio : 1;
   // @function getWheelDelta(ev: DOMEvent): Number
   // Gets normalized wheel delta from a wheel DOM event, in vertical
   // pixels scrolled (negative if scrolling down).
@@ -6364,6 +6378,55 @@
   	return isFlat(latlngs);
   }
 
+  /* @function polylineCenter(latlngs: LatLng[], crs: CRS): LatLng
+   * Returns the center ([centroid](http://en.wikipedia.org/wiki/Centroid)) of the passed LatLngs (first ring) from a polyline.
+   */
+  function polylineCenter(latlngs, crs) {
+  	var i, halfDist, segDist, dist, p1, p2, ratio, center;
+
+  	if (!latlngs || latlngs.length === 0) {
+  		throw new Error('latlngs not passed');
+  	}
+
+  	if (!isFlat(latlngs)) {
+  		console.warn('latlngs are not flat! Only the first ring will be used');
+  		latlngs = latlngs[0];
+  	}
+
+  	var points = [];
+  	for (var j in latlngs) {
+  		points.push(crs.project(toLatLng(latlngs[j])));
+  	}
+
+  	var len = points.length;
+
+  	for (i = 0, halfDist = 0; i < len - 1; i++) {
+  		halfDist += points[i].distanceTo(points[i + 1]) / 2;
+  	}
+
+  	// The line is so small in the current view that all points are on the same pixel.
+  	if (halfDist === 0) {
+  		center = points[0];
+  	} else {
+  		for (i = 0, dist = 0; i < len - 1; i++) {
+  			p1 = points[i];
+  			p2 = points[i + 1];
+  			segDist = p1.distanceTo(p2);
+  			dist += segDist;
+
+  			if (dist > halfDist) {
+  				ratio = (dist - halfDist) / segDist;
+  				center = [
+  					p2.x - ratio * (p2.x - p1.x),
+  					p2.y - ratio * (p2.y - p1.y)
+  				];
+  				break;
+  			}
+  		}
+  	}
+  	return crs.unproject(toPoint(center));
+  }
+
   var LineUtil = {
     __proto__: null,
     simplify: simplify,
@@ -6374,7 +6437,8 @@
     _getBitCode: _getBitCode,
     _sqClosestPointOnSegment: _sqClosestPointOnSegment,
     isFlat: isFlat,
-    _flat: _flat
+    _flat: _flat,
+    polylineCenter: polylineCenter
   };
 
   /*
@@ -6431,9 +6495,53 @@
   	return points;
   }
 
+  /* @function polygonCenter(latlngs: LatLng[] crs: CRS): LatLng
+   * Returns the center ([centroid](http://en.wikipedia.org/wiki/Centroid)) of the passed LatLngs (first ring) from a polygon.
+   */
+  function polygonCenter(latlngs, crs) {
+  	var i, j, p1, p2, f, area, x, y, center;
+
+  	if (!latlngs || latlngs.length === 0) {
+  		throw new Error('latlngs not passed');
+  	}
+
+  	if (!isFlat(latlngs)) {
+  		console.warn('latlngs are not flat! Only the first ring will be used');
+  		latlngs = latlngs[0];
+  	}
+
+  	var points = [];
+  	for (var k in latlngs) {
+  		points.push(crs.project(toLatLng(latlngs[k])));
+  	}
+
+  	var len = points.length;
+  	area = x = y = 0;
+
+  	// polygon centroid algorithm;
+  	for (i = 0, j = len - 1; i < len; j = i++) {
+  		p1 = points[i];
+  		p2 = points[j];
+
+  		f = p1.y * p2.x - p2.y * p1.x;
+  		x += (p1.x + p2.x) * f;
+  		y += (p1.y + p2.y) * f;
+  		area += f * 3;
+  	}
+
+  	if (area === 0) {
+  		// Polygon is so small that all points are on same pixel.
+  		center = points[0];
+  	} else {
+  		center = [x / area, y / area];
+  	}
+  	return crs.unproject(toPoint(center));
+  }
+
   var PolyUtil = {
     __proto__: null,
-    clipPolygon: clipPolygon
+    clipPolygon: clipPolygon,
+    polygonCenter: polygonCenter
   };
 
   /*
@@ -8392,38 +8500,7 @@
   		if (!this._map) {
   			throw new Error('Must add layer to map before using getCenter()');
   		}
-
-  		var i, halfDist, segDist, dist, p1, p2, ratio,
-  		    points = this._rings[0],
-  		    len = points.length;
-
-  		if (!len) { return null; }
-
-  		// polyline centroid algorithm; only uses the first ring if there are multiple
-
-  		for (i = 0, halfDist = 0; i < len - 1; i++) {
-  			halfDist += points[i].distanceTo(points[i + 1]) / 2;
-  		}
-
-  		// The line is so small in the current view that all points are on the same pixel.
-  		if (halfDist === 0) {
-  			return this._map.layerPointToLatLng(points[0]);
-  		}
-
-  		for (i = 0, dist = 0; i < len - 1; i++) {
-  			p1 = points[i];
-  			p2 = points[i + 1];
-  			segDist = p1.distanceTo(p2);
-  			dist += segDist;
-
-  			if (dist > halfDist) {
-  				ratio = (dist - halfDist) / segDist;
-  				return this._map.layerPointToLatLng([
-  					p2.x - ratio * (p2.x - p1.x),
-  					p2.y - ratio * (p2.y - p1.y)
-  				]);
-  			}
-  		}
+  		return polylineCenter(this._defaultShape(), this._map.options.crs);
   	},
 
   	// @method getBounds(): LatLngBounds
@@ -8665,39 +8742,14 @@
   		return !this._latlngs.length || !this._latlngs[0].length;
   	},
 
+  	// @method getCenter(): LatLng
+  	// Returns the center ([centroid](http://en.wikipedia.org/wiki/Centroid)) of the Polygon.
   	getCenter: function () {
   		// throws error when not yet added to map as this center calculation requires projected coordinates
   		if (!this._map) {
   			throw new Error('Must add layer to map before using getCenter()');
   		}
-
-  		var i, j, p1, p2, f, area, x, y, center,
-  		    points = this._rings[0],
-  		    len = points.length;
-
-  		if (!len) { return null; }
-
-  		// polygon centroid algorithm; only uses the first ring if there are multiple
-
-  		area = x = y = 0;
-
-  		for (i = 0, j = len - 1; i < len; j = i++) {
-  			p1 = points[i];
-  			p2 = points[j];
-
-  			f = p1.y * p2.x - p2.y * p1.x;
-  			x += (p1.x + p2.x) * f;
-  			y += (p1.y + p2.y) * f;
-  			area += f * 3;
-  		}
-
-  		if (area === 0) {
-  			// Polygon is so small that all points are on same pixel.
-  			center = points[0];
-  		} else {
-  			center = [x / area, y / area];
-  		}
-  		return this._map.layerPointToLatLng(center);
+  		return polygonCenter(this._defaultShape(), this._map.options.crs);
   	},
 
   	_convertLatLngs: function (latlngs) {
@@ -9058,8 +9110,9 @@
   	var coords = [];
 
   	for (var i = 0, len = latlngs.length; i < len; i++) {
+  		// Check for flat arrays required to ensure unbalanced arrays are correctly converted in recursion
   		coords.push(levelsDeep ?
-  			latLngsToCoords(latlngs[i], levelsDeep - 1, closed, precision) :
+  			latLngsToCoords(latlngs[i], isFlat(latlngs[i]) ? 0 : levelsDeep - 1, closed, precision) :
   			latLngToCoords(latlngs[i], precision));
   	}
 
@@ -9668,13 +9721,25 @@
 
   		// @option pane: String = undefined
   		// `Map pane` where the overlay will be added.
-  		pane: undefined
+  		pane: undefined,
+
+  		// @option content: String|HTMLElement|Function = ''
+  		// Sets the HTML content of the overlay while initializing. If a function is passed the source layer will be
+  		// passed to the function. The function should return a `String` or `HTMLElement` to be used in the overlay.
+  		content: ''
   	},
 
   	initialize: function (options, source) {
-  		setOptions(this, options);
-
-  		this._source = source;
+  		if (options && (options instanceof L.LatLng || isArray(options))) {
+  			this._latlng = toLatLng(options);
+  			setOptions(this, source);
+  		} else {
+  			setOptions(this, options);
+  			this._source = source;
+  		}
+  		if (this.options.content) {
+  			this._content = this.options.content;
+  		}
   	},
 
   	// @method openOn(map: Map): this
@@ -9986,12 +10051,18 @@
    * marker.bindPopup(popupContent).openPopup();
    * ```
    * Path overlays like polylines also have a `bindPopup` method.
-   * Here's a more complicated way to open a popup on a map:
+   *
+   * A popup can be also standalone:
    *
    * ```js
    * var popup = L.popup()
    * 	.setLatLng(latlng)
    * 	.setContent('<p>Hello world!<br />This is a nice popup.</p>')
+   * 	.openOn(map);
+   * ```
+   * or
+   * ```js
+   * var popup = L.popup(latlng, {content: '<p>Hello world!<br />This is a nice popup.</p>')
    * 	.openOn(map);
    * ```
    */
@@ -10266,6 +10337,9 @@
   // @namespace Popup
   // @factory L.popup(options?: Popup options, source?: Layer)
   // Instantiates a `Popup` object given an optional `options` object that describes its appearance and location and an optional `source` object that is used to tag the popup with a reference to the Layer to which it refers.
+  // @alternative
+  // @factory L.popup(latlng: LatLng, options?: Popup options)
+  // Instantiates a `Popup` object given `latlng` where the popup will open and an optional `options` object that describes its appearance and location.
   var popup = function (options, source) {
   	return new Popup(options, source);
   };
@@ -10363,7 +10437,8 @@
   	// @method openPopup(latlng?: LatLng): this
   	// Opens the bound popup at the specified `latlng` or at the default popup anchor if no `latlng` is passed.
   	openPopup: function (latlng) {
-  		if (this._popup && this._popup._prepareOpen(latlng)) {
+  		if (this._popup && this._popup._prepareOpen(latlng || this._latlng)) {
+
   			// open the popup on the map
   			this._popup.openOn(this._map);
   		}
@@ -10449,10 +10524,28 @@
    * Used to display small texts on top of map layers.
    *
    * @example
+   * If you want to just bind a tooltip to marker:
    *
    * ```js
    * marker.bindTooltip("my tooltip text").openTooltip();
    * ```
+   * Path overlays like polylines also have a `bindTooltip` method.
+   *
+   * A tooltip can be also standalone:
+   *
+   * ```js
+   * var tooltip = L.tooltip()
+   * 	.setLatLng(latlng)
+   * 	.setContent('Hello world!<br />This is a nice tooltip.')
+   * 	.addTo(map);
+   * ```
+   * or
+   * ```js
+   * var tooltip = L.tooltip(latlng, {content: 'Hello world!<br />This is a nice tooltip.'})
+   * 	.addTo(map);
+   * ```
+   *
+   *
    * Note about tooltip offset. Leaflet takes two options in consideration
    * for computing tooltip offsetting:
    * - the `offset` Tooltip option: it defaults to [0, 0], and it's specific to one tooltip.
@@ -10636,7 +10729,10 @@
 
   // @namespace Tooltip
   // @factory L.tooltip(options?: Tooltip options, source?: Layer)
-  // Instantiates a Tooltip object given an optional `options` object that describes its appearance and location and an optional `source` object that is used to tag the tooltip with a reference to the Layer to which it refers.
+  // Instantiates a `Tooltip` object given an optional `options` object that describes its appearance and location and an optional `source` object that is used to tag the tooltip with a reference to the Layer to which it refers.
+  // @alternative
+  // @factory L.tooltip(latlng: LatLng, options?: Tooltip options)
+  // Instantiates a `Tooltip` object given `latlng` where the tooltip will open and an optional `options` object that describes its appearance and location.
   var tooltip = function (options, source) {
   	return new Tooltip(options, source);
   };
@@ -10802,15 +10898,21 @@
   	},
 
   	_addFocusListenersOnLayer: function (layer) {
-  		on(layer.getElement(), 'focus', function () {
-  			this._tooltip._source = layer;
-  			this.openTooltip();
-  		}, this);
-  		on(layer.getElement(), 'blur', this.closeTooltip, this);
+  		var el = layer.getElement();
+  		if (el) {
+  			on(el, 'focus', function () {
+  				this._tooltip._source = layer;
+  				this.openTooltip();
+  			}, this);
+  			on(el, 'blur', this.closeTooltip, this);
+  		}
   	},
 
   	_setAriaDescribedByOnLayer: function (layer) {
-  		layer.getElement().setAttribute('aria-describedby', this._tooltip._container.id);
+  		var el = layer.getElement();
+  		if (el) {
+  			el.setAttribute('aria-describedby', this._tooltip._container.id);
+  		}
   	},
 
 
@@ -11832,7 +11934,7 @@
    * @example
    *
    * ```js
-   * L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+   * L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
    * ```
    *
    * @section URL template

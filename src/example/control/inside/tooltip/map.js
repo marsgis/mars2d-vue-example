@@ -205,7 +205,7 @@ export function bindGraphicDemo2() {
             <tr><td >方式：</td><td >可以绑定任意html </td></tr>
             <tr><td >备注：</td><td >我是graphic上绑定的Tooltip</td></tr>
             <tr><td >时间：</td><td id="tdTime"></td></tr>
-            <tr><td colspan="4" style="text-align:right;cursor: pointer;"><a href="javascript:showXQ()">更多</a></td></tr>
+            <!-- <tr><td colspan="4" style="text-align:right;cursor: pointer;"><a href="javascript:showXQ()">更多</a></td></tr> -->
           </table>`
   // 绑定Tooltip
   graphic.bindTooltip(innerHtml, { interactive: true }).openTooltip()

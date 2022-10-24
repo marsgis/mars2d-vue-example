@@ -599,13 +599,14 @@ onMounted(() => {
   // 停止编辑
   graphicLayer.on("editStop removeGraphic", function (e) {
     setTimeout(() => {
-      if (!graphicLayer.isEditing) {
-        if (props.customEditor) {
-          emit("onStopEditor")
-        } else {
-          disable("graphic-editor")
-        }
-      }
+      disable("graphic-editor")
+      // if (!graphicLayer.isEditing) {
+      //   if (props.customEditor) {
+      //     emit("onStopEditor")
+      //   } else {
+      //     disable("graphic-editor")
+      //   }
+      // }
     }, 100)
   })
 })
