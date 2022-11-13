@@ -60,6 +60,16 @@ if (mapWork.eventTarget) {
     formState.enabledRightMenu = item.enabledRightMenu
   })
 }
+setTimeout(() => {
+    const layer = getManagerLayer()
+    if (layer) {
+      formState.enabledShowHide = layer.show
+
+      formState.enabledPopup = layer.hasPopup()
+      formState.enabledTooltip = layer.hasTooltip()
+      formState.enabledRightMenu = layer.hasContextMenu()
+    }
+  }, 500)
 
 // 获取map.js中定义的需要管理的图层
 function getManagerLayer() {

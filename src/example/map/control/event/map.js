@@ -13,10 +13,17 @@ export const mapOptions = {}
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
+
   // on绑定事件
   map.on(mars2d.EventType.move, map_cameraChangedHandler, this)
   map.on(mars2d.EventType.click, map_clickHandler, this)
   map.on(mars2d.EventType.dblclick, map_dblClickHandler, this)
+
+
+
+  map.on(mars2d.EventType.rightClick, function (event) {
+    console.log("鼠标右击了地图", event)
+  })
 }
 
 /**

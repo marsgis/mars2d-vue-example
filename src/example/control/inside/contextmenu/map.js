@@ -20,6 +20,7 @@ export function onMounted(mapInstance) {
         map.panTo(e.latlng)
       }
     },
+    "-", // 分割线
     {
       text: "显示此处经纬度",
       iconCls: "fa fa-map-marker",

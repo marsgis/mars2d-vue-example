@@ -21,16 +21,10 @@
               <tr>
                 <td>{{ item.label }}</td>
                 <td>
-                  <base-comp
-                    :type="item.type"
-                    size="small"
-                    v-model:value="styleValue[item.name]"
+                  <base-comp :type="item.type" size="small" v-model:value="styleValue[item.name]"
                     :min="item.min || item.min === 0 ? item.min : -Infinity"
-                    :max="item.max || item.max === 0 ? item.max : Infinity"
-                    :step="item.step || 0.1"
-                    :options="item.data || []"
-                    @change="unionChange(item, item.data)"
-                  ></base-comp>
+                    :max="item.max || item.max === 0 ? item.max : Infinity" :step="item.step || 0.1"
+                    :options="item.data || []" @change="unionChange(item, item.data)"></base-comp>
                 </td>
               </tr>
             </template>
@@ -44,16 +38,10 @@
           <tr>
             <td>{{ item.label }}</td>
             <td>
-              <base-comp
-                :type="item.type"
-                size="small"
-                v-model:value="styleValue.label[item.name]"
+              <base-comp :type="item.type" size="small" v-model:value="styleValue.label[item.name]"
                 :min="item.min || item.min === 0 ? item.min : -Infinity"
-                :max="item.max || item.max === 0 ? item.max : Infinity"
-                :step="item.step || 0.1"
-                :options="item.data || []"
-                @change="labelChange(item)"
-              ></base-comp>
+                :max="item.max || item.max === 0 ? item.max : Infinity" :step="item.step || 0.1"
+                :options="item.data || []" @change="labelChange(item)"></base-comp>
             </td>
           </tr>
         </template>
@@ -151,6 +139,8 @@ function getViewDefval(config, styleOptions) {
 // 设置初始化的默认值
 function setDefault() {
   styleValue.value = _.cloneDeep(props.style)
+
+  styleValue.value.opacity = 1
 
   const styleConfig = styleConfigAll[props.customType] || styleConfigAll[props.graphicType]
   if (!styleConfig) {
