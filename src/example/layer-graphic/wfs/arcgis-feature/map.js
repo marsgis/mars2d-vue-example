@@ -11,8 +11,19 @@ let map // mars2d.Map三维地图对象
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  // 添加底图 [需要引用esri-leaflet插件]
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
+  addLayer1()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addLayer1() {
   const layer = new mars2d.layer.ArcGisFeatureLayer({
     name: "合肥市",
     url: "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/20",
@@ -29,10 +40,21 @@ export function onMounted(mapInstance) {
   map.addLayer(layer)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
+function addLayer2() {
+  const layer = new mars2d.layer.ArcGisFeatureLayer({
+    name: "合肥市",
+    url: "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/37",
+    minZoom: 16, // 数据量过大时，需要限制层级
+    symbol: {
+      styleOptions: {
+        fillColor: "#FED976",
+        fillOpacity: 0.7,
+        outlineColor: "white",
+        outlineOpacity: 1,
+        outlineWidth: 2
+      }
+    },
+    popup: "all"
+  })
+  map.addLayer(layer)
 }

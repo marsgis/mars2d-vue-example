@@ -5,6 +5,7 @@ let map
 
 // 合并属性参数，可覆盖config.json中的对应配置
 export const mapOptions = {
+  basemaps: [],
   control: {
     layers: false
   }
@@ -23,13 +24,16 @@ export function onMounted(mapInstance) {
   const gaodeLayer = new mars2d.layer.GaodeLayer({ layer: "img_d" })
   map.addLayer(gaodeLayer)
 
-  const osmLayer = new mars2d.layer.OsmLayer()
-  map.addLayer(osmLayer)
+  const gaodeLayer2 = new mars2d.layer.GaodeLayer({ layer: "img_z" })
+  map.addLayer(gaodeLayer2)
+
+  const tdtLayer = new mars2d.layer.TdtLayer({ layer: "img_d" })
+  map.addLayer(tdtLayer)
 
   // 卷帘控件
   const control = new mars2d.control.MapSplit({
-    leftLayer: gaodeLayer,
-    rightLayer: osmLayer
+    leftLayer: [gaodeLayer, gaodeLayer2],
+    rightLayer: tdtLayer
   })
   map.addControl(control)
 }

@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.8
- * 编译日期：2022-11-13 11:50:48
+ * 版本信息：v3.1.9
+ * 编译日期：2022-11-30 09:37:27
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -1686,6 +1686,11 @@ declare class Circle extends L.Circle {
      */
     removeEventParent(obj: any): any | Circle;
     /**
+     * 销毁矢量对象
+     * @returns 无
+     */
+    destroy(): any | void;
+    /**
      * 对象的id标识
      */
     id: string | number;
@@ -3183,6 +3188,11 @@ declare class Marker extends L.Marker {
      */
     removeEventParent(obj: any): any | Marker;
     /**
+     * 销毁矢量对象
+     * @returns 无
+     */
+    destroy(): any | void;
+    /**
      * 对象的id标识
      */
     id: string | number;
@@ -3928,6 +3938,11 @@ declare class Point extends L.CircleMarker {
      */
     removeEventParent(obj: any): any | Point;
     /**
+     * 销毁矢量对象
+     * @returns 无
+     */
+    destroy(): any | void;
+    /**
      * 对象的id标识
      */
     id: string | number;
@@ -4278,6 +4293,11 @@ declare class Polygon extends L.Polygon {
      */
     removeEventParent(obj: any): any | Polygon;
     /**
+     * 销毁矢量对象
+     * @returns 无
+     */
+    destroy(): any | void;
+    /**
      * 对象的id标识
      */
     id: string | number;
@@ -4626,6 +4646,11 @@ declare class Polyline extends L.Polyline {
      * @returns 当前对象本身,可以链式调用
      */
     removeEventParent(obj: any): any | Polyline;
+    /**
+     * 销毁矢量对象
+     * @returns 无
+     */
+    destroy(): any | void;
     /**
      * 对象的id标识
      */
@@ -4988,6 +5013,11 @@ declare class Rectangle extends L.Rectangle {
      * @returns 当前对象本身,可以链式调用
      */
     removeEventParent(obj: any): any | Rectangle;
+    /**
+     * 销毁矢量对象
+     * @returns 无
+     */
+    destroy(): any | void;
     /**
      * 对象的id标识
      */

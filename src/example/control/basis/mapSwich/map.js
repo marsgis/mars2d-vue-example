@@ -57,7 +57,7 @@ export function onMounted(mapInstance) {
         indexIfram.style.display = "none"
         break
       case mars2d.control.MapSwich.Type.Pano:
-        indexIfram.setAttribute("src", "http://marsgis.cn/pano/index.html") // mars3d的基础项目示例
+        indexIfram.setAttribute("src", "http://marsgis.cn/pano/index.html") //
         indexIfram.style.display = ""
         indexIfram.style.zIndex = 400
 
