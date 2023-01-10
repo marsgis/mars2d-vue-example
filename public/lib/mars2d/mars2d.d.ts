@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.9
- * 编译日期：2022-11-30 09:37:27
+ * 版本信息：v3.1.10
+ * 编译日期：2023-01-10 14:13:17
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -636,10 +636,10 @@ declare class MapSwich extends L.Control {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
 }
 
 /**
@@ -871,10 +871,10 @@ declare class BaseClass {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: EventType | string, propagate?: BaseClass): any | boolean;
+    listens(type: EventType | string, propagate?: any): any | boolean;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
@@ -1291,10 +1291,10 @@ declare class CanvasImage extends L.Path {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -1669,10 +1669,10 @@ declare class Circle extends L.Circle {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -2563,10 +2563,10 @@ declare class Ellipse extends L.Path {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -3171,10 +3171,10 @@ declare class Marker extends L.Marker {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -3921,10 +3921,10 @@ declare class Point extends L.CircleMarker {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -4276,10 +4276,10 @@ declare class Polygon extends L.Polygon {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -4630,10 +4630,10 @@ declare class Polyline extends L.Polyline {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -4997,10 +4997,10 @@ declare class Rectangle extends L.Rectangle {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -5118,6 +5118,10 @@ declare class CanvasMarkerLayer extends L.Layer {
      * 名称 标识
      */
     name: string;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
     /**
      * 添加 图标点矢量对象 到本图层
      * @param marker - 图标点矢量对象
@@ -5428,10 +5432,10 @@ declare class ClusterLayer extends L.Layer {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -5460,6 +5464,10 @@ declare class ClusterLayer extends L.Layer {
      * 名称 标识
      */
     name: string;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
     /**
      * 添加 图标点矢量对象 到本图层
      * @param graphic - 图标点矢量对象
@@ -5552,6 +5560,10 @@ declare class DayNightLayer extends L.Polygon {
      * 名称 标识
      */
     name: string;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
     /**
      * 设置当前时间
      * @param date - 时间
@@ -5991,10 +6003,10 @@ declare class GraphicLayer extends L.FeatureGroup {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -6369,6 +6381,10 @@ declare class HeatLayer extends L.Layer {
      * 名称 标识
      */
     name: string;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
     /**
      * 设置新的坐标数组
      * @param latlngs - 坐标数组
@@ -6923,10 +6939,10 @@ declare class GroupLayer extends L.LayerGroup {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -7779,10 +7795,10 @@ declare class ImageLayer extends L.ImageOverlay {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -8412,10 +8428,10 @@ declare class TileLayer extends L.TileLayer {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -8707,10 +8723,10 @@ declare class WmsLayer extends L.TileLayer.WMS {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -9255,7 +9271,7 @@ declare class Map extends L.Map {
      * @param [addToControl = false] - 当存在layers控件时，是否添加到图层管理控件
      * @returns 当前对象本身，可以链式调用
      */
-    addLayer(layer: L.Layer, addToControl?: boolean): any | Map;
+    addLayer(layer: any, addToControl?: boolean): any | Map;
     /**
      * 从地图上移除一个指定的图层
      * @param layer - 图层
@@ -10004,10 +10020,10 @@ declare class Map extends L.Map {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    listens(type: string | EventType, propagate?: BaseClass): any | boolean;
+    listens(type: string | EventType, propagate?: any): any | boolean;
     /**
      * 添加抛出事件到父类，它将接收传播的事件
      * @param obj - 父类对象
@@ -11553,10 +11569,10 @@ declare namespace widget {
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
-     * @param [propagate = null] - 是否判断指定的父类 (用addEventParent设置的)
+     * @param [propagate] - 是否判断指定的父类 (用addEventParent设置的)
      * @returns 是否存在
      */
-    function listens(type: WidgetEventType, propagate?: BaseClass): any | boolean;
+    function listens(type: WidgetEventType, propagate?: any): any | boolean;
 }
 
 /**
@@ -12364,15 +12380,12 @@ declare namespace LayerUtil {
     /**
      * 创建图层工厂方法
      * @param options - 图层参数，包括：
-     * @param options.type - 图层类型
-     * @param options.其他 - 具体见各{@link LayerType}对应的图层类的构造方法参数
+     * //  * @param {LayerType} options.type 图层类型
+     * //  * @param {Object} options.其他 具体见各{@link LayerType}对应的图层类的构造方法参数
      * @param [templateValues = {}] - url模版
      * @returns 创建完成的图层对象
      */
-    function create(options: {
-        type: LayerType;
-        其他: any;
-    }, templateValues?: any): any | L.Layer | any;
+    function create(options: any, templateValues?: any): any | L.Layer | any;
     /**
      * 克隆图层
      * @param layer - 图层

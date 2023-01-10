@@ -89,7 +89,7 @@ function bindLayerPopup() {
 // 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-        {
+    {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
       show: function (e) {
@@ -213,7 +213,7 @@ function addDemoGraphic2() {
       html: `<div class="marsBlueGradientPnl">
                     <div>合肥火星科技有限公司</div>
                 </div>`,
-      offsetY: -65,
+      offsetY: 60,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
     },
@@ -470,7 +470,7 @@ export function startDrawGraphic() {
       html: `<div class="marsBlueGradientPnl">
             <div>我是火星科技</div>
         </div>`,
-      offsetY: -60,
+      offsetY: 60,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
     },
@@ -498,7 +498,7 @@ export function addRandomGraphicByCount(count) {
         html: `<div class="marsBlueGradientPnl">
                       <div>合肥火星科技有限公司</div>
                   </div>`,
-        offsetY: -65,
+        offsetY: 60,
         horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
         verticalOrigin: mars2d.VerticalOrigin.BOTTOM
       },
