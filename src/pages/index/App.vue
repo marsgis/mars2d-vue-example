@@ -1,5 +1,13 @@
 <template>
   <example-list @jump="jumpUrl"></example-list>
+
+  <!-- <iframe
+    style="width: 100%;
+    height: 100vh; overflow: hidden; margin: 0"
+    scrolling="no"
+    frameborder="0"
+    src="/read-vue.html?id=map/create/ui"
+  ></iframe> -->
 </template>
 
 <script lang="ts" setup>
@@ -14,7 +22,7 @@ const jumpUrl = (item: any) => {
   }
 
   // 处理参数
-  url += "?id=" + encodeURI(item.main)
+  url += `?key=${item.id}&id=` + encodeURI(item.main)
   if (item.params) {
     url += `&${item.params}&name=${item.fullName}`
   }
