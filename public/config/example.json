@@ -272,6 +272,11 @@
             "name": "arcgis紧凑型瓦片",
             "thumbnail": "layer-tile-type-arcgis-compact.jpg",
             "main": "layer-tile/type/arcgis-compact"
+          },
+          {
+            "name": "超图瓦片",
+            "thumbnail": "layer-tile-type-sm-tile.jpg",
+            "main": "layer-tile/type/sm-tile"
           }
         ]
       },

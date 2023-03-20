@@ -1,6 +1,9 @@
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
+// import { antPath } from "leaflet-ant-path" //vue项目中可以这样install后使用
+// const antPolyline = antPath(latlngs, { delay: 1500 })
+
 let map // mars2d.Map三维地图对象
 
 /**

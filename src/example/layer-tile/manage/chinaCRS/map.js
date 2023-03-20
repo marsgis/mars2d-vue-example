@@ -30,13 +30,13 @@ export const mapOptions = {
       ],
       show: true
     },
-    {
-      pid: 10,
-      name: "OSM地图",
-      type: "xyz",
-      url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      subdomains: "abc"
-    },
+    // {
+    //   pid: 10,
+    //   name: "OSM地图",
+    //   type: "xyz",
+    //   url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    //   subdomains: "abc"
+    // },
     {
       pid: 10,
       name: "高德地图",

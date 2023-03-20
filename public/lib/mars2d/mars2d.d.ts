@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.10
- * 编译日期：2023-01-10 14:21:11
+ * 版本信息：v3.1.12
+ * 编译日期：2023-03-20 15:37:51
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -368,13 +368,14 @@ declare enum LayerType {
     xyz,
     tile,
     arcgis,
+    wms,
+    wmts,
     arcgis_cache,
     arcgis_compact,
     arcgis_tile,
     arcgis_dynamic,
     arcgis_image,
-    wms,
-    wmts,
+    sm_tile,
     graphic,
     geojson,
     pbf,
@@ -8047,49 +8048,25 @@ declare class OsmLayer extends TileLayer {
 }
 
 /**
- * 天地图瓦片 图层
+ * 超图SuperMap iServer 的 REST 地图服务的图层(SuperMap iServer Java 6R 及以上分块动态 REST 图层)。使用 TileImage 资源出图。
  * @param options - 参数对象，包括以下：
- * @param [options.layer] - 图层类型，以及以下内容:<br />
- * <ul>
- *     <li><code>vec_d</code>: 电子图层</li>
- *     <li><code>vec_z</code>: 电子注记</li>
- *     <li><code>vec_e</code>: 电子注记英文</li>
- *     <li><code>img_d</code>: 卫星影像</li>
- *     <li><code>img_z</code>: 影像注记</li>
- *     <li><code>img_e</code>: 影像注记英文</li>
- *     <li><code>ter_d</code>: 地形渲染图</li>
- *     <li><code>ter_z</code>: 地形渲染图注记</li>
- * </ul>
- * @param [options.key = mars2d.Token.tiandituArr] - 天地图服务Token，可以自行注册官网： {@link https://console.tianditu.gov.cn/api/key}
- * @param [options.opacity = 1] - 瓦片的不透明度。
- * @param [options.minZoom = 0] - 最小的缩放级别
- * @param [options.maxZoom = 18] - 最大的缩放级别
- * @param [options.maxNativeZoom] - 瓦片来源可用的最大缩放倍数。如果指定，则所有缩放级别上的图块maxNativeZoom将高于将从maxNativeZoom级别加载并自动缩放。
- * @param [options.minNativeZoom] - 瓦片来源可用的最小缩放数。如果指定，所有缩放级别上的图块minNativeZoom将从minNativeZoom级别加载并自动缩放。
- * @param [options.zIndex = 1] - 瓦片层的显式zIndex
- * @param [options.rectangle] - 瓦片数据的矩形区域范围
- * @param options.rectangle.xmin - 最小经度值, -180 至 180
- * @param options.rectangle.xmax - 最大纬度值, -180 至 180
- * @param options.rectangle.ymin - 最小纬度值, -90 至 90
- * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
- * @param [options.bounds] - leaflet原生写法，同rectangle或bbox
- * @param [options.errorTileUrl] - 显示加载瓦片失败时，显示的图片的url
- * @param [options.tms] - 如果此值为true，反转切片Y轴的编号（对于TMS服务需将此项打开）
- * @param [options.zoomReverse = false] - 如果设置为true，则URL网址中使用的缩放z数字将被颠倒（maxZoom - zoom而不是zoom）
- * @param [options.xOffset] - 对URL中地图的缩放级别x值加上xOffset值
- * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
- * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
- * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
- * @param [options.className] - 要分配给瓦片图层的自定义类名称
- * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
- * @param [options.detectRetina = false] - 如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率.
- * @param [options.crossOrigin = false] - 如果为true，则所有图块将其crossOrigin属性设置为“*”。如果要访问像素数据，则需要这样做。
- * @param [options.updateInterval = 200] - 当平移时，updateInterval毫秒不会更新一次瓦片。
- * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
- * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
- * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
+ * @param options.url - 服务地址，例如:https://iserver.supermap.io/iserver/services/map-world/rest/maps/World
+ * @param [options.subdomains] - 子域名数组。
+ * @param [options.layersID] - 获取进行切片的地图图层 ID，即指定进行地图切片的图层，可以是临时图层集，也可以是当前地图中图层的组合
+ * @param [options.redirect = false] - 是否重定向，如果为 true，则将请求重定向到瓦片的真实地址；如果为 false，则响应体中是瓦片的字节流。
+ * @param [options.transparent = true] - 是否背景透明。
+ * @param [options.cacheEnabled = true] - 启用缓存。
+ * @param [options.clipRegionEnabled = false] - 是否启用地图裁剪。
+ * @param [options.clipRegion] - 地图显示裁剪的区域。是一个面对象，当 clipRegionEnabled = true 时有效，即地图只显示该区域覆盖的部分。
+ * @param [options.prjCoordSys] - 请求的地图的坐标参考系统。 如：prjCoordSys={"epsgCode":3857}。
+ * @param [options.overlapDisplayed = false] - 地图对象在同一范围内时，是否重叠显示。
+ * @param [options.overlapDisplayedOptions] - 避免地图对象压盖显示的过滤选项。
+ * @param [options.tileversion] - 切片版本名称，cacheEnabled 为 true 时有效。如果没有设置 tileversion 参数，而且当前地图的切片集中存在多个版本，则默认使用最后一个更新版本。
+ * @param [options.crs] - 坐标系统类。
+ * @param [options.tileProxy] - 服务代理地址。
+ * @param [options.format = 'png'] - 瓦片表述类型，支持 "png" 、"webp"、"bmp" 、"jpg"、 "gif" 等图片格式。
+ * @param [options.tileSize = 256] - 瓦片大小。
+ * @param [options.rasterfunction] - 栅格分析参数。
  * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -8098,38 +8075,76 @@ declare class OsmLayer extends TileLayer {
  */
 declare class TdtLayer extends WmtsLayer {
     constructor(options: {
-        layer?: string;
-        key?: string[];
-        opacity?: number;
-        minZoom?: number;
-        maxZoom?: number;
-        maxNativeZoom?: number;
-        minNativeZoom?: number;
-        zIndex?: number;
-        rectangle?: {
-            xmin: number;
-            xmax: number;
-            ymin: number;
-            ymax: number;
-        };
-        bbox?: number[];
-        bounds?: L.LatLngBounds;
-        errorTileUrl?: string;
-        tms?: boolean;
-        zoomReverse?: boolean;
-        xOffset?: number;
-        yOffset?: number;
-        zOffset?: number;
-        customTags?: (...params: any[]) => any;
+        url: string;
+        subdomains?: string | string[];
+        layersID?: string;
+        redirect?: boolean;
+        transparent?: boolean;
+        cacheEnabled?: boolean;
+        clipRegionEnabled?: boolean;
+        clipRegion?: L.Path;
+        prjCoordSys?: any;
+        overlapDisplayed?: boolean;
+        overlapDisplayedOptions?: string;
+        tileversion?: string;
+        crs?: CRS;
+        tileProxy?: string;
+        format?: string;
         tileSize?: number | L.Point;
-        className?: string;
-        keepBuffer?: number;
-        detectRetina?: boolean;
-        crossOrigin?: boolean;
-        updateInterval?: number;
-        updateWhenZooming?: boolean;
-        noWrap?: boolean;
-        chinaCRS?: ChinaCRS;
+        rasterfunction?: NDVIParameter | HillshadeParameter;
+        id?: string | number;
+        pid?: string | number;
+        name?: string;
+        show?: boolean;
+        pane?: string;
+    });
+}
+
+/**
+ * 超图SuperMap iServer 的 REST 地图服务的图层(SuperMap iServer Java 6R 及以上分块动态 REST 图层)。使用 TileImage 资源出图。
+ * @param options - 参数对象，包括以下：
+ * @param options.url - 服务地址，例如:https://iserver.supermap.io/iserver/services/map-world/rest/maps/World
+ * @param [options.subdomains] - 子域名数组。
+ * @param [options.layersID] - 获取进行切片的地图图层 ID，即指定进行地图切片的图层，可以是临时图层集，也可以是当前地图中图层的组合
+ * @param [options.redirect = false] - 是否重定向，如果为 true，则将请求重定向到瓦片的真实地址；如果为 false，则响应体中是瓦片的字节流。
+ * @param [options.transparent = true] - 是否背景透明。
+ * @param [options.cacheEnabled = true] - 启用缓存。
+ * @param [options.clipRegionEnabled = false] - 是否启用地图裁剪。
+ * @param [options.clipRegion] - 地图显示裁剪的区域。是一个面对象，当 clipRegionEnabled = true 时有效，即地图只显示该区域覆盖的部分。
+ * @param [options.prjCoordSys] - 请求的地图的坐标参考系统。 如：prjCoordSys={"epsgCode":3857}。
+ * @param [options.overlapDisplayed = false] - 地图对象在同一范围内时，是否重叠显示。
+ * @param [options.overlapDisplayedOptions] - 避免地图对象压盖显示的过滤选项。
+ * @param [options.tileversion] - 切片版本名称，cacheEnabled 为 true 时有效。如果没有设置 tileversion 参数，而且当前地图的切片集中存在多个版本，则默认使用最后一个更新版本。
+ * @param [options.crs] - 坐标系统类。
+ * @param [options.tileProxy] - 服务代理地址。
+ * @param [options.format = 'png'] - 瓦片表述类型，支持 "png" 、"webp"、"bmp" 、"jpg"、 "gif" 等图片格式。
+ * @param [options.tileSize = 256] - 瓦片大小。
+ * @param [options.rasterfunction] - 栅格分析参数。
+ * @param [options.id = createGuid()] - 图层id标识
+ * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
+ * @param [options.name = ''] - 图层名称
+ * @param [options.show = true] - 图层是否显示
+ * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
+ */
+declare class TdtLayer extends WmtsLayer {
+    constructor(options: {
+        url: string;
+        subdomains?: string | string[];
+        layersID?: string;
+        redirect?: boolean;
+        transparent?: boolean;
+        cacheEnabled?: boolean;
+        clipRegionEnabled?: boolean;
+        clipRegion?: L.Path;
+        prjCoordSys?: any;
+        overlapDisplayed?: boolean;
+        overlapDisplayedOptions?: string;
+        tileversion?: string;
+        crs?: CRS;
+        tileProxy?: string;
+        format?: string;
+        tileSize?: number | L.Point;
+        rasterfunction?: NDVIParameter | HillshadeParameter;
         id?: string | number;
         pid?: string | number;
         name?: string;

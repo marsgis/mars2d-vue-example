@@ -31,7 +31,7 @@ export function onMounted(mapInstance) {
   // 添加底图
   const tileLayer = new mars2d.layer.TileLayer({
     type: "tile",
-    url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    url: "https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}"
   })
   map.addLayer(tileLayer)
 }

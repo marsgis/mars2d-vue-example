@@ -14,15 +14,6 @@ export const mapOptions = {
       format: "image/png"
     },
     {
-      name: "道路",
-      type: "wms",
-      url: "http://server.mars2d.cn/geoserver/mars/wms",
-      layers: "mars:hfdl",
-      transparent: true,
-      format: "image/png",
-      show: true
-    },
-    {
       name: "规划图",
       type: "wms",
       url: "http://server.mars2d.cn/geoserver/mars/wms",
@@ -44,6 +35,37 @@ export const eventTarget = new mars2d.BaseClass()
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
+
+  // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
+  const layer = new mars2d.layer.WmsLayer({
+    name: "道路",
+    type: "wms",
+    url: "http://server.mars2d.cn/geoserver/mars/wms",
+    layers: "mars:hfdl",
+    transparent: true,
+    format: "image/png"
+  })
+  map.addLayer(layer)
+
+  const resultLayer = new mars2d.layer.GraphicLayer()
+  map.addLayer(resultLayer)
+
+  layer.on(mars2d.EventType.click, function (event) {
+    console.log("单击了wms图层", event)
+
+    if (event.feature) {
+      resultLayer.clear()
+
+      const graphicsOptions = mars2d.Util.geoJsonToGraphics(event.feature, {
+        type: "polyline",
+        style: {
+          width: 5,
+          color: "#ff0000"
+        }
+      })
+      resultLayer.addGraphic(graphicsOptions)
+    }
+  })
 }
 
 /**

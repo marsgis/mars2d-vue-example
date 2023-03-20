@@ -50,14 +50,14 @@ function initMap() {
         maxNativeZoom: 14,
         errorTileUrl: "img/tile/errortile.png"
       },
-      {
-        pid: 10,
-        name: "OSM地图",
-        type: "xyz",
-        url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        subdomains: "abc",
-        icon: "img/basemaps/bingmap.png"
-      },
+      // {
+      //   pid: 10,
+      //   name: "OSM地图",
+      //   type: "xyz",
+      //   url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      //   subdomains: "abc",
+      //   icon: "img/basemaps/bingmap.png"
+      // },
       {
         pid: 10,
         name: "ArcGIS地图",
@@ -125,6 +125,4 @@ function initMap() {
 
   // 根据config配置的id或name属性，更新显示指定的地图底图
   // map.basemap = '离线地图'
-
-
 }

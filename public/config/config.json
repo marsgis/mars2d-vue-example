@@ -69,7 +69,7 @@
       },
       {
         "pid": 10,
-        "name": "OSM地图",
+        "name": "OSM地图(已被封)",
         "type": "xyz",
         "url": "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         "subdomains": "abc",
