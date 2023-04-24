@@ -58,7 +58,9 @@ export function updateMarker(hasCenter, jd, wd) {
       style: {
         image: "img/marker/mark1.png",
         width: 32,
-        height: 44
+        height: 44,
+        horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+        verticalOrigin: mars2d.VerticalOrigin.BOTTOM
       }
     })
     map.graphicLayer.addGraphic(pointEntity)

@@ -54,7 +54,9 @@ export function addMarkers(numPoints) {
       style: {
         image: "img/marker/mark1.png",
         width: 20,
-        height: 26
+        height: 26,
+        horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+        verticalOrigin: mars2d.VerticalOrigin.BOTTOM
       }
     })
     canvasMarkerLayer.addGraphic(graphic)

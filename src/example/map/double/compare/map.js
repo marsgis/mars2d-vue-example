@@ -24,6 +24,7 @@ export function onMounted(mapInstance) {
   // 修改已有地图为50%
   const mapOld = document.getElementById("centerDiv2D")
   mapOld.style.width = "50%"
+  map.invalidateSize(false)
 
   const centerDivEx = L.DomUtil.create("div", "", document.body)
   centerDivEx.setAttribute("id", "centerDivEx")

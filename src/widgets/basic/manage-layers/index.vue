@@ -102,7 +102,8 @@ const checkedChange = (keys: string[], e: any) => {
     }
     if (keys.indexOf(e.node.id) !== -1) {
       layer.show = true
-      if (layer.options.center) {
+      if (!layer.options.noCenter) {
+        // 在对应config.json图层节点配置 noCenter:true 可以不定位
         layer.flyTo()
       }
     } else {
@@ -188,6 +189,15 @@ function initTree() {
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i] // 创建图层
 
+    if (layer == null || !layer.options || layer.options.isPrivate) {
+      continue
+    }
+    const item = layer.options
+    if (!item.name || item.name === "未命名") {
+      console.log("未命名图层不加入图层管理", layer)
+      continue
+    }
+
     if (!layer._hasMapInit && layer.pid === -1 && layer.id !== 99) {
       layer.pid = 99 // 示例中创建的图层都放到99分组下面
     }
@@ -206,7 +216,7 @@ function initTree() {
         opacity: 100 * (layer.opacity || 0)
       })
       if (layer.hasOpacity) {
-        opacityObj[layer.id] = 100 * (layer.opacity || 0)
+        opacityObj[layer.id] = 100 * (layer.opacity ?? 1)
       }
       node.children = findChild(node, layers)
       treeData.value.push(node)
@@ -237,7 +247,16 @@ function initTree() {
 }
 function findChild(parent: any, list: any[]) {
   return list
-    .filter((item: any) => item.pid === parent.id)
+    .filter((layer: any) => {
+      if (layer == null || !layer.options || layer.options.isPrivate) {
+        return false
+      }
+      const item = layer.options
+      if (!item.name || item.name === "未命名") {
+        return false
+      }
+      return layer.pid === parent.id
+    })
     .reverse()
     .map((item: any, i: number) => {
       const node: any = {
@@ -248,12 +267,12 @@ function findChild(parent: any, list: any[]) {
         pId: item.pid,
         hasZIndex: item.hasZIndex,
         hasOpacity: item.hasOpacity,
-        opacity: 100 * (item.opacity || 0),
+        opacity: 100 * (item.opacity ?? 1),
         parent: parent
       }
 
       if (item.hasOpacity) {
-        opacityObj[item.id] = 100 * (item.opacity || 0)
+        opacityObj[item.id] = 100 * (item.opacity ?? 1.0)
       }
       layersObj[item.id] = item
 

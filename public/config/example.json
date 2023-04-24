@@ -277,6 +277,12 @@
             "name": "超图瓦片",
             "thumbnail": "layer-tile-type-sm-tile.jpg",
             "main": "layer-tile/type/sm-tile"
+          },
+          {
+            "name": "Mapbox GL图层",
+            "thumbnail": "layer-tile-type-mapboxgl.jpg",
+            "main": "layer-tile/type/mapboxgl",
+            "libs": ["mars2d", "mapbox-gl"]
           }
         ]
       },

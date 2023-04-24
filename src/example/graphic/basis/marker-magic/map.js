@@ -30,11 +30,14 @@ export function onMounted(mapInstance) {
     latlng: [31.829316, 117.258796],
     style: {
       image: "img/marker/mark3.png",
-      magic: "vanishIn",
-      popupAnchor: [-6, -8]
+      horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
+      magic: "vanishIn"
     }
   })
   graphicLayer.addGraphic(graphic)
+
+  graphic.bindPopup(`magic: "vanishIn"`)
 
   // 增加magic动画点列表
   const magicArr = [
@@ -82,8 +85,9 @@ export function onMounted(mapInstance) {
         latlng: latlng,
         style: {
           image: "img/marker/mark1.png",
-          magic: magicType,
-          popupAnchor: [-6, -8]
+          horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+          verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
+          magic: magicType
         }
       })
         .addTo(graphicLayer)

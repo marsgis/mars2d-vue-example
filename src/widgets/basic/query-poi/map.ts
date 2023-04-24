@@ -125,7 +125,9 @@ export function showPOIArr(arr: any): void {
       style: {
         image: "img/marker/mark1.png",
         width: 32,
-        height: 44
+        height: 44,
+        horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+        verticalOrigin: mars2d.VerticalOrigin.BOTTOM
         // label: {
         //   text: item.name,
         //   font_size: 20,
@@ -171,7 +173,9 @@ export function centerAtLonLat(text: string): void {
     style: {
       image: "img/marker/mark1.png",
       width: 32,
-      height: 44
+      height: 44,
+      horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
     }
   })
   graphicLayer.addGraphic(graphic)

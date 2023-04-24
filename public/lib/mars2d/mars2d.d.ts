@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.12
- * 编译日期：2023-03-20 15:37:51
+ * 版本信息：v3.1.14
+ * 编译日期：2023-04-24 09:41:36
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -6065,6 +6065,14 @@ declare class GraphicLayer extends L.FeatureGroup {
      */
     zIndex: number;
     /**
+     * 透明度
+     */
+    opacity: number;
+    /**
+     * 是否可以调整透明度
+     */
+    readonly hasOpacity: boolean;
+    /**
      * 添加Graphic矢量数据
      * @param graphic - 待添加的矢量数据 或 矢量数据构造参数
      * @returns 矢量数据
@@ -6105,6 +6113,12 @@ declare class GraphicLayer extends L.FeatureGroup {
      * @returns 无
      */
     clear(): any | void;
+    /**
+     * 设置覆盖的透明度
+     * @param opacity - 透明度，取值范围 0-1
+     * @returns 当前对象本身,可以链式调用
+     */
+    setOpacity(opacity: number): any | GraphicLayer;
     /**
      * 绑定右键菜单
      * @param contextmenuItems - 右键菜单数组
@@ -6308,6 +6322,14 @@ declare class GraticuleLayer extends L.Layer {
      * 设置图层的是否渲染
      */
     show: boolean;
+    /**
+     * 透明度
+     */
+    opacity: number;
+    /**
+     * 是否可以调整透明度
+     */
+    readonly hasOpacity: boolean;
     /**
      * 将图层添加到地图
      * @param map - 地图对象
@@ -6633,11 +6655,19 @@ declare class WfsLayer extends VirtualGrid {
         pane?: string;
     });
     /**
+     * 透明度
+     */
+    opacity: number;
+    /**
+     * 是否可以调整透明度
+     */
+    readonly hasOpacity: boolean;
+    /**
      * 设置覆盖的透明度
      * @param opacity - 透明度，取值范围 0-1
      * @returns 当前对象本身,可以链式调用
      */
-    setOpacity(opacity: number): any | WfsLayer;
+    setOpacity(opacity: number): any | GraphicLayer;
     /**
      * 遍历所有矢量数据并将其作为参数传递给回调函数
      * @param method - 回调方法
@@ -6976,6 +7006,10 @@ declare class GroupLayer extends L.LayerGroup {
      * 透明度
      */
     opacity: number;
+    /**
+     * 是否可以调整透明度
+     */
+    readonly hasOpacity: boolean;
     /**
      * 显示隐藏状态
      */
@@ -7844,6 +7878,14 @@ declare class ImageLayer extends L.ImageOverlay {
      * 图层顺序，数字大的在上面。
      */
     zIndex: number;
+    /**
+     * 透明度
+     */
+    opacity: number;
+    /**
+     * 是否可以调整透明度
+     */
+    readonly hasOpacity: boolean;
 }
 
 /**
@@ -8504,6 +8546,10 @@ declare class TileLayer extends L.TileLayer {
      */
     opacity: number;
     /**
+     * 是否可以调整透明度
+     */
+    readonly hasOpacity: boolean;
+    /**
      * 仅在内部调用，返回给定坐标的瓦片的URL。扩展类TileLayer可以覆盖此功能，以提供自定义图块URL命名方案。
      * @param coords - 瓦片的xyz信息
      * @returns 瓦片图片URL地址
@@ -8786,6 +8832,14 @@ declare class WmsLayer extends L.TileLayer.WMS {
      * 图层顺序，数字大的在上面。
      */
     zIndex: number;
+    /**
+     * 透明度
+     */
+    opacity: number;
+    /**
+     * 是否可以调整透明度
+     */
+    readonly hasOpacity: boolean;
     /**
      * 绑定Popup弹窗配置
      * @param fn - Popup弹窗模板或回调方法
@@ -10339,6 +10393,10 @@ declare class ArcGisDynamicLayer extends L.TileLayer {
      */
     opacity: number;
     /**
+     * 是否可以调整透明度
+     */
+    readonly hasOpacity: boolean;
+    /**
      * 显示隐藏状态
      */
     show: boolean;
@@ -10564,6 +10622,14 @@ declare class ArcGisFeatureLayer extends L.Layer {
      */
     show: boolean;
     /**
+     * 透明度
+     */
+    opacity: number;
+    /**
+     * 是否可以调整透明度
+     */
+    readonly hasOpacity: boolean;
+    /**
      * 遍历所有矢量数据并将其作为参数传递给回调函数
      * @example
      * fl.on('load', function  () {
@@ -10582,6 +10648,12 @@ declare class ArcGisFeatureLayer extends L.Layer {
      * @returns 矢量数据对象
      */
     getGraphicById(id: string | number): any | L.Layer;
+    /**
+     * 设置覆盖的透明度
+     * @param opacity - 透明度，取值范围 0-1
+     * @returns 当前对象本身,可以链式调用
+     */
+    setOpacity(opacity: number): any | ArcGisFeatureLayer;
     /**
      * 获取图层矩形边界
      * @returns 矩形边界
@@ -10830,6 +10902,10 @@ declare class ArcGisImageLayer extends L.TileLayer {
      */
     opacity: number;
     /**
+     * 是否可以调整透明度
+     */
+    readonly hasOpacity: boolean;
+    /**
      * 波段值
      */
     bandIds: string | number[];
@@ -10966,6 +11042,14 @@ declare class ArcGisTileLayer extends L.TileLayer {
      * 显示隐藏状态
      */
     show: boolean;
+    /**
+     * 透明度
+     */
+    opacity: number;
+    /**
+     * 是否可以调整透明度
+     */
+    readonly hasOpacity: boolean;
 }
 
 /**

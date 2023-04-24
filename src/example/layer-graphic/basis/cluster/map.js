@@ -51,7 +51,9 @@ export function addLayer() {
       style: {
         image: "img/marker/mark1.png",
         width: 32,
-        height: 44
+        height: 44,
+        horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+        verticalOrigin: mars2d.VerticalOrigin.BOTTOM
       },
       attr: {
         id: i
@@ -98,7 +100,9 @@ export function addCustomLayer() {
       style: {
         image: "img/marker/mark1.png",
         width: 32,
-        height: 44
+        height: 44,
+        horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+        verticalOrigin: mars2d.VerticalOrigin.BOTTOM
       },
       attr: { id: i }
     })

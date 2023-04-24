@@ -75,6 +75,7 @@ export function streetscape() {
   dom3d.style.display = "none"
   dom2d.style.width = "100%"
   dom2d.style.display = "block"
+  map2d.invalidateSize(false)
 }
 
 // 分屏显示
@@ -88,6 +89,8 @@ export function splitScreen() {
   dom3d.style.right = "50%"
   dom2d.style.display = "block"
   dom3d.style.display = "block"
+
+  map2d.invalidateSize(false)
 }
 
 let markerStreet
