@@ -144,13 +144,7 @@
             "hasPannel": true
           },
           {
-            "name": "OpenStreetMap（OSM）",
-            "thumbnail": "layer-tile-online-osm.jpg",
-            "main": "layer-tile/online/osm",
-            "hasPannel": true
-          },
-          {
-            "name": "谷歌(已被封)",
+            "name": "谷歌",
             "thumbnail": "layer-tile-online-google.jpg",
             "main": "layer-tile/online/google",
             "hasPannel": true
@@ -165,6 +159,12 @@
             "name": "ArcGIS Online",
             "thumbnail": "layer-tile-online-arcgis-online.jpg",
             "main": "layer-tile/online/arcgis-online",
+            "hasPannel": true
+          },
+          {
+            "name": "OSM(已被封)",
+            "thumbnail": "layer-tile-online-osm.jpg",
+            "main": "layer-tile/online/osm",
             "hasPannel": true
           }
         ]

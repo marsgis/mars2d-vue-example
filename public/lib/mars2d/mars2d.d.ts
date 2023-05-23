@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.14
- * 编译日期：2023-04-24 09:41:36
+ * 版本信息：v3.1.15
+ * 编译日期：2023-05-23 19:38:23
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -5696,6 +5696,16 @@ declare class GeoJsonLayer extends GraphicLayer {
         通用参数?: any;
     }): any | GeoJsonLayer;
     /**
+     * 将图层置于所有图层之上
+     * @returns 当前对象本身,可以链式调用
+     */
+    bringToFront(): any | GraphicLayer;
+    /**
+     * 将图层置于所有图层之下
+     * @returns 当前对象本身,可以链式调用
+     */
+    bringToBack(): any | GraphicLayer;
+    /**
      * 将图层内的矢量数据转为GeoJSON格式对象
      * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。
      */
@@ -6170,6 +6180,16 @@ declare class GraphicLayer extends L.FeatureGroup {
         crs?: string;
         onEachFeature?: (...params: any[]) => any;
     }): any | Marker[] | Polyline[] | Polygon[] | Circle[] | Rectangle[] | any;
+    /**
+     * 将图层置于所有图层之下
+     * @returns 当前对象本身,可以链式调用
+     */
+    bringToBack(): any | GraphicLayer;
+    /**
+     * 将图层置于所有图层之上
+     * @returns 当前对象本身,可以链式调用
+     */
+    bringToFront(): any | GraphicLayer;
     /**
      * 打开Popup弹窗
      * @param graphic - 矢量数据
@@ -7010,6 +7030,14 @@ declare class GroupLayer extends L.LayerGroup {
      * 是否可以调整透明度
      */
     readonly hasOpacity: boolean;
+    /**
+     * 是否可以调整图层顺序（在同类型图层间）
+     */
+    readonly hasZIndex: boolean;
+    /**
+     * 图层顺序，数字大的在上面。
+     */
+    zIndex: number;
     /**
      * 显示隐藏状态
      */
@@ -9330,6 +9358,10 @@ declare class Map extends L.Map {
      */
     readonly smallTooltip: SmallTooltip;
     /**
+     * 判断所有图层是否在加载瓦片中
+     */
+    readonly isLoading: any;
+    /**
      * 获取地图的配置参数，即new Map传入的参数。
      * @returns 地图的配置参数
      */
@@ -9557,11 +9589,6 @@ declare class Map extends L.Map {
      * @returns 像素坐标
      */
     latLngToAccurateContainerPoint(latlng: L.LatLng): any | L.Point;
-    /**
-     * 判断是否在加载瓦片中
-     * @returns 是否在加载瓦片中
-     */
-    isLoading(): any | boolean;
     /**
      * 设置Scene场景参数
      * @param options - 地图参数

@@ -256,6 +256,10 @@ const onClickFlyTo = () => {
   const layer = getManagerLayer()
   if (layer.graphics.length !== 0) {
     layer.flyTo({ scale: 1.2 })
+    // const map = layer._map
+    // map.once("dragend", function() {
+    //   map.fire("zoomend")
+    // })
   }
 }
 
