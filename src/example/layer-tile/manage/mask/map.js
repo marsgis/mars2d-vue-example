@@ -46,6 +46,19 @@ export function onMounted(mapInstance) {
   const graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
+  const graphicImg = new mars2d.graphic.Image({
+    latlngs: [
+      [30.70, 116.05],
+      [32.86, 118.50]
+    ],
+    style: {
+      url: "img/icon/calib.png",
+      opacity: 1,
+      zIndex: 9999
+    }
+  })
+  graphicLayer.addGraphic(graphicImg)
+
   const graphic = new mars2d.graphic.Polyline({
     latlngs: [
       [32.33588, 118.504028],

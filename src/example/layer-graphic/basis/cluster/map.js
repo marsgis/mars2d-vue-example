@@ -44,6 +44,32 @@ export function addLayer() {
   })
   map.addLayer(clusterLayer)
 
+  // 绑定事件
+  clusterLayer.on(mars2d.EventType.click, function (event) {
+    console.log("监听layer，单击了矢量对象", event)
+  })
+  clusterLayer.on("clusterclick", function (event) {
+    console.log("监听layer，单击了聚合点对象", event)
+  })
+
+
+  // 绑定右键菜单
+  clusterLayer.bindContextMenu([
+    {
+      text: "查看信息",
+      iconCls: "fa fa-medium",
+      callback: function (e) {
+        const graphic = e.sourceTarget
+
+        if (graphic._childCount) {
+          globalMsg("单击了聚合点,数量：" + graphic._childCount)
+        } else {
+          globalMsg("单击了矢量点,ID：" + graphic.attr?.id)
+        }
+      }
+    }
+  ])
+
   // 添加随机数据演示
   for (let i = 0; i < 100; i++) {
     const graphic = new mars2d.graphic.Marker({
