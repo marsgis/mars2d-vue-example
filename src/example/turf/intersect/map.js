@@ -90,12 +90,7 @@ export function intersect() {
     outline: true,
     outlineWidth: 3,
     outlineColor: "#ffffff",
-    clampToGround: true,
-    label: {
-      text: "我是相交部分",
-      font_size: 18,
-      color: "#000000"
-    }
+    clampToGround: true
   }
   intersectGraphic = graphicLayer.addGraphic(intersectGraphic)
 }

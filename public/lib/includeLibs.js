@@ -63,11 +63,11 @@ window.configLibs = {
   /// ///////////////////////mars3d及其插件////////////////////////
   mars3d: [
     // 地图 主库
-    "https://unpkg.com/mars3d-cesium@1.104.0/Build/Cesium/Widgets/widgets.css",
-    "https://unpkg.com/mars3d-cesium@1.104.0/Build/Cesium/Cesium.js",
+    "https://unpkg.com/mars3d-cesium/Build/Cesium/Widgets/widgets.css",
+    "https://unpkg.com/mars3d-cesium/Build/Cesium/Cesium.js",
     "https://unpkg.com/@turf/turf/turf.min.js",
-    "https://unpkg.com/mars3d@3.5.2/dist/mars3d.css",
-    "https://unpkg.com/mars3d@3.5.2/dist/mars3d.js"
+    "https://unpkg.com/mars3d/dist/mars3d.css",
+    "https://unpkg.com/mars3d/dist/mars3d.js"
   ],
 
   /// ///////////////////////其他地图渲染相关库////////////////////////
