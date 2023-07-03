@@ -93,6 +93,7 @@ const styleConfig = {
       { name: "opacity", label: "透明度", type: "slider", defval: 1, min: 0, max: 1, step: 0.01 },
       { name: "width", label: "宽度", type: "number", defval: 30 },
       { name: "height", label: "高度", type: "number", defval: 30 },
+
       {
         name: "horizontalOrigin",
         label: "横向对齐",
@@ -114,7 +115,8 @@ const styleConfig = {
           { label: "居中", value: 0 },
           { label: "底部", value: 1 }
         ]
-      }
+      },
+      { name: "rotationAngle", label: "旋转角度", type: "slider", defval: 0, min: 0, max: 360, step: 1 }
     ]
   },
   divGraphic: {

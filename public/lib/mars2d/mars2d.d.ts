@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.16
- * 编译日期：2023-06-05 18:08:15
+ * 版本信息：v3.1.17
+ * 编译日期：2023-07-03 18:40:40
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -222,11 +222,11 @@ declare enum EventType {
      */
     moveend = "moveend",
     /**
-     * 添加图层
+     * 添加图层(leaflet原生)
      */
     layeradd = "layeradd",
     /**
-     * 图层移除
+     * 图层移除(leaflet原生)
      */
     layerremove = "layerremove",
     /**
@@ -3397,6 +3397,12 @@ declare class MovingMarker extends Marker {
      * @returns 当前对象本身，可以链式调用
      */
     moveTo(latlng: L.LatLng, duration: number): any | MovingMarker;
+    /**
+     * 按index设置各点位时长
+     * @param pointIndex - 顺序Index
+     * @param duration - 时长，单位 毫秒
+     */
+    addStation(pointIndex: number, duration: number): any | void;
 }
 
 /**
