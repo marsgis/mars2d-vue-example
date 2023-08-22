@@ -18,8 +18,7 @@
             padding: 0.1,
             // whether or not to register the mouse and keyboard
             // events on the mapbox overlay
-            interactive: true,
-
+            interactive: false,
             // set the tilepane as the default pane to draw gl tiles
             pane: 'tilePane'
         },
@@ -51,6 +50,8 @@
             if (map.options.zoomAnimation) {
                 L.DomEvent.on(map._proxy, L.DomUtil.TRANSITION_END, this._transitionEnd, this);
             }
+            
+            map._addZoomLimit(this);
         },
 
         onRemove: function (map) {

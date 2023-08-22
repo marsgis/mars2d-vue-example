@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.17
- * 编译日期：2023-07-03 18:40:40
+ * 版本信息：v3.1.19
+ * 编译日期：2023-08-22 12:20:27
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -12920,13 +12920,6 @@ declare namespace PolyUtil {
  * 常用静态方法
  */
 declare namespace Util {
-    /**
-     * 赋予默认值
-     * @param a - 判断的对象
-     * @param b - 默认值
-     * @returns 当a有效时返回a,当a为空时返回默认值b
-     */
-    function defaultValue(a: any, b: any): any | any;
     /**
      * 判断对象是否为空
      * @param a - 判断的对象

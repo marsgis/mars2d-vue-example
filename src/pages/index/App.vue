@@ -1,17 +1,18 @@
 <template>
-  <example-list @jump="jumpUrl"></example-list>
-
-  <!-- <iframe
-    style="width: 100%;
-    height: 100vh; overflow: hidden; margin: 0"
-    scrolling="no"
-    frameborder="0"
-    src="/read-vue.html?id=map/create/ui"
-  ></iframe> -->
+  <!--导航-->
+  <Head :navActive="navActive" @clickNav="clickNav" />
+  <example-list v-show="!showIframe" @jump="jumpUrl"></example-list>
+  <iframe v-show="showIframe" style="width: 100%; height: 100vh; overflow: auto; margin-top: 68px" frameborder="0" :src="iframeSrc"></iframe>
 </template>
 
 <script lang="ts" setup>
+import { onMounted, ref } from "vue"
 import ExampleList from "@mars/components/mars-work/example-list.vue"
+import Head from "@/components/mars-work/mars-head.vue"
+
+const iframeSrc = ref("")
+const navActive = ref(0)
+const showIframe = ref(false)
 
 const jumpUrl = (item: any) => {
   let url = process.env.BASE_URL
@@ -24,9 +25,20 @@ const jumpUrl = (item: any) => {
   // 处理参数
   url += `?key=${item.id}&id=` + encodeURI(item.main)
   if (item.params) {
-    url += `&${item.params}&name=${item.fullName}`
+    url += `&${item.params}`
   }
   window.open(url, "_blank")
+}
+
+const clickNav = (url) => {
+  if (url) {
+    showIframe.value = true
+    iframeSrc.value = url
+    navActive.value = 1
+  } else {
+    navActive.value = 0
+    showIframe.value = false
+  }
 }
 </script>
 

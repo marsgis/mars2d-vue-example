@@ -27,6 +27,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic3()
   addDemoGraphic4()
   addDemoGraphic5()
+  addDemoGraphic6()
 }
 
 /**
@@ -73,7 +74,7 @@ function bindLayerPopup() {
 // 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-        {
+    {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
       show: function (e) {
@@ -393,6 +394,40 @@ function addDemoGraphic5() {
       outlineOpacity: 1.0
     },
     attr: { remark: "示例5" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic6() {
+  // 挖洞面
+  const graphic = new mars2d.graphic.Polygon({
+    latlngs: [
+      // 外环
+      mars2d.PointTrans.coords2latlngs([
+        [117.24679, 31.835806, 35.8],
+        [117.258539, 31.832093, 36],
+        [117.254762, 31.8219, 33.3],
+        [117.24656, 31.8196, 24.8],
+        [117.240134, 31.827664, 27.4]
+      ]),
+      //  内环
+      mars2d.PointTrans.coords2latlngs([
+        [117.247433, 31.829648, 33.4],
+        [117.253809, 31.828713, 33],
+        [117.252086, 31.824081, 32.6],
+        [117.247597, 31.825922, 31.6]
+      ])
+    ],
+    style: {
+      fill: true,
+      fillColor: "#ffff00",
+      fillOpacity: 0.3,
+      outline: true,
+      outlineWidth: 2,
+      outlineColor: "#0000FF",
+      outlineOpacity: 0.5
+    },
+    attr: { remark: "示例6" }
   })
   graphicLayer.addGraphic(graphic)
 }

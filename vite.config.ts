@@ -1,15 +1,16 @@
+import path from "path"
 import type { ConfigEnv } from "vite"
-import { defineConfig, loadEnv } from "vite"
+import { defineConfig, loadEnv } from "vite" // 帮手函数，这样不用 jsdoc 注解也可以获取类型提示
 import vue from "@vitejs/plugin-vue"
 import examplePlugin from "./build/vite-example-plugin"
 import copyPlugin from "rollup-plugin-copy"
-import path from "path"
 import monacoEditorPlugin from "vite-plugin-monaco-editor"
 import eslintPlugin from "vite-plugin-eslint"
 import { createStyleImportPlugin, AndDesignVueResolve } from "vite-plugin-style-import"
 
 export default ({ mode }: ConfigEnv) => {
   const root = process.cwd()
+  // 获取 .env 文件里定义的环境变量
   const ENV = loadEnv(mode, root)
 
   console.log(`当前环境信息：`, mode)
@@ -32,13 +33,14 @@ export default ({ mode }: ConfigEnv) => {
     },
     resolve: {
       alias: {
+        "@": path.resolve(__dirname, "src"),
         "@mars": path.join(__dirname, "src")
       },
       extensions: [".js", ".ts", ".jsx", ".tsx", ".json"]
     },
-    optimizeDeps: {
-      include: ["@mars/widgets/common/store/widget"]
-    },
+    // optimizeDeps: {
+    //   include: []
+    // },
     json: {
       // 支持从 .json 文件中进行按名导入
       namedExports: true,
@@ -55,8 +57,6 @@ export default ({ mode }: ConfigEnv) => {
     build: {
       // 输出路径
       outDir: path.join("./dist", ENV.VITE_BASE_URL),
-      // 默认情况下 若 outDir 在 root 目录下， 则 Vite 会在构建时清空该目录。
-      emptyOutDir: true,
       // 静态资源文件生成的目录
       assetsDir: "example/assets-vue",
       // 小于此阈值的导入或引用资源将内联为 base64 编码， 以避免额外的http请求， 设置为 0, 可以完全禁用此项，
@@ -67,7 +67,7 @@ export default ({ mode }: ConfigEnv) => {
       sourcemap: false,
       // 自定义rollup-commonjs插件选项
       commonjsOptions: {
-        include: /node_modules|src\/widgets\/common/
+        include: /node_modules|packages/
       },
       // 自定义底层的 Rollup 打包配置
       rollupOptions: {
@@ -84,7 +84,9 @@ export default ({ mode }: ConfigEnv) => {
       // 传递给 Terser 的更多 minify 选项
       terserOptions: {},
       // 设置为false 来禁用将构建好的文件写入磁盘
-      write: true
+      write: true,
+      // 默认情况下 若 outDir 在 root 目录下， 则 Vite 会在构建时清空该目录。
+      emptyOutDir: true
     },
     plugins: [
       vue(),

@@ -1,9 +1,8 @@
 import { createApp, defineComponent } from "vue"
 import Application from "./App.vue"
 import MarsUIInstall from "@mars/components/mars-ui"
-import { injectState, getInjectKey } from "@mars/widgets/common/store/widget"
+import { injectState, key } from "@mars/widgets/common/store/widget"
 import { getExampleId, getQueryString } from "@mars/utils/mars-util"
-import { cloneDeep } from "lodash"
 import store from "@mars/widgets/widget-store"
 import { Editor as MarsgisEditor } from "@marsgis/editor"
 import "@marsgis/editor/dist/style.css"
@@ -11,9 +10,9 @@ import "@mars/components/mars-ui/common"
 
 // https跳转处理
 const protocol = window.location.protocol
-if (protocol === "https:") {
-  window.location.href = window.location.href.replace("https", "http")
-}
+// if (protocol === "https:") {
+//   window.location.href = window.location.href.replace("https", "http")
+// }
 document.oncontextmenu = function (e) {
   e.preventDefault()
 }
@@ -38,6 +37,8 @@ marsEditor.on("loaded", (exampleConfig) => {
   if (inited) {
     destoryUI()
   }
+  window.document.getElementById("btn-jump-react").style.display = "none" // 隐藏技术栈
+
   initUI(!exampleConfig.hasPannel)
   inited = true
 })
@@ -53,9 +54,7 @@ function initUI(simple: boolean) {
     )
   } else {
     vueApp = createApp(Application)
-    const key = getInjectKey()
-
-    vueApp.use(injectState(cloneDeep(store)), key)
+    vueApp.use(injectState(store), key)
   }
 
   MarsUIInstall(vueApp, {

@@ -1,5 +1,5 @@
 <template>
-  <PannelComponent v-if="loaded" @vnode-before-mount="onChildMounted" @vnode-unmounted="onChildUnmounted" />
+  <PannelComponent v-if="loaded" @vue:before-mount="onChildMounted" @vue:unmounted="onChildUnmounted" />
 </template>
 <script lang="ts" setup>
 /**

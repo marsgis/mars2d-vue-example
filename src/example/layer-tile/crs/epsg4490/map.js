@@ -8,22 +8,22 @@ export const mapOptions = {
   center: { lng: 116.917267, lat: 36.689627 },
   crs: mars2d.CRS.EPSG4490,
   basemaps: [
-    {
-      type: "group",
-      name: "国家天地图",
-      layers: [
-        { type: "tdt", layer: "vec_d", crs: "EPSG:4490", key: mars2d.Token.tiandituArr },
-        { type: "tdt", layer: "vec_z", crs: "EPSG:4490", key: mars2d.Token.tiandituArr }
-      ],
-      show: true
-    }
+    // {
+    //   type: "group",
+    //   name: "国家天地图",
+    //   layers: [
+    //     { type: "tdt", layer: "vec_d", crs: mars2d.CRS.EPSG4490, key: mars2d.Token.tiandituArr },
+    //     { type: "tdt", layer: "vec_z", crs: mars2d.CRS.EPSG4490, key: mars2d.Token.tiandituArr }
+    //   ],
+    //   show: true
+    // }
   ],
   operationallayers: [
     {
       name: "山东天地图",
       type: "xyz",
-      show: true,
-      url: "http://www.sdmap.gov.cn/tileservice/SDPubMap?layer=SDPubMap&style=default&tilematrixset=default028mm&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={x}&TileRow={y}"
+      url: "http://service1.sdmap.gov.cn/tileservice/sdpubmap?layer=SDPubMap&style=default&tilematrixset=default028mm&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=2ec5b748cca9b24b6474d6857deec02e",
+      show: true
     }
   ]
 }

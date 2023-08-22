@@ -39,6 +39,10 @@ module.exports = {
     // mars2d-vue-example项目专用的配置(目的便于示例的开发调试) start
     "no-unused-vars": "off", // 不允许有声明后未被使用的变量或参数
     "prefer-regex-literals": "off", // 关闭只能使用正则字面量
+    "vue/multi-word-component-names": ["error", { ignores: ["index", "App"] }], // vue：多词组件名称
+    "vue/comment-directive": ["off", { reportUnusedDisableDirectives: false }], // vue：允许在标签中写 HTML 注释。
+    "vue/no-deprecated-slot-attribute": "off", // 允许使用slot
+    "vue/valid-v-slot": "off",
     // mars2d-vue-example项目专用的配置(目的便于示例的开发调试) end
 
     "@typescript-eslint/no-explicit-any": "off", // ts：允许用any
@@ -48,10 +52,7 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off", // ts：是否需要显式定义函数将返回什么类型
     "@typescript-eslint/ban-ts-comment": "off", // ts： 禁止ts注释
     "@typescript-eslint/no-unused-vars": "off", // ts：允许定义未引用使用的变量
-    "vue/multi-word-component-names": ["error", { ignores: ["index", "App"] }], // vue：多词组件名称
-    "vue/comment-directive": ["off", { reportUnusedDisableDirectives: false }], // vue：允许在标签中写 HTML 注释。
-    "vue/no-deprecated-slot-attribute": "off", // 允许使用slot
-    "vue/valid-v-slot": "off",
+
 
     camelcase: "off", // 强制驼峰命名规则
     indent: "off", // 强制一致的缩进风格
