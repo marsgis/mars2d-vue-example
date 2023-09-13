@@ -1,8 +1,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.19
- * 编译日期：2023-08-22 12:20:27
+ * 版本信息：v3.1.20
+ * 编译日期：2023-09-13 17:26:59
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -1236,16 +1236,4 @@
   padding: 1px 2px;
   white-space: nowrap;
   pointer-events: none;
-}
-.mars2d-widgetbar {
-  margin: 0 auto;
-  position: absolute;
-  bottom: 30px;
-  left: 20%;
-  width: 60%;
-  height: auto;
-  z-index: 1987;
-}
-.mars2d-widgetbar .fa {
-  margin-right: 5px;
 }

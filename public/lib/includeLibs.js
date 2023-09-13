@@ -28,10 +28,6 @@ window.configLibs = {
     "echarts/echarts.min.js",
     "mars2d/plugins/echarts/mars2d-echarts.js"
   ],
-  "mars2d-widget": [
-    // 传统JS的widget模块化插件
-    "mars2d/plugins/widget/mars2d-widget.js"
-  ],
   /// ///////////////////////leaflet第3方插件////////////////////////
   "leaflet-sideBySide": ["mars2d/thirdParty/sideBySide/leaflet-side-by-side.min.js"],
   OSMBuildings: [
