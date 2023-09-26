@@ -17,8 +17,10 @@ const mapOptions = {
  */
 function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-
   map.setView([30.451633, 111.700745], 13)
+
+  globalNotify("已知问题提示", "(1) 需要自行申请mapbox相关token替换 ")
+
 
   const gl = L.mapboxGL({
     accessToken: "自己的Token",

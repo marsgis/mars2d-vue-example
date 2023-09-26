@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.20
- * 编译日期：2023-09-13 17:26:59
+ * 版本信息：v3.1.21
+ * 编译日期：2023-09-26 11:23:40
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -11746,7 +11746,7 @@ declare class TdtPOI {
      * @returns 查询完成的Promise,等价于success参数
      */
     getAddress(queryOptions: {
-        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
+        location?: L.LatLng | string | any[] | any;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): any | Promise<any>;
@@ -11762,7 +11762,7 @@ declare class TdtPOI {
      */
     autoTip(queryOptions: {
         text: string;
-        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
+        location?: L.LatLng | string | any[] | any;
         city?: string;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
@@ -11783,7 +11783,7 @@ declare class TdtPOI {
     query(queryOptions: {
         text: string;
         types?: string;
-        graphic?: BaseGraphic | any;
+        graphic?: Marker | Polyline | Polygon | Circle | Rectangle | any;
         limit?: boolean;
         page?: number;
         count?: number;
@@ -11832,7 +11832,7 @@ declare class TdtPOI {
     queryCircle(queryOptions: {
         text: string;
         types?: string;
-        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
+        location?: L.LatLng | string | any[] | any;
         radius?: number;
         limit?: boolean;
         count?: number;
