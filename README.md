@@ -84,7 +84,7 @@ git clone git@gitee.com:marsgis/mars2d-vue-example.git
 
 
 ### 运行命令
-Node环境需要v14及以上版本
+Node环境需要v16及以上版本
 
 #### 首次运行前安装依赖
 ```
