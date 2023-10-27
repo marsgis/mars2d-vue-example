@@ -8,15 +8,15 @@ export const mapOptions = {
   center: { lng: 116.917267, lat: 36.689627 },
   crs: mars2d.CRS.EPSG4490,
   basemaps: [
-    // {
-    //   type: "group",
-    //   name: "国家天地图",
-    //   layers: [
-    //     { type: "tdt", layer: "vec_d", crs: mars2d.CRS.EPSG4490, key: mars2d.Token.tiandituArr },
-    //     { type: "tdt", layer: "vec_z", crs: mars2d.CRS.EPSG4490, key: mars2d.Token.tiandituArr }
-    //   ],
-    //   show: true
-    // }
+    {
+      type: "group",
+      name: "国家天地图",
+      layers: [
+        { type: "tdt", layer: "vec_d", crs: mars2d.CRS.EPSG4490, key: mars2d.Token.tiandituArr },
+        { type: "tdt", layer: "vec_z", crs: mars2d.CRS.EPSG4490, key: mars2d.Token.tiandituArr }
+      ],
+      show: true
+    }
   ],
   operationallayers: [
     {

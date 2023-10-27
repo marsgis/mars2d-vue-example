@@ -43,7 +43,8 @@ export const mapOptions = {
     {
       name: "实时交通信息",
       type: "gaode",
-      layer: "time"
+      layer: "time",
+      proxy: "//server.mars2d.cn/proxy/"
     }
   ]
 }
