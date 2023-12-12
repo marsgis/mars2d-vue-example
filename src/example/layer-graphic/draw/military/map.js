@@ -35,7 +35,7 @@ export function drawPolygon(type) {
   console.log("开始标绘：" + type)
 
   graphicLayer.startDraw({
-    type: type,
+    type,
     style: {
       fill: true,
       fillColor: "#000dfc",
@@ -56,7 +56,7 @@ export function bindLayerPopup() {
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr })
   })
 }
 

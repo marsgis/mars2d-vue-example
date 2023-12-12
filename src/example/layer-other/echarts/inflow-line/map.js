@@ -268,7 +268,7 @@ function showEchartsLayer() {
     tooltip: {
       trigger: "item"
     },
-    series: series
+    series
   }
 
   const echartsLayer = new mars2d.layer.EchartsLayer(options)

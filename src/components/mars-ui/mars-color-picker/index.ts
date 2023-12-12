@@ -26,7 +26,7 @@ const MarsColorPicker = defineComponent({
     let colorObject: any = null
 
     const changeColor = (color: any) => {
-      pointColor = `rgba(${color.rgba.r},${color.rgba.g},${color.rgba.b},${color.rgba.a})`// color.hex
+      pointColor = `rgba(${color.rgba.r},${color.rgba.g},${color.rgba.b},${color.rgba.a})` // color.hex
       colorObject = color
     }
     const cancel = () => {
@@ -67,7 +67,7 @@ const MarsColorPicker = defineComponent({
         {
           trigger: "click",
           placement: "right",
-          visible: visible.value,
+          open: visible.value,
           "onUpdate:visible": (v: boolean) => {
             visible.value = v
           }

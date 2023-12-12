@@ -26,7 +26,7 @@ export const mapOptions = {
       name: "百度地图",
       type: "baidu",
       layer: "vec",
-      icon: "baidumap.png",
+      icon: "img/basemaps/baidumap.png",
       crs: "baidu",
       show: true,
       attribution: attributionHtml
@@ -36,7 +36,7 @@ export const mapOptions = {
       name: "百度卫星",
       type: "baidu",
       layer: "img",
-      icon: "baiduimage.png",
+      icon: "img/basemaps/baiduimage.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -46,7 +46,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "vec",
       bigfont: true,
-      icon: "baidumap.png",
+      icon: "img/basemaps/baidumap.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -56,7 +56,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "img",
       bigfont: true,
-      icon: "baiduimage.png",
+      icon: "img/basemaps/baiduimage.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -66,7 +66,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "custom",
       style: "grassgreen",
-      icon: "bd-c-grassgreen.png",
+      icon: "img/basemaps/bd-c-grassgreen.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -76,7 +76,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "custom",
       style: "midnight",
-      icon: "bd-c-midnight.png",
+      icon: "img/basemaps/bd-c-midnight.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -86,7 +86,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "custom",
       style: "bluish",
-      icon: "bd-c-bluish.png",
+      icon: "img/basemaps/bd-c-bluish.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -96,7 +96,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "custom",
       style: "light",
-      icon: "bd-c-light.png",
+      icon: "img/basemaps/bd-c-light.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -106,7 +106,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "custom",
       style: "dark",
-      icon: "bd-c-dark.png",
+      icon: "img/basemaps/bd-c-dark.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -116,7 +116,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "custom",
       style: "grayscale",
-      icon: "bd-c-grayscale.png",
+      icon: "img/basemaps/bd-c-grayscale.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -126,7 +126,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "custom",
       style: "redalert",
-      icon: "bd-c-redalert.png",
+      icon: "img/basemaps/bd-c-redalert.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -136,7 +136,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "custom",
       style: "pink",
-      icon: "bd-c-pink.png",
+      icon: "img/basemaps/bd-c-pink.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -146,7 +146,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "custom",
       style: "darkgreen",
-      icon: "bd-c-darkgreen.png",
+      icon: "img/basemaps/bd-c-darkgreen.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -157,7 +157,7 @@ export const mapOptions = {
       type: "baidu",
       layer: "custom",
       style: "hardedge",
-      icon: "bd-c-hardedge.png",
+      icon: "img/basemaps/bd-c-hardedge.png",
       crs: "baidu",
       attribution: attributionHtml
     },
@@ -177,7 +177,7 @@ export const mapOptions = {
       url: "http://data.mars2d.cn/tile/baiduVec/{z}/{x}/{y}.jpg",
       tms: true,
       crs: "baidu",
-      icon: "bd-c-googlelite.png",
+      icon: "img/basemaps/bd-c-googlelite.png",
       attribution: attributionHtml
     }
   ]

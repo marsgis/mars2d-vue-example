@@ -107,7 +107,7 @@ function showMapVLayer() {
     data.push({
       geometry: {
         type: "LineString",
-        coordinates: coordinates
+        coordinates
       }
     })
   }

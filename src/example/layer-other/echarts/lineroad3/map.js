@@ -31,7 +31,7 @@ export function onUnmounted() {
 
 function getJsonData() {
   const url = "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/33"
-  const query = L.esri.query({ url: url })
+  const query = L.esri.query({ url })
 
   // query.where('Maj_Area >500000');
   query.run(function (error, featureCollection, response) {

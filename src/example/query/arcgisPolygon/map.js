@@ -35,7 +35,7 @@ export function onMounted(mapInstance) {
         fillColor: "rgba(205, 233, 247, 0.7)" // 填充颜色
       },
       styleField: "用地编号",
-      styleFieldOptions: styleFieldOptions
+      styleFieldOptions
     },
     // popup: "all",
     popup: "名称：{用地名称}<br />编号：{用地编号}<br />类型：{规划用地}<br />面积：{muArea}亩"
@@ -189,7 +189,7 @@ function calculateArea(arr) {
   const arrTable = [] // 类型+面积+数量
   for (const type in objTemp) {
     const area = mars2d.Util.formatNum(objTemp[type].area, 2)
-    arrTable.push({ type: type, area: area, count: objTemp[type].count })
+    arrTable.push({ type, area, count: objTemp[type].count })
   }
   eventTarget.fire("loadOk", { list: arrTable })
 }

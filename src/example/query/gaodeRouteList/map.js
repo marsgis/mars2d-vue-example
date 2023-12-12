@@ -228,7 +228,7 @@ function showRouteResult(data) {
     const html = "目的地：" + name + "<br/>总距离：" + distance + "<br/>所需时间：" + time + ""
 
     const graphic = new mars2d.graphic.Polyline({
-      latlngs: latlngs,
+      latlngs,
 
       popup: html
     })

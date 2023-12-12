@@ -67,7 +67,7 @@ function bindLayerPopup() {
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr })
   })
 }
 
@@ -258,7 +258,7 @@ export function addRandomGraphicByCount(count) {
         outlineColor: "#0000FF",
         outlineOpacity: 0.5
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -277,7 +277,7 @@ function addDemoGraphic1() {
   ])
 
   const graphic = new mars2d.graphic.Polygon({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: true,
       fillColor: "#3388ff",
@@ -305,7 +305,7 @@ function addDemoGraphic2() {
     [117.183832, 31.814237, 38.76]
   ])
   const graphic = new mars2d.graphic.Polygon({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: true,
       fillColor: "#ff0000",
@@ -329,7 +329,7 @@ function addDemoGraphic3() {
     [117.214681, 31.81402, 32.97]
   ])
   const graphic = new mars2d.graphic.Polygon({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: true,
       image: "img/fill/movingRiver.png",
@@ -354,7 +354,7 @@ function addDemoGraphic4() {
   ])
 
   const graphic = new mars2d.graphic.Polygon({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: true,
       fillColor: "#051453",
@@ -381,7 +381,7 @@ function addDemoGraphic5() {
   ])
 
   const graphic = new mars2d.graphic.Polygon({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: true,
       image: "img/fill/redLine.png",

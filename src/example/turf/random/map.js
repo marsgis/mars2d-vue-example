@@ -45,7 +45,7 @@ const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 
 export function randomPoints() {
   graphicLayer.clear()
-  const points = turf.randomPoint(100, { bbox: bbox })
+  const points = turf.randomPoint(100, { bbox })
 
   points.features.forEach((e, index) => {
     const position = e.geometry.coordinates
@@ -72,8 +72,8 @@ export function randomPolylines() {
   num_vertices = num_vertices < 3 ? 3 : num_vertices
 
   const polylines = turf.randomLineString(100, {
-    bbox: bbox,
-    num_vertices: num_vertices, // 每个 LineString 将包含多少个坐标。
+    bbox,
+    num_vertices, // 每个 LineString 将包含多少个坐标。
     max_length: 0.01 // 大小
   })
 
@@ -83,7 +83,7 @@ export function randomPolylines() {
     const latlngs = mars2d.PointTrans.coords2latlngs([positions])
 
     const graphic = new mars2d.graphic.Polyline({
-      latlngs: latlngs,
+      latlngs,
       style: {
         width: 4,
         fillColor: getColor(),
@@ -103,8 +103,8 @@ export function randomPolygons() {
   num_vertices = num_vertices < 3 ? 3 : num_vertices
 
   const polygons = turf.randomPolygon(100, {
-    bbox: bbox,
-    num_vertices: num_vertices, // 坐标个数,必须多于或等于四个
+    bbox,
+    num_vertices, // 坐标个数,必须多于或等于四个
     max_radial_length: 0.01 // 大小
   })
 
@@ -114,7 +114,7 @@ export function randomPolygons() {
     const latlngs = mars2d.PointTrans.coords2latlngs([positions])
 
     const graphic = new mars2d.graphic.Polygon({
-      latlngs: latlngs,
+      latlngs,
       style: {
         fillColor: getColor(),
         fillOpacity: 0.6

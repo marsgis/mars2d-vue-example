@@ -53,7 +53,7 @@ export function onMounted(mapInstance) {
   for (let i = 0; i < 1000; i++) {
     const latlng = getRandomLatLng()
     const graphic = new mars2d.graphic.Point({
-      latlng: latlng,
+      latlng,
       style: {
         pixelSize: 2,
         color: "#3388ff",

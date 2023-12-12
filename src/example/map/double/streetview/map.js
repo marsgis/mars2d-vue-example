@@ -99,7 +99,7 @@ function updateMarker(latlng) {
     markerStreet.latlng = latlng
   } else {
     markerStreet = new mars2d.graphic.Marker({
-      latlng: latlng,
+      latlng,
       style: {
         image: "img/marker/street.png",
         scale: 1,

@@ -298,7 +298,7 @@ function showEchartsLayer() {
           }
         },
 
-        data: data
+        data
       }
     ]
   }

@@ -254,9 +254,9 @@ function conversionPathData(oldData) {
       moveTo_str: getMoveToStr(message[8]),
       windSpeed: message[9], // 移动速度,公里/小时
 
-      circle7: circle7, // 7级风圈, 对象
-      circle10: circle10, // 10级风圈, 对象
-      circle12: circle12, // 12级风圈, 对象
+      circle7, // 7级风圈, 对象
+      circle10, // 10级风圈, 对象
+      circle12, // 12级风圈, 对象
       forecast: arrForecast // 预测路径, 数组
     })
   })
@@ -267,7 +267,7 @@ function conversionPathData(oldData) {
     name_cn: oldData[2], // 台风名字
     typnumber: oldData[3], // 台风编号
     state: oldData[7],
-    path: path
+    path
   }
 }
 

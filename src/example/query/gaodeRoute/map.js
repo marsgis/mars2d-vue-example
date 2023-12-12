@@ -158,7 +158,7 @@ function queryRoute(type) {
       const latlngs = mars2d.PointTrans.coords2latlngs(points)
 
       const graphic = new mars2d.graphic.Polyline({
-        latlngs: latlngs,
+        latlngs,
         style: {
           color: "#20a0ff",
           width: 5

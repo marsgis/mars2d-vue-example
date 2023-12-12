@@ -22,7 +22,7 @@
 
       <a-form-item v-show="show">
         <a-tabs v-model:activeKey="activeKey" :centered="true" :tabBarGutter="55">
-          <a-tab-pane key="1" tab="表格" force-render :forceRender="true">
+          <a-tab-pane key="1" tab="表格" :forceRender="true">
             <a-form-item>
               <a-table :pagination="false" :dataSource="dataSource" :columns="columns" :scroll="{ y: tableScrollHeight }" size="small" bordered />
             </a-form-item>

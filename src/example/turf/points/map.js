@@ -42,7 +42,7 @@ export function onUnmounted() {
 export function randomPoints() {
   clearlayer()
 
-  const points = turf.randomPoint(50, { bbox: bbox }) // 50个随机点
+  const points = turf.randomPoint(50, { bbox }) // 50个随机点
 
   points.features.forEach((e, index) => {
     const position = e.geometry.coordinates
@@ -79,7 +79,7 @@ export function convexPolygon() {
 
   // 外包围面;
   const polygonGraphic = new mars2d.graphic.Polygon({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fillColor: "#00ffff",
       fillOpacity: 0.5
@@ -102,7 +102,7 @@ export function voronoiPolygon() {
   }
 
   const options = {
-    bbox: bbox
+    bbox
   }
 
   const voronoiPolygons = turf.voronoi(points, options)
@@ -113,7 +113,7 @@ export function voronoiPolygon() {
     const latlngs = mars2d.PointTrans.coords2latlngs(position[0])
 
     const voronoiPolygon = new mars2d.graphic.Polygon({
-      latlngs: latlngs,
+      latlngs,
       style: {
         randomColor: true, // 随机色
         fillOpacity: 0.5
@@ -149,7 +149,7 @@ export function tinPolygon() {
 
     // TIN多边形
     const tinPolygon = new mars2d.graphic.Polygon({
-      latlngs: latlngs,
+      latlngs,
       style: {
         randomColor: true, // 随机色
         fillOpacity: 0.5,

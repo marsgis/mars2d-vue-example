@@ -85,7 +85,7 @@ function addDemoGraphic2() {
     [31.875663, 117.21365]
   ]
   const movingMarker = new mars2d.graphic.MovingMarker({
-    latlngs: latlngs,
+    latlngs,
     durations: [3000, 9000, 9000, 4000, 4000, 4000, 4000, 4000, 4000, 4000],
     style: {
       image: "img/marker/bike.png",
@@ -98,7 +98,7 @@ function addDemoGraphic2() {
 
   // 放个线参考
   const graphic = new mars2d.graphic.Polyline({
-    latlngs: latlngs,
+    latlngs,
     style: {
       color: "#0000ff",
       width: 2
@@ -271,7 +271,7 @@ function addDemoGraphic10() {
     [31.8491, 117.247705]
   ]
   const graphic = new mars2d.graphic.Rectangle({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: true,
       fillColor: "#3388ff",
@@ -322,7 +322,7 @@ function addDemoGraphic12() {
     [117.214681, 31.81402, 32.97]
   ])
   const graphic = new mars2d.graphic.Polygon({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: true,
       image: "img/fill/movingRiver.png",
@@ -365,7 +365,7 @@ function bindLayerPopup() {
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr })
   })
 }
 

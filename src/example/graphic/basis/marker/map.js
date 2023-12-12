@@ -110,7 +110,7 @@ export function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars2d.graphic.Marker({
-      latlng: latlng,
+      latlng,
       style: {
         image: "img/marker/mark1.png",
         width: 32,
@@ -118,7 +118,7 @@ export function addRandomGraphicByCount(count) {
         horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
         verticalOrigin: mars2d.VerticalOrigin.BOTTOM
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -155,7 +155,7 @@ function bindLayerPopup() {
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr })
   })
 }
 

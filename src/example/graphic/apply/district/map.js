@@ -99,7 +99,7 @@ function addCenterCity(graphicLayer) {
   const latlng = [31.94284, 117.410889]
   // divgraphic标注
   const divgraphic = new mars2d.graphic.DivGraphic({
-    latlng: latlng,
+    latlng,
     style: {
       html: `<div class="marsBlackPanel  animation-spaceInDown">
             <div class="marsBlackPanel-text">示范城市</div>
@@ -112,7 +112,7 @@ function addCenterCity(graphicLayer) {
 
   // 扩散点
   const graphic = new mars2d.graphic.Marker({
-    latlng: latlng,
+    latlng,
     style: {
       width: 8,
       pulse: true,

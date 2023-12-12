@@ -136,7 +136,7 @@ export function shortestPath() {
   const latlngs = mars2d.PointTrans.coords2latlngs([positions])
 
   const polyonLine = new mars2d.graphic.Polyline({
-    latlngs: latlngs,
+    latlngs,
     style: {
       color: " #55ff33"
     }

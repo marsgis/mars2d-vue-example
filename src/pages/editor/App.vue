@@ -15,7 +15,7 @@ import MainOperation from "@mars/components/mars-work/main-operation.vue"
 import { useWidgetStore } from "@mars/widgets/common/store/widget"
 import MarsWidget from "@mars/widgets/widget.vue"
 import { ConfigProvider } from "ant-design-vue"
-import locale from "ant-design-vue/lib/locale-provider/zh_CN"
+import locale from "ant-design-vue/es/locale/zh_CN"
 
 const widgetStore = useWidgetStore()
 

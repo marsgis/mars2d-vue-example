@@ -134,7 +134,7 @@ function showYearZT(data) {
 /**  创建图标点 */
 function createZT(latlng, html) {
   const graphic = new mars2d.graphic.DivGraphic({
-    latlng: latlng,
+    latlng,
     style: {
       html: `<i class="fa fa-bar-chart-o" style="color:#00ff00;font-size:20px;"></i>`,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,

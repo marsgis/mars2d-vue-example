@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.21
- * 编译日期：2023-09-26 11:23:40
+ * 版本信息：v3.1.24
+ * 编译日期：2023-12-11 20:16:25
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -5805,7 +5805,7 @@ declare namespace GraphicLayer {
  * @param [options.hasEdit = false] - 是否自动激活编辑（true时，单击后自动激活编辑）
  * @param [options.isAutoEditing = true] - 完成标绘时是否自动启动编辑(需要hasEdit:true时)
  * @param [options.isContinued = false] - 是否连续标绘
- * @param [options.symbol] - 矢量数据的style样式,为Function时是完全自定义的回调处理 symbol(attr, style, feature)
+ * @param [options.symbol] - 矢量数据的style样式,为Function时是完全自定义的回调处理 symbol(attr, style, feature)，GraphicLayer图层仅loadGeoJSON方法中有效
  * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
  * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各{@link GraphicType}矢量数据的style参数。
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
@@ -7454,6 +7454,7 @@ declare class BaiduLayer extends TileLayer {
  * @param [options.url] - 当未指定layer类型时，可以传入外部指定url的服务地址，常用于离线服务。
  * @param [options.subdomains = "1234"] - URL模板中用于 {s} 占位符的子域。 如果此参数是单个字符串，则字符串中的每个字符都是一个子域。如果是 一个数组，数组中的每个元素都是一个子域。
  * @param [options.bigfont] - 当layer为vec时，来标识使用是否大写字体。
+ * @param [options.proxy] - 代理服务URL
  * @param [options.opacity = 1] - 瓦片的不透明度。
  * @param [options.minZoom = 0] - 最小的缩放级别
  * @param [options.maxZoom = 18] - 最大的缩放级别
@@ -7494,6 +7495,7 @@ declare class GaodeLayer extends TileLayer {
         url?: string;
         subdomains?: string | string[];
         bigfont?: boolean;
+        proxy?: string;
         opacity?: number;
         minZoom?: number;
         maxZoom?: number;
@@ -8419,6 +8421,7 @@ declare namespace TileLayer {
  *     <li><code>{s}</code>:可用的子域之一，用于克服浏览器对每个主机的并发请求数的限制。</li>
  * </ul>
  * @param [options.subdomains = ''] - 瓦片服务的子域名。可以以一个字符串的形式（每个字母都是子域名）或一个字符串数组的形式传递。
+ * @param [options.proxy] - 代理服务URL
  * @param [options.opacity = 1] - 瓦片的不透明度。
  * @param [options.minZoom = 0] - 最小的缩放级别
  * @param [options.maxZoom = 18] - 最大的缩放级别
@@ -8458,6 +8461,7 @@ declare class TileLayer extends L.TileLayer {
     constructor(options: {
         url: string;
         subdomains?: string | string[];
+        proxy?: string;
         opacity?: number;
         minZoom?: number;
         maxZoom?: number;
@@ -11721,7 +11725,7 @@ declare class QueryGeoServer extends BaseClass {
  * 天地图 POI查询 工具类，
  * 参考文档：{@link http://lbs.tianditu.gov.cn/server/search2.html}
  * @param [options] - 参数对象，包括以下：
- * @param [options.key = mars3d.Token.tiandituArr] - 天地图KEY,在实际项目中请使用自己申请的天地图KEY，因为我们的key不保证长期有效。
+ * @param [options.key = mars2d.Token.tiandituArr] - 天地图KEY,在实际项目中请使用自己申请的天地图KEY，因为我们的key不保证长期有效。
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  */
 declare class TdtPOI {

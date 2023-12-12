@@ -42,13 +42,13 @@ export function onUnmounted() {
 
 function addGraphic(latlng, attr) {
   const graphic = new mars2d.graphic.DivGraphic({
-    latlng: latlng,
+    latlng,
     style: {
       html: `<div style="width: 80px;height:80px;"></div>`,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
     },
-    attr: attr
+    attr
   })
   graphic.on(mars2d.EventType.add, function (e) {
     const dom = e.target.container.firstChild

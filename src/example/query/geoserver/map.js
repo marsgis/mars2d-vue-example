@@ -86,7 +86,7 @@ export function query(text) {
   }
   queryMapserver.query({
     column: "项目名称",
-    text: text,
+    text,
     graphic: drawGraphic,
     success: (result) => {
       if (result.count === 0) {

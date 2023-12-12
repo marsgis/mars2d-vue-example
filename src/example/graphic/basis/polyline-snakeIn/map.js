@@ -38,7 +38,7 @@ function showTianzhushan(latlngs) {
   map.addLayer(graphicLayer)
 
   const graphicLine = new mars2d.graphic.Polyline({
-    latlngs: latlngs,
+    latlngs,
     style: {
       color: "#0000ff",
       width: 3,

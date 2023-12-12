@@ -67,7 +67,7 @@ function bindLayerPopup() {
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr })
   })
 }
 
@@ -255,7 +255,7 @@ export function addRandomGraphicByCount(count) {
         outlineColor: "#0000FF",
         outlineOpacity: 0.5
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -269,7 +269,7 @@ function addDemoGraphic1() {
     [31.8491, 117.247705]
   ]
   const graphic = new mars2d.graphic.Rectangle({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: true,
       fillColor: "#3388ff",
@@ -294,7 +294,7 @@ function addDemoGraphic2() {
     [117.19775, 31.809539, 36.59]
   ])
   const graphic = new mars2d.graphic.Rectangle({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: true,
       fillColor: "#ff0000",
@@ -315,7 +315,7 @@ function addDemoGraphic3() {
     [117.222868, 31.821302, 34.4]
   ])
   const graphic = new mars2d.graphic.Rectangle({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: false,
       outline: true,
@@ -335,7 +335,7 @@ function addDemoGraphic4() {
   ]
 
   const graphic = new mars2d.graphic.Rectangle({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: true,
       fillColor: "#051453",
@@ -357,7 +357,7 @@ function addDemoGraphic5() {
     [31.804853, 117.289609]
   ]
   const graphic = new mars2d.graphic.Rectangle({
-    latlngs: latlngs,
+    latlngs,
     style: {
       fill: true,
       fillColor: "#154624",

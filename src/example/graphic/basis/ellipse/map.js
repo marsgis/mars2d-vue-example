@@ -66,7 +66,7 @@ function bindLayerPopup() {
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr })
   })
 }
 
@@ -284,7 +284,7 @@ export function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars2d.graphic.Ellipse({
-      latlng: latlng,
+      latlng,
       style: {
         semiMinorAxis: 2000, // 单位：米
         semiMajorAxis: 3000,
@@ -295,7 +295,7 @@ export function addRandomGraphicByCount(count) {
         fillOpacity: 0.3,
         outline: false
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }

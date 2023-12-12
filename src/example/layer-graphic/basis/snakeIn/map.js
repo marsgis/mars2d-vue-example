@@ -72,7 +72,7 @@ export function onMounted(mapInstance) {
       const latlngs = getBezierPoints(startMpt, endMpt, arrPathKey[_key])
 
       const graphic = new mars2d.graphic.Polyline({
-        latlngs: latlngs,
+        latlngs,
         style: {
           color: "#0000ff",
           width: 3

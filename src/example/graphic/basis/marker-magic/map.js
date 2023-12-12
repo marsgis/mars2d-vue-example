@@ -82,7 +82,7 @@ export function onMounted(mapInstance) {
         latlng = [31.747188, 116.999784 + (i - 14) * 0.04]
       }
       const graphic = new mars2d.graphic.Marker({
-        latlng: latlng,
+        latlng,
         style: {
           image: "img/marker/mark1.png",
           horizontalOrigin: mars2d.HorizontalOrigin.CENTER,

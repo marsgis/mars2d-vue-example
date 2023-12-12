@@ -54,7 +54,7 @@ export function updateMarker(hasCenter, jd, wd) {
 
   if (pointEntity == null) {
     pointEntity = new mars2d.graphic.Marker({
-      latlng: latlng,
+      latlng,
       style: {
         image: "img/marker/mark1.png",
         width: 32,

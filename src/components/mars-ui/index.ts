@@ -28,7 +28,7 @@ import MarsNotify, { $notify as marsNotify } from "./mars-notify"
 import MarsLoading, { $hideLoading as marsHideLoading, $showLoading as marsShowLoading } from "./mars-loading"
 import MarsTree from "./mars-tree"
 import {
-  AutoComplete,
+  // AutoComplete,
   Button,
   Cascader,
   Checkbox,
@@ -105,7 +105,7 @@ export const getConfig = () => {
 
 export default function (app: App, config: Record<string, any> = {}): App {
   marsUIConfig = config
-  app.use(AutoComplete)
+  // app.use(AutoComplete)
   app.use(Row)
   app.use(Cascader)
   app.use(Col)

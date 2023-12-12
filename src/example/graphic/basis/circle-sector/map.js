@@ -69,7 +69,7 @@ function bindLayerPopup() {
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr })
   })
 }
 
@@ -247,7 +247,7 @@ export function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars2d.graphic.Circle({
-      latlng: latlng,
+      latlng,
       style: {
         radius: 5000, // 单位：米
         startAngle: -135,
@@ -262,7 +262,7 @@ export function addRandomGraphicByCount(count) {
         outlineOpacity: 1.0,
         outlineWidth: 2
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -387,9 +387,9 @@ function addDemoGraphic5() {
   const radius = 5000
 
   const graphic = new mars2d.graphic.Circle({
-    latlng: latlng,
+    latlng,
     style: {
-      radius: radius,
+      radius,
       fill: true,
       fillColor: "#ffffff",
       fillOpacity: 0.5,
@@ -400,9 +400,9 @@ function addDemoGraphic5() {
   }).addTo(graphicLayer)
 
   const graphic1 = new mars2d.graphic.Circle({
-    latlng: latlng,
+    latlng,
     style: {
-      radius: radius,
+      radius,
       startAngle: 0,
       stopAngle: 45,
       fill: true,
@@ -413,9 +413,9 @@ function addDemoGraphic5() {
   }).addTo(graphicLayer)
 
   const graphic2 = new mars2d.graphic.Circle({
-    latlng: latlng,
+    latlng,
     style: {
-      radius: radius,
+      radius,
       startAngle: 120,
       stopAngle: 120 + 45,
       fill: true,
@@ -426,9 +426,9 @@ function addDemoGraphic5() {
   }).addTo(graphicLayer)
 
   const graphic3 = new mars2d.graphic.Circle({
-    latlng: latlng,
+    latlng,
     style: {
-      radius: radius,
+      radius,
       startAngle: 240,
       stopAngle: 240 + 45,
       fill: true,

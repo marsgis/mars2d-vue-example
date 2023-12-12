@@ -58,11 +58,15 @@ export default defineComponent({
     position: absolute;
     width: 16px;
     height: 16px;
-    margin-top: -3px;
-    border: 4px solid var(--mars-primary-color);
+    margin-top: 4px;
   }
-  :deep(.ant-slider-dot-active, .ant-slider-handle) {
-    border-color: var(--mars-primary-color) !important;
+
+  :deep(.ant-slider-handle::after) {
+    width: 8px;
+    height: 8px;
+    box-shadow: 0 0 0 4px #1677ff;
+    inset-inline-start: -1px;
+    inset-block-start: -1px;
   }
 }
 </style>

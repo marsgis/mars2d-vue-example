@@ -1,5 +1,5 @@
 <template>
-  <a-date-picker :locale="locale" :dayjs="dayjs" class="mars-date-picker" dropdownClassName="mars-datepicker-dropdown" v-bind="attrs">
+  <a-date-picker :locale="locale" :dayjs="dayjs" class="mars-date-picker" popupClassName="mars-datepicker-dropdown" v-bind="attrs">
     <template v-for="(comp, name) in slots" :key="name" v-slot:[name]>
       <component :is="comp" />
     </template>

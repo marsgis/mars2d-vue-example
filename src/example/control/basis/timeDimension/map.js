@@ -27,8 +27,8 @@ export function onMounted(mapInstance) {
   )
 
   const timeDimensionControl = new L.Control.TimeDimension({
-    player: player,
-    timeDimension: timeDimension,
+    player,
+    timeDimension,
     position: "bottomleft",
     autoPlay: true,
     minSpeed: 1,

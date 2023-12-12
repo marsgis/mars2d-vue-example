@@ -65,11 +65,16 @@
   border-right: 1px solid #008aff70;
   box-shadow: 0px 4px 15px 1px rgba(2, 33, 59, 0.7);
   border-radius: 0px;
-  background: linear-gradient(to left, var(--mars-base-color), var(--mars-base-color)) left bottom no-repeat,
+  background:
+    linear-gradient(to left, var(--mars-base-color), var(--mars-base-color)) left bottom no-repeat,
     linear-gradient(to bottom, var(--mars-base-color), var(--mars-base-color)) left bottom no-repeat,
     linear-gradient(to left, var(--mars-base-color), var(--mars-base-color)) right bottom no-repeat,
     linear-gradient(to left, var(--mars-base-color), var(--mars-base-color)) right bottom no-repeat;
-  background-size: 1px 10px, 10px 1px, 1px 10px, 10px 1px;
+  background-size:
+    1px 10px,
+    10px 1px,
+    1px 10px,
+    10px 1px;
   background-color: var(--mars-bg-base) !important;
 }
 
@@ -103,6 +108,22 @@
     font-size: 18px;
     padding: 5px 15px !important;
     color: #fff !important;
+    border-radius: 0px !important;
+    height: 38px !important;
+  }
+
+  .ant-collapse-expand-icon {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .ant-collapse-header-text {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
   }
 
   .ant-collapse-content {
@@ -202,23 +223,32 @@
   .ant-radio-wrapper {
     color: var(--mars-text-color);
 
-    .ant-radio-inner {
-      background-color: var(--mars-bg-base);
-      border-color: var(--mars-base-border-color);
-      box-shadow: none !important;
-      outline: none !important;
-    }
+    // .ant-radio-inner {
+    //   background-color: var(--mars-bg-base);
+    //   border-color: var(--mars-base-border-color);
+    //   box-shadow: none !important;
+    //   outline: none !important;
+    // }
 
     .ant-radio-checked {
       .ant-radio-inner {
         border-color: var(--mars-primary-color);
+        background-color: white;
+      }
+
+      .ant-radio-inner::after {
+        background-color: var(--mars-primary-color);
+        width: 18px;
+        height: 18px;
+        margin-block-start: -9px;
+        margin-inline-start: -9px;
       }
     }
 
-    .ant-radio-input {
-      box-shadow: none !important;
-      outline: none !important;
-    }
+    // .ant-radio-input {
+    //   box-shadow: none !important;
+    //   outline: none !important;
+    // }
   }
 
   // 表格
@@ -257,6 +287,8 @@
     color: var(--mars-text-color);
     border: none !important;
     background: transparent !important;
+    font-weight: 400 !important;
+    padding: 8px 6px !important;
   }
 
   .ant-table-container {

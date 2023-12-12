@@ -64,7 +64,7 @@ class Geolocation extends mars2d.control.ToolButton {
 
     this.clearLocationPoint()
     const graphic = new mars2d.graphic.DivLightPoint({
-      latlng: latlng,
+      latlng,
       style: {
         color: "#0000ff"
       },

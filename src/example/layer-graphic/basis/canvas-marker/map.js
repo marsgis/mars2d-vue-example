@@ -50,7 +50,7 @@ export function addMarkers(numPoints) {
     const latlng = getRandomLatLng()
 
     const graphic = new mars2d.graphic.Marker({
-      latlng: latlng,
+      latlng,
       style: {
         image: "img/marker/mark1.png",
         width: 20,
@@ -73,7 +73,7 @@ export function addCustomDrawMarkers(numPoints) {
     const latlng = getRandomLatLng()
 
     const graphic = new mars2d.graphic.Marker({
-      latlng: latlng,
+      latlng,
       style: {
         width: 40,
         height: 20,

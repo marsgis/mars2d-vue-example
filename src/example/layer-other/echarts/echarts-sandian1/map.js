@@ -34,7 +34,7 @@ function updateColor(color) {
   echartsLayer.setEchartsOption({
     series: [
       {
-        itemStyle: { normal: { color: color } }
+        itemStyle: { normal: { color } }
       }
     ]
   })

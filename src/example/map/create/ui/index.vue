@@ -281,7 +281,10 @@ const onClickAlert = async () => {
   // $alert 返回一个Promise
   await $alert(`该窗口需要单击确定按钮进行关闭，会影响地图交互操作。`, "Alert提示窗")
 
-  $message("点击了确定按钮") // 异步单击确定后提示
+  // 两者不能同时创建和销毁，稍微错开下
+  setTimeout(() => {
+    $message("点击了确定按钮") // 异步单击确定后提示
+  }, 500)
 }
 
 // 按钮点击事件，演示loading持续三秒
@@ -440,7 +443,7 @@ function findChild(parent: any, list: any[]) {
         hasZIndex: item.hasZIndex,
         hasOpacity: item.hasOpacity,
         opacity: 100 * (item.opacity || 0),
-        parent: parent
+        parent
       }
 
       layersObj[item.id] = item

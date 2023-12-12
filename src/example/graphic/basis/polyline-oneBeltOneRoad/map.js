@@ -107,7 +107,7 @@ function getBezierCurve(latlngs, closure) {
 
   const curved = turf.bezierSpline({
     type: "Feature",
-    geometry: { type: "LineString", coordinates: coordinates }
+    geometry: { type: "LineString", coordinates }
   })
   const result = mars2d.PointTrans.coords2latlngs(curved.geometry.coordinates)
 

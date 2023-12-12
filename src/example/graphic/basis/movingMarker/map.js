@@ -53,7 +53,7 @@ function addDemoGraphic1(graphicLayer) {
     [31.875663, 117.21365]
   ]
   const movingMarker = new mars2d.graphic.MovingMarker({
-    latlngs: latlngs,
+    latlngs,
     durations: [3000, 9000, 9000, 4000, 4000, 4000, 4000, 4000, 4000, 4000],
     style: {
       image: "img/marker/bike.png",
@@ -66,7 +66,7 @@ function addDemoGraphic1(graphicLayer) {
 
   // 放个线参考
   const graphic = new mars2d.graphic.Polyline({
-    latlngs: latlngs,
+    latlngs,
     style: {
       color: "#0000ff",
       width: 2

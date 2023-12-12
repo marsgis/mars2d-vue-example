@@ -43,9 +43,9 @@ function getJsonData() {
 
 function showEchartsLayer(data) {
   const hStep = 300 / (data.length - 1)
-  const busLines = [].concat.apply(
-    [],
-    data.map(function (busLine, idx) {
+
+  const busLines = [
+    ...data.map(function (busLine, idx) {
       let prevPt
       const points = []
       for (let i = 0; i < busLine.length; i += 2) {
@@ -75,9 +75,7 @@ function showEchartsLayer(data) {
         }
       }
     })
-  )
-
-  // console.log(JSON.stringify(busLines));
+  ]
 
   const options = {
     animation: true,

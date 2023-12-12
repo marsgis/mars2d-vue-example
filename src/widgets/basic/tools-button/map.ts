@@ -6,7 +6,8 @@
  */
 import * as mars2d from "mars2d"
 import iconLayer from "./icon/manager-layers.svg"
-import iconBasemaps from "./icon/manager-basemaps.svg"
+// import iconBasemaps from "./icon/manager-basemaps.svg"
+import iconBasemaps from "./icon/manager-basemaps.png"
 export const eventTarget = new mars2d.BaseClass()
 
 let map: mars2d.Map // mars2d.Map三维地图对象
@@ -43,7 +44,6 @@ export function onMounted(mapInstance: mars2d.Map): void {
     })
     map.addControl(basemapsTool)
   }
-
 }
 
 /**

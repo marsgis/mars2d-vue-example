@@ -46,13 +46,12 @@ module.exports = {
     // mars2d-vue-example项目专用的配置(目的便于示例的开发调试) end
 
     "@typescript-eslint/no-explicit-any": "off", // ts：允许用any
-    "@typescript-eslint/no-useless-constructor": "error", // ts：不允许使用未定位类型自动转为any
+    "@typescript-eslint/no-useless-constructor": "off", // ts：不允许使用未定位类型自动转为any
     "@typescript-eslint/no-var-requires": "off", // ts：是否允许使用var
     "@typescript-eslint/no-non-null-assertion": "off", // ts：非空赋值
     "@typescript-eslint/explicit-module-boundary-types": "off", // ts：是否需要显式定义函数将返回什么类型
     "@typescript-eslint/ban-ts-comment": "off", // ts： 禁止ts注释
     "@typescript-eslint/no-unused-vars": "off", // ts：允许定义未引用使用的变量
-
 
     camelcase: "off", // 强制驼峰命名规则
     indent: "off", // 强制一致的缩进风格

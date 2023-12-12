@@ -10591,7 +10591,7 @@ function showEchartsLayer() {
         type: "lines",
         coordinateSystem: "mars2dMap",
         polyline: true,
-        data: data,
+        data,
         lineStyle: {
           normal: {
             opacity: 1,

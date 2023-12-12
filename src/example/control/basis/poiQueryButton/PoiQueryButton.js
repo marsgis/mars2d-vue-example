@@ -189,7 +189,7 @@ class PoiQueryButton extends mars2d.control.ToolButton {
 
   queryTextByServer(text) {
     this._gaodePOI.queryText({
-      text: text,
+      text,
       count: 10,
       page: this.showPages - 1,
       success: (result) => {
@@ -350,7 +350,7 @@ class PoiQueryButton extends mars2d.control.ToolButton {
 
   autoTip(text) {
     this._gaodePOI.autoTip({
-      text: text,
+      text,
       success: (result) => {
         const pois = result.list
         const gaodesousuo = this._queryResultContainer.querySelector(".gaodesousuo")

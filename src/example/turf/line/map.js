@@ -65,7 +65,7 @@ export function calculationCurve() {
   const latlngs = mars2d.PointTrans.coords2latlngs([positions])
 
   const graphic = new mars2d.graphic.Polyline({
-    latlngs: latlngs,
+    latlngs,
     style: {
       width: 4,
       color: "#00ffff"
@@ -92,7 +92,7 @@ export function parallelLines(distance) {
   const latlngs = mars2d.PointTrans.coords2latlngs([positions])
 
   const graphic = new mars2d.graphic.Polyline({
-    latlngs: latlngs,
+    latlngs,
     style: {
       width: 4,
       color: "#ff0000"

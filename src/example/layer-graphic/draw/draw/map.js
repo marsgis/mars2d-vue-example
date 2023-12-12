@@ -283,8 +283,8 @@ export function onClickSaveWKT() {
       id: ++index,
       name: attr.name || "",
       remark: attr.remark || "",
-      style: style,
-      wkt: wkt
+      style,
+      wkt
     })
   })
   console.log("wkt数据为", arrWKT)

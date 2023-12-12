@@ -67,7 +67,7 @@ function bindLayerPopup() {
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr })
   })
 }
 
@@ -304,7 +304,7 @@ export function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars2d.graphic.Label({
-      latlng: latlng,
+      latlng,
       style: {
         text: "Mars2D平台",
         color: "#FF0000",
@@ -317,7 +317,7 @@ export function addRandomGraphicByCount(count) {
         border_style: "",
         border_color: "rgba(255,0,0,0.2)"
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
