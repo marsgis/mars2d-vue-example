@@ -44,6 +44,7 @@ export function onMounted(mapInstance) {
     layers: "mars:hfdl",
     transparent: true,
     format: "image/png"
+    // cql_filter: "1=1"
   })
   map.addLayer(layer)
 

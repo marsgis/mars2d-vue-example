@@ -1,8 +1,8 @@
 <template>
-  <component :is="widget.component" v-bind="getWidgetAttr(widget)" />
+  <component :is="toRaw(widget.component)" v-bind="getWidgetAttr(widget)" />
 </template>
 <script lang="ts">
-import { useAttrs, defineComponent, provide } from "vue"
+import { useAttrs, defineComponent, provide, toRaw } from "vue"
 import type { Widget } from "@mars/widgets/common/store/widget"
 export default defineComponent({
   name: "mars-widget",
@@ -33,7 +33,8 @@ export default defineComponent({
 
     return {
       attrs,
-      getWidgetAttr
+      getWidgetAttr,
+      toRaw
     }
   }
 })

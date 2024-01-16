@@ -39,3 +39,8 @@ const hexGrid = () => {
   mapWork.hexGrid(step.value)
 }
 </script>
+<style lang="less" scoped>
+:deep(.ant-input-number-input-wrap) {
+  width: 80px;
+}
+</style>

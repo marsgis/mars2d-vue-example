@@ -25,7 +25,7 @@ export function onMounted(mapInstance) {
       text: "显示此处经纬度",
       iconCls: "fa fa-map-marker",
       callback: function (e) {
-        const inhtml = "经度：" + e.latlng.lng.toFixed(6) + " 纬度：" + e.latlng.lat.toFixed(6) + "<br/>层级：" + map.getZoom()
+        const inhtml = "经度：" + e.latlng.lng.toFixed(6) + " 纬度：" + e.latlng.lat.toFixed(6) + "层级：" + map.getZoom()
         globalMsg(inhtml)
       }
     }

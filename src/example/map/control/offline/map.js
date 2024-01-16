@@ -36,7 +36,7 @@ export function onMounted(mapInstance) {
     `该示例目的演示交付的离线数据的效果：
     1) 包括0-12级影像底图(当前页面效果)，
     2) 包括其他所有示例的json等文件`,
-    { duration: null }
+    { placement: "topRight" }
   )
 }
 

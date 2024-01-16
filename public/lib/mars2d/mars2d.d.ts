@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.24
- * 编译日期：2023-12-11 20:16:25
+ * 版本信息：v3.2.0
+ * 编译日期：2024-01-16 17:11:35
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -1094,6 +1094,8 @@ declare namespace Globe {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -1105,6 +1107,8 @@ declare class BrushLine extends Polyline {
         latlngs: L.LatLng[];
         style?: Polyline.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -1333,6 +1337,14 @@ declare class CanvasImage extends L.Path {
      */
     style: any;
     /**
+     * 显示隐藏状态
+     */
+    show: boolean;
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean;
+    /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
@@ -1470,6 +1482,8 @@ declare namespace Circle {
  * @param options.latlng - 坐标位置
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -1481,6 +1495,8 @@ declare class Circle extends L.Circle {
         latlng: L.LatLng | number[];
         style?: Circle.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -1732,6 +1748,14 @@ declare class Circle extends L.Circle {
      */
     style: any;
     /**
+     * 显示隐藏状态
+     */
+    show: boolean;
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean;
+    /**
      * 半径， 单位：米
      */
     radius: number;
@@ -1828,6 +1852,8 @@ declare namespace DivBoderLabel {
  * @param options.latlng - 坐标位置
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -1839,6 +1865,8 @@ declare class DivBoderLabel extends DivGraphic {
         latlng: L.LatLng | number[];
         style?: DivBoderLabel.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -1895,6 +1923,8 @@ declare namespace DivGraphic {
  * @param options.latlng - 坐标位置
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -1906,6 +1936,8 @@ declare class DivGraphic extends Marker {
         latlng: L.LatLng | number[];
         style?: DivGraphic.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -1944,6 +1976,8 @@ declare namespace DivLightPoint {
  * @param options.latlng - 坐标位置
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -1955,6 +1989,8 @@ declare class DivLightPoint extends DivGraphic {
         latlng: L.LatLng | number[];
         style?: DivLightPoint.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -2003,6 +2039,8 @@ declare namespace DivUpLabel {
  * @param options.latlng - 坐标位置
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -2014,6 +2052,8 @@ declare class DivUpLabel extends DivGraphic {
         latlng: L.LatLng | number[];
         style?: DivUpLabel.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -2391,6 +2431,8 @@ declare namespace Ellipse {
  * @param options.latlng - 坐标位置
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -2402,6 +2444,8 @@ declare class Ellipse extends L.Path {
         latlng: L.LatLng | number[];
         style?: Ellipse.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -2609,6 +2653,14 @@ declare class Ellipse extends L.Path {
      */
     style: any;
     /**
+     * 显示隐藏状态
+     */
+    show: boolean;
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean;
+    /**
      * 短半轴 半径， 单位：米
      */
     semiMinorAxis: number;
@@ -2739,6 +2791,8 @@ declare namespace Image {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -2750,6 +2804,8 @@ declare class Image extends Rectangle {
         latlngs: L.LatLng[] | L.LatLngBounds;
         style?: Image.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -2844,6 +2900,8 @@ declare namespace Label {
  * @param options.latlng - 坐标位置
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -2855,6 +2913,8 @@ declare class Label extends DivGraphic {
         latlng: L.LatLng | number[];
         style?: Label.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -2993,6 +3053,8 @@ declare namespace Marker {
  * @param options.latlng - 坐标位置
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3004,6 +3066,8 @@ declare class Marker extends L.Marker {
         latlng: L.LatLng | number[];
         style?: Marker.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3224,6 +3288,14 @@ declare class Marker extends L.Marker {
      */
     style: any;
     /**
+     * 显示隐藏状态
+     */
+    show: boolean;
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean;
+    /**
      * 获取对象的DOM容器
      */
     readonly container: HTMLElement;
@@ -3411,6 +3483,8 @@ declare class MovingMarker extends Marker {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3422,6 +3496,8 @@ declare class AttackArrow extends BasePlot {
         latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3436,6 +3512,8 @@ declare class AttackArrow extends BasePlot {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3447,6 +3525,8 @@ declare class AttackArrowPW extends BasePlot {
         latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3461,6 +3541,8 @@ declare class AttackArrowPW extends BasePlot {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3472,6 +3554,8 @@ declare class AttackArrowYW extends BasePlot {
         latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3486,6 +3570,8 @@ declare class AttackArrowYW extends BasePlot {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3497,6 +3583,8 @@ declare class BasePlot extends Polygon {
         latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3517,6 +3605,8 @@ declare class BasePlot extends Polygon {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3528,6 +3618,8 @@ declare class CloseVurve extends BasePlot {
         latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3542,6 +3634,8 @@ declare class CloseVurve extends BasePlot {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3553,6 +3647,8 @@ declare class DoubleArrow extends BasePlot {
         latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3567,6 +3663,8 @@ declare class DoubleArrow extends BasePlot {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3578,6 +3676,8 @@ declare class FineArrow extends BasePlot {
         latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3592,6 +3692,8 @@ declare class FineArrow extends BasePlot {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3603,6 +3705,8 @@ declare class FineArrowYW extends BasePlot {
         latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3617,6 +3721,8 @@ declare class FineArrowYW extends BasePlot {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3628,6 +3734,8 @@ declare class GatheringPlace extends BasePlot {
         latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3642,6 +3750,8 @@ declare class GatheringPlace extends BasePlot {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3653,6 +3763,8 @@ declare class StraightArrow extends BasePlot {
         latlngs: L.LatLng[];
         style?: Polygon.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3730,6 +3842,8 @@ declare namespace Point {
  * @param options.latlng - 坐标位置
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -3741,6 +3855,8 @@ declare class Point extends L.CircleMarker {
         latlng: L.LatLng | number[];
         style?: Point.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -3984,6 +4100,14 @@ declare class Point extends L.CircleMarker {
      */
     pixelSize: number;
     /**
+     * 显示隐藏状态
+     */
+    show: boolean;
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean;
+    /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
@@ -4090,6 +4214,8 @@ declare namespace Polygon {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -4101,6 +4227,8 @@ declare class Polygon extends L.Polygon {
         latlngs: L.LatLng[] | any;
         style?: Polygon.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -4339,6 +4467,14 @@ declare class Polygon extends L.Polygon {
      */
     style: any;
     /**
+     * 显示隐藏状态
+     */
+    show: boolean;
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean;
+    /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
@@ -4444,6 +4580,8 @@ declare namespace Polyline {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -4455,6 +4593,8 @@ declare class Polyline extends L.Polyline {
         latlngs: L.LatLng[] | any;
         style?: Polyline.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -4693,6 +4833,14 @@ declare class Polyline extends L.Polyline {
      */
     style: any;
     /**
+     * 显示隐藏状态
+     */
+    show: boolean;
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean;
+    /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
@@ -4805,6 +4953,8 @@ declare namespace Rectangle {
  * @param options.latlngs - 坐标数组
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -4816,6 +4966,8 @@ declare class Rectangle extends L.Rectangle {
         latlngs: L.LatLng[] | L.LatLngBounds;
         style?: Rectangle.StyleOptions;
         attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -5063,6 +5215,14 @@ declare class Rectangle extends L.Rectangle {
      * 样式信息
      */
     style: any;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean;
     /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
@@ -5805,6 +5965,7 @@ declare namespace GraphicLayer {
  * @param [options.hasEdit = false] - 是否自动激活编辑（true时，单击后自动激活编辑）
  * @param [options.isAutoEditing = true] - 完成标绘时是否自动启动编辑(需要hasEdit:true时)
  * @param [options.isContinued = false] - 是否连续标绘
+ * @param [options.isDblclickForDrawEnd = true] - 是否双击自动结束标绘
  * @param [options.symbol] - 矢量数据的style样式,为Function时是完全自定义的回调处理 symbol(attr, style, feature)，GraphicLayer图层仅loadGeoJSON方法中有效
  * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
  * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各{@link GraphicType}矢量数据的style参数。
@@ -5834,6 +5995,7 @@ declare class GraphicLayer extends L.FeatureGroup {
         hasEdit?: boolean;
         isAutoEditing?: boolean;
         isContinued?: boolean;
+        isDblclickForDrawEnd?: boolean;
         symbol?: {
             type?: GraphicType | string;
             styleOptions: any;
@@ -6065,7 +6227,7 @@ declare class GraphicLayer extends L.FeatureGroup {
     /**
      * 是否正在绘制中
      */
-    readonly hasDrawing: boolean;
+    readonly isDrawing: boolean;
     /**
      * 是否正在编辑状态
      */
@@ -6244,6 +6406,7 @@ declare class GraphicLayer extends L.FeatureGroup {
      * @param options.type - 类型
      * @param [options.style] - 按type支持 {@link GraphicType} 类的构造方法参数
      * @param [options.attr] - 附带的属性信息
+     * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数, 仅部分线面对象支持。
      * @param [options.success] - 绘制创建完成的回调方法，同drawCreated事件，例如： success: function (graphic){  }
      * @returns 创建完成的矢量数据对象
      */
@@ -6251,19 +6414,28 @@ declare class GraphicLayer extends L.FeatureGroup {
         type: GraphicType | string;
         style?: any;
         attr?: any;
+        maxPointNum?: number;
         success?: (...params: any[]) => any;
     }): any | L.Layer;
-    /**
-     * 停止绘制，如有未完成的绘制会自动删除
-     * @returns 当前对象本身,可以链式调用
-     */
-    stopDraw(): any | GraphicLayer;
     /**
      * 完成绘制和编辑，如有未完成的绘制会自动完成。
      * 在移动端需要调用此方法来类似PC端双击结束。
      * @returns 当前对象本身,可以链式调用
      */
     endDraw(): any | GraphicLayer;
+    /**
+     * 停止绘制。
+     * 线面对象：未完成的绘制会自动删除，已绘制的会完成在最后一个点位；
+     * 点状对象：会结束停留在最后一个点位，未完成的绘制会自动删除
+     * 如果需要清除正在绘制的对象，请用 clearDrawing() 方法
+     * @returns 是否清除了未完成的对象
+     */
+    stopDraw(): any | boolean;
+    /**
+     * 清除正在绘制的对象
+     * @returns 是否清除了对象
+     */
+    clearDrawing(): any | boolean;
     /**
      * 激活编辑，绑定相关处理，同 hasEdit=true
      * @returns 当前对象本身,可以链式调用
@@ -8691,6 +8863,7 @@ declare class TileLayer extends L.TileLayer {
  * @param [options.uppercase = false] - 如果true，WMS请求参数名称将是大写。
  * @param [options.version = '1.1.1'] - 使用WMS服务版本
  * @param [options.crs] - 坐标参考系统用于WMS请求，默认为映射CRS。如果您不确定这是什么意思，请不要更改。
+ * @param [options.cql_filter] - 筛选服务数据的SQL语句
  * @param [options.interactive = true] - 是否触发鼠标事件，如果false，图层不会发出鼠标click事件和popup。
  * @param [options.opacity = 1] - 瓦片的不透明度。
  * @param [options.minZoom = 0] - 最小的缩放级别
@@ -8738,6 +8911,7 @@ declare class WmsLayer extends L.TileLayer.WMS {
         uppercase?: boolean;
         version?: string;
         crs?: L.CRS;
+        cql_filter?: string;
         interactive?: boolean;
         opacity?: number;
         minZoom?: number;

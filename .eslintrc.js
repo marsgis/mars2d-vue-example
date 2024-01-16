@@ -53,6 +53,7 @@ module.exports = {
     "@typescript-eslint/ban-ts-comment": "off", // ts： 禁止ts注释
     "@typescript-eslint/no-unused-vars": "off", // ts：允许定义未引用使用的变量
 
+
     camelcase: "off", // 强制驼峰命名规则
     indent: "off", // 强制一致的缩进风格
     eqeqeq: "error", // 是否使用 === 替代 ==
@@ -72,6 +73,7 @@ module.exports = {
     "comma-style": ["error", "last"], // 控制逗号在行尾出现还是在行首出现 (默认行尾)
     "space-before-function-paren": ["off", "always"], // 函数定义时括号前的空格
     "object-curly-newline": ["error", { multiline: true, consistent: true }], // @fixable 大括号内的首尾必须有换行
+    "object-shorthand": "off", // position: position是否简写为position
     "computed-property-spacing": ["error", "never"], // "SwitchCase" (默认：0) 强制 switch 语句中的 case 子句的缩进水平
 
     "no-debugger": "warn", // 是否允许debugger

@@ -137,6 +137,7 @@ const columnsPath: TableColumnType[] = [
 // 勾选了表格列表的行
 const rowSelection: TableProps["rowSelection"] = {
   hideSelectAll: true,
+  // @ts-ignore
   selectedRowKeys: rowKeys,
   onChange: (selectedRowKeys: string[]) => {
     // 使得点击之后选项改变

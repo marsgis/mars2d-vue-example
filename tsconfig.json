@@ -18,32 +18,14 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "outDir": "dist",
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ],
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "isolatedModules": false,
-    "types": ["vite/client", "node"],
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@mars/*": [
-        "src/*"
-      ]
+      "@mars/*": ["src/*"]
     }
   },
-  "vueCompilerOptions": {
-    "experimentalDisableTemplateSupport": true
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/**/*.js",
-    "dist"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": ["node_modules", "src/**/*.js", "dist"]
 }

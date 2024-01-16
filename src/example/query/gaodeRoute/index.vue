@@ -7,13 +7,13 @@
       <div style="color: #000"></div>
       <a-form-item label="起点">
         <a-space>
-          <mars-input v-model:value="strat" disabled></mars-input>
+          <mars-input v-model:value="strat"></mars-input>
           <mars-button @click="startPoint">选点</mars-button>
         </a-space>
       </a-form-item>
       <a-form-item label="终点">
         <a-space>
-          <mars-input v-model:value="end" disabled></mars-input>
+          <mars-input v-model:value="end"></mars-input>
           <mars-button @click="endPoint">选点</mars-button>
         </a-space>
       </a-form-item>
@@ -73,7 +73,7 @@ const startPoint = () => {
   mapWork.startPoint(selectWay.value)
 }
 mapWork.eventTarget.on("start", function (event: any) {
-  strat.value = event.point.lng + "," + event.point.lat
+  strat.value = getData(event.point.lng) + "," + getData(event.point.lat)
   wayShow.value = false
 })
 // 终点
@@ -81,9 +81,13 @@ const endPoint = () => {
   mapWork.endPoint(selectWay.value)
 }
 mapWork.eventTarget.on("end", function (event: any) {
-  end.value = event.point.lng + "," + event.point.lat
+  end.value = getData(event.point.lng) + "," + getData(event.point.lat)
   wayShow.value = false
 })
+
+function getData(num) {
+  return num.toFixed(6)
+}
 
 // 开始分析
 const btnAnalyse = () => {

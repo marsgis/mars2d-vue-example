@@ -5,12 +5,12 @@
  * @author 火星渣渣灰 2022-01-05
  */
 import * as mars2d from "mars2d"
-import iconLayer from "./icon/manager-layers.svg"
-// import iconBasemaps from "./icon/manager-basemaps.svg"
-import iconBasemaps from "./icon/manager-basemaps.png"
 export const eventTarget = new mars2d.BaseClass()
 
 let map: mars2d.Map // mars2d.Map三维地图对象
+
+let layersTool: mars2d.control.ToolButton
+let basemapsTool: mars2d.control.ToolButton
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -19,30 +19,33 @@ let map: mars2d.Map // mars2d.Map三维地图对象
  * @returns {void} 无
  */
 export function onMounted(mapInstance: mars2d.Map): void {
+  console.log("tools-button onMounted 初始化")
   map = mapInstance // 记录map
 
-  const layersTool = new mars2d.control.ToolButton({
+  layersTool = new mars2d.control.ToolButton({
     title: "图层控制",
     position: "bottomleft",
-    icon: iconLayer,
+    icon: "/img/icon/manager-layers.svg",
     insertIndex: 1, // 插入的位置顺序, 1是home按钮后面
     click: () => {
       eventTarget.fire("openManageLayer")
     }
   })
   map.addControl(layersTool)
+  map.controls.layersTool = layersTool
 
   if (map.marsOptions.basemaps?.length > 1) {
-    const basemapsTool = new mars2d.control.ToolButton({
+    basemapsTool = new mars2d.control.ToolButton({
       title: "底图切换",
       position: "bottomleft",
-      icon: iconBasemaps,
+      icon: "/img/icon/manager-basemaps.svg",
       insertIndex: 1, // 插入的位置顺序, 1是home按钮后面
       click: () => {
         eventTarget.fire("openManageBasemaps")
       }
     })
     map.addControl(basemapsTool)
+    map.controls.basemapsTool = basemapsTool
   }
 }
 
@@ -51,6 +54,18 @@ export function onMounted(mapInstance: mars2d.Map): void {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  console.log("tools-button onUnmounted 卸载了")
+
+  if (layersTool) {
+    map.removeControl(layersTool)
+    layersTool = null
+  }
+
+  if (basemapsTool) {
+    map.removeControl(basemapsTool)
+    basemapsTool = null
+  }
+
   eventTarget.off()
   map = null
 }

@@ -12,7 +12,7 @@
   font-size: 25px;
   color: white;
   border: none;
-  background-color: #1f3f8e !important;
+  background-color: transparent !important;
 }
 
 .gdpView {
@@ -28,7 +28,7 @@
   box-shadow: 0px 2px 21px 0px rgba(35, 40, 44, 0.226);
   border-radius: 4px;
   box-sizing: border-box;
-  background: rgba(2, 79, 128, 0.425);
+  background: rgba(2, 79, 128, 1.0);
 }
 
 .gdpView::before {

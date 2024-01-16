@@ -82,7 +82,10 @@ const styleConfig = {
           { label: "菱形", value: "ridge" },
           { label: "3D凹", value: "inset" },
           { label: "3D凸", value: "outset" }
-        ]
+        ],
+        show(style, allStyle, graphicType) {
+          return style.border
+        }
       }
     ]
   },

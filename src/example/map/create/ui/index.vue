@@ -273,7 +273,7 @@ const onClickMessage = () => {
 
 // 显示提示窗，不影响地图操作，会出现在页面右下角
 const onClickNotify = async () => {
-  $notify("Notify提示窗", `该窗口会出现在页面右上角，不影响地图交互操作。`)
+  $notify("Notify提示窗", `该窗口会出现在页面右下角，不影响地图交互操作。`)
 }
 
 // 显示遮罩提示窗，需要手动关闭

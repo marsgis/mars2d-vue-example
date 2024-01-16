@@ -74,7 +74,7 @@ function bindLayerPopup() {
 // 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-        {
+    {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
       show: function (e) {
@@ -283,7 +283,9 @@ export function startDrawGraphic() {
       text: "Mars2D平台",
       color: "#FF0000",
       font_size: 25,
-      font_family: "楷体"
+      font_family: "楷体",
+      font_style: "normal",
+      font_weight: "normal"
     },
     success: function (graphic) {
       console.log("标绘完成", graphic)

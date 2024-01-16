@@ -1,3 +1,4 @@
+let flag = true
 // 采用高德地图定位的算法 ， 参考帮助文档：https://lbs.amap.com/api/javascript-api/guide/services/geolocation
 class Geolocation extends mars2d.control.ToolButton {
   constructor(options = {}) {
@@ -51,8 +52,12 @@ class Geolocation extends mars2d.control.ToolButton {
         // mars2d.Util.msg(data.message, "定位失败")
         mars2d.Util.msg("获取地理位置失败", data.message)
       }
-      AMap.event.addListener(this.geolocation, "complete", onComplete)
-      AMap.event.addListener(this.geolocation, "error", onError)
+      // 避免重复监听
+      if (flag) {
+        AMap.event.addListener(this.geolocation, "complete", onComplete)
+        AMap.event.addListener(this.geolocation, "error", onError)
+        flag = false
+      }
     })
   }
 

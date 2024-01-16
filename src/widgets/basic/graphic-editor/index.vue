@@ -39,7 +39,7 @@ onMounted(() => {
 
 if (currentWidget) {
   currentWidget.onUpdate((e) => {
-  graphic = e.data?.graphic
+    graphic = e.data?.graphic
     updataLayer()
   })
 }
@@ -62,7 +62,24 @@ function updataLayer() {
 function styleChange(style: any) {
   style = toRaw(style)
   // console.log("修改了style样式", style)
+  const opacity = getOpacity(style.fillColor)
+  if (style.fillColor && opacity) {
+    style.fillOpacity = opacity * 1
+  }
   graphic.setStyle(style)
+}
+
+function getOpacity(str) {
+  if (str) {
+    const regex = /\(([^)]+)\)/
+    const match = str.match(regex)
+
+    if (match && match[1] && match[1].split(",").length === 4) {
+      return match[1].split(",")[3]
+    }
+  }
+
+  return null
 }
 
 // *********************  删除定位保存文件方法  ******************* //

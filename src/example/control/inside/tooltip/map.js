@@ -59,13 +59,13 @@ export function bindMapDemo() {
   removeDemoLayer()
 
   if (lastMaplTooltip) {
-    map.closeTooltip()
+    map.closeTooltip(lastMaplTooltip)
   }
 
   // 传入坐标和内容，可以直接任意弹出,当前获取的是地图的中心点
   const position = map.getCenter()
-
-  lastMaplTooltip = new L.Tooltip().setContent("我是地图上直接弹出的").setLatLng(position)
+  const html = "<div style='width:150px;height:50px;'>我是地图上直接弹出的</div>"
+  lastMaplTooltip = new L.Tooltip({ direction: "top" }).setContent(html).setLatLng(position)
   map.openTooltip(lastMaplTooltip)
 }
 
@@ -214,7 +214,6 @@ export function bindGraphicDemo2() {
   // 绑定Tooltip
   graphic.bindTooltip(innerHtml, { interactive: true }).openTooltip()
 }
-
 
 // 只是为了演示，可以单击详情
 function showXQ() {

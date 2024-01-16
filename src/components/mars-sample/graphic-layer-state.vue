@@ -26,8 +26,9 @@
   <div class="f-mb" v-if="props.enabledDraw">
     <a-space>
       <span class="mars-pannel-item-label">数据维护:</span>
-      <mars-button @click="onClickStartDraw">{{ props.drawLabel1 }}</mars-button>
-      <mars-button v-if="props.drawLabel2" @click="onClickStartDraw2">{{ props.drawLabel2 }}</mars-button>
+      <mars-button v-if="!formState.isDrawing" @click="onClickStartDraw">{{ props.drawLabel1 }}</mars-button>
+      <mars-button v-if="props.drawLabel2 && !formState.isDrawing" @click="onClickStartDraw2">{{ props.drawLabel2 }}</mars-button>
+      <mars-button v-if="formState.isDrawing" @click="onClickClearDrawing">取消绘制</mars-button>
 
       <a-checkbox
         v-if="props.interaction && formState.enabledEdit"
@@ -37,7 +38,7 @@
         >是否编辑</a-checkbox
       >
 
-      <a-checkbox v-model:checked="formState.hasTable" title="显示图层内所有矢量数据列表">显示列表</a-checkbox>
+      <a-checkbox v-if="enabledTable" v-model:checked="formState.hasTable" title="显示图层内所有矢量数据列表">显示列表</a-checkbox>
     </a-space>
   </div>
 
@@ -85,7 +86,7 @@
   <div class="f-mb data-list">
     <mars-table
       size="small"
-      v-if="formState.hasTable"
+      v-if="enabledTable && formState.hasTable"
       :pagination="{ pageSize: currentPage }"
       :customRow="graphicCustomRowObj"
       :dataSource="graphicDataList"
@@ -119,12 +120,12 @@ import { ref, reactive, onMounted, markRaw } from "vue"
 import type { UnwrapRef } from "vue"
 import { $alert, $message, $showLoading, $hideLoading } from "@mars/components/mars-ui/index"
 import { useWidget } from "@mars/widgets/common/store/widget"
-import { log } from "console"
 
 const props = withDefaults(
   defineProps<{
     interaction?: boolean // 是否可以鼠标拾取和交互
     enabledDraw?: boolean // 是否可以绘制
+    enabledTable?: boolean // 是否显示表格
     drawLabel1?: string // 绘制按钮 文本
     drawLabel2?: string // 绘制按钮2 文本
     defaultCount?: number // 默认的数据量
@@ -133,6 +134,7 @@ const props = withDefaults(
   {
     interaction: true,
     enabledDraw: true,
+    enabledTable: true,
     drawLabel1: "图上标绘",
     drawLabel2: undefined,
     defaultCount: 100,
@@ -151,6 +153,7 @@ interface FormState {
   hasEdit: boolean
   hasTable: boolean
   count: number
+  isDrawing: boolean
 }
 
 const formState: UnwrapRef<FormState> = reactive({
@@ -163,7 +166,8 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledEdit: true,
   hasEdit: true,
   hasTable: false,
-  count: props.defaultCount
+  count: props.defaultCount,
+  isDrawing: false
 })
 
 const currentPage = ref(5) // 分页查询每页条数
@@ -202,6 +206,12 @@ onMounted(() => {
       }
 
       formState.hasTable = graphics.length > 0
+
+      layer.on("drawStart drawMouseMove drawCreated addGraphic removeGraphic ", function (e) {
+        setTimeout(() => {
+          formState.isDrawing = layer.isDrawing
+        }, 10)
+      })
     }
   }, 500)
 })
@@ -265,10 +275,20 @@ const onClickFlyTo = () => {
 
 const onClickStartDraw = () => {
   mapWork.startDrawGraphic()
+  const layer = getManagerLayer()
+  formState.isDrawing = layer?.isDrawing
 }
 const onClickStartDraw2 = () => {
   mapWork.startDrawGraphic2()
+  const layer = getManagerLayer()
+  formState.isDrawing = layer?.isDrawing
 }
+const onClickClearDrawing = () => {
+  const layer = getManagerLayer()
+  layer.clearDrawing()
+  formState.isDrawing = layer?.isDrawing
+}
+
 
 const onChangeShow = () => {
   const layer = getManagerLayer()
@@ -658,8 +678,7 @@ const graphicColumns = [
   {
     title: "名称",
     dataIndex: "name",
-    key: "name",
-    align: "center"
+    key: "name"
   },
   {
     title: "操作",
@@ -674,7 +693,7 @@ onMounted(() => {
   const graphicLayer = getManagerLayer()
   initGraphicableData(graphicLayer)
 
-  graphicLayer.on(mars2d.EventType.addGraphic, function (event) {
+  graphicLayer.on(mars2d.EventType.drawCreated, function (event) {
     const graphic = event.graphic
     if (graphic.isPrivate) {
       return
@@ -689,7 +708,9 @@ onMounted(() => {
   graphicLayer.on(mars2d.EventType.removeGraphic, function (event) {
     const graphicId = event.graphic.id
     const idx = graphicDataList.value.findIndex((item) => item.key === graphicId)
-    graphicDataList.value.splice(idx, 1)
+    if (idx !== -1) {
+      graphicDataList.value.splice(idx, 1)
+    }
   })
 })
 

@@ -16,7 +16,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
-  graphicLayer = new mars2d.layer.GraphicLayer()
+  graphicLayer = new mars2d.layer.GraphicLayer({})
   map.addLayer(graphicLayer)
 
   // 图层管理的相关处理，
@@ -73,7 +73,7 @@ function bindLayerPopup() {
 // 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-        {
+    {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
       show: function (e) {
@@ -215,7 +215,8 @@ export function startDrawGraphic() {
     type: "polyline",
     style: {
       width: 3,
-      color: "#0000ff"
+      color: "#0000ff",
+      dashArray: "实线"
     },
     success: function (graphic) {
       console.log("标绘完成", graphic)
@@ -240,7 +241,7 @@ export function addRandomGraphicByCount(count) {
 
     const graphic = new mars2d.graphic.Polyline({
       latlngs: [pt1, latlng, pt2],
-      style: { width: 3, color: "#0000ff" },
+      style: { width: 3, color: "#0000ff", dashArray: "实线" },
       attr: { index }
     })
     graphicLayer.addGraphic(graphic)

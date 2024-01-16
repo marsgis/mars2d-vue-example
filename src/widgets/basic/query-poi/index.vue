@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :draggable="false" customClass="query-poi-pannel" top="10" right="10">
+  <mars-dialog :draggable="false" customClass="query-poi-pannel" top="10" left="150">
     <div class="query-poi" @mousedown="clickVoid">
       <div class="query-poi__search">
         <mars-input

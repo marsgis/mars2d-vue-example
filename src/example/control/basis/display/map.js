@@ -62,3 +62,12 @@ export function bindLocationBar(val) {
 export function bindLegend(val) {
   map.controls.scale._container.style.display = val ? "block" : "none"
 }
+// 底图切换
+export function bindBaseLayerPicker(val) {
+  map.controls.basemapsTool.container.style.display = val ? "block" : "none"
+}
+
+// 图层控制
+export function bindBindLayersTool(val) {
+  map.controls.layersTool.container.style.display = val ? "block" : "none"
+}

@@ -20,12 +20,11 @@ export default ({ mode }: ConfigEnv) => {
     base: ENV.VITE_BASE_URL,
     server: {
       host: "localhost",
-      https: false,
       port: 2001
     },
     define: {
       "process.env": {
-        mode: mode,
+        mode,
         BASE_URL: ENV.VITE_BASE_URL,
         EXAMPLE_SOURCE_PATH: ENV.VITE_EXAMPLE_SOURCE_PATH,
         EDITOR_MODE: ENV.VITE_EDITOR_MODE !== "0"
@@ -39,7 +38,7 @@ export default ({ mode }: ConfigEnv) => {
       extensions: [".js", ".ts", ".jsx", ".tsx", ".json"]
     },
     // optimizeDeps: {
-    //   include: []
+    //   exclude: ["leaflet"]
     // },
     json: {
       // 支持从 .json 文件中进行按名导入
@@ -57,8 +56,6 @@ export default ({ mode }: ConfigEnv) => {
     build: {
       // 输出路径
       outDir: path.join("./dist", ENV.VITE_BASE_URL),
-      // 静态资源文件生成的目录
-      assetsDir: "example/assets-vue",
       // 小于此阈值的导入或引用资源将内联为 base64 编码， 以避免额外的http请求， 设置为 0, 可以完全禁用此项，
       assetsInlineLimit: 4096,
       // 启动 / 禁用 CSS 代码拆分
@@ -69,17 +66,24 @@ export default ({ mode }: ConfigEnv) => {
       commonjsOptions: {
         include: /node_modules|packages/
       },
+      // 静态资源文件生成的目录
+      assetsDir: "example/assets-vue",
       // 自定义底层的 Rollup 打包配置
       rollupOptions: {
         input: {
           index: path.resolve(__dirname, "index.html"),
           editor: path.resolve(__dirname, "editor-vue.html"),
           read: path.resolve(__dirname, "read-vue.html")
+        },
+        output: {
+          chunkFileNames: "example/assets-vue/js/[name]-[hash].js",
+          entryFileNames: "example/assets-vue/js/[name]-[hash].js",
+          assetFileNames: "example/assets-vue/[ext]/[name]-[hash].[ext]"
         }
       },
       // 当设置为 true, 构建后将会生成 manifest.json 文件
       manifest: false,
-      // 设置为 false 可以禁用最小化混淆,或是用来指定是应用哪种混淆器 boolean | 'terser' | 'esbuild'
+      // 用来指定是应用哪种混淆器 boolean | 'terser' | 'esbuild'
       minify: "terser",
       // 传递给 Terser 的更多 minify 选项
       terserOptions: {},

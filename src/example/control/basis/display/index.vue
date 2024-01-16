@@ -8,6 +8,8 @@
         <a-checkbox v-model:checked="formState.enabledFullScreen" @change="onBindFullScreen">全屏</a-checkbox>
         <a-checkbox v-model:checked="formState.enabledZoomIn" @change="onBindZoomIn">地图放大</a-checkbox>
         <a-checkbox v-model:checked="formState.enabledZoomOut" @change="onBindZoomOut">地图缩小</a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledLayerPicker" @change="onBindBaseLayerPicker">底图切换</a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledLayersTool" @change="onBindLayersTool">图层控制</a-checkbox>
       </a-space>
     </div>
     <div>
@@ -42,6 +44,8 @@ interface FormState {
   enabledLegend: boolean
   enabledZoomIn: boolean
   enabledZoomOut: boolean
+  enabledLayerPicker: boolean
+  enabledLayersTool: boolean
 }
 
 const formState: UnwrapRef<FormState> = reactive({
@@ -60,7 +64,9 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledClock: true,
   enabledTimeLine: true,
   enabledNav: true,
-  enabledLegend: true
+  enabledLegend: true,
+  enabledLayerPicker: true,
+  enabledLayersTool: true
 })
 
 // 按钮
@@ -80,6 +86,12 @@ const onBindZoomIn = () => {
 }
 const onBindZoomOut = () => {
   mapWork.bindZoomOut(formState.enabledZoomOut)
+}
+const onBindBaseLayerPicker = () => {
+  mapWork.bindBaseLayerPicker(formState.enabledLayerPicker)
+}
+const onBindLayersTool = () => {
+  mapWork.bindBindLayersTool(formState.enabledLayersTool)
 }
 
 // 面板

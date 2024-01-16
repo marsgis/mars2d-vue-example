@@ -7,7 +7,7 @@
 
       <a-form-item label="起点">
         <a-space>
-          <mars-input class="inputWidth" v-model:value="strat" disabled></mars-input>
+          <mars-input class="inputWidth" v-model:value="strat"></mars-input>
           <mars-button @click="stratPoint">选点</mars-button>
         </a-space>
       </a-form-item>
@@ -111,11 +111,10 @@ const stratPoint = () => {
   mapWork.stratPoint()
 }
 mapWork.eventTarget.on("star", function (event: any) {
-  strat.value = event.latlng.lng + "," + event.latlng.lat
+  strat.value = event.latlng.lng.toFixed(6) + "," + event.latlng.lat.toFixed(6)
 })
 // 终点POI
 const endPoint = () => {
-
   mapWork.endPoint()
   wayShow.value = false
 }

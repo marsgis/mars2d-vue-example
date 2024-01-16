@@ -21,10 +21,17 @@
               <tr>
                 <td>{{ item.label }}</td>
                 <td>
-                  <base-comp :type="item.type" size="small" v-model:value="styleValue[item.name]"
+                  <base-comp
+                    :type="item.type"
+                    size="small"
+                    v-model:value="styleValue[item.name]"
                     :min="item.min || item.min === 0 ? item.min : -Infinity"
-                    :max="item.max || item.max === 0 ? item.max : Infinity" :step="item.step || 0.1"
-                    :options="item.data || []" @change="unionChange(item, item.data)"></base-comp>
+                    :max="item.max || item.max === 0 ? item.max : Infinity"
+                    :step="item.step || 0.1"
+                    :options="item.data || []"
+                    :defval="item.name"
+                    @change="unionChange(item, item.data)"
+                  ></base-comp>
                 </td>
               </tr>
             </template>
@@ -38,10 +45,16 @@
           <tr>
             <td>{{ item.label }}</td>
             <td>
-              <base-comp :type="item.type" size="small" v-model:value="styleValue.label[item.name]"
+              <base-comp
+                :type="item.type"
+                size="small"
+                v-model:value="styleValue.label[item.name]"
                 :min="item.min || item.min === 0 ? item.min : -Infinity"
-                :max="item.max || item.max === 0 ? item.max : Infinity" :step="item.step || 0.1"
-                :options="item.data || []" @change="labelChange(item)"></base-comp>
+                :max="item.max || item.max === 0 ? item.max : Infinity"
+                :step="item.step || 0.1"
+                :options="item.data || []"
+                @change="labelChange(item)"
+              ></base-comp>
             </td>
           </tr>
         </template>
@@ -149,6 +162,10 @@ function setDefault() {
 
   styleType.value = styleConfig.type
   originStyles = _.cloneDeep(styleConfig.style)
+
+  originStyles.forEach((item) => {
+    styleValue.value[item.name] = styleValue.value[item.name] ?? getViewDefval(item, styleValue.value) // 数据中没有的地方使用默认值
+  })
 }
 
 function updateStyle(item: any) {

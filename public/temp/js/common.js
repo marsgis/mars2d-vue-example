@@ -2,7 +2,7 @@
 
 const parentGlobal = window.parent || window
 
-parentGlobal.mars2d = mars2d// widget中使用
+parentGlobal.mars2d = mars2d // widget中使用
 
 function init() {
   // 读取 config.json 配置文件
@@ -47,8 +47,8 @@ function globalAlert(content, title) {
 }
 
 // 调用项目的右上角信息提示（可关闭）
-function globalNotify(title, content) {
-  return parentGlobal.$notify(title, content)
+function globalNotify(title, content, options) {
+  return parentGlobal.$notify(title, content, options)
 }
 
 function showLoading(type) {

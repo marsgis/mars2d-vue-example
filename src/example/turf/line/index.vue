@@ -51,8 +51,11 @@ const calculationCurve = () => {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .mars-pannel-item-label {
   width: 74px;
+}
+:deep(.ant-input-number-input-wrap) {
+  width: 80px;
 }
 </style>

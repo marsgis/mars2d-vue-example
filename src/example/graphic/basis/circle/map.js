@@ -221,7 +221,8 @@ export function startDrawGraphic() {
       outline: true,
       outlineWidth: 2,
       outlineColor: "#254dc4",
-      outlineOpacity: 1
+      outlineOpacity: 1,
+      dashArray: "实线"
     },
     success: function (graphic) {
       console.log("标绘完成", graphic)
