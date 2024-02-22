@@ -292,7 +292,12 @@ function addDemoGraphic2() {
       outline: true,
       outlineWidth: 2,
       outlineColor: "#0000ff",
-      outlineOpacity: 1.0
+      outlineOpacity: 1.0,
+      label: {
+        text: "我是火星科技",
+        color: "#0000FF",
+        font_size: 20
+      }
     },
     attr: { remark: "示例2" }
   })

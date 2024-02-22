@@ -3,17 +3,11 @@ import Application from "./App.vue"
 import MarsUIInstall from "@mars/components/mars-ui"
 import { injectState, key } from "@mars/widgets/common/store/widget"
 import { getExampleId, getQueryString } from "@mars/utils/mars-util"
-import { cloneDeep } from "lodash"
 import store from "@mars/widgets/widget-store"
 import { Editor as MarsgisEditor } from "@marsgis/editor"
 import "@marsgis/editor/dist/style.css"
 import "@mars/components/mars-ui/common"
 
-// https跳转处理
-const protocol = window.location.protocol
-// if (protocol === "https:") {
-//   window.location.href = window.location.href.replace("https", "http")
-// }
 document.oncontextmenu = function (e) {
   e.preventDefault()
 }

@@ -216,7 +216,12 @@ export function startDrawGraphic() {
     style: {
       width: 3,
       color: "#0000ff",
-      dashArray: "实线"
+      dashArray: "实线",
+      label: {
+        text: "我是文本",
+        color: "#0000FF",
+        font_size: 20
+      }
     },
     success: function (graphic) {
       console.log("标绘完成", graphic)
@@ -309,7 +314,12 @@ function addDemoGraphic3() {
     latlngs,
     style: {
       width: 3,
-      color: "#0000ff"
+      color: "#0000ff",
+      label: {
+        text: "我是火星科技",
+        color: "#0000FF",
+        font_size: 20
+      }
     },
     attr: { remark: "示例3" }
   })

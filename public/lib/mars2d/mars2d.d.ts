@@ -2,10 +2,10 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.2.0
- * 编译日期：2024-01-16 17:11:35
+ * 版本信息：v3.2.1
+ * 编译日期：2024-02-22 13:08:17
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
- * 使用单位：免费公开版 ，2021-10-01
+ * 使用单位：免费公开版 ，2024-01-16
  */
 import * as L from "leaflet"
 export { L }
@@ -1141,6 +1141,11 @@ declare class CanvasImage extends L.Path {
         id?: string | number;
     });
     /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
+    /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
      */
@@ -1360,11 +1365,6 @@ declare class CanvasImage extends L.Path {
         precision?: number;
     }): any | any;
     /**
-     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
-     * @returns 导出的坐标、样式及属性等信息
-     */
-    toJSON(): any | any;
-    /**
      * 设置图片URL
      * @param url - 图片URL
      * @returns 当前对象本身，可以链式调用
@@ -1503,6 +1503,11 @@ declare class Circle extends L.Circle {
         tooltipOptions?: Map.TooltipOptions;
         id?: string | number;
     });
+    /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
     /**
      * 返回半径值
      * @returns 半径值
@@ -1790,11 +1795,6 @@ declare class Circle extends L.Circle {
     toGeoJSON(options?: any | {
         precision?: number;
     }): any | any;
-    /**
-     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
-     * @returns 导出的坐标、样式及属性等信息
-     */
-    toJSON(): any | any;
     /**
      * 判断指定坐标是否在当前圆内
      * @param latlng - 坐标
@@ -2453,6 +2453,11 @@ declare class Ellipse extends L.Path {
         id?: string | number;
     });
     /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
+    /**
      * 重新绘制。在更改路径所使用的坐标之后会很有用。
      * @returns 当前对象本身，可以链式调用
      */
@@ -2687,11 +2692,6 @@ declare class Ellipse extends L.Path {
     toGeoJSON(options?: any | {
         precision?: number;
     }): any | any;
-    /**
-     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
-     * @returns 导出的坐标、样式及属性等信息
-     */
-    toJSON(): any | any;
     /**
      * 获取矩形边界
      * @returns 矩形边界
@@ -3075,6 +3075,11 @@ declare class Marker extends L.Marker {
         id?: string | number;
     });
     /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
+    /**
      * 返回图标点的LatLng经纬度对象
      * @returns 经纬度对象
      */
@@ -3328,11 +3333,6 @@ declare class Marker extends L.Marker {
     toGeoJSON(options?: any | {
         precision?: number;
     }): any | any;
-    /**
-     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
-     * @returns 导出的坐标、样式及属性等信息
-     */
-    toJSON(): any | any;
 }
 
 /**
@@ -3864,6 +3864,11 @@ declare class Point extends L.CircleMarker {
         id?: string | number;
     });
     /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
+    /**
      * 返回半径值
      * @returns 半径值
      */
@@ -4122,11 +4127,6 @@ declare class Point extends L.CircleMarker {
     toGeoJSON(options?: any | {
         precision?: number;
     }): any | any;
-    /**
-     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
-     * @returns 导出的坐标、样式及属性等信息
-     */
-    toJSON(): any | any;
 }
 
 declare namespace Polygon {
@@ -4235,6 +4235,11 @@ declare class Polygon extends L.Polygon {
         tooltipOptions?: Map.TooltipOptions;
         id?: string | number;
     });
+    /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
     /**
      * 返回矢量对象的坐标点的数组，或者在多矢量对象的情况下返回嵌套的点阵列。
      * @returns 经纬度数组
@@ -4490,11 +4495,6 @@ declare class Polygon extends L.Polygon {
         precision?: number;
     }): any | any;
     /**
-     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
-     * @returns 导出的坐标、样式及属性等信息
-     */
-    toJSON(): any | any;
-    /**
      * 判断指定坐标是否在当前面内
      * @param latlng - 坐标
      * @returns 是否在面内
@@ -4601,6 +4601,11 @@ declare class Polyline extends L.Polyline {
         tooltipOptions?: Map.TooltipOptions;
         id?: string | number;
     });
+    /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
     /**
      * 返回折线的坐标点的数组，或者在多折线的情况下返回嵌套的点阵列。
      * @returns 经纬度数组
@@ -4856,11 +4861,6 @@ declare class Polyline extends L.Polyline {
         precision?: number;
     }): any | any;
     /**
-     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
-     * @returns 导出的坐标、样式及属性等信息
-     */
-    toJSON(): any | any;
-    /**
      * 设置线的偏移值，常用于平行线
      * @param offset - 偏移值（像素）
      * @returns 当前对象本身，可以链式调用
@@ -4974,6 +4974,11 @@ declare class Rectangle extends L.Rectangle {
         tooltipOptions?: Map.TooltipOptions;
         id?: string | number;
     });
+    /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any | any;
     /**
      * 用传递的LatLngBounds边界重绘矩形。
      * @param latLngBounds - 边界
@@ -5239,11 +5244,6 @@ declare class Rectangle extends L.Rectangle {
         precision?: number;
     }): any | any;
     /**
-     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
-     * @returns 导出的坐标、样式及属性等信息
-     */
-    toJSON(): any | any;
-    /**
      * 判断指定坐标是否在当前矩形内
      * @param latlng - 坐标
      * @returns 是否在矩形内
@@ -5472,18 +5472,6 @@ declare class ClusterLayer extends L.Layer {
      */
     remove(): any | ClusterLayer;
     /**
-     * 绑定Popup弹窗配置
-     * @param content - Popup弹窗内容
-     * @param [options] - Popup弹窗参数
-     * @returns 当前对象本身，可以链式调用
-     */
-    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | ClusterLayer;
-    /**
-     * 解除绑定Popup弹窗配置
-     * @returns 当前对象本身，可以链式调用
-     */
-    unbindPopup(): any | ClusterLayer;
-    /**
      * 打开Popup弹窗
      * @param [latlng] - 位置,如果latlng没有设置则在默认的所在位置打开。
      * @returns 当前对象本身，可以链式调用
@@ -5690,6 +5678,18 @@ declare class ClusterLayer extends L.Layer {
         easeLinearity?: number;
         noMoveStart?: boolean;
     }): any | ClusterLayer;
+    /**
+     * 绑定Popup弹窗配置
+     * @param content - Popup弹窗内容
+     * @param [options] - Popup弹窗参数
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindPopup(content: string | HTMLElement | ((...params: any[]) => any) | L.Popup, options?: Map.PopupOptions | any): any | ClusterLayer;
+    /**
+     * 解除绑定Popup弹窗配置
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindPopup(): any | ClusterLayer;
 }
 
 /**
@@ -12223,18 +12223,18 @@ declare class Measure extends BaseThing {
 }
 
 /**
- * 转换options参数处理基类
- * @param options - 参数名称
+ * 矢量数据style转换处理基类
+ * @param [options] - 控制参数
  */
-declare class BaseOptsConver {
-    constructor(options: any);
+declare class BaseStyleConver {
+    constructor(options?: any);
 }
 
 /**
  * Circle 转换options参数处理类
  * @param options - 参数名称
  */
-declare class CircleStyleConver extends BaseOptsConver {
+declare class CircleStyleConver extends BaseStyleConver {
     constructor(options: any);
 }
 
@@ -12258,7 +12258,7 @@ declare class LabelStyleConver extends DivGraphicStyleConver {
  * Marker 转换options样式参数处理类
  * @param options - 参数名称
  */
-declare class MarkerStyleConver extends BaseOptsConver {
+declare class MarkerStyleConver extends BaseStyleConver {
     constructor(options: any);
 }
 
@@ -12266,7 +12266,7 @@ declare class MarkerStyleConver extends BaseOptsConver {
  * Point 转换options样式参数处理类
  * @param options - 参数名称
  */
-declare class PointStyleConver extends BaseOptsConver {
+declare class PointStyleConver extends BaseStyleConver {
     constructor(options: any);
 }
 
@@ -12274,7 +12274,7 @@ declare class PointStyleConver extends BaseOptsConver {
  * Polygon 转换options样式参数处理类
  * @param options - 参数名称
  */
-declare class PolygonStyleConver extends BaseOptsConver {
+declare class PolygonStyleConver extends BaseStyleConver {
     constructor(options: any);
     /**
      * style样式属性赋值到 entity
@@ -12289,7 +12289,7 @@ declare class PolygonStyleConver extends BaseOptsConver {
  * Polyline 转换options样式参数处理类
  * @param options - 参数名称
  */
-declare class PolylineStyleConver extends BaseOptsConver {
+declare class PolylineStyleConver extends BaseStyleConver {
     constructor(options: any);
 }
 
@@ -12297,7 +12297,7 @@ declare class PolylineStyleConver extends BaseOptsConver {
  * Rectangle 转换options样式参数处理类
  * @param options - 参数名称
  */
-declare class RectangleStyleConver extends BaseOptsConver {
+declare class RectangleStyleConver extends BaseStyleConver {
     constructor(options: any);
 }
 
@@ -12341,6 +12341,11 @@ declare namespace GraphicUtil {
      */
     function hasType(type: string): any | boolean;
     /**
+     * 循环执行矢量数据类型
+     * @param method - 执行的方法
+     */
+    function eachGraphicType(method: (...params: any[]) => any): any | void;
+    /**
      * 判断该类型是否点状对象
      * @param type - 矢量数据类型
      * @returns 是否点状对象类型
@@ -12350,9 +12355,10 @@ declare namespace GraphicUtil {
      * 注册矢量数据类
      * @param type - 矢量数据类型
      * @param graphicClass - 矢量数据类
+     * @param [isPoint] - 是否为点状数据
      * @returns 无
      */
-    function register(type: string, graphicClass: Marker | Polyline | Polygon | Circle | Rectangle | any): any | void;
+    function register(type: string, graphicClass: Marker | Polyline | Polygon | Circle | Rectangle | any, isPoint?: boolean): any | void;
     /**
      * 根据 矢量数据类型 获取 矢量数据类
      * @param type - 矢量数据类型
@@ -12841,7 +12847,7 @@ declare namespace Util {
     function template(str: string, data: any, toEmpty?: boolean): any | string;
     /**
      * 获取随机唯一uuid字符串,包含数字、大写字母、小写字母
-     * @param [prefix = 'M'] - 前缀
+     * @param [prefix = 'm'] - 前缀
      * @returns 字符串
      */
     function createGuid(prefix?: string): any | string;
@@ -12997,7 +13003,7 @@ declare namespace Util {
     }): any | any;
     /**
      * 导出下载图片文件
-     * @param name - 图片文件名称，不需要后缀名
+     * @param name - 图片文件名称， 后缀名默认为.png
      * @param base64 - 图片内容，base64格式
      * @returns 无
      */
@@ -13029,10 +13035,10 @@ declare namespace Util {
      * mars2d.Util.formatDate(date,"yyyy-MM-dd HH:mm:ss.S") ==> 2017-08-25 08:08:00.423
      * mars2d.Util.formatDate(date,"yyyy-M-d HH:mm:ss") ==> 2017-8-5 08:08:00
      * @param date - 时间
-     * @param fmt - 格式模版，月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q) 可以用 1-2 个占位符; 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字).
+     * @param [fmt = "yyyy-MM-dd HH:mm:ss"] - 格式模版，月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q) 可以用 1-2 个占位符; 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字).
      * @returns 指定格式的字符串
      */
-    function formatDate(date: Date, fmt: string): any | string;
+    function formatDate(date: Date, fmt?: string): any | string;
     /**
      * 格式化时长
      * @param strtime - 时长
@@ -13244,7 +13250,7 @@ export {
   name, update, version, proj4, esri,
   BaseClass, BaseThing, SmallTooltip, Token, CRS, ChinaCRS, EventType, GraphicType, LayerType, HorizontalOrigin, VerticalOrigin, MapSwichType, State,
   Util, Log, GraphicUtil, LayerUtil, PointUtil, PointTrans, PolyUtil, DrawUtil, MeasureUtil,
-  BaseOptsConver, MarkerStyleConver, DivGraphicStyleConver, LabelStyleConver, PointStyleConver, CircleStyleConver, PolylineStyleConver, PolygonStyleConver, RectangleStyleConver,
+  BaseStyleConver, MarkerStyleConver, DivGraphicStyleConver, LabelStyleConver, PointStyleConver, CircleStyleConver, PolylineStyleConver, PolygonStyleConver, RectangleStyleConver,
   control, graphic, layer, thing, query,
   Map,
 };

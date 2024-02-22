@@ -38,6 +38,180 @@ export function onUnmounted() {
   map = null
 }
 
+
+function addDemoGraphic1() {
+  // 经纬度 转为leafelt的纬度、经度标准
+  const latlngs = mars2d.PointTrans.coords2latlngs([
+    [117.271662, 31.870639, 21.49],
+    [117.290605, 31.871517, 19.47],
+    [117.302056, 31.858145, 16.27],
+    [117.299439, 31.847545, 14.77],
+    [117.267705, 31.8491, 22.11]
+  ])
+
+  const graphic = new mars2d.graphic.Polygon({
+    latlngs,
+    style: {
+      fill: true,
+      fillColor: "#3388ff",
+      fillOpacity: 0.3,
+      outline: true,
+      outlineWidth: 2,
+      outlineColor: "#0000FF",
+      outlineOpacity: 0.5
+    },
+    attr: { remark: "示例1" }
+  })
+  graphicLayer.addGraphic(graphic)
+
+  // 演示个性化处理graphic，
+  initGraphicManager(graphic)
+}
+
+function addDemoGraphic2() {
+  // 经纬度 转为leafelt的纬度、经度标准
+  const latlngs = mars2d.PointTrans.coords2latlngs([
+    [117.187572, 31.823074, 45.53],
+    [117.195377, 31.82418, 43.36],
+    [117.204541, 31.818933, 37.06],
+    [117.19775, 31.809539, 36.59],
+    [117.183832, 31.814237, 38.76]
+  ])
+  const graphic = new mars2d.graphic.Polygon({
+    latlngs,
+    style: {
+      fill: true,
+      fillColor: "#ff0000",
+      fillOpacity: 0.3,
+      outline: false,
+      label: {
+        text: "我是火星科技",
+        color: "#0000FF",
+        font_size: 20
+      }
+    },
+    attr: { remark: "示例2" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic3() {
+  // 经纬度 转为leafelt的纬度、经度标准
+  const latlngs = mars2d.PointTrans.coords2latlngs([
+    [117.216386, 31.815376, 35.16],
+    [117.222533, 31.81729, 29.21],
+    [117.22642, 31.814983, 28.43],
+    [117.22681, 31.810739, 28.55],
+    [117.212868, 31.811302, 34.4],
+    [117.212538, 31.81424, 31.87],
+    [117.214681, 31.81402, 32.97]
+  ])
+  const graphic = new mars2d.graphic.Polygon({
+    latlngs,
+    style: {
+      fill: true,
+      image: "img/fill/movingRiver.png",
+      outline: true,
+      outlineWidth: 6,
+      outlineColor: "#00ffff",
+      outlineOpacity: 1.0
+    },
+    attr: { remark: "示例3" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic4() {
+  // 经纬度 转为leafelt的纬度、经度标准
+  const latlngs = mars2d.PointTrans.coords2latlngs([
+    [117.183593, 31.856606, 32.1],
+    [117.197665, 31.86613, 33.9],
+    [117.213155, 31.854726, 28.6],
+    [117.203837, 31.842409, 30.4],
+    [117.186741, 31.845103, 45.5]
+  ])
+
+  const graphic = new mars2d.graphic.Polygon({
+    latlngs,
+    style: {
+      fill: true,
+      fillColor: "#051453",
+      fillOpacity: 0.3,
+      outline: true,
+      outlineWidth: 2,
+      outlineColor: "#0000FF",
+      outlineOpacity: 1.0,
+      dashArray: "5, 10"
+    },
+    attr: { remark: "示例4" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic5() {
+  // 经纬度 转为leafelt的纬度、经度标准
+  const latlngs = mars2d.PointTrans.coords2latlngs([
+    [117.261476, 31.799865, 20.8],
+    [117.270864, 31.804957, 26],
+    [117.289609, 31.804853, 25.4],
+    [117.290861, 31.79569, 25.2],
+    [117.268148, 31.788912, 18.5]
+  ])
+
+  const graphic = new mars2d.graphic.Polygon({
+    latlngs,
+    style: {
+      fill: true,
+      image: "img/fill/redLine.png",
+      imageOpacity: 1,
+      fillColor: "#00ff00",
+      fillOpacity: 0.3,
+      outline: true,
+      outlineWidth: 2,
+      outlineColor: "#ff0000",
+      outlineOpacity: 1.0
+    },
+    attr: { remark: "示例5" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic6() {
+  // 挖洞面
+  const graphic = new mars2d.graphic.Polygon({
+    latlngs: [
+      // 外环
+      mars2d.PointTrans.coords2latlngs([
+        [117.24679, 31.835806, 35.8],
+        [117.258539, 31.832093, 36],
+        [117.254762, 31.8219, 33.3],
+        [117.24656, 31.8196, 24.8],
+        [117.240134, 31.827664, 27.4]
+      ]),
+      //  内环
+      mars2d.PointTrans.coords2latlngs([
+        [117.247433, 31.829648, 33.4],
+        [117.253809, 31.828713, 33],
+        [117.252086, 31.824081, 32.6],
+        [117.247597, 31.825922, 31.6]
+      ])
+    ],
+    style: {
+      fill: true,
+      fillColor: "#ffff00",
+      fillOpacity: 0.3,
+      outline: true,
+      outlineWidth: 2,
+      outlineColor: "#0000FF",
+      outlineOpacity: 0.5
+    },
+    attr: { remark: "示例6" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+
+
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件
@@ -221,7 +395,12 @@ export function startDrawGraphic() {
       outline: true,
       outlineWidth: 2,
       outlineColor: "#254dc4",
-      outlineOpacity: 1
+      outlineOpacity: 1,
+      label: {
+        text: "我是文本",
+        color: "#0000FF",
+        font_size: 20
+      }
     },
     success: function (graphic) {
       console.log("标绘完成", graphic)
@@ -264,170 +443,4 @@ export function addRandomGraphicByCount(count) {
   }
 
   return count.length
-}
-
-function addDemoGraphic1() {
-  // 经纬度 转为leafelt的纬度、经度标准
-  const latlngs = mars2d.PointTrans.coords2latlngs([
-    [117.271662, 31.870639, 21.49],
-    [117.290605, 31.871517, 19.47],
-    [117.302056, 31.858145, 16.27],
-    [117.299439, 31.847545, 14.77],
-    [117.267705, 31.8491, 22.11]
-  ])
-
-  const graphic = new mars2d.graphic.Polygon({
-    latlngs,
-    style: {
-      fill: true,
-      fillColor: "#3388ff",
-      fillOpacity: 0.3,
-      outline: true,
-      outlineWidth: 2,
-      outlineColor: "#0000FF",
-      outlineOpacity: 0.5
-    },
-    attr: { remark: "示例1" }
-  })
-  graphicLayer.addGraphic(graphic)
-
-  // 演示个性化处理graphic，
-  initGraphicManager(graphic)
-}
-
-function addDemoGraphic2() {
-  // 经纬度 转为leafelt的纬度、经度标准
-  const latlngs = mars2d.PointTrans.coords2latlngs([
-    [117.187572, 31.823074, 45.53],
-    [117.195377, 31.82418, 43.36],
-    [117.204541, 31.818933, 37.06],
-    [117.19775, 31.809539, 36.59],
-    [117.183832, 31.814237, 38.76]
-  ])
-  const graphic = new mars2d.graphic.Polygon({
-    latlngs,
-    style: {
-      fill: true,
-      fillColor: "#ff0000",
-      fillOpacity: 0.3,
-      outline: false
-    },
-    attr: { remark: "示例2" }
-  })
-  graphicLayer.addGraphic(graphic)
-}
-
-function addDemoGraphic3() {
-  // 经纬度 转为leafelt的纬度、经度标准
-  const latlngs = mars2d.PointTrans.coords2latlngs([
-    [117.216386, 31.815376, 35.16],
-    [117.222533, 31.81729, 29.21],
-    [117.22642, 31.814983, 28.43],
-    [117.22681, 31.810739, 28.55],
-    [117.212868, 31.811302, 34.4],
-    [117.212538, 31.81424, 31.87],
-    [117.214681, 31.81402, 32.97]
-  ])
-  const graphic = new mars2d.graphic.Polygon({
-    latlngs,
-    style: {
-      fill: true,
-      image: "img/fill/movingRiver.png",
-      outline: true,
-      outlineWidth: 6,
-      outlineColor: "#00ffff",
-      outlineOpacity: 1.0
-    },
-    attr: { remark: "示例3" }
-  })
-  graphicLayer.addGraphic(graphic)
-}
-
-function addDemoGraphic4() {
-  // 经纬度 转为leafelt的纬度、经度标准
-  const latlngs = mars2d.PointTrans.coords2latlngs([
-    [117.183593, 31.856606, 32.1],
-    [117.197665, 31.86613, 33.9],
-    [117.213155, 31.854726, 28.6],
-    [117.203837, 31.842409, 30.4],
-    [117.186741, 31.845103, 45.5]
-  ])
-
-  const graphic = new mars2d.graphic.Polygon({
-    latlngs,
-    style: {
-      fill: true,
-      fillColor: "#051453",
-      fillOpacity: 0.3,
-      outline: true,
-      outlineWidth: 2,
-      outlineColor: "#0000FF",
-      outlineOpacity: 1.0,
-      dashArray: "5, 10"
-    },
-    attr: { remark: "示例4" }
-  })
-  graphicLayer.addGraphic(graphic)
-}
-
-function addDemoGraphic5() {
-  // 经纬度 转为leafelt的纬度、经度标准
-  const latlngs = mars2d.PointTrans.coords2latlngs([
-    [117.261476, 31.799865, 20.8],
-    [117.270864, 31.804957, 26],
-    [117.289609, 31.804853, 25.4],
-    [117.290861, 31.79569, 25.2],
-    [117.268148, 31.788912, 18.5]
-  ])
-
-  const graphic = new mars2d.graphic.Polygon({
-    latlngs,
-    style: {
-      fill: true,
-      image: "img/fill/redLine.png",
-      imageOpacity: 1,
-      fillColor: "#00ff00",
-      fillOpacity: 0.3,
-      outline: true,
-      outlineWidth: 2,
-      outlineColor: "#ff0000",
-      outlineOpacity: 1.0
-    },
-    attr: { remark: "示例5" }
-  })
-  graphicLayer.addGraphic(graphic)
-}
-
-function addDemoGraphic6() {
-  // 挖洞面
-  const graphic = new mars2d.graphic.Polygon({
-    latlngs: [
-      // 外环
-      mars2d.PointTrans.coords2latlngs([
-        [117.24679, 31.835806, 35.8],
-        [117.258539, 31.832093, 36],
-        [117.254762, 31.8219, 33.3],
-        [117.24656, 31.8196, 24.8],
-        [117.240134, 31.827664, 27.4]
-      ]),
-      //  内环
-      mars2d.PointTrans.coords2latlngs([
-        [117.247433, 31.829648, 33.4],
-        [117.253809, 31.828713, 33],
-        [117.252086, 31.824081, 32.6],
-        [117.247597, 31.825922, 31.6]
-      ])
-    ],
-    style: {
-      fill: true,
-      fillColor: "#ffff00",
-      fillOpacity: 0.3,
-      outline: true,
-      outlineWidth: 2,
-      outlineColor: "#0000FF",
-      outlineOpacity: 0.5
-    },
-    attr: { remark: "示例6" }
-  })
-  graphicLayer.addGraphic(graphic)
 }

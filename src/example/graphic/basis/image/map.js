@@ -182,6 +182,11 @@ export function startDrawGraphic() {
     style: {
       url: "img/simple/gugong.jpg",
       opacity: 1
+      // label: {
+      //   text: "我是火星科技",
+      //   color: "#0000FF",
+      //   font_size: 20
+      // }
     },
     success: function (graphic) {
       console.log("标绘完成", graphic)

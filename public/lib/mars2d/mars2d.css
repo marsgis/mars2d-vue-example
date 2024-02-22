@@ -1,10 +1,10 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.2.0
- * 编译日期：2024-01-16 17:11:36
+ * 版本信息：v3.2.1
+ * 编译日期：2024-02-22 13:08:17
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
- * 使用单位：免费公开版 ，2021-10-01
+ * 使用单位：免费公开版 ，2024-01-16
  */
 
 .leaflet-cluster-anim .leaflet-marker-icon,
@@ -156,7 +156,7 @@
 .leaflet-popup-content-wrapper {
   border-radius: 3px;
 }
-.mars2d-template-titile {
+.mars2d-template-title {
   position: absolute;
   top: 0;
   left: 0;

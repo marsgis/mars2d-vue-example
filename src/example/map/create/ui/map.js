@@ -53,6 +53,11 @@ export function drawExtent(extent) {
 // 是否运行地图鼠标交互
 export function enableMapMouseController(value) {
   console.log(value)
+  if (value) {
+    map.dragging.enable()
+  } else {
+    map.dragging.disable()
+  }
 }
 
 // 调整亮度 （演示滑动条）

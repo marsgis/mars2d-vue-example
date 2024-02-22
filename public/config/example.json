@@ -477,13 +477,29 @@
         ]
       },
       {
-        "name": "标准格式文件",
+        "name": "GeoJson矢量图层",
         "children": [
           {
             "name": "GeoJson数据",
             "thumbnail": "layer-graphic-file-geojson.jpg",
             "main": "layer-graphic/file/geojson",
             "hasPannel": true
+          },
+          {
+            "name": "SHP文件的加载(转GeoJson)",
+            "thumbnail": "layerg-file-shp2json.jpg",
+            "main": "layer-graphic/file/shp2json",
+            "hasPannel": true,
+            "libs": ["mars2d", "shpGeojson"],
+            "resources": ["Shp2JsonLayer.js"]
+          },
+          {
+            "name": "KML/KMZ文件的加载(转GeoJson)",
+            "thumbnail": "layerg-file-kml2json.jpg",
+            "main": "layer-graphic/file/kml2json",
+            "hasPannel": true,
+            "libs": ["mars2d", "kmlGeojson"],
+            "resources": ["Kml2JsonLayer.js"]
           },
           {
             "name": "中国各省市面",

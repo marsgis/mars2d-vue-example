@@ -221,7 +221,12 @@ export function startDrawGraphic() {
       outline: true,
       outlineWidth: 2,
       outlineColor: "#254dc4",
-      outlineOpacity: 1
+      outlineOpacity: 1,
+      label: {
+        text: "我是文本",
+        color: "#0000FF",
+        font_size: 20
+      }
     },
     success: function (graphic) {
       console.log("标绘完成", graphic)
@@ -301,7 +306,12 @@ function addDemoGraphic2() {
       fillOpacity: 0.3,
       image: "img/fill/redLine.png",
       imageOpacity: 1,
-      outline: false
+      outline: false,
+      label: {
+        text: "我是火星科技",
+        color: "#0000FF",
+        font_size: 20
+      }
     },
     attr: { remark: "示例2" }
   })
@@ -372,56 +382,4 @@ function addDemoGraphic5() {
   })
   graphicLayer.addGraphic(graphic)
 }
-export function drawDivMarker() {
-  graphicLayer.startDraw({
-    type: "divGraphic",
-    style: {
-      html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
-          <div class="marsTiltPanel-wrap">
-              <div class="area">
-                  <div class="arrow-lt"></div>
-                  <div class="b-t"></div>
-                  <div class="b-r"></div>
-                  <div class="b-b"></div>
-                  <div class="b-l"></div>
-                  <div class="arrow-rb"></div>
-                  <div class="label-wrap">
-                      <div class="title">火星水厂</div>
-                      <div class="label-content">
-                          <div class="data-li">
-                              <div class="data-label">实时流量：</div>
-                              <div class="data-value"><span id="lablLiuliang" class="label-num">39</span><span class="label-unit">m³/s</span>
-                              </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">水池液位：</div>
-                              <div class="data-value"><span id="lablYeWei"  class="label-num">10.22</span><span class="label-unit">m</span>
-                              </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">水泵状态：</div>
-                              <div class="data-value">
-                                <span id="lablSBZT1"  class="label-tag data-value-status-1" alt="中间状态">1号</span>
-                                <span id="lablSBZT2"  class="label-tag data-value-status-0" alt="关闭状态">2号</span>
-                               </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">出水阀门：</div>
-                              <div class="data-value">
-                                <span id="lablCSFM1"   class="label-tag data-value-status-1" alt="中间状态">1号</span>
-                                <span id="lablCSFM2"   class="label-tag data-value-status-2" alt="打开状态">2号</span>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="b-t-l"></div>
-              <div class="b-b-r"></div>
-          </div>
-          <div class="arrow" ></div>
-      </div>`,
-      horizontalOrigin: mars2d.HorizontalOrigin.LEFT,
-      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
-    }
-  })
-}
+

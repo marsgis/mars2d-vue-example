@@ -52,7 +52,6 @@ export function addLayer() {
     console.log("监听layer，单击了聚合点对象", event)
   })
 
-
   // 绑定右键菜单
   clusterLayer.bindContextMenu([
     {
@@ -86,15 +85,22 @@ export function addLayer() {
       }
     })
     clusterLayer.addGraphic(graphic)
-
-    const inhtml = `<div class="mars2d-template-titile">第${i}个</div>
-     <div class="mars2d-template-content" >
-        <div><label>编码</label> 测试数据 </div>
-        <div><label>名称</label> 测试名称 </div>
-        <div><label>地址</label> 测试地址 </div>
-      </div>`
-    graphic.bindPopup(inhtml)
   }
+
+  clusterLayer.bindPopup(function (event) {
+    if (event._childCount > 0) {
+      return "单击了聚合点,数量：" + event._childCount
+    }
+
+    const attr = event.attr
+    const innerHtml = `<div class="mars2d-template-titile">第${attr.id}个</div>
+      <div class="mars2d-template-content" >
+         <div><label>编码</label> 测试数据 </div>
+         <div><label>名称</label> 测试名称 </div>
+         <div><label>地址</label> 测试地址 </div>
+       </div>`
+    return innerHtml
+  })
 }
 
 export function addCustomLayer() {
@@ -119,6 +125,20 @@ export function addCustomLayer() {
   })
   map.addLayer(clusterLayer)
 
+  clusterLayer.bindPopup(function (event) {
+    if (event._childCount > 0) {
+      return "单击了聚合点,数量：" + event._childCount
+    }
+    const attr = event.attr
+    const innerHtml = `<div class="mars2d-template-titile">第${attr.id}个</div>
+      <div class="mars2d-template-content" >
+         <div><label>编码</label> 测试数据 </div>
+         <div><label>名称</label> 测试名称 </div>
+         <div><label>地址</label> 测试地址 </div>
+       </div>`
+    return innerHtml
+  })
+
   // 添加随机数据演示
   for (let i = 0; i < 100; i++) {
     const graphic = new mars2d.graphic.Marker({
@@ -133,14 +153,6 @@ export function addCustomLayer() {
       attr: { id: i }
     })
     clusterLayer.addGraphic(graphic)
-
-    const inhtml = `<div class="mars2d-template-titile">第${i}个</div>
-     <div class="mars2d-template-content" >
-        <div><label>编码</label> 测试数据 </div>
-        <div><label>名称</label> 测试名称 </div>
-        <div><label>地址</label> 测试地址 </div>
-      </div>`
-    graphic.bindPopup(inhtml)
   }
 }
 

@@ -1,28 +1,21 @@
 <template>
-  <mars-dialog :visible="true" top="20" right="10" :width="400">
+  <mars-dialog customClass="example-gui" :visible="true" top="20" right="10" :width="330">
     <!-- 方式一： 通过组件api 删除或添加显示的元素， option不需要是响应式数据 -->
-    <h3 class="f-push-10-t">表单一</h3>
-    <mars-gui ref="marsGuiRef" :options="options" :labelCol="7" @change="gui1Change"></mars-gui>
+    <div class="title-vertical_line">表单一</div>
+    <mars-gui ref="marsGuiRef" :options="options" @change="gui1Change"></mars-gui>
 
     <!-- 方式二： 直接通过options控制显示元素， option需要是响应式数据 -->
-    <h3 class="f-push-10-t">表单二</h3>
-    <div class="f-mb">
-      <mars-gui :options="options2"></mars-gui>
-    </div>
-    <div class="f-mb">
-      <a-space>
-        <mars-button @click="deleteJingdu">删除数字</mars-button>
-        <mars-button @click="deleteFirst">删除第一个</mars-button>
-        <mars-button @click="insertOne">插入一个</mars-button>
-        <mars-button @click="insertMore">插入多个</mars-button>
-      </a-space>
-    </div>
-    <div class="f-mb">
-      <a-space>
-        <mars-button @click="updateExtra">改变后缀</mars-button>
-        <mars-button @click="updateAll">完全替换</mars-button>
-        <mars-button @click="updateAllDate">批量更新</mars-button>
-      </a-space>
+    <div class="title-vertical_line f-mt">表单二</div>
+    <mars-gui :options="options2"></mars-gui>
+
+    <div class="footer-btns">
+      <mars-button @click="deleteJingdu">删除数字</mars-button>
+      <mars-button @click="deleteFirst">删除第一个</mars-button>
+      <mars-button @click="insertOne">插入一个</mars-button>
+      <mars-button @click="insertMore">插入多个</mars-button>
+      <mars-button @click="updateExtra">改变后缀</mars-button>
+      <mars-button @click="updateAll">完全替换</mars-button>
+      <mars-button @click="updateAllDate">批量更新</mars-button>
     </div>
   </mars-dialog>
 </template>
@@ -83,6 +76,7 @@ const options: GuiItem[] = [
     extra: h(
       MarsButton,
       {
+        class: "gui-btn",
         onClick: () => {
           alert("点击了")
         }
@@ -90,7 +84,6 @@ const options: GuiItem[] = [
       "测试"
     ),
     extraType: "custom"
-    // extra: "<mars-button>测试</mars-button>"
   },
   {
     type: "textarea",
@@ -186,6 +179,7 @@ const options: GuiItem[] = [
     max: 1.5,
     value: 0,
     extra: "{opcity}",
+    extraWidth: 40,
     change(data) {
       mapWork.updateBrightness(data)
       console.log(data)
@@ -199,7 +193,8 @@ const options: GuiItem[] = [
     range: true,
     min: -10,
     max: 100,
-    value: [1, 50],
+    value: [50, 100],
+    extraWidth: 57,
     extra: "{range}",
     change(data) {
       console.log(data)
@@ -208,7 +203,7 @@ const options: GuiItem[] = [
   {
     type: "switch",
     field: "opener",
-    label: "允许鼠标操作",
+    label: "鼠标操作",
     value: true,
     change(data) {
       mapWork.enableMapMouseController(data) // 调用地图方法
@@ -310,4 +305,40 @@ function updateAllDate() {
   })
 }
 </script>
-<style lang="less"></style>
+<style lang="less">
+.example-gui {
+  // 有竖线的标题
+  .title-vertical_line {
+    padding-left: 12px;
+    font-family: 思源黑体;
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--mars-control-text);
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 0;
+      width: 4px;
+      height: 19px;
+      border-radius: 2px;
+      background-color: var(--mars-primary-color);
+    }
+  }
+  .footer-btns {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 88px);
+    gap: 10px 18px;
+    justify-content: center;
+  }
+  .gui-btn {
+    width: 56px;
+  }
+
+  .ant-form {
+    padding: 12px 0;
+  }
+}
+</style>

@@ -86,7 +86,31 @@ const styleConfig = {
         show(style, allStyle, graphicType) {
           return style.border
         }
-      }
+      },
+      {
+        name: "horizontalOrigin",
+        label: "横向对齐",
+        type: "combobox",
+        defval: 0,
+        data: [
+          { label: "左边", value: 1 },
+          { label: "居中", value: 0 },
+          { label: "右边", value: -1 }
+        ]
+      },
+      {
+        name: "verticalOrigin",
+        label: "垂直对齐",
+        type: "combobox",
+        defval: 0,
+        data: [
+          { label: "顶部", value: -1 },
+          { label: "居中", value: 0 },
+          { label: "底部", value: 1 }
+        ]
+      },
+      { name: "offsetX", label: "横向偏移值", type: "number", defval: 0 },
+      { name: "offsetY", label: "垂直偏移值", type: "number", defval: 0 }
     ]
   },
   marker: {
@@ -119,6 +143,8 @@ const styleConfig = {
           { label: "底部", value: 1 }
         ]
       },
+      { name: "offsetX", label: "横向偏移值", type: "number", defval: 0 },
+      { name: "offsetY", label: "垂直偏移值", type: "number", defval: 0 },
       { name: "rotationAngle", label: "旋转角度", type: "slider", defval: 0, min: 0, max: 360, step: 1 }
     ]
   },
@@ -147,7 +173,9 @@ const styleConfig = {
           { label: "居中", value: 0 },
           { label: "底部", value: 1 }
         ]
-      }
+      },
+      { name: "offsetX", label: "横向偏移值", type: "number", defval: 0 },
+      { name: "offsetY", label: "垂直偏移值", type: "number", defval: 0 }
     ]
   },
   fontGraphic: {

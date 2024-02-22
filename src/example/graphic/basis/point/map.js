@@ -234,7 +234,13 @@ function addDemoGraphic2() {
       outline: true,
       outlineColor: "#0000FF",
       outlineWidth: 3,
-      outlineOpacity: 1.0
+      outlineOpacity: 1.0,
+      label: {
+        text: "我是火星科技",
+        color: "#0000FF",
+        font_size: 20,
+        offsetY: 30
+      }
     },
     attr: { remark: "示例2" }
   })
@@ -263,7 +269,13 @@ export function startDrawGraphic() {
     type: "point",
     style: {
       pixelSize: 8,
-      color: "#ff0000"
+      color: "#ff0000",
+      label: {
+        text: "我是文本",
+        color: "#ff0000",
+        font_size: 20,
+        offsetY: 30
+      }
     },
     success: function (graphic) {
       console.log("标绘完成", graphic)

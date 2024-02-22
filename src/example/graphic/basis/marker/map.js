@@ -63,7 +63,13 @@ function addDemoGraphic2() {
       image: "img/marker/fx1.png",
       width: 30,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
-      verticalOrigin: mars2d.VerticalOrigin.CENTER
+      verticalOrigin: mars2d.VerticalOrigin.CENTER,
+      label: {
+        text: "我是火星科技",
+        color: "#ff0000",
+        font_size: 20,
+        offsetY: 30
+      }
     },
     attr: { remark: "示例2" }
   })
@@ -92,7 +98,15 @@ export function startDrawGraphic() {
       width: 32,
       height: 44,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
-      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
+      label: {
+        text: "我是文本",
+        color: "#ff0000",
+        font_size: 20,
+        horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+        verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
+        offsetY: 50
+      }
     }
   })
 }

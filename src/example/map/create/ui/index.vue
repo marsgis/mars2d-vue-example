@@ -1,24 +1,18 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" bottom="40" width="400">
+  <mars-dialog customClass="dialog-nopadding" :visible="true" right="10" top="10" bottom="50" width="330">
     <div class="ui-container">
       <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-        <a-collapse v-model:activeKey="activeKey" expandIconPosition="right">
+        <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
           <a-collapse-panel key="1" header="表单控件">
             <a-form-item label="简单文本" name="url">
-              <mars-input v-model:value="formState.url" :allowClear="true" @change="onTextChange" />
+              <mars-input v-model:value="formState.url" placeholder="Input" :allowClear="true" @change="onTextChange" />
             </a-form-item>
 
             <a-form-item label="地图交互" name="extent">
-              <a-row :gutter="5">
-                <a-col :span="19">
-                  <mars-input v-model:value="formState.extent" :allowClear="true"></mars-input>
-                </a-col>
-                <a-col :span="5">
-                  <a-space size="small">
-                    <mars-button class="small-btn" @click="onClickDrawExtent">绘制</mars-button>
-                  </a-space>
-                </a-col>
-              </a-row>
+              <a-space>
+                <mars-input v-model:value="formState.extent" :allowClear="true"></mars-input>
+                <mars-button class="small-btn" @click="onClickDrawExtent">绘制</mars-button>
+              </a-space>
             </a-form-item>
 
             <a-form-item label="数字输入">
@@ -66,35 +60,30 @@
             </a-form-item>
 
             <a-form-item label="颜色选择">
-              <a-space>
-                <mars-color-picker v-model:value="formState.color" />
-                <div class="color-state">已选择：{{ formState.color }}</div>
-              </a-space>
+              <mars-color-picker v-model:value="formState.color" />
             </a-form-item>
 
             <a-form-item label="颜色选择2">
-              <a-space>
                 <mars-color v-model:value="formState.color1" @change="colorChange" />
-                <div class="color-state">已选择：{{ formState.color1 }}</div>
-              </a-space>
             </a-form-item>
 
-            <div class="f-tac">
-              <a-space>
-                <mars-button size="middle" @click="onClickMessage">
-                  <template #icon><mars-icon icon="alarm" class="icon-vertical-a" /></template>
-                  消息
-                </mars-button>
-                <mars-button size="middle" @click="onClickNotify">
-                  <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
-                  提示
-                </mars-button>
-                <mars-button size="middle" @click="onClickAlert">
-                  <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
-                  弹窗
-                </mars-button>
-                <mars-button size="middle" disabled> 禁用 </mars-button>
-              </a-space>
+            <div class="messages-btn">
+              <mars-button size="middle" @click="onClickMessage">
+                <template #icon><mars-icon icon="comment" class="icon-vertical-a" width="16" /></template>
+                消息
+              </mars-button>
+              <mars-button size="middle" @click="onClickNotify">
+                <template #icon><mars-icon icon="tips-one" class="icon-vertical-a" width="16" /></template>
+                提示
+              </mars-button>
+              <mars-button size="middle" @click="onClickAlert">
+                <template #icon><mars-icon icon="browser" class="icon-vertical-a" width="16" /></template>
+                弹窗
+              </mars-button>
+              <mars-button size="middle" disabled>
+                <template #icon><mars-icon icon="invalid-files" class="icon-vertical-a" width="16" /></template>
+                禁用
+              </mars-button>
             </div>
           </a-collapse-panel>
 
@@ -116,6 +105,7 @@
               </template>
             </mars-table>
           </a-collapse-panel>
+
           <a-collapse-panel key="3" header="树控件">
             <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
               <template #title="{ title }">
@@ -125,17 +115,15 @@
           </a-collapse-panel>
         </a-collapse>
 
-        <div class="f-tac">
-          <a-space>
-            <mars-button size="middle" @click="onClickLoading">
-              <template #icon><mars-icon icon="find" class="icon-vertical-a" /></template>
-              进度条1
-            </mars-button>
-            <mars-button size="middle" @click="onClickTopLoading">
-              <template #icon><mars-icon icon="planet" class="icon-vertical-a" /></template>
-              进度条2
-            </mars-button>
-          </a-space>
+        <div class="footer">
+          <mars-button @click="onClickLoading">
+            <template #icon><mars-icon icon="find" class="icon-vertical-a" /></template>
+            进度条1
+          </mars-button>
+          <mars-button @click="onClickTopLoading">
+            <template #icon><mars-icon icon="planet" class="icon-vertical-a" /></template>
+            进度条2
+          </mars-button>
         </div>
       </a-form>
     </div>
@@ -243,11 +231,9 @@ const onSliderChange = () => {
 
 const marks: Record<number, any> = {
   "-255": "-255",
-  "-200": "200",
-  "-100": "-100",
+  "-125": "-125",
   0: "0",
-  100: "100",
-  200: "200",
+  125: "125",
   255: "255"
 }
 // 带刻度滑动条修改事件
@@ -524,3 +510,39 @@ function renderChildNode(keys: string[], children: any[]) {
   })
 }
 </script>
+<style lang="less">
+.infoView {
+  overflow-y: auto;
+}
+
+.color-state {
+  padding-bottom: 1.3px;
+}
+.ui-container {
+  height: 100%;
+  overflow-y: scroll;
+  .ant-form {
+    padding: 0;
+  }
+}
+.small-btn {
+  width: 66px;
+}
+.messages-btn,
+.footer {
+  width: 100%;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  .mars-button {
+    width: 100%;
+  }
+}
+
+.messages-btn {
+  padding: 0;
+  gap: 4px;
+}
+</style>
