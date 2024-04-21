@@ -178,12 +178,12 @@ function addDemoGraphics(arr) {
         height: 44,
         // 预留功能，后续支持高亮操作
         highlight: { type: "click", image: "img/marker/mark1.png" },
-        // 预留功能，后续支持附带文字的显示
         label: {
           text: item.name,
           font: "20px 楷体",
           outline: true,
-          outlineWidth: 2
+          outlineWidth: 2,
+          offsetY: -30
         }
       },
       attr: item

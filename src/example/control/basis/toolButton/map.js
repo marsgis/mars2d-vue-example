@@ -33,7 +33,7 @@ export function onMounted(mapInstance) {
 
   const toolButton2 = new mars2d.control.ToolButton({
     title: "示例按钮good",
-    icon: "img/icon/24px.svg",
+    icon: "img/icon/good.svg",
     insertIndex: 0, // 插入的位置顺序
     click: () => {
       globalMsg("单击了 示例按钮good，回调中想干啥就干啥~")

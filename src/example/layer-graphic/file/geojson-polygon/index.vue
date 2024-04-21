@@ -14,3 +14,20 @@ mapWork.eventTarget.on("initHtml", (event: any) => {
   html.value = event.html
 })
 </script>
+
+<style lang="less">
+.legend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5px;
+
+  .legend-color {
+    width: 50px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 5px;
+
+  }
+}
+</style>

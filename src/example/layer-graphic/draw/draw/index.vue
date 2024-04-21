@@ -1,24 +1,22 @@
 <template>
-  <mars-dialog :visible="true" width="435" right="10" top="10">
+  <mars-dialog :visible="true" width="330" right="10" top="10">
     <div class="f-mb">
-      <layer-state />
+      <layer-state  :labelSpan="6"/>
     </div>
 
     <div class="f-mb">
-      <a-space>
-        <data-manage>
-          <mars-button @click="onClickSaveKml">另存KML</mars-button>
-          <mars-button @click="onClickSaveWKT">另存WKT</mars-button>
-        </data-manage>
-      </a-space>
+      <data-manage :labelSpan="6">
+        <mars-button @click="onClickSaveKml">另存KML</mars-button>
+        <mars-button @click="onClickSaveWKT">另存WKT</mars-button>
+      </data-manage>
     </div>
 
     <a-row>
-      <a-col :span="5">
+      <a-col :span="6">
         <span class="mars-dialog-item-label">图上标绘：</span>
       </a-col>
-      <a-col :span="19">
-        <a-space>
+      <a-col :span="18">
+        <div class="draw-btns">
           <mars-button @click="drawMarker">图标点</mars-button>
           <mars-button @click="drawPoint">点</mars-button>
           <mars-button @click="drawLabel">文字</mars-button>
@@ -30,8 +28,7 @@
           <mars-button @click="drawCircle">圆</mars-button>
 
           <mars-button @click="drawRectangle">矩形</mars-button>
-          <mars-button @click="drawImage">图片</mars-button></a-space
-        >
+          <mars-button @click="drawImage">图片</mars-button></div>
       </a-col>
     </a-row>
   </mars-dialog>
@@ -122,7 +119,10 @@ mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
 </script>
 
 <style scoped lang="less">
-:deep(.ant-space) {
-  flex-wrap: wrap;
+.draw-btns{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 8px;
+
 }
 </style>

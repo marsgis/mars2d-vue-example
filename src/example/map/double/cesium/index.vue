@@ -1,11 +1,11 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <div class="mars-onlybtns-pannel">
     <a-space>
       <mars-button @click="viewTo23D">分屏</mars-button>
       <mars-button @click="viewTo2d">仅2D</mars-button>
       <mars-button @click="viewTo3d">仅3D</mars-button>
     </a-space>
-  </mars-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">

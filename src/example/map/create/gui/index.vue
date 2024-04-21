@@ -305,8 +305,10 @@ function updateAllDate() {
   })
 }
 </script>
+
 <style lang="less">
 .example-gui {
+
   // 有竖线的标题
   .title-vertical_line {
     padding-left: 12px;
@@ -327,12 +329,15 @@ function updateAllDate() {
       background-color: var(--mars-primary-color);
     }
   }
+
   .footer-btns {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 88px);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px 18px;
     justify-content: center;
+    margin-top: 10px;
   }
+
   .gui-btn {
     width: 56px;
   }

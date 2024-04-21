@@ -1,7 +1,7 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" width="330" right="10" top="10">
     <span>提示：请单击地图，分析拾取点最近的机场。</span>
-    <mars-button @click="clearAll">清除</mars-button>
+    <mars-button class="w-full f-mt" @click="clearAll" danger>清除</mars-button>
   </mars-dialog>
 </template>
 

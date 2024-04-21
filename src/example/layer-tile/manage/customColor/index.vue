@@ -1,9 +1,8 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
-      rgb叠加颜色：
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <a-form-item label="rgb叠加颜色">
       <mars-color-picker v-model:value="color" @change="onChangeColor" />
-    </a-space>
+    </a-form-item>
   </mars-dialog>
 </template>
 

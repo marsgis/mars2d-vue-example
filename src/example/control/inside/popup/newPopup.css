@@ -1,0 +1,40 @@
+.newPopup {
+  width: 123%;
+  position: relative;
+  left: -21px;
+  top: -14px;
+}
+.popup_header {
+  height: 34px;
+  padding-left: 18px;
+  color: #fff;
+  line-height: 34px;
+  font-size: 14px;
+  background-color: #3385ff;
+}
+.popup_body {
+  padding-left: 18px;
+  padding-top: 4px;
+  font-size: 12px;
+}
+.info {
+  display: flex;
+  margin-top: 10px;
+}
+.btn {
+  cursor: pointer;
+  position: relative;
+  top: 15px;
+  margin: 0px auto;
+  font-size: 12px;
+  width: 36px;
+  text-align: center;
+  border-radius: 2px;
+  opacity: 1;
+  background: #1677ff;
+  box-sizing: border-box;
+  border: 1px solid #1677ff;
+}
+.btn a {
+  color: #fff;
+}

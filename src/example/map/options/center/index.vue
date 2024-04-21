@@ -1,11 +1,11 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <div class="label">景点视角:</div>
     <a-space>
-      <label>景点视角:</label>
-      <mars-button @click="changeView1">故宫</mars-button>
-      <mars-button @click="changeView2">珠峰</mars-button>
-      <mars-button @click="changeView3">华山</mars-button>
-      <mars-button @click="changeView4">大别山</mars-button>
+      <mars-button class="btn" @click="changeView1">故宫</mars-button>
+      <mars-button class="btn" @click="changeView2">珠峰</mars-button>
+      <mars-button class="btn" @click="changeView3">华山</mars-button>
+      <mars-button class="btn" @click="changeView4">大别山</mars-button>
     </a-space>
   </mars-dialog>
 </template>
@@ -28,4 +28,13 @@ const changeView4 = () => {
   mapWork.changeView4()
 }
 </script>
+<style lang="less" scoped>
+.label {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.btn {
+  width: 69px;
+}
+</style>
 

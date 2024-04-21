@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.2.1
- * 编译日期：2024-02-22 13:08:17
+ * 版本信息：v3.2.4
+ * 编译日期：2024-04-21 19:52:59
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -385,9 +385,9 @@ declare enum LayerType {
     cluster,
     graticule,
     dayNight,
+    heat,
     mapv,
-    echarts,
-    heat
+    echarts
 }
 
 /**
@@ -782,7 +782,7 @@ declare class SmallTooltip extends BaseClass {
  * @param [options.center] - 自定义home默认区域的中心点
  * @param [options.zoom] - 自定义home默认区域的层级
  * @param [options.onGoLocate] - 自定义“定位至当前所在位置”按钮回调方法
- * @param [options.noLocPoint] - 是否显示定位后的原点
+ * @param [options.showPointTime = 5] - 显示定位后的原点的时长,0时不显示,999时一直显示
  * @param [options.onFullscreen] - 自定义“进入全屏”按钮回调方法
  * @param [options.onClear] - “清除所有操作”按钮回调方法
  */
@@ -793,7 +793,7 @@ declare class ToolBar extends L.Control {
         center?: L.LatLng;
         zoom?: number;
         onGoLocate?: (...params: any[]) => any;
-        noLocPoint?: boolean;
+        showPointTime?: number;
         onFullscreen?: (...params: any[]) => any;
         onClear?: (...params: any[]) => any;
     });
@@ -1415,7 +1415,7 @@ declare namespace Circle {
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
      * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
-     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
+     * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
         radius: number;
@@ -1887,6 +1887,8 @@ declare namespace DivGraphic {
      * @property [iconSize] - icon图片的大小（单位：像素），设置后width、height即失效。
      * @property [iconAnchor] - 自定义图标的“指示地理位置的锚点”的坐标（相对于其左上角）。 以便图标显示准确位于标记的地理位置。 如果指定大小，则iconAnchor默认为图标中心点，也可以在带有负边距的CSS中设置。设置后horizontalOrigin、verticalOrigin即失效。
      * @property [className] - 自定义样式class名称
+     * @property [minZoom] - 限定显示的最小的级别
+     * @property [maxZoom] - 限定显示的最大的级别
      * @property [draggable = false] - 标记是否可以用鼠标/触摸拖动
      * @property [keyboard = true] - 标记是否可以用键盘按键并按回车键
      * @property [zIndexOffset = 0] - 默认情况下，注记图片的叠置顺序由纬度自动设置.如果你想将某一注记放置于其他之上可用这个选项，设置一个较大的值即可，比如1000（或是相反地设置一个较大的负值）
@@ -1894,7 +1896,7 @@ declare namespace DivGraphic {
      * @property [riseOffset = 250] - 用于riseOnHover功能的z-index偏移量。
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
-     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
+     * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
         html: string;
@@ -1906,6 +1908,8 @@ declare namespace DivGraphic {
         iconSize?: L.Point | number[];
         iconAnchor?: L.Point | number[];
         className?: string;
+        minZoom?: number;
+        maxZoom?: number;
         draggable?: boolean;
         keyboard?: boolean;
         zIndexOffset?: number;
@@ -2396,7 +2400,7 @@ declare namespace Ellipse {
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
      * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
-     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
+     * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
         semiMinorAxis: number;
@@ -2855,6 +2859,8 @@ declare namespace Label {
      * @property [background = false] - 是否背景
      * @property [background_color] - 背景颜色
      * @property [className] - 自定义样式class名称
+     * @property [minZoom] - 限定显示的最小的级别
+     * @property [maxZoom] - 限定显示的最大的级别
      * @property [draggable = false] - 标记是否可以用鼠标/触摸拖动
      * @property [keyboard = true] - 标记是否可以用键盘按键并按回车键
      * @property [zIndexOffset = 0] - 默认情况下，注记图片的叠置顺序由纬度自动设置.如果你想将某一注记放置于其他之上可用这个选项，设置一个较大的值即可，比如1000（或是相反地设置一个较大的负值）
@@ -2884,6 +2890,8 @@ declare namespace Label {
         background?: boolean;
         background_color?: string;
         className?: string;
+        minZoom?: number;
+        maxZoom?: number;
         draggable?: boolean;
         keyboard?: boolean;
         zIndexOffset?: number;
@@ -2950,6 +2958,8 @@ declare namespace Marker {
      * @property [shadowRetinaUrl] - 用于Retina屏幕设备大尺寸版本的图标图像阴影图像的URL。如果未指定，将不会创建阴影图像。
      * @property [shadowSize] - 阴影部分的图片大小（单位：像素）
      * @property [shadowAnchor] - 阴影（相对于其左上角）的“提示”的坐标（与未指定的iconAnchor相同）。
+     * @property [minZoom] - 限定显示的最小的级别
+     * @property [maxZoom] - 限定显示的最大的级别
      * @property [draggable = false] - 标记是否可以用鼠标/触摸拖动
      * @property [keyboard = true] - 标记是否可以用键盘按键并按回车键
      * @property [title] - 显示在标记悬停上的浏览器Tooltip提示的文本
@@ -2964,7 +2974,7 @@ declare namespace Marker {
      * @property [pulseShadowColor = "red"] - pulse动画点的shadow颜色
      * @property [pulseDuration = 1] - pulse动画点单次动画时长（单位：秒）
      * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
-     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
+     * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
         image: string;
@@ -2987,6 +2997,8 @@ declare namespace Marker {
         shadowRetinaUrl?: string;
         shadowSize?: L.Point | number[];
         shadowAnchor?: L.Point | number[];
+        minZoom?: number;
+        maxZoom?: number;
         draggable?: boolean;
         keyboard?: boolean;
         title?: string;
@@ -3787,7 +3799,7 @@ declare namespace Point {
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
      * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
-     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
+     * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
         pixelSize: number;
@@ -4151,7 +4163,7 @@ declare namespace Polygon {
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
      * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
-     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
+     * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
         fill?: boolean;
@@ -4520,7 +4532,7 @@ declare namespace Polyline {
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
      * @property [snakingSpeed = 300] - 在snakeIn方法中的速度（像素/秒）
      * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
-     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
+     * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
         color?: string;
@@ -4890,7 +4902,7 @@ declare namespace Rectangle {
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
      * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
-     * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
+     * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
         fill?: boolean;
@@ -9229,7 +9241,7 @@ declare namespace Map {
      * @property extent.ymax - 最大纬度值, -90 至 90
      * @property [centerAutoLevel = 15] - 定位地图至目标点时(比如{@link Map#flyToPoint}方法)，当地图级别小于此值时自动放大至该级别
      * @property [maxBounds] - 当这个选项被设置后，地图被限制在给定的地理边界内， 当用户平移将地图拖动到视图以外的范围时会出现弹回的效果， 并且也不允许缩小视图到给定范围以外的区域（这取决于地图的尺寸）. 要动态设置此限制，请使用setMaxBounds方法。
-     * @property [crs = CRS.EPSG3857] - 地图坐标系。如果你不确定坐标系这是什么意思，请不要改变它
+     * @property [crs = "EPSG:3857"] - 地图坐标系。如果你不确定坐标系这是什么意思，请不要改变它
      * @property [chinaCRS = ChinaCRS.WGS84] - 标识当前地图的国内坐标系（用于部分图层内对比判断来自动纠偏或加偏）
      * @property [renderer] - 在地图上绘制矢量图层的默认方法，使用 L.SVG 或 L.Canvas 默认情况下取决于浏览器支持。
      * @property [closePopupOnClick = true] - 如果你不想让Popup弹窗在用户点击地图时关闭，那就把它设为false
@@ -9282,7 +9294,7 @@ declare namespace Map {
         };
         centerAutoLevel?: number;
         maxBounds?: L.LatLngBounds;
-        crs?: CRS | L.CRS | any;
+        crs?: CRS | L.CRS | string | any;
         chinaCRS?: ChinaCRS;
         renderer?: L.Renderer;
         closePopupOnClick?: boolean;
@@ -9612,7 +9624,7 @@ declare class Map extends L.Map {
      * @param [removeFromControl = false] - 当存在layers控件时，是否从图层管理控件移除
      * @returns 当前对象本身，可以链式调用
      */
-    removeLayer(layer: L.Layer, removeFromControl?: boolean): any | Map;
+    removeLayer(layer: L.Layer | any, removeFromControl?: boolean): any | Map;
     /**
      * 获取图层ID值，按顺序取值。
      * 没有id的图层，会自动使用本方法进行id赋值处理
@@ -9703,7 +9715,7 @@ declare class Map extends L.Map {
     isFullscreen(): any | boolean;
     /**
      * 切换全屏和不全屏
-     * @returns 是否已经全屏
+     * @returns 是否全屏
      */
     toggleFullscreen(): any | boolean;
     /**
@@ -10429,6 +10441,31 @@ declare class EchartsLayer extends L.Layer {
      * @returns 无
      */
     setEchartsOption(option: any, notMerge?: boolean, lazyUpdate?: boolean): any | void;
+    /**
+     * 绑定事件处理函数,
+     * @param [eventName] - 事件名称，全小写，例如'click'，'mousemove', 'legendselected' ,可以参考[echarts官网说明]{@link https://echarts.apache.org/zh/api.html#echartsInstance.on}
+     * @param [callback] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
+     * @returns 当前对象本身,可以链式调用
+     */
+    on(eventName?: string, callback?: (...params: any[]) => any, context?: any): any | EchartsLayer;
+    /**
+     * 带条件的绑定事件处理函数
+     * @param eventName - 事件名称，全小写，例如'click'，'mousemove', 'legendselected'
+     * @param query - 可选的过滤条件，能够只在指定的组件或者元素上进行响应。可以参考[echarts官网说明]{@link https://echarts.apache.org/zh/api.html#echartsInstance.on}
+     * @param callback - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)
+     * @returns 当前对象本身,可以链式调用
+     */
+    onByQuery(eventName: string, query: string | any, callback: (...params: any[]) => any, context?: any): any | EchartsLayer;
+    /**
+     * 解除绑定指定类型事件监听器
+     * @param [eventName] - 事件名称，全小写，例如'click'，'mousemove', 'legendselected'
+     * @param [callback] - 绑定的监听器回调方法,未传值时解绑所有指定类型对应事件
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
+     * @returns 当前对象本身,可以链式调用
+     */
+    off(eventName?: string, callback?: (...params: any[]) => any, context?: any): any | EchartsLayer;
 }
 
 declare namespace ArcGisDynamicLayer {
@@ -11442,13 +11479,13 @@ declare class GaodePOI {
      * @param [queryOptions.location = null] - 经纬度坐标
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     getAddress(queryOptions: {
         location?: L.LatLng;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): any | GaodePOI;
+    }): any | Promise<any>;
     /**
      * 高德搜索提示
      * @param queryOptions - 查询参数
@@ -11458,7 +11495,7 @@ declare class GaodePOI {
      * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     autoTip(queryOptions: {
         text: string;
@@ -11467,7 +11504,20 @@ declare class GaodePOI {
         citylimit?: boolean;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): any | GaodePOI;
+    }): any | Promise<any>;
+    /**
+     * 根据ID获取POI点详情
+     * @param queryOptions - 查询参数
+     * @param queryOptions.id - AOI唯一标识， 最多可以传入1个id，传入目标区域的poiid即可
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    detail(queryOptions: {
+        id: string;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): any | Promise<any>;
     /**
      * 按限定区域搜索
      * @param queryOptions - 查询参数
@@ -11479,7 +11529,7 @@ declare class GaodePOI {
      * @param [queryOptions.count = 20] - 单次召回POI数量，默认为10条记录，最大返回20条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
      * @param [queryOptions.error] - 查询失败的回调方法
      * @param [queryOptions.success] - 查询完成的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     query(queryOptions: {
         text: string;
@@ -11490,7 +11540,7 @@ declare class GaodePOI {
         count?: number;
         error?: (...params: any[]) => any;
         success?: (...params: any[]) => any;
-    }): any | GaodePOI;
+    }): any | Promise<any>;
     /**
      * 关键字搜索
      * @param queryOptions - 查询参数
@@ -11526,7 +11576,7 @@ declare class GaodePOI {
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryCircle(queryOptions: {
         text: string;
@@ -11538,7 +11588,7 @@ declare class GaodePOI {
         page?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): any | GaodePOI;
+    }): any | Promise<any>;
     /**
      * 多边形搜索
      * @param queryOptions - 查询参数
@@ -11549,7 +11599,7 @@ declare class GaodePOI {
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryPolygon(queryOptions: {
         text: string;
@@ -11559,7 +11609,7 @@ declare class GaodePOI {
         page?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): any | GaodePOI;
+    }): any | Promise<any>;
 }
 
 /**

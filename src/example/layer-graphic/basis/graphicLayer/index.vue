@@ -1,36 +1,31 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" width="332" right="10" top="10">
     <div class="f-mb">
-      <layer-state />
+      <layer-state :label-span="11" />
     </div>
 
     <div class="f-mb">
       <a-row>
-        <a-col :span="6">点状（单个坐标）:</a-col>
-        <a-col :span="17">
-          <a-space>
-            <div v-for="(item, index) in dom[0]" :key="index">
+        <a-col :span="11">点状（单个坐标）:</a-col>
+        <a-col :span="13">
+          <div class="graphiclayer-btns">
+            <template v-for="(item, index) in dom[0]" :key="index">
               <mars-button :href="item.href" target="_blank">{{ item.name }}</mars-button>
-            </div>
-          </a-space>
-          <a-space style="margin-top: 8px;">
-            <div v-for="(item, index) in dom[1]" :key="index">
-              <mars-button :href="item.href" target="_blank">{{ item.name }}</mars-button>
-            </div>
-          </a-space>
+            </template>
+          </div>
         </a-col>
       </a-row>
     </div>
 
-    <div class="f-mb">
+    <div>
       <a-row>
-        <a-col :span="6">线面状（多个坐标）:</a-col>
-        <a-col :span="17">
-          <a-space>
-            <div v-for="(item, index) in dom[2]" :key="index">
+        <a-col :span="11">线面状（多个坐标）:</a-col>
+        <a-col :span="13">
+          <div class="graphiclayer-btns">
+            <template v-for="(item, index) in dom[1]" :key="index">
               <mars-button :href="item.href" target="_blank">{{ item.name }}</mars-button>
-            </div>
-          </a-space>
+            </template>
+          </div>
         </a-col>
       </a-row>
     </div>
@@ -39,7 +34,6 @@
 
 <script setup lang="ts">
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
-import * as mapWork from "./map.js"
 
 const dom = [
   [
@@ -66,9 +60,7 @@ const dom = [
     {
       name: "圆",
       href: "editor-vue.html?id=graphic/basis/circle"
-    }
-  ],
-  [
+    },
     {
       name: "椭圆",
       href: "editor-vue.html?id=graphic/basis/ellipse"
@@ -100,10 +92,25 @@ const dom = [
 </script>
 
 <style scoped lang="less">
-.infoView {
-  width: 495px;
+.ant-row {
+  :deep(.ant-col-11) {
+    text-align: right;
+    padding-right: 8px;
+  }
+
   :deep(.ant-space) {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 70px repeat(1, 1fr);
+
+    .ant-checkbox + span {
+      padding-inline-end: 0;
+    }
+  }
+
+  .graphiclayer-btns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 }
 </style>

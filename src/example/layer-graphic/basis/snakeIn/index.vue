@@ -1,12 +1,12 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <div class="mars-onlybtns-pannel">
     <a-space>
       <mars-button @click="onClickstart"> 开始 </mars-button>
-      <mars-button @click="onClickOut"> 停止 </mars-button>
-      <mars-button @click="onClickPause"> 暂停 </mars-button>
-      <mars-button @click="onClickContinue"> 继续 </mars-button>
+      <mars-button @click="onClickOut" danger> 停止 </mars-button>
+      <mars-button @click="onClickPause" class="snakein-pause"> 暂停 </mars-button>
+      <mars-button @click="onClickContinue" class="snakein-continue"> 继续 </mars-button>
     </a-space>
-  </mars-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -25,3 +25,13 @@ const onClickContinue = () => {
   mapWork.onClickContinue()
 }
 </script>
+
+<style scoped lang="less">
+.snakein-pause {
+  background-color: #EA9124;
+}
+
+.snakein-continue {
+  background-color: #3BD5B3;
+}
+</style>

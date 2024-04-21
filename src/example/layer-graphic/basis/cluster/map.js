@@ -78,7 +78,12 @@ export function addLayer() {
         width: 32,
         height: 44,
         horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
-        verticalOrigin: mars2d.VerticalOrigin.BOTTOM
+        verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
+        label: {
+          text: `第${i}个`,
+          font_size: 13,
+          offsetY: 45
+        }
       },
       attr: {
         id: i

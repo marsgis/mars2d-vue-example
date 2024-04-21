@@ -1,18 +1,18 @@
-/* 
- * Leaflet TimeDimension v1.1.1 - 2019-11-05 
- * 
- * Copyright 2019 Biel Frontera (ICTS SOCIB) 
- * datacenter@socib.es 
- * http://www.socib.es/ 
- * 
- * Licensed under the MIT license. 
- * 
- * Demos: 
- * http://apps.socib.es/Leaflet.TimeDimension/ 
- * 
- * Source: 
- * git://github.com/socib/Leaflet.TimeDimension.git 
- * 
+/*
+ * Leaflet TimeDimension v1.1.1 - 2019-11-05
+ *
+ * Copyright 2019 Biel Frontera (ICTS SOCIB)
+ * datacenter@socib.es
+ * http://www.socib.es/
+ *
+ * Licensed under the MIT license.
+ *
+ * Demos:
+ * http://apps.socib.es/Leaflet.TimeDimension/
+ *
+ * Source:
+ * git://github.com/socib/Leaflet.TimeDimension.git
+ *
  */
 
 (function (factory, window) {
@@ -104,7 +104,7 @@ L.TimeDimension = (L.Layer || L.Class).extend({
         }
         this._loadingTimeIndex = newIndex;
         var newTime = this._availableTimes[newIndex];
-        
+
         if (this._checkSyncedLayersReady(this._availableTimes[this._loadingTimeIndex])) {
             this._newTimeIndexLoaded();
         } else {
@@ -114,7 +114,7 @@ L.TimeDimension = (L.Layer || L.Class).extend({
             // add timeout of 3 seconds if layers doesn't response
             setTimeout((function (index) {
                 if (index == this._loadingTimeIndex) {
-                    
+
                     this._newTimeIndexLoaded();
                 }
             }).bind(this, newIndex), this._loadingTimeout);
@@ -127,25 +127,25 @@ L.TimeDimension = (L.Layer || L.Class).extend({
             return;
         }
         var time = this._availableTimes[this._loadingTimeIndex];
-        
+
         this._currentTimeIndex = this._loadingTimeIndex;
         this.fire('timeload', {
             time: time
         });
         this._loadingTimeIndex = -1;
     },
-    
+
     _checkSyncedLayersReady: function (time) {
         for (var i = 0, len = this._syncedLayers.length; i < len; i++) {
             if (this._syncedLayers[i].isReady) {
                 if (!this._syncedLayers[i].isReady(time)) {
-					return false;                    
+					return false;
                 }
             }
         }
         return true;
     },
-    
+
     setCurrentTime: function (time) {
         var newIndex = this._seekNearestTimeIndex(time);
         this.setCurrentTimeIndex(newIndex);
@@ -364,7 +364,7 @@ L.TimeDimension = (L.Layer || L.Class).extend({
             availableTimes: this._availableTimes,
             currentTime: currentTime
         });
-        
+
     },
     getLowerLimit: function () {
         return this._availableTimes[this.getLowerLimitIndex()];
@@ -804,11 +804,11 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
     },
 
     _onNewTimeLoading: function(ev) {
-        // 
+        //
         var layer = this._getLayerForTime(ev.time);
         if (!this._map.hasLayer(layer)) {
             this._map.addLayer(layer);
-            // 
+            //
         }
     },
 
@@ -924,7 +924,7 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
         }
         this._currentLayer = layer;
         this._currentTime = time;
-        
+
 
         this._evictCachedTimes(this._timeCacheForward, this._timeCacheBackward);
     },
@@ -955,7 +955,7 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
             if (this._timeDimension && time == this._timeDimension.getCurrentTime() && !this._timeDimension.isLoading()) {
                 this._showLayer(layer, time);
             }
-            // 
+            //
             this.fire('timeload', {
                 time: time
             });
@@ -1144,8 +1144,8 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
             index--;
         }
         if (time != this._availableTimes[index]) {
-            
-            
+
+
         }
         return this._availableTimes[index];
     },
@@ -1475,7 +1475,7 @@ L.TimeDimension.Player = (L.Layer || L.Class).extend({
             this._waitingForBuffer = false; // reset buffer
         }).bind(this));
         this.setTransitionTime(this.options.transitionTime || 1000);
-        
+
         this._timeDimension.on('limitschanged availabletimeschanged timeload', (function(data) {
             this._timeDimension.prepareNextTimes(this._steps, this._minBufferReady, this._loop);
         }).bind(this));
@@ -1507,7 +1507,7 @@ L.TimeDimension.Player = (L.Layer || L.Class).extend({
             // If the player was waiting, check if all times are loaded
             if (this._waitingForBuffer) {
                 if (numberNextTimesReady < buffer) {
-                    
+
                     this.fire('waiting', {
                         buffer: buffer,
                         available: numberNextTimesReady
@@ -1515,14 +1515,14 @@ L.TimeDimension.Player = (L.Layer || L.Class).extend({
                     return;
                 } else {
                     // all times loaded
-                    
+
                     this.fire('running');
                     this._waitingForBuffer = false;
                 }
             } else {
                 // check if player has to stop to wait and force to full all the buffer
                 if (numberNextTimesReady < this._minBufferReady) {
-                    
+
                     this._waitingForBuffer = true;
                     this._timeDimension.prepareNextTimes(this._steps, buffer, this._loop);
                     this.fire('waiting', {
@@ -1539,9 +1539,9 @@ L.TimeDimension.Player = (L.Layer || L.Class).extend({
             this._timeDimension.prepareNextTimes(this._steps, buffer, this._loop);
         }
     },
-    
+
     _getMaxIndex: function(){
-       return Math.min(this._timeDimension.getAvailableTimes().length - 1, 
+       return Math.min(this._timeDimension.getAvailableTimes().length - 1,
                        this._timeDimension.getUpperLimitIndex() || Infinity);
     },
 
@@ -1605,7 +1605,7 @@ L.TimeDimension.Player = (L.Layer || L.Class).extend({
         this._transitionTime = transitionTime;
         if (typeof this._buffer === 'function') {
             this._bufferSize = this._buffer.call(this, this._transitionTime, this._minBufferReady, this._loop);
-            
+
         } else {
             this._bufferSize = this._buffer;
         }
@@ -1649,6 +1649,18 @@ L.UI.Knob = L.Draggable.extend({
         this.on('predrag', function() {
             this._newPos.y = 0;
             this._newPos.x = this._adjustX(this._newPos.x);
+
+            // 滑动条变色
+            let sliderTrack =  slider.querySelector(".slider__filled-track")
+            if(!sliderTrack) {
+              const sliderFill = document.createElement("div");
+              sliderFill.className = 'slider__filled-track'
+              slider.appendChild(sliderFill);
+              sliderTrack = sliderFill
+            } else {
+              sliderTrack.style.width = this._newPos.x + 'px' ;
+            }
+
         }, this);
         this.on('dragstart', function() {
             L.DomUtil.addClass(slider, 'dragging');
@@ -1682,7 +1694,6 @@ L.UI.Knob = L.Draggable.extend({
         value = Math.round(value / this.options.step) * this.options.step;
         value = value + this.options.rangeMin; //restore offset
         value = Math.round(value * 100) / 100; // *100/100 to avoid floating point precision problems
-
         return value;
     },
 
@@ -1928,6 +1939,19 @@ L.Control.TimeDimension = L.Control.extend({
     },
 
     _update: function() {
+        const slider = this._sliderTime._container
+        const sliderTrackValue = this._sliderTime._element._leaflet_pos.x
+        // 滑动条变色
+        let sliderTrack =  slider.querySelector(".slider__filled-track")
+        if(!sliderTrack) {
+          const sliderFill = document.createElement("div");
+          sliderFill.className = 'slider__filled-track'
+          slider.appendChild(sliderFill);
+          sliderTrack = sliderFill
+        } else {
+          sliderTrack.style.width = sliderTrackValue + 'px' ;
+        }
+
         if (!this._timeDimension) {
             return;
         }
@@ -2113,6 +2137,13 @@ L.Control.TimeDimension = L.Control.extend({
 */
         var speedLabel = L.DomUtil.create('span', 'speed', sliderContainer);
         var sliderbar = L.DomUtil.create('div', 'slider', sliderContainer);
+        let sliderTrack =  sliderbar.querySelector(".slider__filled-track")
+        if(!sliderTrack) {
+          sliderTrack = document.createElement("div");
+          sliderTrack.className = 'slider__filled-track'
+          sliderTrack.style.width =  '10px' ;
+          sliderbar.appendChild(sliderTrack);
+        }
         var initialSpeed = Math.round(10000 / (this._player.getTransitionTime() || 1000)) / 10;
         speedLabel.innerHTML = this._getDisplaySpeed(initialSpeed);
 
@@ -2247,7 +2278,7 @@ L.Map.addInitHook(function() {
 L.control.timeDimension = function(options) {
     return new L.Control.TimeDimension(options);
 };
-    
+
     return L.TimeDimension;
   }, window)
 );

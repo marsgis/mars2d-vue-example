@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="300">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-form>
       <a-form-item label="方式">
         <mars-select class="selectWidth" v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
@@ -13,32 +13,25 @@
       </a-form-item>
       <a-form-item label="终点">
         <a-space>
-          <p class="inputWidth">
-            共<span style="color: red">{{ count }}</span
-            >条POI点
+          <p class="inputWidth end-input">
+            共<span style="color: red">{{ count }}</span>条POI点
           </p>
           <mars-button @click="endPoint">查询</mars-button>
         </a-space>
       </a-form-item>
+      <div v-show="wayShow" class="f-pt">
+        <a-table :pagination="{ pageSize: 5 }" :dataSource="dataSource" :columns="columns" :custom-row="customRow"
+          size="small" bordered></a-table>
+      </div>
 
-      <div class="f-tac">
+      <div class="footer">
         <a-space>
           <mars-button @click="btnAnalyse">开始分析</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
+          <mars-button @click="removeAll" danger>清除</mars-button>
         </a-space>
       </div>
 
-      <div v-show="wayShow">
-        <a-table
-          :pagination="false"
-          :dataSource="dataSource"
-          :columns="columns"
-          :custom-row="customRow"
-          size="small"
-          bordered
-          :scroll="{ y: 300 }"
-        ></a-table>
-      </div>
+
     </a-form>
   </mars-dialog>
 </template>
@@ -150,11 +143,35 @@ const removeAll = () => {
   wayShow.value = false
 }
 </script>
+
 <style scoped lang="less">
-.selectWidth {
-  width: 210px;
+.ant-form {
+  padding: 0 !important;
 }
-.inputWidth {
-  width: 150px;
+
+.selectWidth {
+  width: 260px;
+}
+
+
+.inputWidth,
+.end-input {
+  width: 205px;
+}
+
+.footer {
+  padding-top: 10px;
+  .mars-button {
+    width: 148px;
+  }
+}
+
+.end-input {
+  height: 32px;
+  line-height: 32px;
+  border-radius: 2px;
+  border: 1px solid;
+  border-color: var(--mars-control-border);
+  padding: 0px 12px;
 }
 </style>

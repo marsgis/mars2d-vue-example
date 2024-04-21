@@ -9,7 +9,7 @@ let startGraphic, endGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
-    center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
+  center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
 }
 
 export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
@@ -43,7 +43,6 @@ export function onUnmounted() {
 // 开始分析按钮
 export function btnAnalyse(type) {
   if (!startGraphic || !endGraphic) {
-    globalMsg("请设置起点和终点")
     return
   }
   queryRoute(type)

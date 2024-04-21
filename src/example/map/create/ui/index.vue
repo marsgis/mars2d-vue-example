@@ -1,7 +1,8 @@
 <template>
-  <mars-dialog customClass="dialog-nopadding" :visible="true" right="10" top="10" bottom="50" width="330">
+  <mars-dialog :nopadding = "true" :visible="true" right="10" top="10" bottom="50" width="330">
     <div class="ui-container">
-      <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 18 }">
         <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
           <a-collapse-panel key="1" header="表单控件">
             <a-form-item label="简单文本" name="url">
@@ -36,7 +37,7 @@
             </a-form-item>
 
             <a-form-item label="多选" class="f-push-20-t">
-              <a-checkbox-group v-model:value="formState.checkboxVal" @change="onCheckboxChange">
+              <a-checkbox-group v-model:value="formState.checkboxVal" :indeterminate="true" @change="onCheckboxChange">
                 <a-checkbox value="mars">火星</a-checkbox>
                 <a-checkbox value="earth">地球</a-checkbox>
                 <a-checkbox value="sun">太阳</a-checkbox>
@@ -55,7 +56,7 @@
             <a-form-item label="鼠标操作">
               <a-space>
                 <mars-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
-                <span>是否允许</span>
+                <span class="f-fs12 f-ff0" style="color:rgba(3, 26, 61, 0.5)">是否允许</span>
               </a-space>
             </a-form-item>
 
@@ -115,7 +116,7 @@
           </a-collapse-panel>
         </a-collapse>
 
-        <div class="footer">
+        <div class="f-mb footer">
           <mars-button @click="onClickLoading">
             <template #icon><mars-icon icon="find" class="icon-vertical-a" /></template>
             进度条1
@@ -137,7 +138,6 @@ import { TableColumnType, TableProps } from "ant-design-vue"
 import axios from "axios"
 import type { Dayjs } from "dayjs"
 import { $message, $notify, $alert } from "@mars/components/mars-ui/index"
-import { format } from "path/posix"
 
 const activeKey = ref(["1", "2", "3"])
 
@@ -518,16 +518,16 @@ function renderChildNode(keys: string[], children: any[]) {
 .color-state {
   padding-bottom: 1.3px;
 }
+
 .ui-container {
   height: 100%;
   overflow-y: scroll;
-  .ant-form {
-    padding: 0;
-  }
 }
+
 .small-btn {
   width: 66px;
 }
+
 .messages-btn,
 .footer {
   width: 100%;
@@ -536,6 +536,7 @@ function renderChildNode(keys: string[], children: any[]) {
   align-items: center;
   justify-content: center;
   gap: 15px;
+
   .mars-button {
     width: 100%;
   }

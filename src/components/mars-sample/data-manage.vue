@@ -1,32 +1,24 @@
 <template>
   <a-row>
-    <a-col :span="5">
+    <a-col :span="labelSpan">
       <span class="mars-dialog-item-label">数据管理:</span>
     </a-col>
-    <a-col :span="19">
-      <a-space>
-        <mars-button @click="onClickClear">清除</mars-button>
+    <a-col :span="buttonSpan">
+      <div class="data-manage-btns">
+        <mars-button @click="onClickClear" danger>清除</mars-button>
         <mars-button @click="onClickExpFile" title="保存GeoJSON">
-          <mars-icon icon="save" class="icon-vertical-a" />
+          <!-- <mars-icon icon="save" class="icon-vertical-a" /> -->
           保存
         </mars-button>
-        <a-upload
-          :multiple="false"
-          name="file"
-          accept="json,geojson"
-          :file-list="fileList"
-          :showUploadList="false"
-          :supportServerRender="true"
-          :beforeUpload="beforeUploade"
-          @change="onClickImpFile"
-        >
+        <a-upload :multiple="false" name="file" accept="json,geojson" :file-list="fileList" :showUploadList="false"
+                  :supportServerRender="true" :beforeUpload="beforeUploade" @change="onClickImpFile">
           <mars-button title="打开GeoJSON">
-            <mars-icon icon="upload-one" class="icon-vertical-a" />
+            <!-- <mars-icon icon="upload-one" class="icon-vertical-a" /> -->
             打开
           </mars-button>
         </a-upload>
         <slot></slot>
-      </a-space>
+      </div>
     </a-col>
   </a-row>
 </template>
@@ -53,6 +45,13 @@ interface FileInfo {
   file: FileItem
   fileList: FileItem[]
 }
+
+const props = defineProps<{
+  labelSpan?: number
+}>()
+
+const labelSpan = props.labelSpan || 5
+const buttonSpan = 24 - labelSpan
 
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
 const mapWork = window.mapWork
@@ -125,3 +124,28 @@ const onClickImpFile = (info: any) => {
 
 const fileList = ref([])
 </script>
+
+<style scoped lang="less">
+.data-manage-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 8px;
+
+  :deep(.mars-button) {
+    flex-grow: 1;
+
+  }
+
+  .ant-upload-wrapper {
+    flex-grow: 1;
+
+    :deep(.ant-upload) {
+      width: 100%;
+
+      .ant-btn {
+        width: 100%;
+      }
+    }
+  }
+}
+</style>

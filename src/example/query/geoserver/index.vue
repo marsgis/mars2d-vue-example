@@ -1,36 +1,35 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="335">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-form>
-      <a-form-item label="名称">
+      <a-form-item label="名称：">
         <mars-input v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
       </a-form-item>
 
-      <a-form-item label="范围">
-        <a-space>
-          <mars-button @click="drawRectangle">框选范围</mars-button>
-          <mars-button @click="drawCircle">圆形范围</mars-button>
-          <mars-button @click="drawPolygon">多边形范围</mars-button>
-        </a-space>
+      <a-form-item label="范围：">
+        <div class="draw-range">
+          <a-space>
+            <mars-button @click="drawRectangle">框选范围</mars-button>
+            <mars-button @click="drawCircle">圆形范围</mars-button>
+            <mars-button class="long-btn" @click="drawPolygon">多边形范围</mars-button>
+          </a-space>
+        </div>
+
       </a-form-item>
 
-      <a-form-item label="范围">
-        <a-space>
-          <mars-button @click="query">查询</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
-        </a-space>
+      <a-form-item>
+        <div class="footer">
+          <a-space>
+            <mars-button @click="query">查询</mars-button>
+            <mars-button @click="removeAll" danger>清除</mars-button>
+          </a-space>
+        </div>
+
       </a-form-item>
 
       <div v-show="show">
         <a-form-item>
-          <a-table
-            :pagination="true"
-            :dataSource="dataSource"
-            :columns="columns"
-            :custom-row="customRow"
-            size="small"
-            bordered
-            :scroll="{ y: 400 }"
-          />
+          <a-table :pagination="true" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small"
+            bordered :scroll="{ y: 400 }" />
         </a-form-item>
       </div>
     </a-form>
@@ -148,8 +147,29 @@ const removeAll = () => {
   mapWork.clearAll()
 }
 </script>
+
 <style scoped lang="less">
 .mars-input {
-  width: 200px;
+  width: 255px;
+}
+
+.draw-range {
+  .mars-button {
+    width: 80px;
+  }
+
+  .long-btn {
+    padding-left: 1px !important;
+  }
+}
+
+.footer {
+  .mars-button {
+    width: 145px;
+  }
+}
+
+.ant-form {
+  padding: 0 !important;
 }
 </style>

@@ -41,6 +41,7 @@ export function query(text) {
   queryMapserver.query({
     where: `项目名称 like '%${text}%'`, // 类sql语句
     graphic: drawGraphic,
+    page: false,
     success: (result) => {
       console.log(result)
       if (result.count === 0) {
@@ -61,8 +62,7 @@ export function query(text) {
 function showGeoJsonLayer() {
   queryMapserver = new mars2d.query.QueryArcServer({
     url: "http://server.mars3d.cn/arcgis/rest/services/mars/hfghss/MapServer/1",
-    popup: "all",
-    pageSize: 6
+    popup: "all"
   })
 
   // 用于显示查询结果（geojson）的图层
@@ -81,10 +81,11 @@ function showGeoJsonLayer() {
         highlight: { type: "click", image: "img/marker/mark1.png" },
         label: {
           text: "{项目名称}",
-          font_size: 25,
+          font_size: 16,
           color: "#ffffff",
           outline: true,
           outlineColor: "#000000",
+          offsetY: 30,
           pixelOffsetY: -25,
           scaleByDistance: true,
           scaleByDistance_far: 80000,

@@ -1,17 +1,15 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div>
-      <a-space>
-        显示：
-        <mars-input v-model:value="txtCount" min="0.1" max="100.0" step="0.1" />
-        万条
+  <mars-dialog :visible="true" width="330" right="10" top="10">
+    <div  class="canvas-marker-input f-mb">
+      显示：
+      <mars-input v-model:value="txtCount" min="0.1" max="100.0" step="0.1" />
+      <span class="extra-label">万条</span>
+    </div>
+
+    <div  class="canvas-marker-btns">
         <mars-button @click="OnClickShowData">生成</mars-button>
         <mars-button @click="OnClickShowData2">生成个性绘制</mars-button>
-        <mars-button @click="OnClickClearData">清除</mars-button>
-      </a-space>
-    </div>
-    <div>
-      <a-space> </a-space>
+        <mars-button @click="OnClickClearData" danger>清除</mars-button>
     </div>
   </mars-dialog>
 </template>
@@ -55,8 +53,23 @@ const OnClickClearData = () => {
 }
 </script>
 
-<style>
-.mars-input {
-  width: 100px;
+<style scoped lang="less">
+.canvas-marker-input {
+  display: grid;
+  align-items: center;
+  grid-template-columns:45px repeat(1, 1fr) 35px;
+  gap: 4px;
+
+  .extra-label {
+    color: var(--mars-extra-text-color);
+    text-align: right;
+  }
+}
+
+.canvas-marker-btns {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
 }
 </style>

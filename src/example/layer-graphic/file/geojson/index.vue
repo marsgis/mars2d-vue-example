@@ -1,13 +1,13 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
-      示例：
-      <div v-for="(item, index) in dom" :key="index">
+  <mars-dialog :visible="true" width="330" right="10" top="10">
+    <div class="geojson-btns">
+      <template v-for="(item, index) in dom" :key="index">
         <mars-button @click="item.callback">{{ item.name }}</mars-button>
-      </div>
-    </a-space>
+      </template>
+    </div>
   </mars-dialog>
 </template>
+
 <script setup lang="ts">
 import * as mapWork from "./map.js"
 
@@ -38,8 +38,11 @@ const dom = [
   }
 ]
 </script>
+
 <style scoped lang="less">
-.ant-space {
+.geojson-btns {
   display: grid;
+  grid-template-columns: repeat(2, 146px);
+  gap: 10px;
 }
 </style>

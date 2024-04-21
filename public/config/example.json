@@ -250,13 +250,19 @@
             "name": "ArcGIS MapServer",
             "thumbnail": "layer-tile-type-arcgis-tile.jpg",
             "main": "layer-tile/type/arcgis-tile",
-            "libs": ["mars2d", "mars2d-esri"]
+            "libs": [
+              "mars2d",
+              "mars2d-esri"
+            ]
           },
           {
             "name": "ArcGIS ImageServer",
             "thumbnail": "layer-tile-type-arcgis-image.jpg",
             "main": "layer-tile/type/arcgis-image",
-            "libs": ["mars2d", "mars2d-esri"]
+            "libs": [
+              "mars2d",
+              "mars2d-esri"
+            ]
           },
           {
             "name": "arcgis离线瓦片",
@@ -282,7 +288,10 @@
             "name": "Mapbox GL图层",
             "thumbnail": "layer-tile-type-mapboxgl.jpg",
             "main": "layer-tile/type/mapboxgl",
-            "libs": ["mars2d", "mapbox-gl"]
+            "libs": [
+              "mars2d",
+              "mapbox-gl"
+            ]
           }
         ]
       },
@@ -358,7 +367,10 @@
             "name": "Popup鼠标单击信息窗",
             "thumbnail": "control-inside-popup.jpg",
             "main": "control/inside/popup",
-            "hasPannel": true
+            "hasPannel": true,
+            "resources": [
+              "newPopup.css"
+            ]
           },
           {
             "name": "Tooltip 鼠标移入信息窗",
@@ -381,7 +393,9 @@
             "name": "工具按钮栏",
             "thumbnail": "control-basis-toolBar.jpg",
             "main": "control/basis/toolBar",
-            "resources": ["http://api.map.baidu.com/getscript?v=2.0&ak=LvhIlDXT60I3NePicXWQT5K0eHFCR4hD&services="]
+            "resources": [
+              "http://api.map.baidu.com/getscript?v=2.0&ak=LvhIlDXT60I3NePicXWQT5K0eHFCR4hD&services="
+            ]
           },
           {
             "name": "下侧状态栏",
@@ -407,7 +421,10 @@
             "name": "时间播放",
             "thumbnail": "control-basis-timeDimension.jpg",
             "main": "control/basis/timeDimension",
-            "libs": ["mars2d", "timeDimension"]
+            "libs": [
+              "mars2d",
+              "timeDimension"
+            ]
           },
           {
             "name": "卷帘对比",
@@ -429,13 +446,19 @@
             "name": "移动端位置定位",
             "thumbnail": "control-basis-geolocation.jpg",
             "main": "control/basis/geolocation",
-            "resources": ["https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0", "Geolocation.js"]
+            "resources": [
+              "https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0",
+              "Geolocation.js"
+            ]
           },
           {
             "name": "POI兴趣点搜索",
             "thumbnail": "control-basis-poiQueryButton.jpg",
             "main": "control/basis/poiQueryButton",
-            "resources": ["PoiQueryButton.css", "PoiQueryButton.js"]
+            "resources": [
+              "PoiQueryButton.css",
+              "PoiQueryButton.js"
+            ]
           }
         ]
       }
@@ -459,7 +482,9 @@
             "thumbnail": "layer-graphic-basis-cluster.jpg",
             "main": "layer-graphic/basis/cluster",
             "hasPannel": true,
-            "resources": ["custom-photo.css"]
+            "resources": [
+              "custom-photo.css"
+            ]
           },
           {
             "name": "大数据点 图层",
@@ -472,7 +497,10 @@
             "thumbnail": "layer-graphic-basis-snakeIn.jpg",
             "main": "layer-graphic/basis/snakeIn",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           }
         ]
       },
@@ -490,35 +518,53 @@
             "thumbnail": "layerg-file-shp2json.jpg",
             "main": "layer-graphic/file/shp2json",
             "hasPannel": true,
-            "libs": ["mars2d", "shpGeojson"],
-            "resources": ["Shp2JsonLayer.js"]
+            "libs": [
+              "mars2d",
+              "shpGeojson"
+            ],
+            "resources": [
+              "Shp2JsonLayer.js"
+            ]
           },
           {
             "name": "KML/KMZ文件的加载(转GeoJson)",
             "thumbnail": "layerg-file-kml2json.jpg",
             "main": "layer-graphic/file/kml2json",
             "hasPannel": true,
-            "libs": ["mars2d", "kmlGeojson"],
-            "resources": ["Kml2JsonLayer.js"]
+            "libs": [
+              "mars2d",
+              "kmlGeojson"
+            ],
+            "resources": [
+              "Kml2JsonLayer.js"
+            ]
           },
           {
             "name": "中国各省市面",
             "thumbnail": "layer-graphic-file-geojson-polygon.jpg",
             "main": "layer-graphic/file/geojson-polygon",
             "hasPannel": true,
-            "resources": ["polygon-legend.css"]
+            "resources": [
+              "polygon-legend.css"
+            ]
           },
           {
             "name": "GeoJson大数据面(Canvas合并渲染)",
             "thumbnail": "layer-graphic-file-geojson-canvas.jpg",
             "main": "layer-graphic/file/geojson-canvas",
-            "libs": ["mars2d", "CanvasGeojsonLayer"]
+            "libs": [
+              "mars2d",
+              "CanvasGeojsonLayer"
+            ]
           },
           {
             "name": "建筑物3D立体",
             "thumbnail": "layer-graphic-other-osmbuildings.jpg",
             "main": "layer-graphic/other/osmbuildings",
-            "libs": ["mars2d", "OSMBuildings"]
+            "libs": [
+              "mars2d",
+              "OSMBuildings"
+            ]
           }
         ]
       },
@@ -539,13 +585,19 @@
             "name": "ArcGIS MapServer动态服务",
             "thumbnail": "layer-graphic-wfs-arcgis-dynamic.jpg",
             "main": "layer-graphic/wfs/arcgis-dynamic",
-            "libs": ["mars2d", "mars2d-esri"]
+            "libs": [
+              "mars2d",
+              "mars2d-esri"
+            ]
           },
           {
             "name": "ArcGIS FeatureServer服务",
             "thumbnail": "layer-graphic-wfs-arcgis-feature.jpg",
             "main": "layer-graphic/wfs/arcgis-feature",
-            "libs": ["mars2d", "mars2d-esri"]
+            "libs": [
+              "mars2d",
+              "mars2d-esri"
+            ]
           }
         ]
       },
@@ -578,7 +630,11 @@
             "thumbnail": "query-arcgisPolygon.jpg",
             "main": "query/arcgisPolygon",
             "hasPannel": true,
-            "libs": ["mars2d", "echarts", "turf"]
+            "libs": [
+              "mars2d",
+              "echarts",
+              "turf"
+            ]
           },
           {
             "name": "GeoServer矢量服务查询(OGC WFS)",
@@ -613,7 +669,7 @@
     "icon": "fa-puzzle-piece",
     "children": [
       {
-        "name": "基础对象",
+        "name": "点状数据",
         "children": [
           {
             "name": "Marker 图标点",
@@ -625,7 +681,9 @@
             "name": "点的加载动画",
             "thumbnail": "graphic-basis-marker-magic.jpg",
             "main": "graphic/basis/marker-magic",
-            "resources": ["magic.min.css"]
+            "resources": [
+              "magic.min.css"
+            ]
           },
           {
             "name": "扩散动画点",
@@ -661,7 +719,9 @@
             "thumbnail": "graphic-divGraphic-basis.jpg",
             "main": "graphic/divGraphic/basis",
             "hasPannel": true,
-            "resources": ["/temp/css/divGraphic.css"]
+            "resources": [
+              "/temp/css/divGraphic.css"
+            ]
           },
           {
             "name": "动态效果点",
@@ -674,38 +734,32 @@
             "thumbnail": "graphic-divGraphic-ident.jpg",
             "main": "graphic/divGraphic/ident",
             "hasPannel": true,
-            "resources": ["/temp/css/divGraphic.css"]
+            "resources": [
+              "/temp/css/divGraphic.css"
+            ]
           },
           {
             "name": "浮动监控点",
             "thumbnail": "graphic-divGraphic-camera.jpg",
             "main": "graphic/divGraphic/camera",
-            "resources": ["divCamera.css"]
+            "resources": [
+              "divCamera.css"
+            ]
           },
           {
             "name": "动态水球点",
             "thumbnail": "graphic-divGraphic-echarts-liquidfill.jpg",
             "main": "graphic/divGraphic/echarts-liquidfill",
-            "libs": ["mars2d", "echarts-liquidfill"]
-          },
-          {
-            "name": "Circle 圆",
-            "thumbnail": "graphic-basis-circle.jpg",
-            "main": "graphic/basis/circle",
-            "hasPannel": true
-          },
-          {
-            "name": "扇形",
-            "thumbnail": "graphic-basis-circle-sector.jpg",
-            "main": "graphic/basis/circle-sector",
-            "hasPannel": true
-          },
-          {
-            "name": "Ellipse 椭圆",
-            "thumbnail": "graphic-basis-ellipse.jpg",
-            "main": "graphic/basis/ellipse",
-            "hasPannel": true
-          },
+            "libs": [
+              "mars2d",
+              "echarts-liquidfill"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "线状数据",
+        "children": [
           {
             "name": "Polyline 线",
             "thumbnail": "graphic-basis-polyline.jpg",
@@ -722,20 +776,31 @@
             "thumbnail": "graphic-basis-polyline-oneBeltOneRoad.jpg",
             "main": "graphic/basis/polyline-oneBeltOneRoad",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "动画效果线(铁路)",
             "thumbnail": "graphic-other-ant-path.gif",
             "main": "graphic/other/ant-path",
-            "libs": ["mars2d", "antPath"],
+            "libs": [
+              "mars2d",
+              "antPath"
+            ],
             "es5_thumbnail": "graphic-other-ant-path.gif"
           },
           {
             "name": "线的运动动画",
             "thumbnail": "graphic-basis-polyline-snakeIn.jpg",
             "main": "graphic/basis/polyline-snakeIn"
-          },
+          }
+        ]
+      },
+      {
+        "name": "面状数据",
+        "children": [
           {
             "name": "Polygon 面",
             "thumbnail": "graphic-basis-polygon.jpg",
@@ -758,6 +823,24 @@
             "name": "CanvasImage 图片",
             "thumbnail": "graphic-basis-image-canvas.jpg",
             "main": "graphic/basis/image-canvas"
+          },
+          {
+            "name": "Circle 圆",
+            "thumbnail": "graphic-basis-circle.jpg",
+            "main": "graphic/basis/circle",
+            "hasPannel": true
+          },
+          {
+            "name": "扇形",
+            "thumbnail": "graphic-basis-circle-sector.jpg",
+            "main": "graphic/basis/circle-sector",
+            "hasPannel": true
+          },
+          {
+            "name": "Ellipse 椭圆",
+            "thumbnail": "graphic-basis-ellipse.jpg",
+            "main": "graphic/basis/ellipse",
+            "hasPannel": true
           }
         ]
       },
@@ -768,27 +851,39 @@
             "name": "统计柱状图",
             "thumbnail": "graphic-apply-cylinder-gdp.jpg",
             "main": "graphic/apply/cylinder-gdp",
-            "libs": ["mars2d", "echarts-gl"],
-            "resources": ["gdp.css"]
+            "libs": [
+              "mars2d",
+              "echarts-gl"
+            ],
+            "resources": [
+              "gdp.css"
+            ]
           },
           {
             "name": "行政区数据统计图",
             "thumbnail": "graphic-apply-quyu-num.jpg",
             "main": "graphic/apply/quyu-num",
-            "resources": ["/temp/css/divGraphic.css"]
+            "resources": [
+              "/temp/css/divGraphic.css"
+            ]
           },
           {
             "name": "行政区突出展示",
             "thumbnail": "graphic-apply-district.jpg",
             "main": "graphic/apply/district",
-            "resources": ["/temp/css/divGraphic.css"]
+            "resources": [
+              "/temp/css/divGraphic.css"
+            ]
           },
           {
             "name": "台风轨迹",
             "thumbnail": "graphic-apply-typhoon.jpg",
             "main": "graphic/apply/typhoon",
             "hasPannel": true,
-            "resources": ["typhoon.css", "Typhoon.js"]
+            "resources": [
+              "typhoon.css",
+              "Typhoon.js"
+            ]
           }
         ]
       },
@@ -800,8 +895,14 @@
             "thumbnail": "layer-graphic-draw-draw.jpg",
             "main": "layer-graphic/draw/draw",
             "hasPannel": true,
-            "libs": ["mars2d", "terraformer"],
-            "resources": ["/lib/kml/kml-geojson.js", "/temp/css/divGraphic.css"]
+            "libs": [
+              "mars2d",
+              "terraformer",
+              "kmlGeojson"
+            ],
+            "resources": [
+              "/temp/css/divGraphic.css"
+            ]
           },
           {
             "name": "军事标绘",
@@ -820,7 +921,10 @@
             "thumbnail": "layer-graphic-other-textCollision.jpg",
             "main": "layer-graphic/other/textCollision",
             "hasPannel": true,
-            "libs": ["mars2d", "textCollision"]
+            "libs": [
+              "mars2d",
+              "textCollision"
+            ]
           }
         ]
       }
@@ -837,22 +941,31 @@
             "name": "双屏对比",
             "thumbnail": "map-double-compare.jpg",
             "main": "map/double/compare",
-            "resources": ["compare.css"]
+            "resources": [
+              "compare.css"
+            ]
           },
           {
             "name": "二三维联动(与cesium)",
             "thumbnail": "map-double-cesium.jpg",
             "main": "map/double/cesium",
             "hasPannel": true,
-            "libs": ["mars2d", "mars3d"],
-            "resources": ["map.css"]
+            "libs": [
+              "mars2d",
+              "mars3d"
+            ],
+            "resources": [
+              "map.css"
+            ]
           },
           {
             "name": "街景联动",
             "thumbnail": "map-double-streetview.jpg",
             "main": "map/double/streetview",
             "hasPannel": true,
-            "resources": ["map.css"]
+            "resources": [
+              "map.css"
+            ]
           }
         ]
       },
@@ -864,7 +977,9 @@
             "thumbnail": "thing-expImg.jpg",
             "main": "thing/expImg",
             "hasPannel": true,
-            "resources": ["/lib/dom2img/dom-to-image.js"]
+            "resources": [
+              "/lib/dom2img/dom-to-image.js"
+            ]
           },
           {
             "name": "设置地图背景",
@@ -910,90 +1025,129 @@
             "thumbnail": "turf-random.jpg",
             "main": "turf/random",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "生成网格",
             "thumbnail": "turf-grid.jpg",
             "main": "turf/grid",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "点相关计算",
             "thumbnail": "turf-points.jpg",
             "main": "turf/points",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "最近点分析",
             "thumbnail": "turf-nearest-point.jpg",
             "main": "turf/nearest-point",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "线相关计算",
             "thumbnail": "turf-line.jpg",
             "main": "turf/line",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "线求交",
             "thumbnail": "turf-lineIntersect.jpg",
             "main": "turf/lineIntersect",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "线上最近点",
             "thumbnail": "turf-nearest-point-onLine.jpg",
             "main": "turf/nearest-point-onLine",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "最短路径",
             "thumbnail": "turf-shortest-path.jpg",
             "main": "turf/shortest-path",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "面相关计算",
             "thumbnail": "turf-polygon.jpg",
             "main": "turf/polygon",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "面求交",
             "thumbnail": "turf-intersect.jpg",
             "main": "turf/intersect",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "面的切割(线分割面)",
             "thumbnail": "turf-polygon-clip.jpg",
             "main": "turf/polygon-clip",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "等值线面(离散点生成)",
             "thumbnail": "turf-isobands.jpg",
             "main": "turf/isobands",
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           },
           {
             "name": "缓冲分析",
             "thumbnail": "turf-buffer.jpg",
             "main": "turf/buffer",
             "hasPannel": true,
-            "libs": ["mars2d", "turf"]
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           }
         ]
       }
@@ -1015,8 +1169,22 @@
             "name": "全国温度图",
             "thumbnail": "layer-tile-type-image-kriging.jpg",
             "main": "layer-tile/type/image-kriging",
-            "libs": ["mars2d", "kriging"],
-            "resources": ["krigingConfig.js"]
+            "libs": [
+              "mars2d",
+              "kriging"
+            ],
+            "resources": [
+              "krigingConfig.js"
+            ]
+          },
+          {
+            "name": "风向图",
+            "thumbnail": "layer-other-wind.jpg",
+            "main": "layer-other/wind",
+            "libs": [
+              "mars2d",
+              "leaflet-wind"
+            ]
           }
         ]
       },
@@ -1027,69 +1195,106 @@
             "name": "蜂巢图",
             "thumbnail": "layer-other-mapv-grid-honeycomb.jpg",
             "main": "layer-other/mapv/grid-honeycomb",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "resources": ["randomLatLng.js"]
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ],
+            "resources": [
+              "randomLatLng.js"
+            ]
           },
           {
             "name": "方格图",
             "thumbnail": "layer-other-mapv-grid-point.jpg",
             "main": "layer-other/mapv/grid-point",
-            "libs": ["mars2d", "mars2d-mapv"],
-            "resources": ["randomLatLng.js"]
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ],
+            "resources": [
+              "randomLatLng.js"
+            ]
           },
           {
             "name": "微博",
             "thumbnail": "layer-other-mapv-point-weibo.jpg",
             "main": "layer-other/mapv/point-weibo",
-            "libs": ["mars2d", "mars2d-mapv"]
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "动态点",
             "thumbnail": "layer-other-mapv-dynamic-point.gif",
             "main": "layer-other/mapv/dynamic-point",
-            "libs": ["mars2d", "mars2d-mapv"]
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "简单线",
             "thumbnail": "layer-other-mapv-polyline.jpg",
             "main": "layer-other/mapv/polyline",
-            "libs": ["mars2d", "mars2d-mapv"]
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "强度线",
             "thumbnail": "layer-other-mapv-polyline-intensity.jpg",
             "main": "layer-other/mapv/polyline-intensity",
-            "libs": ["mars2d", "mars2d-mapv"]
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "动态轨迹",
             "thumbnail": "layer-other-mapv-dynamic-line.jpg",
             "main": "layer-other/mapv/dynamic-line",
-            "libs": ["mars2d", "mars2d-mapv"]
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "强边界图",
             "thumbnail": "layer-other-mapv-line-forceEdgeBunding.jpg",
             "main": "layer-other/mapv/line-forceEdgeBunding",
-            "libs": ["mars2d", "mars2d-mapv"]
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "迁徙图",
             "thumbnail": "layer-other-mapv-qianxi.jpg",
             "main": "layer-other/mapv/qianxi",
-            "libs": ["mars2d", "mars2d-mapv"]
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "大迁徙图",
             "thumbnail": "layer-other-mapv-qianxi-time.jpg",
             "main": "layer-other/mapv/qianxi-time",
-            "libs": ["mars2d", "mars2d-mapv"]
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           },
           {
             "name": "北京",
             "thumbnail": "layer-other-mapv-polygon.jpg",
             "main": "layer-other/mapv/polygon",
-            "libs": ["mars2d", "mars2d-mapv"]
+            "libs": [
+              "mars2d",
+              "mars2d-mapv"
+            ]
           }
         ]
       },
@@ -1100,85 +1305,128 @@
             "name": "饼形图标记",
             "thumbnail": "layer-other-echarts-marker-pie.jpg",
             "main": "layer-other/echarts/marker-pie",
-            "libs": ["mars2d", "echarts"]
+            "libs": [
+              "mars2d",
+              "echarts"
+            ]
           },
           {
             "name": "折线图标记",
             "thumbnail": "layer-other-echarts-marker-table.jpg",
             "main": "layer-other/echarts/marker-table",
-            "libs": ["mars2d", "echarts"]
+            "libs": [
+              "mars2d",
+              "echarts"
+            ]
           },
           {
             "name": "散点图全省经济指标",
             "thumbnail": "layer-other-echarts-echarts-sandian1.jpg",
             "main": "layer-other/echarts/echarts-sandian1",
-            "libs": ["mars2d", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "散点图城市空气质量",
             "thumbnail": "layer-other-echarts-echarts-sandian2.jpg",
             "main": "layer-other/echarts/echarts-sandian2",
-            "libs": ["mars2d", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "散点图态势",
             "thumbnail": "layer-other-echarts-echarts-sandian3.jpg",
             "main": "layer-other/echarts/echarts-sandian3",
-            "libs": ["mars2d", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "散点图微博签到",
             "thumbnail": "layer-other-echarts-sandian-weibo.jpg",
             "main": "layer-other/echarts/sandian-weibo",
-            "libs": ["mars2d", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "流出线",
             "thumbnail": "layer-other-echarts-outflow-line.jpg",
             "main": "layer-other/echarts/outflow-line",
-            "libs": ["mars2d", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "流入线",
             "thumbnail": "layer-other-echarts-inflow-line.jpg",
             "main": "layer-other/echarts/inflow-line",
-            "libs": ["mars2d", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "物流运输图",
             "thumbnail": "layer-other-echarts-line1.jpg",
             "main": "layer-other/echarts/line1",
-            "libs": ["mars2d", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "人口迁徙图",
             "thumbnail": "layer-other-echarts-line2.jpg",
             "main": "layer-other/echarts/line2",
-            "libs": ["mars2d", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "流向动态效果",
             "thumbnail": "layer-other-echarts-line3.jpg",
             "main": "layer-other/echarts/line3",
-            "libs": ["mars2d", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "道路拥堵图",
             "thumbnail": "layer-other-echarts-lineroad.jpg",
             "main": "layer-other/echarts/lineroad",
-            "libs": ["mars2d", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "公交路线热力图",
             "thumbnail": "layer-other-echarts-lineroad2.jpg",
             "main": "layer-other/echarts/lineroad2",
-            "libs": ["mars2d", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-echarts"
+            ]
           },
           {
             "name": "铁路热力图Arc",
             "thumbnail": "layer-other-echarts-lineroad3.jpg",
             "main": "layer-other/echarts/lineroad3",
-            "libs": ["mars2d", "mars2d-esri", "mars2d-echarts"]
+            "libs": [
+              "mars2d",
+              "mars2d-esri",
+              "mars2d-echarts"
+            ]
           }
         ]
       }

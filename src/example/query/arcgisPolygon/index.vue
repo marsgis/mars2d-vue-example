@@ -1,30 +1,36 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="400">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-form>
-      <a-form-item label="名称">
+      <a-form-item label="名称:">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
       </a-form-item>
 
-      <a-form-item label="范围">
-        <a-space>
-          <mars-button @click="drawRectangle">框选范围</mars-button>
-          <mars-button @click="drawCircle">圆形范围</mars-button>
-          <mars-button @click="drawPolygon">多边形范围</mars-button>
-        </a-space>
+      <a-form-item label="范围:">
+        <div class="draw-range">
+          <a-space>
+            <mars-button @click="drawRectangle">框选范围</mars-button>
+            <mars-button @click="drawCircle">圆形范围</mars-button>
+            <mars-button class="long-btn" @click="drawPolygon">多边形范围</mars-button>
+          </a-space>
+        </div>
+
       </a-form-item>
 
-      <a-form-item label="操作">
-        <a-space>
-          <mars-button @click="query">查询</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
-        </a-space>
+      <a-form-item>
+        <div class="footer">
+          <a-space>
+            <mars-button @click="query">查询</mars-button>
+            <mars-button @click="removeAll" danger>清除</mars-button>
+          </a-space>
+        </div>
       </a-form-item>
 
       <a-form-item v-show="show">
         <a-tabs v-model:activeKey="activeKey" :centered="true" :tabBarGutter="55">
           <a-tab-pane key="1" tab="表格" :forceRender="true">
             <a-form-item>
-              <a-table :pagination="false" :dataSource="dataSource" :columns="columns" :scroll="{ y: tableScrollHeight }" size="small" bordered />
+              <a-table :pagination="false" :dataSource="dataSource" :columns="columns"
+                :scroll="{ y: tableScrollHeight }" size="small" bordered />
             </a-form-item>
           </a-tab-pane>
           <a-tab-pane key="2" tab="饼状图" :forceRender="true">
@@ -230,15 +236,38 @@ onMounted(() => {
   }, 400)
 })
 </script>
+
 <style scoped lang="less">
 :deep(.ant-tabs-tab-btn) {
   color: #000 !important;
 }
-.inputServe {
-  width: 250px;
+
+.ant-form {
+  padding: 0 !important;
 }
+
+.inputServe {
+  width: 260px;
+}
+
 .chart {
-  width: 380px;
+  width: 300px;
   height: 250px;
+}
+
+.draw-range {
+  .mars-button {
+    width: 83px;
+  }
+
+  .long-btn {
+    padding-left: 1px !important;
+  }
+}
+
+.footer {
+  .mars-button {
+    width: 150px;
+  }
 }
 </style>

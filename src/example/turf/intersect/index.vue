@@ -1,10 +1,10 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <div class="mars-onlybtns-pannel">
     <a-space>
       <mars-button @click="intersect">求交</mars-button>
       <mars-button @click="clearAll">清除</mars-button>
     </a-space>
-  </mars-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">

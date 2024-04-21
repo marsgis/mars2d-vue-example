@@ -1,26 +1,23 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">原始数据:</span>
-        <mars-button @click="drawLine">绘制线</mars-button>
-        <mars-button @click="clearAll">清除</mars-button>
-      </a-space>
+  <mars-dialog :visible="true" width="330" right="10" top="10">
+    <div class="line-btns f-mb">
+      <span class="mars-pannel-item-label">原始数据:</span>
+      <mars-button @click="drawLine">绘制线</mars-button>
     </div>
 
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">计算平行线:</span>
-        <mars-input-number v-model:value="distance" :min="1" :max="10" />公里
-        <mars-button @click="parallelLines">计算</mars-button>
-      </a-space>
+    <div class="line-btns btn-more f-mb">
+      <span class="mars-pannel-item-label">计算平行线:</span>
+      <mars-input-number v-model:value="distance" :min="1" :max="10" addon-after="公里" />
+      <mars-button @click="parallelLines">计算</mars-button>
     </div>
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">计算曲线:</span>
-        <mars-button @click="calculationCurve">计算</mars-button>
-      </a-space>
+
+    <div class="line-btns f-mb">
+      <span class="mars-pannel-item-label">计算曲线:</span>
+      <mars-button @click="calculationCurve">计算</mars-button>
     </div>
+
+
+    <mars-button class="w-full" @click="clearAll" danger>清除</mars-button>
   </mars-dialog>
 </template>
 
@@ -51,11 +48,14 @@ const calculationCurve = () => {
 }
 </script>
 
-<style lang="less" scoped>
-.mars-pannel-item-label {
-  width: 74px;
-}
-:deep(.ant-input-number-input-wrap) {
-  width: 80px;
-}
+<style lang="less" scoped> .line-btns {
+   display: grid;
+   grid-template-columns: 74px repeat(1, 1fr);
+   align-items: center;
+   gap: 10px;
+ }
+
+ .btn-more {
+   grid-template-columns: 74px repeat(2, 1fr);
+ }
 </style>

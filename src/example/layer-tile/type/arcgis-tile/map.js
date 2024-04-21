@@ -53,6 +53,11 @@ export const eventTarget = new mars2d.BaseClass()
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
+  globalNotify(
+    "已知问题提示",
+    `如图层未显示或服务URL访问超时，是因为目前国家测绘主管部门对未经审核批准的国外地图服务做了屏蔽封锁。
+     您可以需翻墙使用 或 参考示例代码替换本地服务地址使用。`
+  )
 
   // 添加底图 [需要引用mars2d-esri插件]
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)

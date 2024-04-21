@@ -56,15 +56,17 @@ window.configLibs = {
     "mars2d/thirdParty/mapbox/mapbox-gl.js",
     "mars2d/thirdParty/mapbox/leaflet-mapbox-gl.js",
   ],
-
+  "leaflet-wind": [
+    "mars2d/thirdParty/wind/leaflet-wind.js",
+  ],
   /// ///////////////////////mars3d及其插件////////////////////////
   mars3d: [
     // 地图 主库
-    "https://unpkg.com/mars3d-cesium/Build/Cesium/Widgets/widgets.css",
-    "https://unpkg.com/mars3d-cesium/Build/Cesium/Cesium.js",
-    "https://unpkg.com/@turf/turf/turf.min.js",
-    "https://unpkg.com/mars3d/dist/mars3d.css",
-    "https://unpkg.com/mars3d/dist/mars3d.js"
+    "http://mars3d.cn/lib/Cesium/Widgets/widgets.css",
+    "http://mars3d.cn/lib/Cesium/Cesium.js",
+    "http://mars3d.cn/lib/turf/turf.min.js",
+    "http://mars3d.cn/lib/mars3d/mars3d.css",
+    "http://mars3d.cn/lib/mars3d/mars3d.js"
   ],
 
   //////////////////////////其他地图渲染相关库////////////////////////

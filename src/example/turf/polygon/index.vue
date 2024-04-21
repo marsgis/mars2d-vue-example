@@ -1,15 +1,15 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" width="330" right="10" top="10">
     <div class="f-mb">
       <a-space>
-        <span>原始数据:</span>
+        <span class="mars-pannel-item-label">原始数据:</span>
         <mars-button @click="drawPolygon">绘制面</mars-button>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span>旋转角度:</span>
+        <span class="mars-pannel-item-label">旋转角度:</span>
         <mars-input-number v-model:value="angleValue" :min="0" :max="360" />
         <mars-button @click="spinPolygons">旋转面</mars-button>
       </a-space>
@@ -17,15 +17,15 @@
 
     <div class="f-mb">
       <a-space>
-        <span>平移距离:</span>
+        <span class="mars-pannel-item-label">平移距离:</span>
         <mars-input-number v-model:value="distanceValue" :min="1" :max="10" />
         <mars-button @click="translationPolygons">平移面</mars-button>
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div>
       <a-space>
-        <span>缩放比例:</span>
+        <span class="mars-pannel-item-label">缩放比例:</span>
         <mars-input-number v-model:value="scaleValue" :min="1" :max="10" />
         <mars-button @click="zoomPolygons">缩放面</mars-button>
       </a-space>

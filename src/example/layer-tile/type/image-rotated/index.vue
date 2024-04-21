@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
       透明度：
       <mars-slider v-model:value="opacity" :min="0" :max="1" :step="0.1" @change="changeImageOpacity" />
@@ -19,6 +19,6 @@ const changeImageOpacity = () => {
 
 <style scoped lang="less">
 .ant-slider {
-  width: 150px;
+  width: 220px;
 }
 </style>

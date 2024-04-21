@@ -338,4 +338,8 @@ function showEchartsLayer() {
 
   const echartsLayer = new mars2d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
+
+  echartsLayer.on("click", function (event) {
+    console.log("单击了图层", event)
+  })
 }

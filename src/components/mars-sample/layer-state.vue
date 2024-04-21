@@ -1,9 +1,9 @@
 <template>
   <a-row>
-    <a-col :span="5" v-if="props.label !== ''">
+    <a-col :span="labelSpan" v-if="props.label !== ''">
       <span class="mars-dialog-item-label">{{ props.label }}</span>
     </a-col>
-    <a-col :span="19">
+    <a-col :span="buttonSpan">
       <a-space>
         <a-checkbox v-model:checked="formState.enabledShowHide" @change="onChangeShow" title="显示隐藏状态">显示</a-checkbox>
         <a-checkbox v-model:checked="formState.enabledPopup" @change="onChangePopup" title="是否绑定Popup鼠标单击弹窗">Popup</a-checkbox>
@@ -27,11 +27,16 @@ import { $alert } from "@mars/components/mars-ui/index"
 const props = withDefaults(
   defineProps<{
     label?: string
+  labelSpan?: number
   }>(),
   {
-    label: "图层状态:"
+    label: "图层状态:",
+    labelSpan: 5
   }
 )
+
+const labelSpan = props.labelSpan || 5
+const buttonSpan = 24 - labelSpan
 
 interface FormState {
   enabledShowHide: boolean
@@ -259,3 +264,9 @@ function bindLayerContextMenu() {
   ])
 }
 </script>
+
+<style scoped lang="less">
+.ant-space {
+  flex-wrap: wrap;
+}
+</style>

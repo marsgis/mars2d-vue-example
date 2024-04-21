@@ -1,8 +1,8 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" customClass="gaodeRoutePannel">
+  <mars-dialog :visible="true" right="10" top="10" width="330" customClass="gaodeRoutePannel">
     <a-form>
       <a-form-item label="方式">
-        <mars-select v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
+        <mars-select v-model:value="selectWay" :options="selectWayOptions" @change="btnAnalyse"> </mars-select>
       </a-form-item>
       <div style="color: #000"></div>
       <a-form-item label="起点">
@@ -19,11 +19,14 @@
       </a-form-item>
 
       <div class="f-tac">
-        <a-space>
-          <mars-button @click="btnAnalyse">开始分析</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
-          <mars-button @click="saveGeoJSON">保存GeoJSON</mars-button>
-        </a-space>
+        <div class="footer">
+          <a-space>
+            <!-- <mars-button @click="btnAnalyse">开始分析</mars-button> -->
+            <mars-button @click="saveGeoJSON">保存GeoJSON</mars-button>
+            <mars-button @click="removeAll" danger>清除</mars-button>
+          </a-space>
+        </div>
+
       </div>
 
       <div v-show="wayShow" class="showRoam">
@@ -107,6 +110,7 @@ const saveGeoJSON = () => {
   mapWork.saveGeoJSON()
 }
 </script>
+
 <style lang="less">
 .gaodeRoutePannel {
   right: 10px !important;
@@ -115,6 +119,7 @@ const saveGeoJSON = () => {
   overflow: auto !important;
 }
 </style>
+
 <style scoped lang="less">
 .showRoam {
   top: 250px;
@@ -123,11 +128,23 @@ const saveGeoJSON = () => {
   padding: 5px;
   line-height: 25px;
   color: #000 !important;
+
   p {
     color: #000 !important;
   }
 }
+
 .ant-select {
   width: 250px;
+}
+
+.mars-input {
+  width: 195px;
+}
+
+.footer {
+  .mars-button {
+    width: 143px;
+  }
 }
 </style>

@@ -1,24 +1,21 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <a-space>
-        <span>按钮:</span>
-        <a-checkbox v-model:checked="formState.enabledView" @change="onBindView">视角复位</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledBtnLocation" @change="onBindBtnLocation">定位</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledFullScreen" @change="onBindFullScreen">全屏</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledZoomIn" @change="onBindZoomIn">地图放大</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledZoomOut" @change="onBindZoomOut">地图缩小</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledLayerPicker" @change="onBindBaseLayerPicker">底图切换</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledLayersTool" @change="onBindLayersTool">图层控制</a-checkbox>
-      </a-space>
-    </div>
-    <div>
-      <a-space>
-        <span>面板:</span>
-        <a-checkbox v-model:checked="formState.enabledLegend" @change="onBindLegend">比例尺</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledLocation" @change="onBindLocation">鼠标提示信息(左下角)</a-checkbox>
-      </a-space>
-    </div>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+      <a-form :label-col="{ span: 3 }"
+        :wrapper-col="{ span: 18 }">
+        <a-form-item label="按钮" class="topCheckContent">
+          <a-checkbox v-model:checked="formState.enabledView" @change="onBindView">视角复位</a-checkbox>
+          <a-checkbox v-model:checked="formState.enabledBtnLocation" @change="onBindBtnLocation">定位</a-checkbox>
+          <a-checkbox v-model:checked="formState.enabledFullScreen" @change="onBindFullScreen">全屏</a-checkbox>
+          <a-checkbox v-model:checked="formState.enabledZoomIn" @change="onBindZoomIn">地图放大</a-checkbox>
+          <a-checkbox v-model:checked="formState.enabledZoomOut" @change="onBindZoomOut">地图缩小</a-checkbox>
+          <a-checkbox v-model:checked="formState.enabledLayerPicker" @change="onBindBaseLayerPicker">底图切换</a-checkbox>
+          <a-checkbox v-model:checked="formState.enabledLayersTool" @change="onBindLayersTool">图层控制</a-checkbox>
+        </a-form-item>
+        <a-form-item label="面板">
+          <a-checkbox v-model:checked="formState.enabledLegend" @change="onBindLegend">比例尺</a-checkbox>
+          <a-checkbox v-model:checked="formState.enabledLocation" @change="onBindLocation">鼠标提示信息(左下角)</a-checkbox>
+        </a-form-item>
+      </a-form>
   </mars-dialog>
 </template>
 
@@ -102,3 +99,20 @@ const onBindLegend = () => {
   mapWork.bindLegend(formState.enabledLegend)
 }
 </script>
+<style lang="less" scoped>
+:deep(.ant-form-item-control-input) {
+  width:260px;
+  margin-left: 10px;
+}
+
+.topCheckContent .ant-form-item-control-input-content label {
+  margin-bottom: 8px;
+}
+
+.topCheckContent {
+  :deep(.ant-form-item-label) {
+    display: flex;
+    margin-top: -7px !important;
+  }
+}
+</style>

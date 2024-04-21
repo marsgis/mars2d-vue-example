@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" width="332" right="10" top="10">
     <a-form>
       <a-form-item label="范围">
         <a-radio-group v-model:value="formState.radioFanwei" @change="changeFanwei">
@@ -147,6 +147,7 @@ const bindMourseClick = () => {
     mapWork.updateMarker(false, currJD, currWD)
   })
 }
+
 const submitCenter = () => {
   if (formState.jd > 180 || formState.jd < -180) {
     $alert("请输入有效的经度值！")
@@ -160,10 +161,10 @@ const submitCenter = () => {
 }
 </script>
 <style scoped lang="less">
-.decimal-system {
-  width: 225px;
-}
-.degree-minutes {
-  width: 90px;
-}
+// .decimal-system {
+//   width: 225px;
+// }
+// .degree-minutes {
+//   width: 90px;
+// }
 </style>

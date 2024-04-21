@@ -124,30 +124,31 @@ function clipAllPolygon(clipLine) {
   polygonLayer.eachGraphic(function (graphic) {
     try {
       const clippedPolygon = geoUtil.polygonClipByLine(graphic.toGeoJSON(), clipLine)
-
-      drawLayer.loadGeoJSON(clippedPolygon, {
-        style: {
-          fill: true,
-          fillColor: "#00ff00",
-          // randomColor: true,
-          fillOpacity: 0.5,
-          outline: true,
-          outlineWidth: 2,
-          outlineColor: "#ffffff"
-        }
-      })
+      if (clippedPolygon) {
+        drawLayer.loadGeoJSON(clippedPolygon, {
+          style: {
+            fill: true,
+            fillColor: "#00ff00",
+            // randomColor: true,
+            fillOpacity: 0.5,
+            outline: true,
+            outlineWidth: 2,
+            outlineColor: "#ffffff"
+          }
+        })
+      }
     } catch (error) {
       console.log(error)
-      // haoutil.msg('<div style="color:#ff0000;">' + error.state + ":</br>" + error.message + "</div>");S
+      // globalMsg('<div style="color:#ff0000;">' + error.message + "</div>")
     }
   })
 }
 
 /**
-       * geoJson数据处理模块(需要引入turf.js)
-       * 输入输出数据均为标准geoJson格式
-       */
- const geoUtil = {
+ * geoJson数据处理模块(需要引入turf.js)
+ * 输入输出数据均为标准geoJson格式
+ */
+const geoUtil = {
   /**
    * 合并多边形
    */
@@ -186,7 +187,7 @@ function clipAllPolygon(clipLine) {
             clipPolygon = polygon
             clipPolygonIndex = index
           } else {
-            throw new Error({ state: "裁剪失败", message: "MultiPolygon只能有一个多边形与切割线存在交点" })
+            throw new Error("MultiPolygon只能有一个多边形与切割线存在交点")
           }
         }
       })
@@ -194,10 +195,10 @@ function clipAllPolygon(clipLine) {
         polygons.splice(clipPolygonIndex, 1)
         return turf.featureCollection(polygons.concat(this.polygonClipByLine(clipPolygon, clipLine).features))
       } else {
-        throw new Error({ state: "裁剪失败", message: "MultiPolygon与切割线无交点" })
+        throw new Error("MultiPolygon与切割线无交点")
       }
     } else {
-      throw new Error({ state: "裁剪失败", message: "输入的多边形类型为错误" })
+      throw new Error("输入的多边形类型为错误")
     }
   },
 
@@ -205,7 +206,8 @@ function clipAllPolygon(clipLine) {
     // 获得裁切点
     const intersects = turf.lineIntersect(polyLine, clipLine)
     if (intersects.features.length !== 2) {
-      throw new Error({ state: "裁剪失败", message: "切割线与多边形交点应该为2个,当前交点个数为" + intersects.features.length })
+      // throw new Error("切割线与多边形交点应该为2个,当前交点个数为" + intersects.features.length)
+      return undefined
     }
     // 检查切割线与多边形的位置关系 （切割线的起点和终点不能落在多边形内部）
     const clipLineLength = clipLine.geometry.coordinates.length
@@ -213,7 +215,7 @@ function clipAllPolygon(clipLine) {
     const clipLineEndPoint = turf.point(clipLine.geometry.coordinates[clipLineLength - 1])
     const polygon = turf.polygon([polyLine.geometry.coordinates])
     if (turf.booleanPointInPolygon(clipLineStartPoint, polygon) || turf.booleanPointInPolygon(clipLineEndPoint, polygon)) {
-      throw new Error({ state: "裁剪失败", message: "切割线起点或终点不能在 裁剪多边形内部" })
+      throw new Error("切割线起点或终点不能在 裁剪多边形内部")
     }
     // 通过裁切点 分割多边形（只能获得多边形的一部分）
     const slicedPolyLine = turf.lineSlice(intersects.features[0], intersects.features[1], polyLine)
@@ -266,30 +268,31 @@ function clipAllPolygon(clipLine) {
   _multiPolygonClip: function (polyLine, clipLine) {
     // 将环 多边形分割成 内部逆时针多边形+外部多边形
     let outPolyline
-      const insidePolylineList = []
+    const insidePolylineList = []
     for (let i = 0; i < polyLine.geometry.coordinates.length; i++) {
       const splitPolyline = turf.lineString(polyLine.geometry.coordinates[i])
       if (turf.booleanClockwise(splitPolyline)) {
         if (outPolyline) {
-          throw new Error({ state: "裁剪失败", message: "出现了两个外部多边形无法处理" })
+          throw new Error("出现了两个外部多边形无法处理")
         } else {
           outPolyline = splitPolyline
         }
       } else {
         const intersects = turf.lineIntersect(splitPolyline, clipLine)
         if (intersects.features.length > 0) {
-          throw new Error({ state: "裁剪失败", message: "切割线不能与内环有交点" })
+          throw new Error("切割线不能与内环有交点")
         }
         insidePolylineList.push(splitPolyline)
       }
     }
     const resultCollection = this._singlePolygonClip(outPolyline, clipLine)
-
-    for (let i = 0; i < resultCollection.features.length; i++) {
-      for (let j = 0; j < insidePolylineList.length; j++) {
-        const startPoint = turf.point(insidePolylineList[j].geometry.coordinates[0])
-        if (turf.booleanPointInPolygon(startPoint, resultCollection.features[i])) {
-          resultCollection.features[i] = turf.mask(resultCollection.features[i], turf.lineToPolygon(insidePolylineList[j]))
+    if (resultCollection) {
+      for (let i = 0; i < resultCollection.features.length; i++) {
+        for (let j = 0; j < insidePolylineList.length; j++) {
+          const startPoint = turf.point(insidePolylineList[j].geometry.coordinates[0])
+          if (turf.booleanPointInPolygon(startPoint, resultCollection.features[i])) {
+            resultCollection.features[i] = turf.mask(resultCollection.features[i], turf.lineToPolygon(insidePolylineList[j]))
+          }
         }
       }
     }

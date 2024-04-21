@@ -74,7 +74,7 @@ class PoiQueryButton extends mars2d.control.ToolButton {
 
     // 创建控件的图标
     const image = L.DomUtil.create("img", "", this._container.firstChild)
-    image.setAttribute("src", `img/icon/search_black.svg`)
+    image.setAttribute("src", `img/icon/poi_search.svg`)
 
     // 鼠标移入移出
     let cacheTarget
@@ -215,7 +215,6 @@ class PoiQueryButton extends mars2d.control.ToolButton {
                   type: mars2d.EventType.click,
                   color: "#ff0000"
                 },
-                // 预留功能，后续支持文本
                 label: {
                   text: item.name,
                   font_size: 20,

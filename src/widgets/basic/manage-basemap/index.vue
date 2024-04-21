@@ -52,30 +52,37 @@ function changeBaseMaps(item: any) {
 <style lang="less" scoped>
 .basemap {
   height: calc(100% - 40px);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
 }
+
 .basemap-card {
   display: inline-block;
-  width: 75px;
+  width: 100%;
   list-style-type: none;
-  margin-top: 10px;
-  margin-left: 10px;
-  text-align: center;
   vertical-align: top;
+  text-align: center;
   cursor: pointer;
   font-size: 12px;
   color: var(--mars-text-color);
+
   &:hover {
     .active-card();
   }
+
   .icon {
     border: 1px solid #4db3ff78;
     width: 75px;
     height: 70px;
+    padding: 1px;
   }
 }
 
 .active-card {
   color: #337fe5 !important;
+
   .icon {
     border-color: #337fe5;
   }

@@ -1,49 +1,54 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-table :columns="columns" size="small" :data-source="data" bordered :pagination="false">
-      <template #bodyCell="{ column, text, index }">
-        <template v-if="column.dataIndex === 'name'">
-          <a href="https://mars2d.cn/api/Map.html#.sceneOptions" target="_black">{{ text }}</a>
-        </template>
-
-        <!-- select下拉选择 -->
-        <template v-if="column.dataIndex === 'operation'">
-          <!-- radio -->
-          <a-radio-group
-            @change=";(data[index] as any).change(index)"
-            v-if="data[index].operation === 'checked'"
-            v-model:value="data[index].value"
-            :name="'radioGroup' + index"
-          >
-            <a-radio value="1">是</a-radio>
-            <a-radio value="2">否</a-radio>
-          </a-radio-group>
-          <!-- 颜色选择器 -->
-          <mars-color-picker
-            v-if="data[index].operation === 'color'"
-            @change=";(data[index] as any).change(index)"
-            v-model:value="data[index].value"
-          />
-
-          <!-- range滑动 -->
-          <mars-slider
-            @change=";(data[index] as any).change(index)"
-            v-if="data[index].operation === 'range'"
-            v-model:value="data[index].value"
-            :min="data[index].min"
-            :max="data[index].max"
-            :step="data[index].step"
-          />
-        </template>
-      </template>
-    </a-table>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <a-form :label-col="labelCol">
+      <a-form-item label="当前层级" >
+        <!-- range滑动 -->
+        <mars-slider
+              @change=";(data[0] as any).change(0)"
+              v-model:value="data[0].value"
+              :min="data[0].min"
+              :max="data[0].max"
+              :step="data[0].step"
+            />
+      </a-form-item>
+      <a-form-item label="显示底图" >
+        <a-radio-group
+              @change=";(data[1] as any).change(1)"
+              v-if="data[1].operation === 'checked'"
+              v-model:value="data[1].value"
+              :name="'radioGroup' + 1"
+            >
+              <a-radio value="1">是</a-radio>
+              <a-radio value="2">否</a-radio>
+            </a-radio-group>
+      </a-form-item>
+      <a-form-item label="地球背景色" >
+        <mars-color-picker
+              v-if="data[2].operation === 'color'"
+              @change=";(data[2] as any).change(2)"
+              v-model:value="data[2].value"
+            />
+      </a-form-item>
+      <a-form-item label="是否右键菜单" >
+        <a-radio-group
+              @change=";(data[3] as any).change(3)"
+              v-if="data[3].operation === 'checked'"
+              v-model:value="data[3].value"
+              :name="'radioGroup' + 1"
+            >
+              <a-radio value="1">是</a-radio>
+              <a-radio value="2">否</a-radio>
+            </a-radio-group>
+      </a-form-item>
+    </a-form>
   </mars-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import type { TableColumnType } from "ant-design-vue"
 import * as mapWork from "./map.js"
+
+const labelCol = { style: { width: "97px" } }
 
 const data = ref([
   {
@@ -95,27 +100,9 @@ const data = ref([
     }
   }
 ])
-
-const columns: TableColumnType[] = [
-  {
-    title: "场景描述",
-    dataIndex: "describe"
-  },
-  {
-    title: "操作",
-    dataIndex: "operation"
-  }
-]
 </script>
 <style scoped lang="less">
 :deep(.marsColorView) {
   margin-left: 12px;
-}
-:deep(.ant-table-tbody > tr > td) {
-  padding: 4px;
-}
-//调整head行属性
-:deep(.ant-table-tbody > tr > th) {
-  padding: 4px;
 }
 </style>

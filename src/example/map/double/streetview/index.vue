@@ -1,11 +1,11 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <div class="mars-onlybtns-pannel">
     <a-space>
       <mars-button @click="splitScreen">分屏</mars-button>
       <mars-button @click="streetscape">仅街景</mars-button>
       <mars-button @click="viewTo2d">仅2D</mars-button>
     </a-space>
-  </mars-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">

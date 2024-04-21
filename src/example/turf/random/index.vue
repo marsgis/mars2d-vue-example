@@ -1,11 +1,12 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
+  <mars-dialog :visible="true" width="330" right="10" top="10">
+    <div class="random-btns">
       <mars-button @click="randomPoints()" type="button">随机点</mars-button>
       <mars-button @click="randomPolylines()" type="button">随机线</mars-button>
       <mars-button @click="randomPolygons()" type="button">随机面</mars-button>
-      <mars-button @click="clearAll()" type="button">清除</mars-button>
-    </a-space>
+    </div>
+
+    <mars-button class="w-full" @click="clearAll()" type="button" danger>清除</mars-button>
   </mars-dialog>
 </template>
 
@@ -32,3 +33,12 @@ const clearAll = () => {
   mapWork.clearAll()
 }
 </script>
+
+<style scoped lang="less">
+.random-btns{
+  display: grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+</style>

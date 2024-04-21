@@ -1,28 +1,28 @@
 <template>
-  <mars-dialog :visible="true" width="592" right="10" top="10">
+  <mars-dialog :visible="true" width="330" right="10" top="10">
     <div class="f-mb">
       <a-row>
-        <a-col :span="3">图层状态:</a-col>
-        <a-col :span="21">
-          <a-space>
-            <a-checkbox v-model:checked="enabledShowHide" @change="onChangeShow">显示隐藏</a-checkbox>
-            <a-checkbox v-model:checked="enabledPopup" @change="onChangePopup">Popup绑定</a-checkbox>
+        <a-col :span="6">图层状态:</a-col>
+        <a-col :span="18">
+          <div class="military-checkboxs">
+            <a-checkbox v-model:checked="enabledShowHide" @change="onChangeShow">显示</a-checkbox>
+            <a-checkbox v-model:checked="enabledPopup" @change="onChangePopup">Popup</a-checkbox>
             <a-checkbox v-model:checked="enabledTooltip" @change="onChangeTooltip">Tooltip</a-checkbox>
-            <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键绑定</a-checkbox>
+            <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键菜单</a-checkbox>
             <a-checkbox v-model:checked="isEditable" @change="isEditableChange">是否编辑</a-checkbox>
-          </a-space>
+          </div>
         </a-col>
       </a-row>
     </div>
 
     <div class="f-mb">
-      <data-manage />
+      <data-manage :labelSpan="6" />
     </div>
 
     <a-row class="military-row">
-      <a-col :span="3">图上标绘：</a-col>
-      <a-col :span="21">
-        <a-space>
+      <a-col :span="6">图上标绘：</a-col>
+      <a-col :span="18">
+        <div class="military-btns">
           <mars-button @click="drawPolygon('straightArrow')">粗直箭头</mars-button>
           <mars-button @click="drawPolygon('fineArrow')">粗单尖直箭头</mars-button>
           <mars-button @click="drawPolygon('fineArrowYW')">燕尾直箭头</mars-button>
@@ -34,7 +34,7 @@
           <mars-button @click="drawPolygon('closeVurve')">闭合曲面</mars-button>
 
           <mars-button @click="drawPolygon('gatheringPlace')">集结地</mars-button>
-        </a-space>
+        </div>
       </a-col>
     </a-row>
   </mars-dialog>
@@ -130,5 +130,17 @@ const showEditor = (e: any) => {
   .ant-space {
     flex-wrap: wrap;
   }
+}
+
+.military-checkboxs {
+  display: flex;
+  gap: 8px 3px;
+  flex-wrap: wrap;
+}
+
+.military-btns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 8px;
 }
 </style>

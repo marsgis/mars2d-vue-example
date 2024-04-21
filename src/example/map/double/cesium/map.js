@@ -122,10 +122,13 @@ function bind3dEvent() {
 }
 
 function camera_moveEndHandler() {
-  // 范围对象
   const point = map3d.getCenter()
+  if (!point) {
+    return
+  }
+
   const level = map3d.level
-  console.log(`'二维地图变化了，位置： ${point.toString()},层级 ${level} `)
+  console.log(`三维地图变化了，位置： ${point.toString()},层级 ${level} `)
 
   unbind2dEvent()
 

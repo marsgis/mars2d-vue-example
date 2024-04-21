@@ -194,11 +194,13 @@ function addEndPointEntity(arr) {
         // 后续支持label功能
         label: {
           text: item.name,
-          font_size: "20px 楷体",
-          color: "AZURE",
+          font_size: 16,
+          color: "#000000",
           border: true,
           border_olor: "black",
           border_Width: 2,
+          offsetY: 30,
+          pixelOffsetY: -25,
           horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
           verticalOrigin: mars2d.VerticalOrigin.BOTTOM
         }

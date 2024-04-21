@@ -1,14 +1,12 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-
-    <a-space>
-      <span>图上标绘：</span>
+  <mars-dialog :visible="true" width="330" right="10" top="10">
+    <div class="isinpoly-btns">
       <mars-button @click="drawRectangle">矩形</mars-button>
       <mars-button @click="drawPolygon">面</mars-button>
       <mars-button @click="drawCircle">圆</mars-button>
-      <mars-button @click="removeAll">清除</mars-button>
+    </div>
 
-    </a-space>
+    <mars-button class="w-full" @click="removeAll" danger>清除</mars-button>
   </mars-dialog>
 </template>
 
@@ -32,4 +30,11 @@ const removeAll = () => {
 
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.isinpoly-btns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+</style>

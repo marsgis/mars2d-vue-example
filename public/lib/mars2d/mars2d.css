@@ -1,8 +1,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.2.1
- * 编译日期：2024-02-22 13:08:17
+ * 版本信息：v3.2.4
+ * 编译日期：2024-04-21 19:52:59
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -85,6 +85,7 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  min-width: 140px;
 }
 .mars2d-contextmenu a.mars2d-contextmenu-item {
   display: block;
@@ -641,7 +642,7 @@
   z-index: 999;
 }
 .mars2d-split-range {
-  -webkit-appearance: none;
+  appearance: none;
   display: inline-block !important;
   vertical-align: middle;
   height: 0;
@@ -673,7 +674,7 @@
 /* For whatever reason, these need to be defined
  * on their own so dont group them */
 .mars2d-split-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
+  appearance: none;
   margin: 0;
   padding: 0;
   background: #fff;
@@ -783,7 +784,6 @@
 .mars2d-toolbar-locate {
   background-image: url(./img/toolbar-location.png);
   background-repeat: no-repeat;
-  background-size: 100% 100%;
 }
 .mars2d-toolbar-locate-loading {
   background: url(./img/toolbar-location-loading.gif) center no-repeat #fff;
@@ -794,9 +794,8 @@
 }
 .mars2d-toolbar-fullscreen {
   background-image: url("./img/toolbar-fullscreen.png");
-  background-size: 26px 26px;
 }
-.leaflet-fullscreen-on .mars2d-toolbar-fullscreen {
+.mars2d-toolbar-fullscreen-on {
   background-image: url("./img/toolbar-fullscreen-on.png");
 }
 /**定位divicn*/

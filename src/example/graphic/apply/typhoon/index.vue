@@ -1,15 +1,7 @@
 <template>
-  <mars-dialog :visible="true" right="45" top="10" width="338">
-    <a-table
-      size="small"
-      :row-selection="rowSelection"
-      bordered
-      :pagination="{ pageSize: 5 }"
-      :columns="columns"
-      :data-source="typhoonList"
-      rowKey="id"
-      class="f-mb"
-    >
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <a-table size="small" :row-selection="rowSelection" bordered :pagination="{ pageSize: 5 }" :columns="columns"
+      :data-source="typhoonList" rowKey="id" class="f-mb">
       <template #bodyCell="{ column, text }">
         <template v-if="column.dataIndex === 'name'">
           <a>{{ text }}</a>
@@ -17,24 +9,18 @@
       </template>
     </a-table>
 
-    <div v-if="showpathData" class="f-mb">
-      {{ typhoonName }}
-    </div>
+  </mars-dialog>
 
-    <a-table
-      size="small"
-      v-if="showpathData"
-      :scroll="{ y: tableScrollHeight }"
-      :sticky="true"
-      bordered
-      :pagination="false"
-      :columns="columnsPath"
-      :data-source="pathData"
-      :customRow="rowClick"
-      rowKey="id"
-    >
+
+  <mars-dialog :visible="true" right="10" top="380" width="330">
+    <div v-if="showpathData" class="f-mb tyhoon-name">
+      <span class="f-push-10-l">{{ typhoonName }}</span>
+    </div>
+    <a-table size="small" v-if="showpathData" :scroll="{ y: tableScrollHeight }" :sticky="true" bordered
+      :pagination="false" :columns="columnsPath" :data-source="pathData" :customRow="rowClick" rowKey="id">
+
       <template #bodyCell="{ text }">
-        <a>{{ text }}</a>
+        <span class="f-csp">{{ text }}</span>
       </template>
     </a-table>
   </mars-dialog>
@@ -91,7 +77,7 @@ onMounted(() => {
 
   setAutoHeight((height) => {
     tableScrollHeight.value = height
-  }, 400)
+  }, 500)
 })
 
 // 表格列头
@@ -349,7 +335,19 @@ function getMoveToStr(value) {
 </script>
 
 <style scoped lang="less">
-:deep(.ant-table-wrapper) {
-  width: 338px;
+// :deep(.ant-table-wrapper) {
+//   width: 338px;
+// }
+
+.tyhoon-name {
+  font-size: 14px;
+  color: #031A3D;
+
+  &::before {
+    content: '|';
+    border-radius: 2px;
+    background: #3385FF;
+    color: #3385FF;
+  }
 }
 </style>

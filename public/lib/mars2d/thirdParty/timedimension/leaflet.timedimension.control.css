@@ -1,18 +1,18 @@
-/* 
- * Leaflet TimeDimension v1.1.1 - 2019-11-05 
- * 
- * Copyright 2019 Biel Frontera (ICTS SOCIB) 
- * datacenter@socib.es 
- * http://www.socib.es/ 
- * 
- * Licensed under the MIT license. 
- * 
- * Demos: 
- * http://apps.socib.es/Leaflet.TimeDimension/ 
- * 
- * Source: 
- * git://github.com/socib/Leaflet.TimeDimension.git 
- * 
+/*
+ * Leaflet TimeDimension v1.1.1 - 2019-11-05
+ *
+ * Copyright 2019 Biel Frontera (ICTS SOCIB)
+ * datacenter@socib.es
+ * http://www.socib.es/
+ *
+ * Licensed under the MIT license.
+ *
+ * Demos:
+ * http://apps.socib.es/Leaflet.TimeDimension/
+ *
+ * Source:
+ * git://github.com/socib/Leaflet.TimeDimension.git
+ *
  */
 @font-face {
     font-family: 'Glyphicons Halflings';
@@ -22,15 +22,53 @@
 .leaflet-bar-timecontrol{
      background-color: #fff;
      color: black;
+     height: 60px;
+     width: 1000px;
+     display: flex;
+     align-items: center;
+     position: absolute;
+     left: 50%;
+     transform: translateX(50%);
 }
 .leaflet-bar-timecontrol * {
     box-sizing: border-box;
 }
+
+.leaflet-bar-timecontrol a:nth-child(-n+3) {
+  display: inline-block;
+  margin-left: 30px;
+}
+
+.leaflet-bar-timecontrol .timecontrol-dateslider {
+  margin-left: 30px;
+  margin-top: 5px;
+}
+.leaflet-bar-timecontrol .timecontrol-speed {
+  margin-left: 15px;
+}
+.leaflet-bar-timecontrol .timecontrol-speed .speed {
+  font-size: 14px;
+  color:rgba(3, 26, 61, 1);
+}
+.leaflet-bar-timecontrol .timecontrol-speed .speed::after {
+  content: "";
+  display: inline-block;
+  width:1px;
+  height: 50px;
+  background-color: rgba(51, 51, 51, 0.2);
+  position: absolute;
+  left: 3px;
+  top: -10px;
+}
+.leaflet-bar-timecontrol .timecontrol-speed .slider {
+  margin-left: 14px;
+  margin-top: 5px;
+}
+
 .leaflet-bar-timecontrol .leaflet-control-timecontrol {
     float: left;
     height: 26px;
     line-height: 26px;
-    border: solid #a5a5a5;
     background-color: #fff;
     border-width: 0 1px 0 0;
 }
@@ -51,11 +89,24 @@
 }
 .leaflet-bar-timecontrol a.timecontrol-date,
 .leaflet-bar-timecontrol a.timecontrol-date:hover {
+    margin-left: 34px;
+    margin-top: 3px;
+    font-size: 14px;
+    color: #031A3D;
     position: relative;
     min-width: 150px;
-    width: auto;
-    padding: 0 10px 0 20px;
+    text-decoration: none;
     white-space: nowrap;
+}
+.leaflet-bar-timecontrol a.timecontrol-date::after {
+  content: "";
+  display: inline-block;
+  width:1px;
+  height: 50px;
+  background-color: rgba(51, 51, 51, 0.2);
+  position: absolute;
+  left: -18px;
+  top: -12px;
 }
 .leaflet-bar-timecontrol a.timecontrol-date.utc,
 .leaflet-bar-timecontrol a.timecontrol-date.utc:hover {
@@ -66,14 +117,14 @@
     background-color: #ffefa4;
 }
 .leaflet-bar-timecontrol .timecontrol-dateslider .slider {
-    width: 200px;
+    width: 350px;
 }
 .leaflet-bar-timecontrol .timecontrol-speed {
     white-space: nowrap;
     cursor: auto;
 }
 .leaflet-bar-timecontrol .timecontrol-speed .slider {
-    width: 55px;
+    width: 120px;
     display: inline-block;
 }
 .leaflet-bar-timecontrol .timecontrol-speed .speed {
@@ -101,8 +152,9 @@
     position: relative;
     height: 12px;
     margin: 6px;
-    border: 1px solid #a5a5a5;
     cursor: pointer;
+    border-radius: 6px;
+    background-color: #f0f0f0;
 }
 .timecontrol-slider .slider.has-limits {
     margin-left: 15px;
@@ -116,31 +168,28 @@
     /*opacity: 0.5;*/
 }
 .timecontrol-slider .knob {
-    position: absolute;
-    width: 8px;
-    height: 22px;
-    background-color: #ddd;
-    border-radius: 2px;
-    border: 1px solid #a5a5a5;
-    /*use margins because on ie,leaflet will use top/left for positionning*/
-    margin-top: -6px;
-    margin-left: -4px;
-    cursor: ew-resize;
-    cursor: -webkit-grab;
-    cursor: -moz-grab;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #3385FF;
+  margin-top: -6px;
+  margin-left: -4px;
+  cursor: ew-resize;
+  cursor: -webkit-grab;
 }
 .timecontrol-slider .knob:after {
     /** Big transparent block on top of the knob for easier grabbing on touch device*/
     content: ' ';
     display: block;
     position: absolute;
-    width: 20px;
-    top:-5px;
-    height: 32px;
-    left: -7px;
-   /* opacity: 0.5;
-    background: red;*/
-    
+    width: 12px;
+    top: 1px;
+    height: 12px;
+    left: 1px;
+    border-radius: 6px;
+    background-color: #3385FF;
 }
 .timecontrol-slider .knob.upper,
 .timecontrol-slider .knob.lower {
@@ -226,26 +275,28 @@
 .timecontrol-forward:before,
 .timecontrol-stop:before,
 .timecontrol-play:before,
-.timecontrol-loop:before {    
+.timecontrol-loop:before {
     width: 100%;
     text-align: center;
 }
 
 .timecontrol-play:before {
     position: absolute;
-    content: "\e072";
+    content:url("./svg/play.svg");
+    position: relative;
+    top:5px;
 }
 /*.timecontrol-play.play:before {
     content: "\e072";
 }*/
 .timecontrol-play.reverse:before {
-    content: "\e072";
+    content:url("./svg/play.svg");
     -ms-transform: scaleX(-1);
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
 .timecontrol-play.pause:before {
-    content: "\e073";
+  content:url("./svg/pause.svg");
 }
 .timecontrol-play.reverse.pause:before {
     -ms-transform: none;
@@ -267,21 +318,33 @@ a.timecontrol-play.loading:before {
     animation: icon-rotation 6s infinite linear;
 }
 .timecontrol-speed:before {
-    content: "\e141";
+    /* content: "\e141";
     position: absolute;
-    left: 7px;
+    left: 7px; */
 }
 .timecontrol-stop:before {
     content: "\e074";
 }
 .timecontrol-forward:before {
-    content: "\e075";
+    content:url("./svg/right_circle.svg");
+    position: relative;
+    top: 5px;
 }
 .timecontrol-backward:before {
-    content: "\e071";
+    content:url("./svg/left_circle.svg");
+    position: relative;
+    top: 5px;
 }
 .timecontrol-loop:before {
     content: "\e030";
+}
+
+.slider__filled-track {
+  position: absolute;
+  height: 6px;
+  background: #3385FF;
+  border-radius: 10px 0 0 10px;
+  pointer-events: none;
 }
 
 @media (max-width: 767px){
@@ -297,5 +360,6 @@ a.timecontrol-play.loading:before {
     line-height: 30px;
 }
 .leaflet-touch .timecontrol-slider .slider{
-    margin-top: 10px;
+    margin-top: 12px;
+    height:6px;
 }

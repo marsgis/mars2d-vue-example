@@ -131,7 +131,93 @@ img {
 
 
 /*解决问题：https://github.com/Leaflet/Leaflet/issues/3575**/
-/* .leaflet-tile-container img {
-  width: 257px !important;
-  height: 257px !important;
-} */
+.leaflet-container img.leaflet-tile {
+  /* See: https://bugs.chromium.org/p/chromium/issues/detail?id=600120 */
+  mix-blend-mode: plus-lighter;
+}
+
+/* 修改控件样式 */
+
+.leaflet-touch .leaflet-bar a {
+  width: 38px;
+  height:38px;
+}
+
+.mars2d-toolbar-home {
+  background-size: 22px;
+}
+
+.mars2d-toolbar-locate {
+  background-size: 22px;
+}
+
+.mars2d-toolbar-fullscreen {
+  background-size: 17px;
+}
+
+.mars2d-toolButton a img {
+  margin-top:7px;
+}
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+  border: 0px;
+  margin-bottom: 10px;
+  box-shadow: 0px 12px 28px 0px rgba(0, 0, 0, 0.2),0px 2px 4px 0px rgba(0, 0, 0, 0.1),inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05);
+}
+
+.leaflet-bar a {
+  border: 0px;
+}
+
+.leaflet-left .mars2d-toolButton:first-child a::after {
+  content: "";
+  display: inline-block;
+  height: 1px;
+  width: 34px;
+  border: 1px solid rgba(51, 51, 51, 0.2);
+  position: relative;
+  top: 21px;
+}
+
+.leaflet-left .mars2d-toolButton:first-child a:last-child:after {
+  content: "";
+  display: none;
+}
+
+
+
+.leaflet-control-zoom-in span {
+  display: inline-block;
+  margin-top:5px;
+}
+
+.leaflet-control-zoom-out span {
+  display: inline-block;
+  margin-top:5px;
+}
+
+.leaflet-touch .leaflet-bar a:first-child ::after{
+  content: "";
+  display: inline-block;
+  height: 1px;
+  width: 34px;
+  border: 1px solid rgba(51, 51, 51, 0.2);
+  position: absolute;
+  top: 39px;
+  left: 2px;
+}
+
+/* 修改popup弹窗样式 */
+.mars2d-template-title {
+  background-color: #3385FF;
+}
+
+.mars2d-template-content div:nth-child(2) {
+  display: flex;
+}
+
+.mars2d-template-content div:nth-child(2) label {
+  margin-right: 0px;
+  min-width: 44px;
+}
+

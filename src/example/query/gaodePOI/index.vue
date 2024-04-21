@@ -1,53 +1,70 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="400">
-    <a-form>
-      <a-form-item label="范围">
-        <a-radio-group v-model:value="radioFanwei">
-          <a-radio value="1">指定城市</a-radio>
-          <a-radio value="2">当前视域</a-radio>
-          <a-radio value="3">指定范围</a-radio>
-        </a-radio-group>
-      </a-form-item>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
 
-      <a-form-item label="城市" v-show="radioFanwei === '1'">
-        <a-cascader v-model:value="value" :options="options" @change="onChange">
-          <a href="#">{{ citySheng }} / {{ cityShi }}</a>
-        </a-cascader>
-      </a-form-item>
 
-      <a-form-item label="关键字">
+    <div>
+      <a-space align="start">
+        <span class="mars-pannel-item-label">范围：</span>
+        <div>
+          <a-radio-group v-model:value="radioFanwei">
+            <a-radio value="1">指定城市</a-radio>
+            <a-radio value="2" class="current-view">当前视域</a-radio>
+            <a-radio value="3">指定范围</a-radio>
+          </a-radio-group>
+        </div>
+      </a-space>
+    </div>
+
+
+
+    <div class="f-pt" v-show="radioFanwei === '1'">
+      <a-space>
+        <span class="mars-pannel-item-label">城市：</span>
+        <a-cascader v-model:value="value" :allowClear="false" popupClassName="mars-select-dropdown" :options="options"
+          @change="onChange" />
+      </a-space>
+    </div>
+
+
+
+    <div class="f-pt f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">关键字：</span>
         <mars-input v-model:value="serverName" placeholder="查询名称和地址"></mars-input>
-      </a-form-item>
+      </a-space>
+    </div>
 
-      <a-form-item label="框选" v-show="radioFanwei === '3'">
-        <a-space>
-          <mars-button @click="drawRectangle">框选范围</mars-button>
-          <mars-button @click="drawCircle">圆形范围</mars-button>
-          <mars-button @click="drawPolygon">多边形范围</mars-button>
-        </a-space>
-      </a-form-item>
 
-      <a-form-item class="f-tac">
-        <a-space>
-          <mars-button @click="query">查询</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
-        </a-space>
-      </a-form-item>
 
-      <div v-show="show">
-        <a-form-item>
-          <a-table
-            :pagination="true"
-            :dataSource="dataSource"
-            :columns="columns"
-            :custom-row="customRow"
-            size="small"
-            bordered
-            :scroll="{ y: 400 }"
-          />
-        </a-form-item>
-      </div>
-    </a-form>
+    <div v-show="radioFanwei === '3'" class="range-select f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">框选：</span>
+        <div>
+          <a-space>
+            <mars-button @click="drawRectangle">框选范围</mars-button>
+            <mars-button @click="drawCircle">圆形范围</mars-button>
+            <mars-button class="long-btn" @click="drawPolygon">多边形范围</mars-button>
+          </a-space>
+        </div>
+      </a-space>
+    </div>
+
+
+
+    <div class="f-mb">
+      <a-space>
+        <mars-button @click="query">查询</mars-button>
+        <mars-button @click="removeAll" danger>清除</mars-button>
+      </a-space>
+
+    </div>
+
+    <div v-show="show">
+      <a-form-item>
+        <a-table :pagination="true" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small"
+          bordered :scroll="{ y: 400 }" />
+      </a-form-item>
+    </div>
   </mars-dialog>
 </template>
 
@@ -65,9 +82,9 @@ interface DataItem {
 
 const radioFanwei = ref("1")
 const serverName = ref<string>("")
-const citySheng = ref("安徽省")
-const cityShi = ref("合肥市")
 const show = ref(false)
+const cityShiVal = ref("340100")
+
 
 const columns = ref([
   {
@@ -124,7 +141,7 @@ const query = () => {
 
   mapWork.clearAll(radioFanwei.value === "3")
 
-  mapWork.query(radioFanwei.value, cityShi.value, serverName.value)
+  mapWork.query(radioFanwei.value, cityShiVal.value, serverName.value)
 
 }
 
@@ -135,7 +152,7 @@ interface Option {
   children?: Option[]
 }
 
-const value = ref<string[]>([])
+const value = ref<string[]>(["340000", "340100"])
 const options = ref<Option[]>([])
 
 // 读取JSON数据
@@ -150,8 +167,8 @@ onBeforeMount(async () => {
 
 // 改变选择的城市
 const onChange = (_value: string, selectedOptions: Option[]) => {
-  citySheng.value = selectedOptions[0].label
-  cityShi.value = selectedOptions[1].label
+  cityShiVal.value = selectedOptions[1].value
+
 }
 
 // 表格数据
@@ -172,4 +189,38 @@ const removeAll = () => {
   mapWork.clearAll()
 }
 </script>
-<style scoped lang="less"></style>
+
+<style scoped lang="less">
+.ant-input,
+.ant-cascader {
+  width: 230px !important;
+}
+
+.mars-button {
+  width: 146px !important;
+}
+
+.range-select {
+  .mars-button {
+    width: 72px !important;
+  }
+
+  .long-btn {
+    padding-left: 1px;
+  }
+}
+
+
+:deep(.ant-table-row:nth-of-type(even)) {
+  background-color: transparent !important;
+}
+
+.item-label {
+  margin-left: 18px;
+  color: rgba(234, 242, 255, 0.8);
+}
+
+.current-view {
+  margin-left: 10px;
+}
+</style>

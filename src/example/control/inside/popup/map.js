@@ -27,6 +27,9 @@ export function onMounted(mapInstance) {
 
   map.on(mars2d.EventType.popupopen, function (event) {
     const container = event.popup._container // popup对应的DOM
+    if (container.querySelector(".leaflet-popup-content").childElementCount) {
+      container.querySelector(".leaflet-popup-close-button").style.color = "#fff" // 关闭按钮颜色
+    }
     console.log("打开了popup(全局监听)", event)
   })
   map.on(mars2d.EventType.popupclose, function (event) {
@@ -107,10 +110,10 @@ export function bindLayerDemo2() {
     popup: [
       { field: "id", name: "编码" },
       { field: "name", name: "名称" },
-      { field: "type", name: "类型" },
+      { field: "type", name: "类型:" },
       {
         type: "html",
-        html: `<label>视频</label><video src='//data.mars2d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`
+        html: `<label>视频:</label><video src='//data.mars2d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`
       }
     ],
     popupOptions: {
@@ -137,14 +140,26 @@ export function bindGraphicDemo1() {
   graphicLayer.addGraphic(graphic)
 
   function getInnerHtml(event) {
-    // let attr = event.attr
-    const inthtml = `<table style="width:280px;">
-            <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindPopup</th></tr>
-            <tr><td >说明：</td><td >Popup鼠标单击信息弹窗 </td></tr>
-            <tr><td >方式：</td><td >可以绑定任意html </td></tr>
-            <tr><td >备注：</td><td >我是graphic上绑定的Popup</td></tr>
-            <tr><td colspan="4" style="text-align:right;cursor: pointer;"><a href="javascript:showXQ()">更多</a></td></tr>
-          </table>`
+    const inthtml = `
+    <div class="newPopup">
+    <div class="popup_header">graphic.bindPopup</div>
+    <div class="popup_body">
+      <div class="info">
+        <div>说明：</div>
+        <div>Popup鼠标单击信息弹窗</div>
+      </div>
+      <div class="info">
+        <div>方式：</div>
+        <div>可以绑定任意html</div>
+      </div>
+      <div class="info">
+        <div>备注：</div>
+        <div>我是graphic上绑定的Popup</div>
+      </div>
+    </div>
+    <div class="btn"><a href="javascript:showXQ()">更多</a></div>
+  </div>
+    `
     return inthtml
   }
 

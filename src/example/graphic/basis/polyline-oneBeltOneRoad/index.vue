@@ -1,6 +1,6 @@
 <template>
   <mars-dialog width="300" left="10" top="10">
-    <p class="mars-load-head">One Belt One Road 图例</p>
+    <p class="mars-load-head mars-text-color">One Belt One Road 图例</p>
     <ul class="mars-load-introduce">
       <li>
         <span class="mars-load-introduce-belt">
@@ -9,8 +9,8 @@
           <i></i>
         </span>
         <div class="mars-load-info">
-          <p>丝绸之路经济带</p>
-          <p>Silk Road Economic Belt</p>
+          <p class="mars-text-color">丝绸之路经济带</p>
+          <p class="mars-text-color">Silk Road Economic Belt</p>
         </div>
       </li>
       <li>
@@ -20,8 +20,8 @@
           <i></i>
         </span>
         <div class="mars-load-info">
-          <p>21世纪海上丝绸之路</p>
-          <p>21st century Maritime Silk Road</p>
+          <p class="mars-text-color">21世纪海上丝绸之路</p>
+          <p class="mars-text-color">21st century Maritime Silk Road</p>
         </div>
       </li>
     </ul>
@@ -72,6 +72,11 @@
 
 .mars-load-introduce-road i {
   background: #00bfff;
+}
+
+.mars-text-color {
+  font-size: 14px;
+  color: var(--mars-tree-hover-text);
 }
 
 .mars3d-popup-background {

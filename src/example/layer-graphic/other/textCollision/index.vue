@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" height="26">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-checkbox v-model:checked="enabled" @change="onChangeEnabled"> 是否文本碰撞检测</a-checkbox>
   </mars-dialog>
 </template>

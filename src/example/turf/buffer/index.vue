@@ -1,19 +1,18 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">缓冲半径:</span>
-        <mars-input-number class="radius" @change="radiusChange" v-model:value="radiusVal" :min="1" :step="1" :max="999"></mars-input-number>公里
-      </a-space>
+  <mars-dialog :visible="true" width="330" right="10" top="10">
+    <div class="buffer-input f-mb">
+      <span class="mars-pannel-item-label">缓冲半径:</span>
+      <mars-input-number @change="radiusChange" v-model:value="radiusVal" :min="1" :step="1"
+                         :max="999"></mars-input-number>
+      <span class="extra-label">公里</span>
     </div>
 
-    <a-space>
-      <span class="mars-pannel-item-label">绘制:</span>
+    <div class="buffer-btns">
       <mars-button @click="drawPoint">点</mars-button>
       <mars-button @click="drawPolyline">线</mars-button>
       <mars-button @click="drawPolygon">面</mars-button>
-      <mars-button @click="deleteAll">清除</mars-button>
-    </a-space>
+      <mars-button @click="deleteAll" danger>清除</mars-button>
+    </div>
   </mars-dialog>
 </template>
 
@@ -48,10 +47,22 @@ const deleteAll = () => {
 }
 </script>
 <style scoped lang="less">
-.mars-dialog-item-label {
-  width: 55px;
+.buffer-input {
+  display: grid;
+  align-items: center;
+  grid-template-columns:65px repeat(1, 1fr) 35px;
+  gap: 4px;
+
+  .extra-label {
+    color: var(--mars-extra-text-color);
+    text-align: right;
+  }
 }
-.ant-input-number {
-  width: 120px !important;
+
+.buffer-btns {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
 }
 </style>
