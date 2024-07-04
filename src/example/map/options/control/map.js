@@ -4,7 +4,7 @@ function initMap() {
   // 添加控件有2种方式:
   // 方式1：在创建地球前的传参中配置control参数
   const map = new mars2d.Map("mars2dContainer", {
-    zoom: 5,
+    zoom: 7,
     center: { lng: 110.522461, lat: 37.509726 },
     control: {
       // 以下是Leaflet所支持的控件相关的options
@@ -23,9 +23,10 @@ function initMap() {
     basemaps: [
       {
         name: "蓝色地图",
-        type: "arcgis",
-        url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-        chinaCRS: "GCJ02",
+        icon: "img/basemaps/bd-c-midnight.png",
+        type: "gaode",
+        layer: "vec",
+        customColor: "#11243C",
         show: true
       }
     ],

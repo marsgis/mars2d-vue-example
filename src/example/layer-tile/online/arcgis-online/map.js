@@ -8,7 +8,7 @@ export const mapOptions = {
     {
       name: "电子地图",
       type: "arcgis",
-      url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer",
+      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
       chinaCRS: "GCJ02",
       show: true
     },
@@ -19,10 +19,20 @@ export const mapOptions = {
       chinaCRS: "GCJ02"
     },
     {
-      name: "藏蓝地图",
+      name: "蓝色底图",
+      icon: "img/basemaps/bd-c-midnight.png",
       type: "arcgis",
-      url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-      chinaCRS: "GCJ02"
+      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+      chinaCRS: mars2d.ChinaCRS.GCJ02,
+      customColor: "#11243C"
+    },
+    {
+      name: "灰色底图",
+      icon: "img/basemaps/bd-c-grayscale.png",
+      type: "arcgis",
+      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+      chinaCRS: mars2d.ChinaCRS.GCJ02,
+      customColor: "#575757"
     }
   ]
 }

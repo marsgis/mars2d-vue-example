@@ -30,13 +30,6 @@ export const mapOptions = {
       ],
       show: true
     },
-    // {
-    //   pid: 10,
-    //   name: "OSM地图",
-    //   type: "xyz",
-    //   url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    //   subdomains: "abc"
-    // },
     {
       pid: 10,
       name: "高德地图",
@@ -47,8 +40,9 @@ export const mapOptions = {
       id: 2017,
       pid: 10,
       name: "蓝色地图",
-      type: "arcgis",
-      url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+      type: "gaode",
+      layer: "vec",
+      customColor: "#11243C",
       chinaCRS: "GCJ02"
     }
   ]

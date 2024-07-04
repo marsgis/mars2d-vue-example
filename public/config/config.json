@@ -24,7 +24,7 @@
       {
         "pid": 10,
         "name": "天地图电子",
-        "icon": "img/basemaps/tianditumap.png",
+        "icon": "img/basemaps/tdt_vec.png",
         "type": "group",
         "layers": [
           {
@@ -43,7 +43,7 @@
       {
         "pid": 10,
         "name": "天地图卫星",
-        "icon": "img/basemaps/tiandituimage.png",
+        "icon": "img/basemaps/tdt_img.png",
         "type": "group",
         "layers": [
           {
@@ -61,33 +61,25 @@
       {
         "pid": 10,
         "name": "天地图地形",
-        "icon": "img/basemaps/tianditudem.png",
+        "icon": "img/basemaps/tdt_ter.png",
         "type": "tdt",
         "layer": "ter",
         "maxNativeZoom": 14,
         "errorTileUrl": "img/tile/errortile.png"
       },
       {
-        "pid": 10,
-        "name": "OSM地图(已被封)",
-        "type": "xyz",
-        "url": "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        "subdomains": "abc",
-        "icon": "img/basemaps/bingmap.png"
-      },
-      {
         "id": 2021,
         "pid": 10,
-        "name": "高德地图",
+        "name": "高德电子",
+        "icon": "img/basemaps/gaode_vec.png",
         "type": "gaode",
-        "layer": "vec",
-        "icon": "img/basemaps/bingmap.png"
+        "layer": "vec"
       },
       {
         "pid": 10,
         "name": "高德卫星",
+        "icon": "img/basemaps/gaode_img.png",
         "type": "group",
-        "icon": "img/basemaps/googleimage.png",
         "layers": [
           {
             "name": "底图",
@@ -103,51 +95,61 @@
       },
       {
         "pid": 10,
-        "name": "ArcGIS地图",
+        "name": "腾讯电子",
+        "icon": "/img/basemaps/tencent_vec.png",
+        "type": "tencent",
+        "layer": "vec"
+      },
+      {
+        "pid": 10,
+        "name": "腾讯影像",
+        "icon": "/img/basemaps/tencent_img.png",
+        "type": "group",
+        "layers": [
+          { "name": "底图", "type": "tencent", "layer": "img_d" },
+          { "name": "注记", "type": "tencent", "layer": "img_z" }
+        ]
+      },
+      {
+        "pid": 10,
+        "name": "ArcGIS电子",
+        "icon": "img/basemaps/esriNationalGeographic.png",
         "type": "tile",
-        "url": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/{z}/{y}/{x}",
-        "chinaCRS": "GCJ02",
-        "icon": "img/basemaps/bd-c-googlelite.png"
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+        "chinaCRS": "GCJ02"
       },
       {
         "pid": 10,
-        "name": "ArcGIS卫星",
+        "name": "ArcGIS影像",
+        "icon": "img/basemaps/esriWorldImagery.png",
         "type": "arcgis",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
-        "icon": "img/basemaps/bingimage.png"
-      },
-      {
-        "pid": 10,
-        "name": "mapbox深色",
-        "type": "mapbox",
-        "username": "marsgis",
-        "styleId": "cki0a2mtc2vyo1bqu76p8ks8m",
-        "icon": "img/basemaps/bd-c-light.png"
-      },
-      {
-        "pid": 10,
-        "name": "mapbox影像",
-        "type": "mapbox",
-        "username": "marsgis",
-        "styleId": "cki0adkar2b0e19mv9tpiewld",
-        "icon": "img/basemaps/bingimage.png"
-      },
-      {
-        "pid": 10,
-        "name": "灰色地图",
-        "type": "arcgis",
-        "url": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetGray/MapServer",
-        "chinaCRS": "GCJ02",
-        "icon": "img/basemaps/bd-c-grayscale.png"
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
       },
       {
         "id": 2017,
         "pid": 10,
         "name": "蓝色地图",
-        "type": "arcgis",
-        "url": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+        "icon": "img/basemaps/bd-c-midnight.png",
+        "type": "gaode",
+        "layer": "vec",
+        "customColor": "#11243C"
+      },
+      {
+        "pid": 10,
+        "name": "灰色地图",
+        "icon": "img/basemaps/bd-c-grayscale.png",
+        "type": "gaode",
+        "layer": "vec",
+        "customColor": "#575757"
+      },
+      {
+        "pid": 10,
+        "name": "离线影像(供参考)",
+        "icon": "/img/basemaps/google_img.png",
+        "type": "xyz",
+        "url": "//data.mars3d.cn/tile/img/{z}/{x}/{y}.jpg",
         "chinaCRS": "GCJ02",
-        "icon": "img/basemaps/bd-c-midnight.png"
+        "maxZoom": 13
       }
     ],
     "operationallayers": [

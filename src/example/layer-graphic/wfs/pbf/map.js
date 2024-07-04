@@ -12,22 +12,18 @@ let map // mars2d.Map三维地图对象
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  // 固定的样式
-  // var vectorTileStyling = {
-  //     hfgh3857: {//图层名称
-  //         color: '#ffffff',//线颜色
-  //         opacity: 0.2,
-  //         weight: 1,
-  //         fill: true,
-  //         fillColor: '#0000ff',//填充颜色
-  //         fillOpacity: 0.2,
-  //     },
-  // };
-
-  // 根据属性判断返回不同样式
-  const vectorTileStyling = {
-    // 根据属性判断返回不同样式
-    hfgh3857: function (properties, level) {
+  const mapboxPbfLayer = new mars2d.layer.PbfLayer({
+    url: "http://server.mars2d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf",
+    interactive: true, // 是否允许鼠标交互，比如触发单击事件
+    // style: { // 固定的样式
+    //   color: "#ffffff", // 线颜色
+    //   opacity: 0.2,
+    //   weight: 1,
+    //   fill: true,
+    //   fillColor: "#0000ff", // 填充颜色
+    //   fillOpacity: 0.2
+    // },
+    style: function (properties, level) {
       const styleDef = {
         color: "rgba(110, 110, 110, 255)", // 线颜色
         opacity: 1,
@@ -41,13 +37,7 @@ export function onMounted(mapInstance) {
         styleDef[key] = style[key]
       }
       return styleDef
-    }
-  }
-
-  const mapboxPbfLayer = new mars2d.layer.PbfLayer({
-    url: "http://server.mars2d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf",
-    interactive: true, // 是否允许鼠标交互，比如触发单击事件
-    vectorTileLayerStyles: vectorTileStyling,
+    },
     zIndex: 999
   })
   mapboxPbfLayer.addTo(map)

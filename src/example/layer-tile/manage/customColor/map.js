@@ -3,7 +3,6 @@ const L = mars2d.L
 
 let map // mars2d.Map三维地图对象
 let tileLayer // 底图
-let rgbObject // 颜色
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -23,27 +22,16 @@ export const eventTarget = new mars2d.BaseClass()
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  map.container.style.background = "#000000" // 黑色背景
-
-  rgbObject = { r: 51, g: 59, b: 112 }
+  const customColor = "#150D6A" // 颜色
+  map.container.style.background = customColor //  DIV背景
 
   // 添加底图
   tileLayer = new mars2d.layer.TileLayer({
     type: "tile",
     url: "https://webrd02.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
-    // 使用自定义颜色
-    customColor: function (oldColor) {
-      // 返回自定义的着色
-      return {
-        r: (oldColor.r + rgbObject.r) % 255,
-        g: (oldColor.g + rgbObject.g) % 255,
-        b: (oldColor.b + rgbObject.b) % 255
-      }
-    }
+    customColor: customColor // 使用自定义颜色
   })
   map.addLayer(tileLayer)
-
-  window.tileLayer = tileLayer
 
   // 图层控制控件
   if (map.controls && map.controls.layers) {
@@ -60,15 +48,6 @@ export function onUnmounted() {
 }
 
 export function onChangeColor(color) {
-  let i
-  for (i in color) {
-    if (color[i] === 0) {
-      globalMsg("请重新选择颜色")
-      return
-    }
-  }
-
-  rgbObject = color
-
-  tileLayer.redraw()
+  tileLayer.customColor = color
+  map.container.style.background = color //  DIV背景
 }

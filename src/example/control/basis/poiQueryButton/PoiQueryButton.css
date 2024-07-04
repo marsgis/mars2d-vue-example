@@ -166,7 +166,8 @@ input::-webkit-search-cancel-button {
   font-size: 13px;
   position: absolute;
   bottom: -11px;
-  padding-left: 10px;
+  margin-left: 10px;
+  padding-left: 8px;
   line-height: 16px;
   background-color: rgba(40, 40, 40, 0.7);
 }

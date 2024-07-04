@@ -1,7 +1,7 @@
 <template>
   <teleport :to="mergeProps.warpper">
     <div class="mars-dialog-thumb" v-show="isFold && show" ref="thumbnailRef" @click="toogleFold(false)">
-      <mars-icon :icon="mergeProps.thumbnail.icon" :width="20" color="#FFFFFF"></mars-icon>
+      <mars-icon :icon="mergeProps.thumbnail.icon" :width="20" color="#41A8FF"></mars-icon>
     </div>
     <div class="mars-dialog" :class="[customClass, animationClass]" ref="dialogRef" v-show="visible && !isFold && show">
       <div v-if="showHeader" class="mars-dialog__header" :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }"
@@ -15,8 +15,9 @@
       <mars-icon v-else-if="mergeProps.closeable && mergeProps.closeButton" icon="close-one" :width="18"
                  class="close-btn__flot" @click="close"></mars-icon>
 
-      <div :class='["mars-dialog__content", showHeader ? "content-show_header" : "", mergeProps.nopadding ? "pad-none" : ""]'
-           :style="{ 'padding-bottom': slots.footer ? '44px' : '14px' }">
+      <div
+        class="mars-dialog__content"
+        :style="getContentStyle()">
         <slot></slot>
       </div>
 
@@ -165,6 +166,33 @@ const mergeProps = computed(() => {
 })
 
 const showHeader = computed(() => slots.title || isAllowValue(mergeProps.value.icon) || isAllowValue(mergeProps.value.title))
+const getContentStyle = () => {
+  const style:any = {}
+  style.height = "100%"
+  // 头部和脚部各有一个时
+  if (showHeader.value) {
+    style.height = "calc(100% - 40px)"
+    style.borderTopLeftRadius = "0 !important"
+    style.borderTopRightRadius = "0 !important"
+  }
+  if (slots.footer) {
+    style.height = "calc(100% - 40px)"
+    style.borderBottomLeftRadius = "0 !important"
+    style.borderBottomRightRadius = "0 !important"
+  }
+
+  // 头部和脚部都有时
+  if (showHeader.value && slots.footer) {
+    style.height = "calc(100% - 80px)"
+    style.paddingBottom = 0
+  }
+
+  // 无内边距
+  if (mergeProps.value.nopadding) {
+    style.padding = "0 !important"
+  }
+  return style
+}
 
 const dialogRef = ref()
 const thumbnailRef = ref()
@@ -203,9 +231,11 @@ function toogleFold(status) {
 function initThumbnail() {
   const thOp = mergeProps.value.thumbnail
   thumbnailRef.value.style.right = autoUnit(thOp.right)
-  thumbnailRef.value.style.left = autoUnit(thOp.left)
+  thumbnailRef.value.style.left = autoUnit(thOp.right) ? null : autoUnit(thOp.left) // 为了解决在折叠状态下的位置问题
   thumbnailRef.value.style.bottom = autoUnit(thOp.bottom)
   thumbnailRef.value.style.top = autoUnit(thOp.top)
+  thumbnailRef.value.style.width = autoUnit(thOp.width) ?? autoUnit(30)// 为了解决在折叠状态下的弹出框长度问题
+  thumbnailRef.value.style.height = autoUnit(thOp.height) ?? autoUnit(30) // 为了解决在折叠状态下的弹出框高度问题
 
   observeDialog = false
 }
@@ -604,7 +634,7 @@ export default {
 
     .icon {
       margin-right: 5px;
-      color: #ffffff;
+      color: #41a8ff;
     }
 
     .title {
@@ -626,13 +656,6 @@ export default {
     cursor: pointer;
   }
 
-  // 主题内容
-  .content-show_header {
-    height: calc(100% - 40px) !important;
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-  }
-
   .mars-dialog__content {
     height: 100%;
     padding: 14px;
@@ -646,16 +669,17 @@ export default {
   }
 
   .mars-dialog__footer {
-    height: 44px;
-    width: 100%;
+    height: 39px;
+    width: calc(100% - 2px);
     color: var(--mars-text-color);
+    background-color: var(--mars-dropdown-bg);
     position: absolute;
-    left: 0;
-    bottom: 0;
+    left: 1px;
+    bottom: 1px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 10px;
+    padding-left: 14px;
   }
 
   .mars-dialog__handle {

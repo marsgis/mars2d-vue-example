@@ -102,6 +102,10 @@ function showGeoJsonLayer() {
   })
   map.addLayer(geoJsonLayer)
 
+  geoJsonLayer.on(mars2d.EventType.click, function (event) {
+   console.log("单击了图层", event)
+  })
+
   geoJsonLayer.on(mars2d.EventType.load, function (event) {
     const list = event.list
     eventTarget.fire("beforUI", { list })

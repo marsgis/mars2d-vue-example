@@ -23,7 +23,7 @@ class PoiQueryButton extends mars2d.control.ToolButton {
       if (!item) {
         return
       }
-      let inHtml = `<div class="mars2d-template-titile"><a href="https://www.amap.com/detail/${item.id}"  target="_black" style="color: #ffffff; ">${item.name}</a></div><div class="mars2d-template-content" >`
+      let inHtml = `<div class="mars2d-template-title"><a href="https://www.amap.com/detail/${item.id}"  target="_black">${item.name}</a></div><div class="mars2d-template-content" >`
 
       const phone = String(item.tel).trim()
       if (phone) {
@@ -218,7 +218,7 @@ class PoiQueryButton extends mars2d.control.ToolButton {
                 label: {
                   text: item.name,
                   font_size: 20,
-                  color: "rgb(240,255,255)",
+                  color: "#000000",
                   outline: true,
                   outlineWidth: 2
                 }

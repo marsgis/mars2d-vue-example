@@ -2,7 +2,7 @@ import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 
-const attributionHtml = `© 2023 Baidu - <span>审图号：GS(2023)3206号</span>
+const attributionHtml = `©2024 Baidu - <span>审图号：GS(2023)3206号</span>
 - 甲测资字11111342- <a target="_blank" href="https://map.baidu.com/zt/client/service/index.html">服务条款</a>`
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）

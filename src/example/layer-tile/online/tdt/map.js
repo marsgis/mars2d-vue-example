@@ -2,11 +2,12 @@ import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 
-const attributionHtml = `自然资源部 - <span>审图号：GS(2023)336号</span>
+const attributionHtml = `©2024 自然资源部 - <span>审图号：GS(2024)0568号</span>
  - 甲测资字1100471 - <a href="https://www.tianditu.gov.cn/about/contact.html?type=2" target="_blank" trace="tos">服务条款</a> `
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
+  maxZoom: 21,
   basemaps: [
     {
       type: "group",

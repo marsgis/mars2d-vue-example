@@ -97,6 +97,7 @@ img {
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
   z-index: 19870101;
 }
+
 /* .infoview-right {
   left: auto;
   right: 10px;
@@ -137,10 +138,9 @@ img {
 }
 
 /* 修改控件样式 */
-
 .leaflet-touch .leaflet-bar a {
   width: 38px;
-  height:38px;
+  height: 38px;
 }
 
 .mars2d-toolbar-home {
@@ -156,13 +156,14 @@ img {
 }
 
 .mars2d-toolButton a img {
-  margin-top:7px;
+  margin-top: 7px;
 }
 
-.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
   border: 0px;
   margin-bottom: 10px;
-  box-shadow: 0px 12px 28px 0px rgba(0, 0, 0, 0.2),0px 2px 4px 0px rgba(0, 0, 0, 0.1),inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05);
+  box-shadow: 0px 12px 28px 0px rgba(0, 0, 0, 0.2), 0px 2px 4px 0px rgba(0, 0, 0, 0.1), inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05);
 }
 
 .leaflet-bar a {
@@ -188,15 +189,15 @@ img {
 
 .leaflet-control-zoom-in span {
   display: inline-block;
-  margin-top:5px;
+  margin-top: 5px;
 }
 
 .leaflet-control-zoom-out span {
   display: inline-block;
-  margin-top:5px;
+  margin-top: 5px;
 }
 
-.leaflet-touch .leaflet-bar a:first-child ::after{
+.leaflet-touch .leaflet-bar a:first-child ::after {
   content: "";
   display: inline-block;
   height: 1px;
@@ -209,7 +210,34 @@ img {
 
 /* 修改popup弹窗样式 */
 .mars2d-template-title {
-  background-color: #3385FF;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-radius: 3px 0 0 3px;
+  padding: 0 80px 0 20px;
+  height: 42px;
+  line-height: 42px;
+  font-size: 16px;
+  color: white;
+  background-color: #3385ff;
+  border-bottom: 1px solid #eee;
+  overflow: hidden;
+  box-shadow:
+    0px 6px 12px -2px rgba(50, 50, 93, 0.15),
+    0px 3px 7px -3px rgba(0, 0, 0, 0.2);
+
+}
+
+.mars2d-template-title a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #fff;
+}
+
+.leaflet-popup-close-button {
+  color: #ffffff !important;
+  line-height: 42px !important;
 }
 
 .mars2d-template-content div:nth-child(2) {
@@ -220,4 +248,3 @@ img {
   margin-right: 0px;
   min-width: 44px;
 }
-

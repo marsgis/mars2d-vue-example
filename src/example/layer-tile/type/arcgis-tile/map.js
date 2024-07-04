@@ -28,16 +28,18 @@ export const mapOptions = {
     {
       name: "蓝色底图",
       icon: "img/basemaps/bd-c-midnight.png",
-      type: "arcgis_tile",
-      url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-      chinaCRS: mars2d.ChinaCRS.GCJ02
+      type: "arcgis",
+      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+      chinaCRS: mars2d.ChinaCRS.GCJ02,
+      customColor: "#11243C"
     },
     {
       name: "灰色底图",
       icon: "img/basemaps/bd-c-grayscale.png",
-      type: "arcgis_tile",
-      url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer",
-      chinaCRS: mars2d.ChinaCRS.GCJ02
+      type: "arcgis",
+      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+      chinaCRS: mars2d.ChinaCRS.GCJ02,
+      customColor: "#575757"
     }
   ]
 }
@@ -62,8 +64,10 @@ export function onMounted(mapInstance) {
   // 添加底图 [需要引用mars2d-esri插件]
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
   // const layer = new mars2d.layer.ArcGisTileLayer({
-  //   url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-  //   chinaCRS: mars2d.ChinaCRS.GCJ02
+  //   type: "arcgis",
+  //   url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+  //   chinaCRS: mars2d.ChinaCRS.GCJ02,
+  //   "customColor": "#11243C"
   // })
   // map.addLayer(layer)
 }

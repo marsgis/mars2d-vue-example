@@ -33,7 +33,7 @@ export function onMounted(mapInstance: mars2d.Map): void {
     if (!item) {
       return
     }
-    let inHtml = `<div class="mars2d-template-titile"><a href="https://www.amap.com/detail/${item.id}"  target="_black" style="color: #ffffff; ">${item.name}</a></div><div class="mars2d-template-content" >`
+    let inHtml = `<div class="mars2d-template-title"><a href="https://www.amap.com/detail/${item.id}"  target="_black">${item.name}</a></div><div class="mars2d-template-content" >`
 
     if (item.tel.length && item.tel !== "") {
       inHtml += "<div><label>电话:</label>" + item.tel + "</div>"

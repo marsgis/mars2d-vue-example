@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.2.4
- * 编译日期：2024-04-21 19:52:59
+ * 版本信息：v3.2.6
+ * 编译日期：2024-07-04 21:23:52
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -2867,6 +2867,7 @@ declare namespace Label {
      * @property [riseOnHover = false] - 如果为true，当您将鼠标悬停在其上时，标记将会放在其他顶部。
      * @property [riseOffset = 250] - 用于riseOnHover功能的z-index偏移量。
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
+     * @property [merge] - 当label是其他对象的附加对象时，是否合并在marker一个div内，比如用于聚合
      * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
      */
     type StyleOptions = {
@@ -2898,6 +2899,7 @@ declare namespace Label {
         riseOnHover?: boolean;
         riseOffset?: number;
         interactive?: boolean;
+        merge?: boolean;
         highlight?: Label.StyleOptions;
     };
 }
@@ -5793,6 +5795,7 @@ declare namespace GeoJsonLayer {
  * @param [options.chinaCRS] - 标识数据的国内坐标系（用于自动纠偏或加偏）
  * @param [options.format] - 可以对加载的geojson数据进行格式化或转换操作
  * @param [options.onCreateGraphic] - 解析geojson后，外部自定义方法来创建Graphic对象
+ * @param [options.filter] - 数据筛选方法，方法体内返回false时排除数据 filter:function(feature){return true}
  * @param [options.mask] - 标识是否绘制区域边界的反选遮罩层
  * @param [options.graphicOptions] - 默认的graphic的构造参数，每种不同类型数据都有不同的属性，具体见各{@link GraphicType}矢量数据的构造参数。
  * @param [options.queryParameters] - 一个对象，其中包含在检索URL资源时将发送的查询参数。比如：queryParameters: {'access_token': '123-435-456-000'}
@@ -5829,6 +5832,7 @@ declare class GeoJsonLayer extends GraphicLayer {
         chinaCRS?: ChinaCRS;
         format?: (...params: any[]) => any;
         onCreateGraphic?: (...params: any[]) => any;
+        filter?: (...params: any[]) => any;
         mask?: boolean | any;
         graphicOptions?: any;
         queryParameters?: any;
@@ -6352,6 +6356,7 @@ declare class GraphicLayer extends L.FeatureGroup {
      * @param [options.style] - 可以设置指定style样式,每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
      * @param [options.crs] - 原始数据的坐标系，如'EPSG:3857' （可以从 {@link http://epsg.io }查询）
      * @param [options.onEachFeature] - 创建每个Graphic前的回调
+     * @param [options.filter] - 数据筛选方法，方法体内返回false时排除数据 filter:function(feature){return true}
      * @returns 转换后的Graphic对象数组
      */
     loadGeoJSON(geojson: string | any, options?: {
@@ -6361,6 +6366,7 @@ declare class GraphicLayer extends L.FeatureGroup {
         style?: any;
         crs?: string;
         onEachFeature?: (...params: any[]) => any;
+        filter?: (...params: any[]) => any;
     }): any | Marker[] | Polyline[] | Polygon[] | Circle[] | Rectangle[] | any;
     /**
      * 将图层置于所有图层之下
@@ -7456,7 +7462,7 @@ declare class ArcGisCompactLayer extends TileLayer {
 /**
  * ArcGIS瓦片  图层
  * @param options - 参数对象，包括以下：
- * @param options.url - 用于请求瓦片图块的URL模板，比如："http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer"
+ * @param options.url - 用于请求瓦片图块的URL模板，比如："https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"
  * @param [options.subdomains = ''] - 瓦片服务的子域名。可以以一个字符串的形式（每个字母都是子域名）或一个字符串数组的形式传递。
  * @param [options.opacity = 1] - 瓦片的不透明度。
  * @param [options.minZoom = 0] - 最小的缩放级别
@@ -8635,6 +8641,7 @@ declare namespace TileLayer {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
+ * @param [options.customColor] - 设置自定义颜色
  * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -8676,6 +8683,7 @@ declare class TileLayer extends L.TileLayer {
         updateWhenZooming?: boolean;
         noWrap?: boolean;
         chinaCRS?: ChinaCRS;
+        customColor?: string | ((...params: any[]) => any);
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -8828,10 +8836,8 @@ declare class TileLayer extends L.TileLayer {
     getTileUrl(coords: any): any | string;
     /**
      * 设置自定义颜色
-     * @param customColor - 自定义颜色回调处理方法
-     * @returns 无
      */
-    setCustomColor(customColor: (...params: any[]) => any): any | void;
+    customColor: string | ((...params: any[]) => any);
     /**
      * 定位地图至当前图层数据区域
      * @param [options] - 定位参数，包括:
@@ -13020,6 +13026,7 @@ declare namespace Util {
      * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
      * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
      * @param [options.crs] - 原始数据的坐标系，如'EPSG:3857' （可以从 {@link http://epsg.io }查询）
+     * @param [options.filter] - 数据筛选方法，方法体内返回false时排除数据 filter:function(feature){return true}
      * @returns Graphic构造参数数组
      */
     function geoJsonToGraphics(geojson: any, options?: {
@@ -13034,6 +13041,7 @@ declare namespace Util {
             callback?: (...params: any[]) => any;
         };
         crs?: string;
+        filter?: (...params: any[]) => any;
     }): any | any;
     /**
      * GeoJSON格式的Feature单个对象转为 Graphic构造参数（用于创建Graphic）
@@ -13043,6 +13051,7 @@ declare namespace Util {
      * @param [options.style = {}] - Style样式，每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
      * @param [options.crs] - 原始数据的坐标系，如'EPSG:3857' （可以从 {@link http://epsg.io }查询）
      * @param [options.onPointTrans] - 坐标转换方法，可用于对每个坐标做额外转换处理
+     * @param [options.filter] - 数据筛选方法，方法体内返回false时排除数据 filter:function(feature){return true}
      * @returns Graphic构造参数（用于创建Graphic）
      */
     function featureToGraphic(feature: any, options?: {
@@ -13050,6 +13059,7 @@ declare namespace Util {
         style?: any;
         crs?: string;
         onPointTrans?: (...params: any[]) => any;
+        filter?: (...params: any[]) => any;
     }): any | any;
     /**
      * 导出下载图片文件

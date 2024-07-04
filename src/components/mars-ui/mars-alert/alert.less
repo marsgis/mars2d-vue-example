@@ -1,10 +1,12 @@
 // alert
 .mars-global-alert {
   .ant-modal-confirm-title {
+    margin-bottom: 8px;
     .mars-msg-title();
   }
+
   .ant-modal-confirm-content {
-    padding: 15px 14px 17px;
+    padding: 20px;
     margin: 0;
     color: var(--mars-control-text) !important;
     user-select: text;
@@ -14,17 +16,20 @@
     max-width: 100% !important;
     margin-block-start: 0 !important;
   }
+
   .ant-modal-confirm-btns {
     margin: 0;
     width: 100%;
     text-align: center;
     margin-bottom: 13px;
+
     .ant-btn {
       background: var(--mars-primary-color);
       background-color: var(--mars-primary-color);
       color: #ffffff;
       border: none;
       border-radius: 2px;
+
       &:hover {
         color: #ffffff;
         border-color: #89bceb;
@@ -32,6 +37,7 @@
       }
     }
   }
+
   .ant-modal-content {
     background-color: transparent;
     padding: 0;
@@ -42,11 +48,13 @@
     background: var(--mars-base-border);
     border-radius: 4px !important;
     backdrop-filter: blur(10px);
+
     .ant-modal-body {
       padding: 0;
       .mars-msg-bg();
     }
   }
+
   .anticon {
     * {
       color: #4db3ff !important;

@@ -50,29 +50,6 @@ function initMap() {
         maxNativeZoom: 14,
         errorTileUrl: "img/tile/errortile.png"
       },
-      // {
-      //   pid: 10,
-      //   name: "OSM地图",
-      //   type: "xyz",
-      //   url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      //   subdomains: "abc",
-      //   icon: "img/basemaps/bingmap.png"
-      // },
-      {
-        pid: 10,
-        name: "ArcGIS地图",
-        type: "tile",
-        url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/{z}/{y}/{x}",
-        chinaCRS: "GCJ02",
-        icon: "img/basemaps/bd-c-googlelite.png"
-      },
-      {
-        pid: 10,
-        name: "ArcGIS卫星",
-        type: "arcgis",
-        url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
-        icon: "img/basemaps/bingimage.png"
-      },
       {
         pid: 10,
         name: "高德地图",
@@ -89,36 +66,35 @@ function initMap() {
       },
       {
         pid: 10,
-        name: "谷歌地图",
-        type: "google",
-        layer: "vec",
-        chinaCRS: "GCJ02",
-        icon: "img/basemaps/googlemap.png"
+        name: "腾讯电子",
+        icon: "/img/basemaps/tencent_vec.png",
+        type: "tencent",
+        layer: "vec"
       },
       {
         pid: 10,
-        name: "谷歌卫星",
-        type: "google",
-        layer: "img",
-        chinaCRS: "GCJ02",
-        icon: "img/basemaps/googleimage.png"
+        name: "腾讯影像",
+        icon: "/img/basemaps/tencent_img.png",
+        type: "group",
+        layers: [
+          { name: "底图", type: "tencent", layer: "img_d" },
+          { name: "注记", type: "tencent", layer: "img_z" }
+        ]
       },
       {
         pid: 10,
-        name: "灰色地图",
+        name: "ArcGIS电子",
+        icon: "img/basemaps/bd-c-googlelite.png",
+        type: "tile",
+        url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+        chinaCRS: "GCJ02"
+      },
+      {
+        pid: 10,
+        name: "ArcGIS影像",
+        icon: "img/basemaps/bingimage.png",
         type: "arcgis",
-        url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetGray/MapServer",
-        chinaCRS: "GCJ02",
-        icon: "img/basemaps/bd-c-grayscale.png"
-      },
-      {
-        id: 2017,
-        pid: 10,
-        name: "蓝色地图",
-        type: "arcgis",
-        url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-        chinaCRS: "GCJ02",
-        icon: "img/basemaps/bd-c-midnight.png"
+        url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
       }
     ]
   })

@@ -8,12 +8,12 @@
         "details": "演示 new mars2d.Map() 构造场景时支持的一些参数",
         "children": [
           {
-            "name": "快速创建地球",
+            "name": "快速创建地图",
             "thumbnail": "map-create-options.jpg",
             "main": "map/create/options"
           },
           {
-            "name": "根据配置文件创建地球",
+            "name": "根据配置文件创建地图",
             "thumbnail": "map-create-json.jpg",
             "main": "map/create/json"
           }
@@ -476,31 +476,6 @@
             "thumbnail": "layer-graphic-basis-graphicLayer.jpg",
             "main": "layer-graphic/basis/graphicLayer",
             "hasPannel": true
-          },
-          {
-            "name": "聚合点 图层",
-            "thumbnail": "layer-graphic-basis-cluster.jpg",
-            "main": "layer-graphic/basis/cluster",
-            "hasPannel": true,
-            "resources": [
-              "custom-photo.css"
-            ]
-          },
-          {
-            "name": "大数据点 图层",
-            "thumbnail": "layer-graphic-basis-canvas-marker.jpg",
-            "main": "layer-graphic/basis/canvas-marker",
-            "hasPannel": true
-          },
-          {
-            "name": "多个线的运动动画(图层级)",
-            "thumbnail": "layer-graphic-basis-snakeIn.jpg",
-            "main": "layer-graphic/basis/snakeIn",
-            "hasPannel": true,
-            "libs": [
-              "mars2d",
-              "turf"
-            ]
           }
         ]
       },
@@ -754,6 +729,31 @@
               "mars2d",
               "echarts-liquidfill"
             ]
+          },
+          {
+            "name": "CanvesMarker大数据点图层",
+            "thumbnail": "layer-graphic-basis-canvas-marker.jpg",
+            "main": "layer-graphic/basis/canvas-marker",
+            "hasPannel": true
+          },
+          {
+            "name": "Canvas文字",
+            "thumbnail": "layer-graphic-other-textCollision.jpg",
+            "main": "layer-graphic/other/canvaslabel",
+            "hasPannel": true,
+            "libs": [
+              "mars2d",
+              "canvaslabel"
+            ]
+          },
+          {
+            "name": "聚合点 图层",
+            "thumbnail": "layer-graphic-basis-cluster.jpg",
+            "main": "layer-graphic/basis/cluster",
+            "hasPannel": true,
+            "resources": [
+              "custom-photo.css"
+            ]
           }
         ]
       },
@@ -770,6 +770,14 @@
             "name": "平行线",
             "thumbnail": "graphic-basis-polyline-offset.jpg",
             "main": "graphic/basis/polyline-offset"
+          },
+          {
+            "name": "热力线",
+            "thumbnail": "graphic-basis-polyline-hotline.jpg",
+            "main": "graphic/basis/hotline",
+            "resources": [
+              "Hotline.js"
+            ]
           },
           {
             "name": "一带一路",
@@ -795,6 +803,16 @@
             "name": "线的运动动画",
             "thumbnail": "graphic-basis-polyline-snakeIn.jpg",
             "main": "graphic/basis/polyline-snakeIn"
+          },
+          {
+            "name": "多个线的运动动画(图层级)",
+            "thumbnail": "layer-graphic-basis-snakeIn.jpg",
+            "main": "layer-graphic/basis/snakeIn",
+            "hasPannel": true,
+            "libs": [
+              "mars2d",
+              "turf"
+            ]
           }
         ]
       },
@@ -915,16 +933,6 @@
             "thumbnail": "graphic-fun-isInPoly.jpg",
             "main": "graphic/fun/isInPoly",
             "hasPannel": true
-          },
-          {
-            "name": "文字碰撞",
-            "thumbnail": "layer-graphic-other-textCollision.jpg",
-            "main": "layer-graphic/other/textCollision",
-            "hasPannel": true,
-            "libs": [
-              "mars2d",
-              "textCollision"
-            ]
           }
         ]
       }

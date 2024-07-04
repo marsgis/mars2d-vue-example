@@ -1939,18 +1939,7 @@ L.Control.TimeDimension = L.Control.extend({
     },
 
     _update: function() {
-        const slider = this._sliderTime._container
-        const sliderTrackValue = this._sliderTime._element._leaflet_pos.x
-        // 滑动条变色
-        let sliderTrack =  slider.querySelector(".slider__filled-track")
-        if(!sliderTrack) {
-          const sliderFill = document.createElement("div");
-          sliderFill.className = 'slider__filled-track'
-          slider.appendChild(sliderFill);
-          sliderTrack = sliderFill
-        } else {
-          sliderTrack.style.width = sliderTrackValue + 'px' ;
-        }
+      this._sliderTrackChanged(this._sliderTime)
 
         if (!this._timeDimension) {
             return;
@@ -2128,7 +2117,6 @@ L.Control.TimeDimension = L.Control.extend({
         return [lknob, uknob];
     },
 
-
     _createSliderSpeed: function(className, container) {
         var sliderContainer = L.DomUtil.create('div', className, container);
         /* L.DomEvent
@@ -2176,6 +2164,7 @@ L.Control.TimeDimension = L.Control.extend({
             knob.setPosition(x);
             speedLabel.innerHTML = this._getDisplaySpeed(knob.getValue());
             this._sliderSpeedValueChanged(knob.getValue());
+            this._sliderTrackChanged(this._sliderSpeed)
         }, this);
         return knob;
     },
@@ -2224,6 +2213,21 @@ L.Control.TimeDimension = L.Control.extend({
         this._player.setTransitionTime(1000 / newValue);
     },
 
+    _sliderTrackChanged:function(domName){
+      const slider = domName._container
+      const sliderTrackValue = domName._element._leaflet_pos.x
+      // 滑动条变色
+      let sliderTrack =  slider.querySelector(".slider__filled-track")
+      if(!sliderTrack) {
+        const sliderFill = document.createElement("div");
+        sliderFill.className = 'slider__filled-track'
+        slider.appendChild(sliderFill);
+        sliderTrack = sliderFill
+      } else {
+        sliderTrack.style.width = sliderTrackValue + 'px' ;
+      }
+    },
+
     _getCurrentTimeZone: function() {
         return this.options.timeZones[this._timeZoneIndex];
     },
@@ -2242,7 +2246,6 @@ L.Control.TimeDimension = L.Control.extend({
         } else {
             this._displayDate.title = timeZone;
         }
-
         this._update();
     },
 

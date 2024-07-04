@@ -81,6 +81,7 @@ export function addLayer() {
         verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
         label: {
           text: `第${i}个`,
+          merge: true, // 合并在marker一个div内，便于聚合
           font_size: 13,
           offsetY: 45
         }
