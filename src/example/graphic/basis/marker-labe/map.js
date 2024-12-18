@@ -53,9 +53,23 @@ function addFeature(graphicLayer, arr) {
     const graphic = new mars2d.graphic.Marker({
       latlng: [item.lat, item.lng],
       style: {
-        image: "img/marker/mark3.png",
+        image: "img/marker/bike.png",
         horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
-        verticalOrigin: mars2d.VerticalOrigin.BOTTOM
+        verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
+        label: {
+          text: "皖A12345",
+          merge: true, // 合并在marker一个div内，便于聚合
+          color: "#0000FF",
+          font_size: 13,
+          offsetY: -25,
+          // className:"",//也可以直接指定css样式名
+          background: true,
+          background_color: "#e9e9f7",
+          border: true,
+          border_width: 1,
+          border_color: "#0e0e0e",
+          padding: 2
+        }
       },
       attr: item
     })

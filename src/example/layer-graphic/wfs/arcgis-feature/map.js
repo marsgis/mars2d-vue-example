@@ -13,6 +13,7 @@ export function onMounted(mapInstance) {
 
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
   addLayer1()
+  addLayer2()
 }
 
 /**
@@ -25,7 +26,7 @@ export function onUnmounted() {
 
 function addLayer1() {
   const layer = new mars2d.layer.ArcGisFeatureLayer({
-    name: "合肥市",
+    name: "点状数据",
     url: "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/20",
     popup: "all",
     symbol: {
@@ -42,19 +43,28 @@ function addLayer1() {
 
 function addLayer2() {
   const layer = new mars2d.layer.ArcGisFeatureLayer({
-    name: "合肥市",
-    url: "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/37",
-    minZoom: 16, // 数据量过大时，需要限制层级
+    name: "线面数据",
+    url: "https://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/39",
+    popup: "all",
+    //   minZoom: 16, // 数据量过大时，需要限制层级
     symbol: {
+      type: "polygon",
       styleOptions: {
+        fill: true,
         fillColor: "#FED976",
-        fillOpacity: 0.7,
-        outlineColor: "white",
+        fillOpacity: 0.2,
+        outline: true,
+        outlineColor: "#0000ff",
         outlineOpacity: 1,
-        outlineWidth: 2
+        outlineWidth: 2,
+        label: {
+          text: "{NAME}",
+          color: "#0000ff",
+          font_size: 14,
+          font_family: "楷体"
+        }
       }
-    },
-    popup: "all"
+    }
   })
   map.addLayer(layer)
 }

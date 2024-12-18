@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.2.6
- * 编译日期：2024-07-04 21:23:52
+ * 版本信息：v3.2.10
+ * 编译日期：2024-12-18 21:56
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -436,7 +436,7 @@ declare enum State {
 
 /**
  * SDK中涉及到的所有第3方地图服务的Token令牌key，
- * 【重要提示：为了避免后期失效，请全部重新赋值换成自己的key】
+ * 【重要提示：内值key可能限定了流量或失效，请全部重新赋值换成自己的key】
  */
 declare namespace Token {
     /**
@@ -451,7 +451,7 @@ declare namespace Token {
     function updateMapbox(item: string): any | void;
     /**
      * 天地图key数组，
-     * 官网： {@link https://console.tianditu.gov.cn/api/key}
+     * 官网： {@link https://console.tianditu.gov.cn/api/key} (应用类型：浏览器端)
      */
     const tiandituArr: string[];
     /**
@@ -479,7 +479,7 @@ declare namespace Token {
     function updateGaode(item: string | string[]): any | void;
     /**
      * 百度key数组，
-     * 官网： {@link http://lbsyun.baidu.com/apiconsole/key#/home}
+     * 官网： {@link http://lbsyun.baidu.com/apiconsole/key#/home} (应用类别:服务端)
      */
     const baiduArr: string[];
     /**
@@ -1525,12 +1525,6 @@ declare class Circle extends L.Circle {
      */
     getLatLng(): any | L.LatLng;
     /**
-     * 修改中心位置
-     * @param latlng - 经纬度对象
-     * @returns 当前对象本身，可以链式调用
-     */
-    setLatLng(latlng: L.LatLng): any | Circle;
-    /**
      * 获取圆的矩形边界
      * @returns 矩形边界
      */
@@ -1780,6 +1774,12 @@ declare class Circle extends L.Circle {
      * 方向，角度值
      */
     rotation: number;
+    /**
+     * 修改中心位置
+     * @param latlng - 经纬度对象
+     * @returns 当前对象本身，可以链式调用
+     */
+    setLatLng(latlng: L.LatLng): any | Circle;
     /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
@@ -3099,12 +3099,6 @@ declare class Marker extends L.Marker {
      */
     getLatLng(): any | L.LatLng;
     /**
-     * 修改位置
-     * @param latlng - 经纬度对象
-     * @returns 当前对象本身，可以链式调用
-     */
-    setLatLng(latlng: L.LatLng): any | Marker;
-    /**
      * 改变zIndex顺序
      * @param offset - zIndex顺序
      * @returns 当前对象本身，可以链式调用
@@ -3326,6 +3320,12 @@ declare class Marker extends L.Marker {
      * 是否显示测试点，可以进行用于比较测试div的位置，方便调试CSS。
      */
     testPoint: boolean;
+    /**
+     * 修改位置
+     * @param latlng - 经纬度对象
+     * @returns 当前对象本身，可以链式调用
+     */
+    setLatLng(latlng: L.LatLng): any | Marker;
     /**
      * 设置 旋转角度（度数值，0-360度）
      * @param angle - 旋转角度（度数值，0-360度）
@@ -3899,12 +3899,6 @@ declare class Point extends L.CircleMarker {
      */
     getLatLng(): any | L.LatLng;
     /**
-     * 修改位置
-     * @param latlng - 经纬度对象
-     * @returns 当前对象本身，可以链式调用
-     */
-    setLatLng(latlng: L.LatLng): any | Point;
-    /**
      * 获取线的矩形边界
      * @returns 矩形边界
      */
@@ -4127,6 +4121,12 @@ declare class Point extends L.CircleMarker {
      */
     readonly isAdded: boolean;
     /**
+     * 修改位置
+     * @param latlng - 经纬度对象
+     * @returns 当前对象本身，可以链式调用
+     */
+    setLatLng(latlng: L.LatLng): any | Point;
+    /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
@@ -4259,12 +4259,6 @@ declare class Polygon extends L.Polygon {
      * @returns 经纬度数组
      */
     getLatLngs(): any | L.LatLng[];
-    /**
-     * 用给定的地理位置数组代替更新矢量对象中的所有点。
-     * @param latlngs - 经纬度数组
-     * @returns 当前对象本身，可以链式调用
-     */
-    setLatLngs(latlngs: L.LatLng[]): any | Polygon;
     /**
      * 向矢量对象添加一个给定点。
      * @param latlng - 经纬度对象
@@ -4494,6 +4488,12 @@ declare class Polygon extends L.Polygon {
      */
     readonly isAdded: boolean;
     /**
+     * 用给定的地理位置数组代替更新矢量对象中的所有点。
+     * @param latlngs - 经纬度数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    setLatLngs(latlngs: L.LatLng[]): any | Polygon;
+    /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
      * @returns 当前对象本身，可以链式调用
@@ -4625,12 +4625,6 @@ declare class Polyline extends L.Polyline {
      * @returns 经纬度数组
      */
     getLatLngs(): any | L.LatLng[];
-    /**
-     * 用给定的地理位置数组代替更新折线中的所有点。
-     * @param latlngs - 经纬度数组
-     * @returns 当前对象本身，可以链式调用
-     */
-    setLatLngs(latlngs: L.LatLng[]): any | Polyline;
     /**
      * 向折线添加一个给定点。 默认情况下，在多折线的情况下，将折线的第一个线添加，但可以通过将特定的线作为LatLng数组（您可以使用之前访问getLatLngs）来覆盖。
      * @param latlng - 经纬度对象
@@ -4859,6 +4853,12 @@ declare class Polyline extends L.Polyline {
      * 是否已添加到地图
      */
     readonly isAdded: boolean;
+    /**
+     * 用给定的地理位置数组代替更新折线中的所有点。
+     * @param latlngs - 经纬度数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    setLatLngs(latlngs: L.LatLng[]): any | Polyline;
     /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
@@ -6304,6 +6304,13 @@ declare class GraphicLayer extends L.FeatureGroup {
      * @returns 矢量数据对象
      */
     getGraphicById(id: number | string): any | L.Layer;
+    /**
+     * 根据 指定属性 获取 单个矢量数据对象（多个匹配时取首个）
+     * @param attrValue - 属性值
+     * @param [attrName = 'id'] - 属性键
+     * @returns 矢量数据对象
+     */
+    getGraphicByAttr(attrValue: string | number, attrName?: string): any | BaseGraphic | any;
     /**
      * 清除图层内所有矢量数据
      * @returns 无
@@ -9276,6 +9283,7 @@ declare namespace Map {
      * @property [tapTolerance = 15] - 用户在触摸时，移动手指的像素数超过此值时被认为是有效的tap。
      * @property [touchZoom] - 是否可以通过用两根手指触摸拖动来缩放地图。如果设置为'center'，它将缩放到视图的中心，而不管触摸事件（手指）在哪里。 仅在具有触控功能的网络浏览器中有效，旧版Android除外。
      * @property [bounceAtZoomLimits = true] - 如果您不希望在地图缩放超过最小/最大缩放范围时反弹，请将其设置为false。
+     * @property [preferCanvas = false] - 是否应该在一个Canvas渲染器上呈现线面矢量对象. 默认情况下，所有线面矢量对象都是在 SVG呈现程序中呈现的.
      * @property [copyright = true] - 是否显示火星科技的Logo
      * @property [defaultContextMenu = true] - 是否绑定默认的地图右键菜单
      * @property [contextmenuItems] - 自定义绑定右键菜单配置数组
@@ -9329,6 +9337,7 @@ declare namespace Map {
         tapTolerance?: number;
         touchZoom?: boolean | string;
         bounceAtZoomLimits?: boolean;
+        preferCanvas?: boolean;
         copyright?: boolean;
         defaultContextMenu?: boolean;
         contextmenuItems?: any;
@@ -11552,13 +11561,13 @@ declare class GaodePOI {
      * @param queryOptions - 查询参数
      * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
      * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
-     * @param [queryOptions.city = null] - 可以重新限定查询的区域，默认为类构造时传入的city
+     * @param [queryOptions.city] - 可以重新限定查询的区域，默认为类构造时传入的city
      * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
      * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryText(queryOptions: {
         text: string;
@@ -11569,7 +11578,7 @@ declare class GaodePOI {
         page?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): any | GaodePOI;
+    }): any | Promise<any>;
     /**
      * 周边搜索(圆形搜索)
      * @param queryOptions - 查询参数

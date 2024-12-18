@@ -1,12 +1,42 @@
 // import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
-let mapboxMap
 
-const mapOptions = {
+export const mapOptions = {
   zoom: 12,
   center: { lng: 111.700745, lat: 30.451633 },
-  basemaps: []
+  operationallayers: [
+    {
+      name: "mapboxgl图层",
+      type: "mapboxgl",
+      accessToken: "自己的Token",
+      style: "https://api.maptiler.com/maps/basic/style.json?key=自己的key",
+      layers: [
+        {
+          id: "state-fills",
+          type: "fill",
+          source: "states",
+          "source-layer": "pcyd",
+          layout: {},
+          paint: { "fill-color": "#ffce7b", "fill-opacity": 0.8, "fill-outline-color": "#ff0000" }
+        },
+        {
+          id: "state-fills-label",
+          type: "symbol",
+          source: "states",
+          "source-layer": "pcyd",
+          layout: {
+            "text-field": ["get", "农用地"],
+            "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+            "text-size": 12,
+            "text-anchor": "top"
+          },
+          paint: { "text-color": "#4e72b8" }
+        }
+      ],
+      show: true
+    }
+  ]
 }
 
 /**
@@ -21,59 +51,7 @@ function onMounted(mapInstance) {
 
   globalNotify("已知问题提示", "(1) 需要自行申请mapbox相关token替换 ")
 
-
-  const gl = L.mapboxGL({
-    accessToken: "自己的Token",
-    style: "https://api.maptiler.com/maps/basic/style.json?key=自己的key",
-    pane: "overlayPane"
-  }).addTo(map)
-
-  mapboxMap = gl.getMapboxMap()
-
-  mapboxMap.on("load", () => {
-    console.log("MAPBOX map loaded")
-
-    mapboxMap.addSource("states", {
-      type: "vector",
-      tiles: ["http://localhost/vectortile/pcyd/{z}/{x}/{y}.pbf"]
-    })
-    mapboxMap.addLayer({
-      id: "state-fills",
-      type: "fill",
-      source: "states",
-      "source-layer": "pcyd",
-      layout: {},
-      paint: {
-        "fill-color": "#ffce7b",
-        "fill-opacity": 0.8,
-        "fill-outline-color": "#ff0000"
-      }
-    })
-
-    mapboxMap.addLayer({
-      id: "state-fills-label",
-      type: "symbol",
-      source: "states",
-      "source-layer": "pcyd",
-      layout: {
-        "text-field": ["get", "农用地"],
-        "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
-        "text-size": 12,
-        "text-anchor": "top"
-      },
-      paint: {
-        "text-color": "#4e72b8"
-      }
-    })
-
-    mapboxMap.on("click", "state-fills", (e) => {
-      const lnglat = L.latLng(e.lngLat.lat, e.lngLat.lng)
-      L.popup().setLatLng(lnglat).setContent(e.features[0].properties["农用地"]).openOn(map)
-    })
-
-    // 绑定事件
-    map.on(mars2d.EventType.movestart, this.map_clickStartHandler, this)
-  })
+  // addMapboxGLLayer()
 }
 
 /**
@@ -84,15 +62,56 @@ function onUnmounted() {
   map = null
 }
 
-function map_clickStartHandler(event) {
-  closeEvent()
-}
+// MapboxglLayer定义在public\lib\mars2d\thirdParty\mapbox\leaflet-mapbox-gl.js
+function addMapboxGLLayer() {
+  // eslint-disable-next-line no-undef
+  const mapboxglLayer = new MapboxglLayer({
+    accessToken: "自己的Token",
+    style: "https://api.maptiler.com/maps/basic/style.json?key=自己的key",
+    source: {
+      states: {
+        type: "vector",
+        tiles: ["http://localhost/vectortile/pcyd/{z}/{x}/{y}.pbf"]
+      }
+    },
+    layers: [
+      {
+        id: "state-fills",
+        type: "fill",
+        source: "states",
+        "source-layer": "pcyd",
+        layout: {},
+        paint: {
+          "fill-color": "#ffce7b",
+          "fill-opacity": 0.8,
+          "fill-outline-color": "#ff0000"
+        }
+      },
+      {
+        id: "state-fills-label",
+        type: "symbol",
+        source: "states",
+        "source-layer": "pcyd",
+        layout: {
+          "text-field": ["get", "农用地"],
+          "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+          "text-size": 12,
+          "text-anchor": "top"
+        },
+        paint: {
+          "text-color": "#4e72b8"
+        }
+      }
+    ]
+  }).addTo(map)
 
-function map_clickEndHandler(event) {
-  // openEvent();
-}
+  mapboxglLayer.on("load", () => {
+    console.log("MAPBOX map loaded")
 
-function closeEvent() {
-  mapboxMap.dragPan.disable()
-  mapboxMap.scrollZoom.disable()
+    const mapboxMap = mapboxglLayer.getMapboxMap()
+    mapboxMap.on("click", "state-fills", (e) => {
+      const lnglat = L.latLng(e.lngLat.lat, e.lngLat.lng)
+      L.popup().setLatLng(lnglat).setContent(e.features[0].properties["农用地"]).openOn(map)
+    })
+  })
 }

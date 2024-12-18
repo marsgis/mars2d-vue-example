@@ -261,6 +261,8 @@ export function onClickSaveKml() {
   mars2d.Util.downloadFile("我的标注.kml", kml)
 }
 
+// https://github.com/esri/terraformer-wkt-parser
+// 加载wkt用 var primitive = wkt.parse('LINESTRING (30 10, 10 30, 40 40)');
 export function onClickSaveWKT() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
@@ -291,6 +293,7 @@ export function onClickSaveWKT() {
 
   mars2d.Util.downloadFile("我的标注wkt.txt", JSON.stringify(arrWKT))
 }
+
  // 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([

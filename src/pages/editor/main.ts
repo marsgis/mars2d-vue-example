@@ -75,6 +75,5 @@ function destoryUI() {
 marsEditor.render({
   container: document.getElementById("root"),
   exampleId: getExampleId(),
-  exampleKey: getQueryString("key"),
-  fullName: getQueryString("name")
+  exampleKey: getQueryString("key")
 })

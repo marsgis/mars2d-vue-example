@@ -1,0 +1,42 @@
+{
+	"name": "mars2d",
+	"version": "3.2.10",
+	"description": "Mars2D地理信息平台",
+	"main": "./mars2d.js",
+	"types": "./mars2d.d.ts",
+	"dependencies": {
+		"leaflet": "^1.9.4"
+	},
+	"devDependencies": {},
+	"scripts": {
+		"lint": "eslint ./src/**/*.{js,ts} --fix"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/marsgis/mars2d.git"
+	},
+	"bugs": {
+		"url": "https://github.com/marsgis/mars2d/issues",
+		"email": "wh@marsgis.cn"
+	},
+	"keywords": [
+		"marsgis",
+		"mars2d",
+		"leaflet",
+		"gis",
+		"webgis"
+	],
+	"author": "火星科技",
+	"license": "Apache-2.0",
+	"homepage": "http://mars2d.cn",
+	"build": {
+		"plugin": false,
+		"globals": {
+			"leaflet": "L"
+		},
+		"importCss": {
+			"leaflet": "leaflet/dist/leaflet.css"
+		},
+		"minify": "obfuscator"
+	}
+}

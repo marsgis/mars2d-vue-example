@@ -49,7 +49,10 @@ window.configLibs = {
     "mars2d/thirdParty/timedimension/leaflet.timedimension.js"
   ],
   textCollision: [
-    "mars2d/thirdParty/textCollision/LabelTextCollision.js"
+    "mars2d/thirdParty/textCollision/LabelTextCollision.js",
+  ],
+  canvaslabel: [
+    "mars2d/thirdParty/textCollision/Leaflet.canvaslabel.js",
   ],
   'mapbox-gl': [
     "mars2d/thirdParty/mapbox/mapbox-gl.css",
@@ -104,3 +107,22 @@ window.configLibs = {
 }
 
 
+
+// 本地测试  localStorage.setItem("muyao-debugger",1)
+if (localStorage.getItem("muyao-debugger") === "1") {
+  for (const key in window.configLibs) {
+    if (key.startsWith("mars2d")) {
+      const arrUrl = window.configLibs[key]
+      for (let index = 0; index < arrUrl.length; index++) {
+        const url = arrUrl[index]
+        const fileName = url?.substring(url.lastIndexOf("/") + 1, url.length)
+        if (fileName.startsWith("mars2d")) {
+          arrUrl[index] = arrUrl[index].replace(".js", "-src.js").replace(".css", "-src.css")
+        } else if (fileName.indexOf("leaflet") !== -1) {
+          arrUrl[index] = arrUrl[index].replace(".js", "-src.js")
+        }
+      }
+    }
+  }
+  console.log("正在使用SDK调试版本")
+}

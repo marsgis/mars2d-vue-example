@@ -70,20 +70,25 @@ export function addLayer() {
   ])
 
   // 添加随机数据演示
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 1000; i++) {
     const graphic = new mars2d.graphic.Marker({
       latlng: getRandomLatLng(),
       style: {
         image: "img/marker/mark1.png",
-        width: 32,
-        height: 44,
         horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
         verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
         label: {
           text: `第${i}个`,
           merge: true, // 合并在marker一个div内，便于聚合
           font_size: 13,
-          offsetY: 45
+          offsetY: -25,
+          // className:"",//也可以直接指定css样式名
+          background: true,
+          background_color: "rgba(233,233,247,0.8)",
+          border: true,
+          border_width: 1,
+          border_color: "#0e0e0e",
+          padding: 2
         }
       },
       attr: {

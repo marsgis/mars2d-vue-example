@@ -51,6 +51,7 @@ export const eventTarget = new mars2d.BaseClass()
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   addCreditDOM()
+  addTestMarker()
 
   eventTarget.fire("mapLoaded")
 }
@@ -64,6 +65,23 @@ export function onUnmounted() {
   map = null
 }
 
+// 设置WGS84坐标参照物(辨识是否纠偏)
+function addTestMarker() {
+  const graphic = new mars2d.graphic.Marker({
+    latlng: [31.835299, 117.216588],
+    style: {
+      image: "img/marker/mark1.png",
+      width: 32,
+      height: 44,
+      horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
+    },
+    attr: { remark: "示例1" }
+  })
+  map.graphicLayer.addGraphic(graphic)
+
+  graphic.bindPopup("<p>我是WGS84坐标下，望江西路与怀宁路交口</p>").openPopup()
+}
 
 
 // 在下侧状态栏增加一个额外div展示图层版权信息

@@ -81,15 +81,17 @@ export function crossPoint() {
       const intersects = turf.lineIntersect(line1, line2)
 
       if (intersects.features.length > 0) {
+        console.log("计算的交点信息", intersects)
         const intersectsPointGrahic = mars2d.Util.geoJsonToGraphics(intersects.features, {
           style: {
             color: "#0000ff",
-            pixelSize: 8,
+            pixelSize: 5,
             outlineColor: "#ffffff",
             outlineWidth: 2,
             clampToGround: true
           }
         })
+        console.log("添加的交点对象", intersectsPointGrahic)
         pointLayer.addGraphic(intersectsPointGrahic)
       }
     }

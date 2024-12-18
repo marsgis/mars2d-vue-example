@@ -1,6 +1,7 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
+export let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -11,9 +12,9 @@ export const mapOptions = {
   maxZoom: 2,
   control: {
     locationBar: {
-      formatLength: 0,
+      latDecimal: 0,
       template: "<div>X: {lng}</div> <div>Y: {lat}</div>",
-      style: { left: "10px", bottom: "0" }
+      style: { left: "100px", bottom: "0" }
     },
     layers: { position: "topleft" },
     zoom: { position: "bottomleft" }
@@ -95,6 +96,14 @@ export const eventTarget = new mars2d.BaseClass()
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
+
+  // 创建矢量数据图层
+  graphicLayer = new mars2d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
+
+  // 加一些演示数据
+  addDemoGraphic1()
+  addDemoGraphic2()
 }
 
 /**
@@ -103,4 +112,37 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
+}
+
+function addDemoGraphic1() {
+  const graphic = new mars2d.graphic.Marker({
+    latlng: [0, 0],
+    style: {
+      image: "img/marker/mark1.png",
+      width: 32,
+      height: 44,
+      horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
+    },
+    attr: { remark: "示例1" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic2() {
+  const graphic = new mars2d.graphic.Rectangle({
+    latlngs: [
+      [0, 0],
+      [1338, 884]
+    ],
+    style: {
+      fill: false,
+      outline: true,
+      outlineWidth: 2,
+      outlineColor: "#00ffff",
+      outlineOpacity: 1.0
+    },
+    attr: { remark: "示例2" }
+  })
+  graphicLayer.addGraphic(graphic)
 }

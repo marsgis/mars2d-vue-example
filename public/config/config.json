@@ -37,8 +37,7 @@
             "type": "tdt",
             "layer": "vec_z"
           }
-        ],
-        "show": true
+        ]
       },
       {
         "pid": 10,
@@ -73,7 +72,8 @@
         "name": "高德电子",
         "icon": "img/basemaps/gaode_vec.png",
         "type": "gaode",
-        "layer": "vec"
+        "layer": "vec",
+        "show": true
       },
       {
         "pid": 10,
