@@ -3,7 +3,7 @@
  * Mars2D地理信息平台  mars2d
  *
  * 版本信息：v3.2.10
- * 编译日期：2024-12-18 21:56
+ * 编译日期：2024-12-22 18:48
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -1373,9 +1373,10 @@ declare class CanvasImage extends L.Path {
     /**
      * 用传递的LatLngBounds边界重绘图片
      * @param bounds - 边界
+     * @param [updateEditeMarkers = true] - 是否在编辑状态更新编辑点
      * @returns 当前对象本身，可以链式调用
      */
-    setBounds(bounds: L.LatLngBounds): any | CanvasImage;
+    setBounds(bounds: L.LatLngBounds, updateEditeMarkers?: boolean): any | CanvasImage;
     /**
      * 获取线的矩形边界
      * @returns 当前对象本身，可以链式调用
@@ -1777,9 +1778,10 @@ declare class Circle extends L.Circle {
     /**
      * 修改中心位置
      * @param latlng - 经纬度对象
+     * @param [updateEditeMarkers = true] - 是否在编辑状态更新编辑点
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: L.LatLng): any | Circle;
+    setLatLng(latlng: L.LatLng, updateEditeMarkers?: boolean): any | Circle;
     /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
@@ -2704,9 +2706,10 @@ declare class Ellipse extends L.Path {
     /**
      * 修改椭圆中心位置
      * @param latlng - 经纬度对象
+     * @param [updateEditeMarkers = true] - 是否在编辑状态更新编辑点
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: L.LatLng): any | Ellipse;
+    setLatLng(latlng: L.LatLng, updateEditeMarkers?: boolean): any | Ellipse;
     /**
      * 返回椭圆的中心位置
      * @returns 经纬度对象
@@ -3323,9 +3326,10 @@ declare class Marker extends L.Marker {
     /**
      * 修改位置
      * @param latlng - 经纬度对象
+     * @param [updateEditeMarkers = true] - 是否在编辑状态更新编辑点
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: L.LatLng): any | Marker;
+    setLatLng(latlng: L.LatLng, updateEditeMarkers?: boolean): any | Marker;
     /**
      * 设置 旋转角度（度数值，0-360度）
      * @param angle - 旋转角度（度数值，0-360度）
@@ -4123,9 +4127,10 @@ declare class Point extends L.CircleMarker {
     /**
      * 修改位置
      * @param latlng - 经纬度对象
+     * @param [updateEditeMarkers = true] - 是否在编辑状态更新编辑点
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLng(latlng: L.LatLng): any | Point;
+    setLatLng(latlng: L.LatLng, updateEditeMarkers?: boolean): any | Point;
     /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
@@ -4490,9 +4495,10 @@ declare class Polygon extends L.Polygon {
     /**
      * 用给定的地理位置数组代替更新矢量对象中的所有点。
      * @param latlngs - 经纬度数组
+     * @param [updateEditeMarkers = true] - 是否在编辑状态更新编辑点
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latlngs: L.LatLng[]): any | Polygon;
+    setLatLngs(latlngs: L.LatLng[], updateEditeMarkers?: boolean): any | Polygon;
     /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
@@ -4856,9 +4862,10 @@ declare class Polyline extends L.Polyline {
     /**
      * 用给定的地理位置数组代替更新折线中的所有点。
      * @param latlngs - 经纬度数组
+     * @param [updateEditeMarkers = true] - 是否在编辑状态更新编辑点
      * @returns 当前对象本身，可以链式调用
      */
-    setLatLngs(latlngs: L.LatLng[]): any | Polyline;
+    setLatLngs(latlngs: L.LatLng[], updateEditeMarkers?: boolean): any | Polyline;
     /**
      * 设置 样式信息 的钩子方法
      * @param newStyle - 本次更新的部分样式信息,内部会合并属性
@@ -6684,7 +6691,6 @@ declare class VectorGrid extends L.GridLayer {
  * @param [options.style] - 样式设置，单图层传入样式对象或回调方法，多图层时传入图层名+对应的样式的键值对
  * @param [options.filter] - 筛选数据的回调方法
  * @param [options.tms] - 如果此值为true，反转切片Y轴的编号（对于TMS服务需将此项打开）
- * @param [options.fetchOptions] - fetch方法请求瓦片时的第2个参数
  * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -6699,7 +6705,6 @@ declare class PbfLayer extends VectorGrid {
         style?: ((...params: any[]) => any) | any;
         filter?: (...params: any[]) => any;
         tms?: boolean;
-        fetchOptions?: any;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -13130,6 +13135,15 @@ declare namespace Util {
         method?: string;
         timeout?: number;
         headers?: any;
+    }): any | Promise<any>;
+    /**
+     * 请求服务返回blob
+     * @param options - 请求参数
+     * @param options.url - 服务URL地址
+     * @returns 返回Promise异步处理结果
+     */
+    function fetchBlob(options: {
+        url: string;
     }): any | Promise<any>;
     /**
      * 请求服务返回结果，方法是基于axios库精简的

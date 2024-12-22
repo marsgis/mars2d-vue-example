@@ -120,7 +120,7 @@ function showYearZT(data) {
         font_family: "楷体",
         color: "#00ff00",
         outline: true,
-        outlineColor: "#000000",
+        outlineColor: "#0000ff",
         outlineWidth: 1,
         horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
         verticalOrigin: mars2d.VerticalOrigin.TOP

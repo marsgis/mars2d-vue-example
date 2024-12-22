@@ -44,28 +44,12 @@ function showGeoJsonLayer() {
     symbol: {
       styleOptions: {
         image: "img/marker/mark3.png",
-        scale: 1,
-        scaleByDistance: true,
-        scaleByDistance_far: 20000,
-        scaleByDistance_farValue: 0.5,
-        scaleByDistance_near: 1000,
-        scaleByDistance_nearValue: 1,
         highlight: { type: "click", image: "img/marker/mark1.png" },
         label: {
           text: "{项目名称}",
-          font_size: 25,
-          color: "#ffffff",
-          outline: true,
-          outlineColor: "#000000",
-          pixelOffsetY: -25,
-          scaleByDistance: true,
-          scaleByDistance_far: 80000,
-          scaleByDistance_farValue: 0.5,
-          scaleByDistance_near: 1000,
-          scaleByDistance_nearValue: 1,
-          distanceDisplayCondition: true,
-          distanceDisplayCondition_far: 80000,
-          distanceDisplayCondition_near: 0
+          font_size: 16,
+          color: "#0000ff",
+          offsetY: 30
         }
       }
     },

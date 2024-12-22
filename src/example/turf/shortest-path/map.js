@@ -64,14 +64,14 @@ export function startPoint() {
     type: "point",
     style: {
       pixelSize: 5,
-      color: "red",
+      color: "#0000ff",
       label: {
         text: "起点",
         font_size: 20,
-        color: "#ffffff",
+        color: "#0000ff",
         outline: true,
-        outlineColor: "#000000",
-        pixelOffsetY: -20
+        outlineColor: "#0000ff",
+        offsetY: -20
       }
     },
     success: (graphic) => {
@@ -90,14 +90,14 @@ export function endPoint() {
     type: "point",
     style: {
       pixelSize: 5,
-      color: "red",
+      color: "#0000ff",
       label: {
         text: "终点",
         font_size: 20,
-        color: "#ffffff",
+        color: "#0000ff",
         outline: true,
-        outlineColor: "#000000",
-        pixelOffsetY: -20
+        outlineColor: "#0000ff",
+        offsetY: -20
       }
     },
     success: (graphic) => {
@@ -127,7 +127,9 @@ export function shortestPath() {
   const endPoint = pointZD.toGeoJSON() // 终点
 
   const options = {
-    obstacles: polygon
+    obstacles: polygon.geometry,
+    units: "meters",
+    resolution: 100
   }
   const path = turf.shortestPath(startPoint, endPoint, options)
 

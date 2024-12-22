@@ -247,7 +247,7 @@ export function addRandomGraphicByCount(count) {
       style: {
         radius: 1500, // 单位：米
         fill: true,
-        fillColor: "#00ffff",
+        fillColor: "#0000ff",
         fillOpacity: 0.3,
         outline: true,
         outlineWidth: 2,
@@ -268,7 +268,7 @@ function addDemoGraphic1() {
     style: {
       radius: 1500, // 单位：米
       fill: true,
-      fillColor: "#00ffff",
+      fillColor: "#0000ff",
       fillOpacity: 0.3,
       outline: true,
       outlineWidth: 2,

@@ -132,7 +132,7 @@ function getBezierPoints(startMpt, endMpt, count) {
   const destination = turf.destination(midpoint, distance, bearing, { units: "kilometers" })
 
   const line = turf.lineString([start.geometry.coordinates, destination.geometry.coordinates, end.geometry.coordinates])
-  const greatCircle = turf.bezier(line)
+  const greatCircle = turf.bezierSpline(line)
 
   const latlngs = L.GeoJSON.coordsToLatLngs(greatCircle.geometry.coordinates)
   return latlngs

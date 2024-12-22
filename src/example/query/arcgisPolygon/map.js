@@ -57,11 +57,11 @@ export function drawRectangle() {
   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
-      fillColor: "#00ffff",
-      fillOpacity: 0.3,
+      fillColor: "#0000ff",
+      fillOpacity: 0.2,
       outline: true,
       outlineWidth: 2,
-      outlineColor: "#ffffff"
+      outlineColor: "#0000ff"
     },
     success: function (graphic) {
       drawGraphic = graphic
@@ -74,11 +74,11 @@ export function drawCircle() {
   map.graphicLayer.startDraw({
     type: "circle",
     style: {
-      fillColor: "#00ffff",
+      fillColor: "#0000ff",
       fillOpacity: 0.3,
       outline: true,
       outlineWidth: 2,
-      outlineColor: "#ffffff"
+      outlineColor: "#0000ff"
     },
     success: function (graphic) {
       drawGraphic = graphic
@@ -91,11 +91,11 @@ export function drawPolygon() {
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
-      fillColor: "#00ffff",
+      fillColor: "#0000ff",
       fillOpacity: 0.3,
       outline: true,
       outlineWidth: 2,
-      outlineColor: "#ffffff"
+      outlineColor: "#0000ff"
     },
     success: function (graphic) {
       drawGraphic = graphic
@@ -139,7 +139,8 @@ export function queryData(queryVal) {
         const feature = arrFeatures[i]
 
         try {
-          const geojsonNew = turf.intersect(drawGeoJSON, feature) // 切割
+          // const geojsonNew = turf.intersect(drawGeoJSON, feature) // 切割//turf v6.5
+          const geojsonNew = turf.intersect(turf.featureCollection([drawGeoJSON, feature])) // v7.1
 
           if (geojsonNew) {
             feature.geometry = geojsonNew.geometry

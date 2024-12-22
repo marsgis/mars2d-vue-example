@@ -38,7 +38,7 @@ export function onMounted(mapInstance) {
       fillOpacity: 0.5,
       outline: true,
       outlineWidth: 2,
-      outlineColor: "#ffffff"
+      outlineColor: "#0000ff"
     }
   })
   graphicLayer.addGraphic(graphic)
@@ -65,7 +65,7 @@ export function drawPolygon() {
       fillOpacity: 0.5,
       outline: true,
       outlineWidth: 2,
-      outlineColor: "#ffffff"
+      outlineColor: "#0000ff"
     }
   })
 }
@@ -98,7 +98,7 @@ export function spinPolygons(angle) {
       fillOpacity: 0.5,
       outline: true,
       outlineWidth: 2,
-      outlineColor: "#ffffff"
+      outlineColor: "#0000ff"
     }
   })
   polygonsLayer.addGraphic(spinGraphic)
@@ -128,7 +128,7 @@ export function translationPolygons(offset) {
       fillOpacity: 0.5,
       outline: true,
       outlineWidth: 2,
-      outlineColor: "#ffffff"
+      outlineColor: "#0000ff"
     }
   })
   polygonsLayer.addGraphic(spinGraphic)
@@ -162,7 +162,7 @@ export function zoomPolygons(scale) {
       fillOpacity: 0.5,
       outline: true,
       outlineWidth: 2,
-      outlineColor: "#ffffff"
+      outlineColor: "#0000ff"
     }
   })
   polygonsLayer.addGraphic(spinGraphic)

@@ -105,7 +105,7 @@ export function onUnmounted() {
 }
 
 export function setCollisionDetection(flg) {
-  canvasLabelRenderer.options.collisionFlg = flg
+  canvasLabelRenderer.options.defaultLabelStyle.collisionFlg = flg
   map.fitBounds(map.getBounds())
 }
 

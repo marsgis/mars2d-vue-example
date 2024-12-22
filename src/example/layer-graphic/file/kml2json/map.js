@@ -148,7 +148,7 @@ export function showSafetyNotice() {
             font_size: 18,
             color: "#ffffff",
             outline: true,
-            outlineColor: "#000000",
+            outlineColor: "#0000ff",
             offsetY: -50
           }
         }
@@ -212,7 +212,7 @@ export function showGDP() {
           font_size: 18,
           color: "#ffffff",
           outline: true,
-          outlineColor: "#000000"
+          outlineColor: "#0000ff"
         }
       }
       return style

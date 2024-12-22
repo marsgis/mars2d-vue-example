@@ -186,7 +186,7 @@ function addDemoGraphic7() {
       rotation: 0,
 
       fill: true,
-      fillColor: "#00ffff",
+      fillColor: "#0000ff",
       fillOpacity: 0.3,
       outline: true,
       outlineWidth: 2,

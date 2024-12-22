@@ -392,10 +392,7 @@
           {
             "name": "工具按钮栏",
             "thumbnail": "control-basis-toolBar.jpg",
-            "main": "control/basis/toolBar",
-            "resources": [
-              "http://api.map.baidu.com/getscript?v=2.0&ak=LvhIlDXT60I3NePicXWQT5K0eHFCR4hD&services="
-            ]
+            "main": "control/basis/toolBar"
           },
           {
             "name": "下侧状态栏",

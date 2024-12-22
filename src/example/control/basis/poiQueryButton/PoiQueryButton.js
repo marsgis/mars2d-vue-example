@@ -208,7 +208,7 @@ class PoiQueryButton extends mars2d.control.ToolButton {
                 pixelSize: 8,
                 color: "#3388ff",
                 outline: true,
-                outlineColor: "#ffffff",
+                outlineColor: "#0000ff",
                 outlineWidth: 2,
                 // 预留功能，后续支持高亮
                 highlight: {
@@ -424,7 +424,7 @@ class PoiQueryButton extends mars2d.control.ToolButton {
         color: "#3388ff",
         pixelSize: 8,
         outline: true,
-        outlineColor: "#ffffff",
+        outlineColor: "#0000ff",
         outlineWidth: 2
       }
     })

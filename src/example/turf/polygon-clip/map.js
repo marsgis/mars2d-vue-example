@@ -133,7 +133,7 @@ function clipAllPolygon(clipLine) {
             fillOpacity: 0.5,
             outline: true,
             outlineWidth: 2,
-            outlineColor: "#ffffff"
+            outlineColor: "#0000ff"
           }
         })
       }
@@ -149,9 +149,7 @@ function clipAllPolygon(clipLine) {
  * 输入输出数据均为标准geoJson格式
  */
 const geoUtil = {
-  /**
-   * 合并多边形
-   */
+  // 合并多边形
   unionPolygon: function (polygons) {
     let polygon = polygons[0]
     for (let i = 0; i < polygons.length; i++) {
@@ -159,6 +157,7 @@ const geoUtil = {
     }
     return polygon
   },
+
   /**
    * 线分割面
    * 面类型只能是polygon 但可以是环
@@ -187,7 +186,7 @@ const geoUtil = {
             clipPolygon = polygon
             clipPolygonIndex = index
           } else {
-            throw new Error("MultiPolygon只能有一个多边形与切割线存在交点")
+            throw new Error({ state: "裁剪失败", message: "MultiPolygon只能有一个多边形与切割线存在交点" })
           }
         }
       })
@@ -195,10 +194,10 @@ const geoUtil = {
         polygons.splice(clipPolygonIndex, 1)
         return turf.featureCollection(polygons.concat(this.polygonClipByLine(clipPolygon, clipLine).features))
       } else {
-        throw new Error("MultiPolygon与切割线无交点")
+        throw new Error({ state: "裁剪失败", message: "MultiPolygon与切割线无交点" })
       }
     } else {
-      throw new Error("输入的多边形类型为错误")
+      throw new Error({ state: "裁剪失败", message: "输入的多边形类型为错误" })
     }
   },
 
@@ -206,8 +205,7 @@ const geoUtil = {
     // 获得裁切点
     const intersects = turf.lineIntersect(polyLine, clipLine)
     if (intersects.features.length !== 2) {
-      // throw new Error("切割线与多边形交点应该为2个,当前交点个数为" + intersects.features.length)
-      return undefined
+      throw new Error({ state: "裁剪失败", message: "切割线与多边形交点应该为2个,当前交点个数为" + intersects.features.length })
     }
     // 检查切割线与多边形的位置关系 （切割线的起点和终点不能落在多边形内部）
     const clipLineLength = clipLine.geometry.coordinates.length
@@ -215,7 +213,7 @@ const geoUtil = {
     const clipLineEndPoint = turf.point(clipLine.geometry.coordinates[clipLineLength - 1])
     const polygon = turf.polygon([polyLine.geometry.coordinates])
     if (turf.booleanPointInPolygon(clipLineStartPoint, polygon) || turf.booleanPointInPolygon(clipLineEndPoint, polygon)) {
-      throw new Error("切割线起点或终点不能在 裁剪多边形内部")
+      throw new Error({ state: "裁剪失败", message: "切割线起点或终点不能在 裁剪多边形内部" })
     }
     // 通过裁切点 分割多边形（只能获得多边形的一部分）
     const slicedPolyLine = turf.lineSlice(intersects.features[0], intersects.features[1], polyLine)
@@ -273,26 +271,25 @@ const geoUtil = {
       const splitPolyline = turf.lineString(polyLine.geometry.coordinates[i])
       if (turf.booleanClockwise(splitPolyline)) {
         if (outPolyline) {
-          throw new Error("出现了两个外部多边形无法处理")
+          throw new Error({ state: "裁剪失败", message: "出现了两个外部多边形无法处理" })
         } else {
           outPolyline = splitPolyline
         }
       } else {
         const intersects = turf.lineIntersect(splitPolyline, clipLine)
         if (intersects.features.length > 0) {
-          throw new Error("切割线不能与内环有交点")
+          throw new Error({ state: "裁剪失败", message: "切割线不能与内环有交点" })
         }
         insidePolylineList.push(splitPolyline)
       }
     }
     const resultCollection = this._singlePolygonClip(outPolyline, clipLine)
-    if (resultCollection) {
-      for (let i = 0; i < resultCollection.features.length; i++) {
-        for (let j = 0; j < insidePolylineList.length; j++) {
-          const startPoint = turf.point(insidePolylineList[j].geometry.coordinates[0])
-          if (turf.booleanPointInPolygon(startPoint, resultCollection.features[i])) {
-            resultCollection.features[i] = turf.mask(resultCollection.features[i], turf.lineToPolygon(insidePolylineList[j]))
-          }
+
+    for (let i = 0; i < resultCollection.features.length; i++) {
+      for (let j = 0; j < insidePolylineList.length; j++) {
+        const startPoint = turf.point(insidePolylineList[j].geometry.coordinates[0])
+        if (turf.booleanPointInPolygon(startPoint, resultCollection.features[i])) {
+          resultCollection.features[i] = turf.mask(resultCollection.features[i], turf.lineToPolygon(insidePolylineList[j]))
         }
       }
     }
@@ -346,9 +343,8 @@ const geoUtil = {
   getIntersectPoints: function (line1, line2) {
     return turf.lineIntersect(line1, line2)
   },
-  /**
-   * multiPolygon转polygons,不涉及属性
-   */
+
+  // multiPolygon转polygons,不涉及属性
   multiPolygon2polygons: function (multiPolygon) {
     if (multiPolygon.geometry.type !== "MultiPolygon") {
       return
@@ -368,6 +364,7 @@ const geoUtil = {
     })
     return polygons
   },
+
   /**
    * polygons转multiPolygon,不涉及属性，只输出属性为{}
    * 考虑polygons中就存在多面的情况

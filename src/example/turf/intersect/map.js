@@ -80,7 +80,8 @@ export function intersect() {
   const layer2 = graphic2.toGeoJSON()
   console.log("2个面的geojson对象", layer1, layer2)
 
-  const geojson = turf.intersect(layer1, layer2)
+  // const geojson = turf.intersect(layer1, layer2) //turf v6.5
+  const geojson = turf.intersect(turf.featureCollection([layer1, layer2]))// v7.1
 
   intersectGraphic = mars2d.Util.geoJsonToGraphics(geojson)[0]
   intersectGraphic.type = "polygon"
@@ -89,7 +90,7 @@ export function intersect() {
     fillOpacity: 0.8,
     outline: true,
     outlineWidth: 3,
-    outlineColor: "#ffffff",
+    outlineColor: "#0000ff",
     clampToGround: true
   }
   intersectGraphic = graphicLayer.addGraphic(intersectGraphic)

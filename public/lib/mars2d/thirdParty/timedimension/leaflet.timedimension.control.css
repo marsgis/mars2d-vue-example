@@ -15,133 +15,155 @@
  *
  */
 @font-face {
-    font-family: 'Glyphicons Halflings';
-    src: url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot');
-    src: url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff') format('woff'), url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+  font-family: 'Glyphicons Halflings';
+  src: url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot');
+  src: url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.woff') format('woff'), url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
 }
-.leaflet-bar-timecontrol{
-     background-color: #fff;
-     color: black;
-     height: 60px;
-     width: 1000px;
-     display: flex;
-     align-items: center;
-     position: absolute;
-     left: 50%;
-     transform: translateX(50%);
+
+.leaflet-bar-timecontrol {
+  background-color: #fff;
+  color: black;
+  height: 50px;
+  width: 660px;
+  display: flex;
+  align-items: center;
+
+  position: absolute;
+  bottom: 30px;
+  left: 400px;
 }
+
 .leaflet-bar-timecontrol * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .leaflet-bar-timecontrol a:nth-child(-n+3) {
   display: inline-block;
-  margin-left: 30px;
+  margin-left: 5px;
 }
 
 .leaflet-bar-timecontrol .timecontrol-dateslider {
-  margin-left: 30px;
+  margin-left: 20px;
   margin-top: 5px;
 }
+
 .leaflet-bar-timecontrol .timecontrol-speed {
-  margin-left: 15px;
+  margin-left: 10px;
 }
+
 .leaflet-bar-timecontrol .timecontrol-speed .speed {
   font-size: 14px;
-  color:rgba(3, 26, 61, 1);
+  color: rgba(3, 26, 61, 1);
 }
+
 .leaflet-bar-timecontrol .timecontrol-speed .speed::after {
   content: "";
   display: inline-block;
-  width:1px;
-  height: 50px;
+  width: 1px;
+  height: 40px;
   background-color: rgba(51, 51, 51, 0.2);
   position: absolute;
   left: 3px;
-  top: -10px;
+  top: -8px;
 }
+
 .leaflet-bar-timecontrol .timecontrol-speed .slider {
-  margin-left: 14px;
+  margin-left: 10px;
   margin-top: 5px;
 }
 
 .leaflet-bar-timecontrol .leaflet-control-timecontrol {
-    float: left;
-    height: 26px;
-    line-height: 26px;
-    background-color: #fff;
-    border-width: 0 1px 0 0;
+  float: left;
+  height: 26px;
+  line-height: 26px;
+  background-color: #fff;
+  border-width: 0 1px 0 0;
 }
+
 .leaflet-bar-timecontrol .leaflet-control-timecontrol:first-child {
-    border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
 }
+
 .leaflet-bar-timecontrol .leaflet-control-timecontrol:last-child {
-    border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
 }
+
 .leaflet-bar-timecontrol .leaflet-control-timecontrol:before {
-    font-family: "Glyphicons Halflings";
-    display: block;
+  font-family: "Glyphicons Halflings";
+  display: block;
 }
+
 .leaflet-bar-timecontrol .timecontrol-slider {
-    position: relative;
-    width: auto;
-    cursor: auto;
+  position: relative;
+  width: auto;
+  cursor: auto;
 }
+
 .leaflet-bar-timecontrol a.timecontrol-date,
 .leaflet-bar-timecontrol a.timecontrol-date:hover {
-    margin-left: 34px;
-    margin-top: 3px;
-    font-size: 14px;
-    color: #031A3D;
-    position: relative;
-    min-width: 150px;
-    text-decoration: none;
-    white-space: nowrap;
+  margin-left: 20px;
+  margin-top: 3px;
+  font-size: 14px;
+  color: #031A3D;
+  position: relative;
+  min-width: 110px;
+  text-decoration: none;
+  white-space: nowrap;
 }
+
 .leaflet-bar-timecontrol a.timecontrol-date::after {
   content: "";
   display: inline-block;
-  width:1px;
-  height: 50px;
+  width: 1px;
+  height: 40px;
   background-color: rgba(51, 51, 51, 0.2);
   position: absolute;
   left: -18px;
   top: -12px;
 }
+
 .leaflet-bar-timecontrol a.timecontrol-date.utc,
 .leaflet-bar-timecontrol a.timecontrol-date.utc:hover {
-    min-width: 185px;
+  min-width: 185px;
 }
+
 .leaflet-bar-timecontrol a.timecontrol-date.loading,
 .leaflet-bar-timecontrol a.timecontrol-date.loading:hover {
-    background-color: #ffefa4;
+  background-color: #ffefa4;
 }
+
 .leaflet-bar-timecontrol .timecontrol-dateslider .slider {
-    width: 350px;
+  width: 200px;
 }
+
 .leaflet-bar-timecontrol .timecontrol-speed {
-    white-space: nowrap;
-    cursor: auto;
+  white-space: nowrap;
+  cursor: auto;
 }
+
 .leaflet-bar-timecontrol .timecontrol-speed .slider {
-    width: 120px;
-    display: inline-block;
+  width: 80px;
+  display: inline-block;
 }
+
 .leaflet-bar-timecontrol .timecontrol-speed .speed {
-    width: 55px;
-    display: inline-block;
-    float: left;
-    text-align: right;
+  width: 55px;
+  display: inline-block;
+  float: left;
+  text-align: right;
 }
+
 .leaflet-bar-timecontrol .timecontrol-play,
 .leaflet-bar-timecontrol .timecontrol-play:hover {
-    position: relative;
+  position: relative;
 }
+
 .leaflet-bar-timecontrol .timecontrol-play span {
-    font-size: 10px;
+  font-size: 10px;
 }
+
 .leaflet-bar-timecontrol a.timecontrol-play.loading {
-    background-color: #ffefa4;
+  background-color: #ffefa4;
 }
 
 /**
@@ -149,24 +171,27 @@
 */
 
 .timecontrol-slider .slider {
-    position: relative;
-    height: 12px;
-    margin: 6px;
-    cursor: pointer;
-    border-radius: 6px;
-    background-color: #f0f0f0;
+  position: relative;
+  height: 12px;
+  margin: 6px;
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: #f0f0f0;
 }
+
 .timecontrol-slider .slider.has-limits {
-    margin-left: 15px;
-    margin-right: 15px;
-    background-color: #ddd;
+  margin-left: 15px;
+  margin-right: 15px;
+  background-color: #ddd;
 }
+
 .timecontrol-slider .slider.has-limits .range {
-    position: absolute;
-    height: 10px;
-    background-color: #fff;
-    /*opacity: 0.5;*/
+  position: absolute;
+  height: 10px;
+  background-color: #fff;
+  /*opacity: 0.5;*/
 }
+
 .timecontrol-slider .knob {
   position: absolute;
   width: 16px;
@@ -179,66 +204,75 @@
   cursor: ew-resize;
   cursor: -webkit-grab;
 }
+
 .timecontrol-slider .knob:after {
-    /** Big transparent block on top of the knob for easier grabbing on touch device*/
-    content: ' ';
-    display: block;
-    position: absolute;
-    width: 12px;
-    top: 1px;
-    height: 12px;
-    left: 1px;
-    border-radius: 6px;
-    background-color: #3385FF;
+  /** Big transparent block on top of the knob for easier grabbing on touch device*/
+  content: ' ';
+  display: block;
+  position: absolute;
+  width: 12px;
+  top: 1px;
+  height: 12px;
+  left: 1px;
+  border-radius: 6px;
+  background-color: #3385FF;
 }
+
 .timecontrol-slider .knob.upper,
 .timecontrol-slider .knob.lower {
-    width: 11px;
-    height: 20px;
-    border: none;
-    background-color: transparent;
+  width: 11px;
+  height: 20px;
+  border: none;
+  background-color: transparent;
 }
+
 .timecontrol-slider .knob.upper {
-    margin-top: -5px;
-    margin-left: -1px;
+  margin-top: -5px;
+  margin-left: -1px;
 }
+
 .timecontrol-slider .knob.lower {
-    margin-top: -5px;
-    margin-left: -10px;
+  margin-top: -5px;
+  margin-left: -10px;
 }
+
 .timecontrol-slider .knob.lower:after {
-    right:0px;
-    left: initial;
+  right: 0px;
+  left: initial;
 }
+
 .timecontrol-slider .knob.upper:after {
-    left:0px;
+  left: 0px;
 }
+
 .timecontrol-slider .knob.upper:before,
 .timecontrol-slider .knob.lower:before {
-    display: block;
-    content: '';
-    position: relative;
-    top: 2px;
-    width: 0;
-    height: 0;
-    border-style: solid;
+  display: block;
+  content: '';
+  position: relative;
+  top: 2px;
+  width: 0;
+  height: 0;
+  border-style: solid;
 }
+
 .timecontrol-slider .knob.upper:before {
-    border-width: 16px 0 0 10px;
-    border-color: transparent transparent transparent #a5a5a5;
+  border-width: 16px 0 0 10px;
+  border-color: transparent transparent transparent #a5a5a5;
 }
+
 .timecontrol-slider .knob.lower:before {
-    border-width: 0 0 16px 10px;
-    border-color: transparent transparent #a5a5a5;
+  border-width: 0 0 16px 10px;
+  border-color: transparent transparent #a5a5a5;
 }
 
 .timecontrol-slider .slider.dragging,
 .timecontrol-slider .dragging .knob,
 .timecontrol-slider .knob.leaflet-drag-target {
-    cursor: ew-resize;
-    cursor: grabbing;
-    cursor: -webkit-grabbing;
-    cursor: -moz-grabbing;
+  cursor: ew-resize;
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
 }
 
 /**
@@ -246,29 +280,33 @@
 */
 
 @-webkit-keyframes icon-rotation {
-    from {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
+
 @keyframes icon-rotation {
-    from {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
+
 .timecontrol-loop.looped,
 .timecontrol-loop.looped:hover {
-    background-color: #ddd;
-    color: #094F8E;
+  background-color: #ddd;
+  color: #094F8E;
 }
 
 .timecontrol-backward:before,
@@ -276,67 +314,76 @@
 .timecontrol-stop:before,
 .timecontrol-play:before,
 .timecontrol-loop:before {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .timecontrol-play:before {
-    position: absolute;
-    content:url("./svg/play.svg");
-    position: relative;
-    top:5px;
+  position: absolute;
+  content: url("./svg/play.svg");
+  position: relative;
+  top: 5px;
 }
+
 /*.timecontrol-play.play:before {
     content: "\e072";
 }*/
 .timecontrol-play.reverse:before {
-    content:url("./svg/play.svg");
-    -ms-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
+  content: url("./svg/play.svg");
+  -ms-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
 }
+
 .timecontrol-play.pause:before {
-  content:url("./svg/pause.svg");
+  content: url("./svg/pause.svg");
 }
+
 .timecontrol-play.reverse.pause:before {
-    -ms-transform: none;
-    -webkit-transform: none;
-    transform: none;
+  -ms-transform: none;
+  -webkit-transform: none;
+  transform: none;
 }
 
 a.timecontrol-play.loading:before {
-    content: "\e031";
-    opacity: 0.2;
-    -webkit-animation: icon-rotation 6s infinite linear;
-    animation: icon-rotation 6s infinite linear;
+  content: "\e031";
+  opacity: 0.2;
+  -webkit-animation: icon-rotation 6s infinite linear;
+  animation: icon-rotation 6s infinite linear;
 }
+
 .timecontrol-date.loading:before {
-    content: "\e031";
-    left: 5px;
-    position: absolute;
-    -webkit-animation: icon-rotation 6s infinite linear;
-    animation: icon-rotation 6s infinite linear;
+  content: "\e031";
+  left: 5px;
+  position: absolute;
+  -webkit-animation: icon-rotation 6s infinite linear;
+  animation: icon-rotation 6s infinite linear;
 }
+
 .timecontrol-speed:before {
-    /* content: "\e141";
+  /* content: "\e141";
     position: absolute;
     left: 7px; */
 }
+
 .timecontrol-stop:before {
-    content: "\e074";
+  content: "\e074";
 }
+
 .timecontrol-forward:before {
-    content:url("./svg/right_circle.svg");
-    position: relative;
-    top: 5px;
+  content: url("./svg/right_circle.svg");
+  position: relative;
+  top: 5px;
 }
+
 .timecontrol-backward:before {
-    content:url("./svg/left_circle.svg");
-    position: relative;
-    top: 5px;
+  content: url("./svg/left_circle.svg");
+  position: relative;
+  top: 5px;
 }
+
 .timecontrol-loop:before {
-    content: "\e030";
+  content: "\e030";
 }
 
 .slider__filled-track {
@@ -347,19 +394,22 @@ a.timecontrol-play.loading:before {
   pointer-events: none;
 }
 
-@media (max-width: 767px){
-    .leaflet-bar-timecontrol .timecontrol-date,
-    .leaflet-bar-timecontrol .timecontrol-slider{
-        clear: both;
-        float: none;
-        border-right: none;
-    }
+@media (max-width: 767px) {
+
+  .leaflet-bar-timecontrol .timecontrol-date,
+  .leaflet-bar-timecontrol .timecontrol-slider {
+    clear: both;
+    float: none;
+    border-right: none;
+  }
 }
-.leaflet-touch .leaflet-bar-timecontrol .leaflet-control-timecontrol{
-     height: 30px;
-    line-height: 30px;
+
+.leaflet-touch .leaflet-bar-timecontrol .leaflet-control-timecontrol {
+  height: 30px;
+  line-height: 30px;
 }
-.leaflet-touch .timecontrol-slider .slider{
-    margin-top: 12px;
-    height:6px;
+
+.leaflet-touch .timecontrol-slider .slider {
+  margin-top: 12px;
+  height: 6px;
 }

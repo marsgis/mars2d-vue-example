@@ -988,7 +988,7 @@ function addDemoGraphic1() {
         1.0: "#ff0000"
       },
       weight: 5,
-      outlineColor: "#000000",
+      outlineColor: "#0000ff",
       outlineWidth: 1
     }
   })
