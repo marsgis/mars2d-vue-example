@@ -1,566 +1,564 @@
 ﻿{
-  "mars2d": {
-    "zoom": 13,
-    "center": { "lng": 117.240601, "lat": 31.827107 },
-    "minZoom": 2,
-    "maxZoom": 18,
-    "centerAutoLevel": 15,
-    "control": {
-      "scale": true,
-      "locationBar": {
-        "crs": "CGCS2000_GK_Zone_3",
-        "template": "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div class='hide700'>横{crsx}  纵{crsy}</div> <div>层级:{level}</div>"
-      },
-      "layers": { "position": "topleft" },
-      "zoom": { "position": "bottomleft" },
-      "toolBar": { "position": "bottomleft" }
+  "zoom": 13,
+  "center": { "lng": 117.240601, "lat": 31.827107 },
+  "minZoom": 2,
+  "maxZoom": 18,
+  "centerAutoLevel": 15,
+  "control": {
+    "scale": true,
+    "locationBar": {
+      "crs": "CGCS2000_GK_Zone_3",
+      "template": "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div class='hide700'>横{crsx}  纵{crsy}</div> <div>层级:{level}</div>"
     },
-    "basemaps": [
-      {
-        "id": 10,
-        "name": "地图底图",
-        "type": "group"
-      },
-      {
-        "pid": 10,
-        "name": "天地图电子",
-        "icon": "img/basemaps/tdt_vec.png",
-        "type": "group",
-        "layers": [
-          {
-            "name": "底图",
-            "type": "tdt",
-            "layer": "vec_d"
-          },
-          {
-            "name": "注记",
-            "type": "tdt",
-            "layer": "vec_z"
-          }
-        ]
-      },
-      {
-        "pid": 10,
-        "name": "天地图卫星",
-        "icon": "img/basemaps/tdt_img.png",
-        "type": "group",
-        "layers": [
-          {
-            "name": "底图",
-            "type": "tdt",
-            "layer": "img_d"
-          },
-          {
-            "name": "注记",
-            "type": "tdt",
-            "layer": "img_z"
-          }
-        ]
-      },
-      {
-        "pid": 10,
-        "name": "天地图地形",
-        "icon": "img/basemaps/tdt_ter.png",
-        "type": "tdt",
-        "layer": "ter",
-        "maxNativeZoom": 14,
-        "errorTileUrl": "img/tile/errortile.png"
-      },
-      {
-        "id": 2021,
-        "pid": 10,
-        "name": "高德电子",
-        "icon": "img/basemaps/gaode_vec.png",
-        "type": "gaode",
-        "layer": "vec",
-        "show": true
-      },
-      {
-        "pid": 10,
-        "name": "高德卫星",
-        "icon": "img/basemaps/gaode_img.png",
-        "type": "group",
-        "layers": [
-          {
-            "name": "底图",
-            "type": "gaode",
-            "layer": "img_d"
-          },
-          {
-            "name": "注记",
-            "type": "gaode",
-            "layer": "img_z"
-          }
-        ]
-      },
-      {
-        "pid": 10,
-        "name": "腾讯电子",
-        "icon": "/img/basemaps/tencent_vec.png",
-        "type": "tencent",
-        "layer": "vec"
-      },
-      {
-        "pid": 10,
-        "name": "腾讯影像",
-        "icon": "/img/basemaps/tencent_img.png",
-        "type": "group",
-        "layers": [
-          { "name": "底图", "type": "tencent", "layer": "img_d" },
-          { "name": "注记", "type": "tencent", "layer": "img_z" }
-        ]
-      },
-      {
-        "pid": 10,
-        "name": "ArcGIS电子",
-        "icon": "img/basemaps/esriNationalGeographic.png",
-        "type": "tile",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-        "chinaCRS": "GCJ02"
-      },
-      {
-        "pid": 10,
-        "name": "ArcGIS影像",
-        "icon": "img/basemaps/esriWorldImagery.png",
-        "type": "arcgis",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
-      },
-      {
-        "id": 2017,
-        "pid": 10,
-        "name": "蓝色地图",
-        "icon": "img/basemaps/bd-c-midnight.png",
-        "type": "gaode",
-        "layer": "vec",
-        "customColor": "#11243C"
-      },
-      {
-        "pid": 10,
-        "name": "灰色地图",
-        "icon": "img/basemaps/bd-c-grayscale.png",
-        "type": "gaode",
-        "layer": "vec",
-        "customColor": "#575757"
-      },
-      {
-        "pid": 10,
-        "name": "离线影像(供参考)",
-        "icon": "/img/basemaps/google_img.png",
-        "type": "xyz",
-        "url": "//data.mars3d.cn/tile/img/{z}/{x}/{y}.jpg",
-        "chinaCRS": "GCJ02",
-        "maxZoom": 13
-      }
-    ],
-    "operationallayers": [
-      { "id": 20, "name": "辅助图层", "type": "group" },
-      { "pid": 20, "name": "实时路况", "type": "gaode", "layer": "time" },
-      { "pid": 20, "name": "经纬网", "type": "graticule" },
-
-      {
-        "id": 40,
-        "name": "栅格数据",
-        "type": "group"
-      },
-      {
-        "id": 4030,
-        "pid": 40,
-        "name": "PBF矢量瓦片",
-        "type": "group"
-      },
-      {
-        "pid": 4030,
-        "name": "规划图",
-        "type": "pbf",
-        "url": "http://server.mars2d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf",
-        "interactive": true,
-        "style": {
-          "color": "rgba(110, 110, 110, 255)",
-          "opacity": 1,
-          "weight": 1,
-          "fill": true,
-          "fillColor": "rgba(205, 233, 247, 255)",
-          "fillOpacity": 1
+    "layers": { "position": "topleft" },
+    "zoom": { "position": "bottomleft" },
+    "toolBar": { "position": "bottomleft" }
+  },
+  "basemaps": [
+    {
+      "id": 10,
+      "name": "地图底图",
+      "type": "group"
+    },
+    {
+      "pid": 10,
+      "name": "天地图电子",
+      "icon": "img/basemaps/tdt_vec.png",
+      "type": "group",
+      "layers": [
+        {
+          "name": "底图",
+          "type": "tdt",
+          "layer": "vec_d"
         },
-        "zIndex": 999,
-        "popup": "{用地名称}"
-      },
+        {
+          "name": "注记",
+          "type": "tdt",
+          "layer": "vec_z"
+        }
+      ]
+    },
+    {
+      "pid": 10,
+      "name": "天地图卫星",
+      "icon": "img/basemaps/tdt_img.png",
+      "type": "group",
+      "layers": [
+        {
+          "name": "底图",
+          "type": "tdt",
+          "layer": "img_d"
+        },
+        {
+          "name": "注记",
+          "type": "tdt",
+          "layer": "img_z"
+        }
+      ]
+    },
+    {
+      "pid": 10,
+      "name": "天地图地形",
+      "icon": "img/basemaps/tdt_ter.png",
+      "type": "tdt",
+      "layer": "ter",
+      "maxNativeZoom": 14,
+      "errorTileUrl": "img/tile/errortile.png"
+    },
+    {
+      "id": 2021,
+      "pid": 10,
+      "name": "高德电子",
+      "icon": "img/basemaps/gaode_vec.png",
+      "type": "gaode",
+      "layer": "vec",
+      "show": true
+    },
+    {
+      "pid": 10,
+      "name": "高德卫星",
+      "icon": "img/basemaps/gaode_img.png",
+      "type": "group",
+      "layers": [
+        {
+          "name": "底图",
+          "type": "gaode",
+          "layer": "img_d"
+        },
+        {
+          "name": "注记",
+          "type": "gaode",
+          "layer": "img_z"
+        }
+      ]
+    },
+    {
+      "pid": 10,
+      "name": "腾讯电子",
+      "icon": "/img/basemaps/tencent_vec.png",
+      "type": "tencent",
+      "layer": "vec"
+    },
+    {
+      "pid": 10,
+      "name": "腾讯影像",
+      "icon": "/img/basemaps/tencent_img.png",
+      "type": "group",
+      "layers": [
+        { "name": "底图", "type": "tencent", "layer": "img_d" },
+        { "name": "注记", "type": "tencent", "layer": "img_z" }
+      ]
+    },
+    {
+      "pid": 10,
+      "name": "ArcGIS电子",
+      "icon": "img/basemaps/esriNationalGeographic.png",
+      "type": "tile",
+      "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+      "chinaCRS": "GCJ02"
+    },
+    {
+      "pid": 10,
+      "name": "ArcGIS影像",
+      "icon": "img/basemaps/esriWorldImagery.png",
+      "type": "arcgis",
+      "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
+    },
+    {
+      "id": 2017,
+      "pid": 10,
+      "name": "蓝色地图",
+      "icon": "img/basemaps/bd-c-midnight.png",
+      "type": "gaode",
+      "layer": "vec",
+      "customColor": "#11243C"
+    },
+    {
+      "pid": 10,
+      "name": "灰色地图",
+      "icon": "img/basemaps/bd-c-grayscale.png",
+      "type": "gaode",
+      "layer": "vec",
+      "customColor": "#575757"
+    },
+    {
+      "pid": 10,
+      "name": "离线影像(供参考)",
+      "icon": "/img/basemaps/google_img.png",
+      "type": "xyz",
+      "url": "//data.mars3d.cn/tile/img/{z}/{x}/{y}.jpg",
+      "chinaCRS": "GCJ02",
+      "maxZoom": 13
+    }
+  ],
+  "operationallayers": [
+    { "id": 20, "name": "辅助图层", "type": "group" },
+    { "pid": 20, "name": "实时路况", "type": "gaode", "layer": "time" },
+    { "pid": 20, "name": "经纬网", "type": "graticule" },
 
-      {
-        "id": 4020,
-        "pid": 40,
-        "name": "OGC WMS数据",
-        "type": "group"
+    {
+      "id": 40,
+      "name": "栅格数据",
+      "type": "group"
+    },
+    {
+      "id": 4030,
+      "pid": 40,
+      "name": "PBF矢量瓦片",
+      "type": "group"
+    },
+    {
+      "pid": 4030,
+      "name": "规划图",
+      "type": "pbf",
+      "url": "http://server.mars2d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf",
+      "interactive": true,
+      "style": {
+        "color": "rgba(110, 110, 110, 255)",
+        "opacity": 1,
+        "weight": 1,
+        "fill": true,
+        "fillColor": "rgba(205, 233, 247, 255)",
+        "fillOpacity": 1
       },
-      {
-        "pid": 4020,
-        "name": "教育设施点",
-        "type": "wms",
+      "zIndex": 999,
+      "popup": "{用地名称}"
+    },
+
+    {
+      "id": 4020,
+      "pid": 40,
+      "name": "OGC WMS数据",
+      "type": "group"
+    },
+    {
+      "pid": 4020,
+      "name": "教育设施点",
+      "type": "wms",
+      "url": "http://server.mars2d.cn/geoserver/mars/wms",
+      "layers": "mars:hfjy",
+      "transparent": true,
+      "format": "image/png",
+      "compare": {
         "url": "http://server.mars2d.cn/geoserver/mars/wms",
-        "layers": "mars:hfjy",
-        "transparent": true,
-        "format": "image/png",
-        "compare": {
-          "url": "http://server.mars2d.cn/geoserver/mars/wms",
-          "layers": "mars:hfdl"
+        "layers": "mars:hfdl"
+      }
+    },
+
+    {
+      "pid": 4020,
+      "name": "道路线",
+      "type": "wms",
+      "url": "http://server.mars2d.cn/geoserver/mars/wms",
+      "layers": "mars:hfdl",
+      "transparent": true,
+      "format": "image/png"
+    },
+    {
+      "pid": 4020,
+      "name": "建筑物面",
+      "type": "wms",
+      "url": "http://server.mars2d.cn/geoserver/mars/wms",
+      "layers": "mars:hfjzw",
+      "transparent": true,
+      "format": "image/png"
+    },
+    {
+      "id": 1987,
+      "pid": 4020,
+      "name": "规划面",
+      "type": "wms",
+      "url": "http://server.mars2d.cn/geoserver/mars/wms",
+      "layers": "mars:hfgh",
+      "transparent": true,
+      "format": "image/png"
+    },
+    {
+      "id": 4010,
+      "pid": 40,
+      "name": "ArcGIS Dynamic",
+      "type": "group"
+    },
+
+    {
+      "pid": 4010,
+      "name": "规划图",
+      "type": "arcgis_dynamic",
+      "url": "http://server.mars2d.cn/arcgis/rest/services/mars/guihua/MapServer",
+      "opacity": 0.7,
+      "highlight": {
+        "fill": true,
+        "fillColor": "#000dfc",
+        "fillOpacity": 0.3,
+        "outline": true,
+        "outlineWidth": 2,
+        "outlineColor": "#254dc4",
+        "outlineOpacity": 1
+      },
+      "popup": "all"
+    },
+    {
+      "pid": 4010,
+      "name": "建筑物",
+      "type": "arcgis_dynamic",
+      "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer",
+      "layers": [37],
+      "highlight": {
+        "fill": false,
+        "outline": true,
+        "outlineWidth": 2,
+        "outlineColor": "#FF0000",
+        "outlineOpacity": 1
+      },
+      "popup": "all"
+    },
+    {
+      "pid": 4010,
+      "name": "道路",
+      "type": "arcgis_dynamic",
+      "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer",
+      "layers": [24],
+      "popup": "{NAME}"
+    },
+
+    {
+      "id": 30,
+      "name": "矢量数据",
+      "type": "group"
+    },
+    {
+      "id": 3030,
+      "pid": 30,
+      "name": "GeoJSON数据",
+      "type": "group"
+    },
+    {
+      "pid": 3030,
+      "name": "全国省界",
+      "type": "geojson",
+      "url": "http://data.mars2d.cn/file/geojson/areas/100000_full.json",
+      "symbol": {
+        "type": "polyline",
+        "styleOptions": {
+          "width": 2,
+          "color": "#ff0000",
+          "dashArray": "5 10"
         }
       },
+      "popup": "all"
+    },
 
-      {
-        "pid": 4020,
-        "name": "道路线",
-        "type": "wms",
-        "url": "http://server.mars2d.cn/geoserver/mars/wms",
-        "layers": "mars:hfdl",
-        "transparent": true,
-        "format": "image/png"
+    {
+      "pid": 3030,
+      "name": "用地规划",
+      "type": "geojson",
+      "url": "//data.mars2d.cn/file/geojson/guihua.json",
+      "symbol": {
+        "type": "polygon",
+        "styleOptions": {
+          "fillOpacity": 0.6,
+          "fillColor": "#0000FF",
+          "outline": false
+        },
+        "styleField": "类型",
+        "styleFieldOptions": {
+          "一类居住用地": { "fillColor": "#FFDF7F" },
+          "二类居住用地": { "fillColor": "#FFFF00" },
+          "社区服务用地": { "fillColor": "#FF6A38" },
+          "幼托用地": { "fillColor": "#FF6A38" },
+          "商住混合用地": { "fillColor": "#FF850A" },
+          "行政办公用地": { "fillColor": "#FF00FF" },
+          "文化设施用地": { "fillColor": "#FF00FF" },
+          "小学用地": { "fillColor": "#FF7FFF" },
+          "初中用地": { "fillColor": "#FF7FFF" },
+          "体育场用地": { "fillColor": "#00A57C" },
+          "医院用地": { "fillColor": "#A5527C" },
+          "社会福利用地": { "fillColor": "#FF7F9F" },
+          "商业用地": { "fillColor": "#FF0000" },
+          "商务用地": { "fillColor": "#7F0000" },
+          "营业网点用地": { "fillColor": "#FF7F7F" },
+          "一类工业用地": { "fillColor": "#A57C52" },
+          "社会停车场用地": { "fillColor": "#C0C0C0" },
+          "通信用地": { "fillColor": "#007CA5" },
+          "排水用地": { "fillColor": "#00BFFF" },
+          "公园绿地": { "fillColor": "#00FF00" },
+          "防护绿地": { "fillColor": "#007F00" },
+          "河流水域": { "fillColor": "#7FFFFF" },
+          "配建停车场": { "fillColor": "#ffffff" },
+          "道路用地": { "fillColor": "#ffffff" }
+        }
       },
-      {
-        "pid": 4020,
-        "name": "建筑物面",
-        "type": "wms",
-        "url": "http://server.mars2d.cn/geoserver/mars/wms",
-        "layers": "mars:hfjzw",
-        "transparent": true,
-        "format": "image/png"
-      },
-      {
-        "id": 1987,
-        "pid": 4020,
-        "name": "规划面",
-        "type": "wms",
-        "url": "http://server.mars2d.cn/geoserver/mars/wms",
-        "layers": "mars:hfgh",
-        "transparent": true,
-        "format": "image/png"
-      },
-      {
-        "id": 4010,
-        "pid": 40,
-        "name": "ArcGIS Dynamic",
-        "type": "group"
-      },
+      "popup": "类型:{类型}"
+    },
 
-      {
-        "pid": 4010,
-        "name": "规划图",
-        "type": "arcgis_dynamic",
-        "url": "http://server.mars2d.cn/arcgis/rest/services/mars/guihua/MapServer",
-        "opacity": 0.7,
-        "highlight": {
-          "fill": true,
-          "fillColor": "#000dfc",
+    {
+      "id": 3010,
+      "pid": 30,
+      "name": "ArcGIS Feature",
+      "type": "group"
+    },
+
+    {
+      "pid": 3010,
+      "name": "加油站",
+      "type": "arcgis_feature",
+      "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/10",
+      "popup": "<p>名称:{NAME}<br>地址:{address}</p>",
+      "symbol": {
+        "styleOptions": {
+          "image": "img/marker/mark3.png",
+          "width": 32,
+          "height": 44
+        }
+      },
+      "show": false
+    },
+    {
+      "pid": 3010,
+      "name": "服务区",
+      "type": "arcgis_feature",
+      "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/16",
+      "popup": [
+        { "field": "NAME", "name": "名称" },
+        { "field": "address", "name": "地址" }
+      ],
+      "symbol": {
+        "styleOptions": {
+          "image": "img/marker/mark1.png",
+          "width": 32,
+          "height": 44
+        },
+        "styleField": "NAME",
+        "styleFieldOptions": {
+          "新桥服务区": {
+            "image": "img/marker/mark2.png",
+            "shadowUrl": "img/marker/emergency.gif",
+            "shadowSize": [100, 100],
+            "shadowAnchor": [50, 50]
+          },
+          "丰乐服务区": { "iconUrl": "img/marker/mark3.png" },
+          "众兴服务区": { "iconUrl": "img/marker/mark4.png" }
+        }
+      },
+      "show": false
+    },
+    {
+      "pid": 3010,
+      "name": "收费站",
+      "type": "arcgis_feature",
+      "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/15",
+      "popup": {
+        "type": "iframe",
+        "url": "http://www.marsgis.cn/?id={FID}&name={NAME}",
+        "width": 600,
+        "height": 400
+      },
+      "symbol": {
+        "styleOptions": {
+          "iconFont": "fa fa-university",
+          "color": "#FF0000",
+          "width": 30
+        },
+        "styleField": "NAME",
+        "styleFieldOptions": {
+          "岗集收费站": { "iconFont": "fa fa-cab", "color": "#FC4E2A" },
+          "高刘收费站": { "color": "#E31A1C" },
+          "蜀山收费站": { "color": "#BD0026" },
+          "金寨路收费站": { "color": "#800026" }
+        }
+      },
+      "show": false
+    },
+
+    {
+      "pid": 3010,
+      "name": "铁路",
+      "type": "arcgis_feature",
+      "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/33",
+      "popup": "名称:{NAME}<br>地址:{address}",
+      "symbol": {
+        "styleOptions": {
+          "width": 6,
+          "color": "#000000",
+          "dashArray": "10 20"
+        }
+      },
+      "show": false
+    },
+
+    {
+      "pid": 3010,
+      "name": "乡镇",
+      "type": "arcgis_feature",
+      "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/39",
+      "simplifyFactor": 0.35,
+      "precision": 5,
+      "popup": "all",
+      "symbol": {
+        "styleOptions": {
+          "fillColor": "#FED976",
+          "fillOpacity": 0.7,
+          "outlineColor": "white",
+          "outlineOpacity": 1,
+          "outlineWidth": 2
+        },
+        "styleField": "NAME",
+        "styleFieldOptions": {
+          "董岗乡": { "fillColor": "#FD8D3C" },
+          "店埠镇": { "fillColor": "#FC4E2A" },
+          "长淮街道": { "fillColor": "#E31A1C" },
+          "南七街道": { "fillColor": "#BD0026" }
+        }
+      },
+      "show": false
+    },
+    {
+      "id": 3020,
+      "pid": 30,
+      "name": "OGC WFS数据",
+      "type": "group"
+    },
+    {
+      "pid": 3020,
+      "name": "建筑物",
+      "type": "wfs",
+      "url": "http://server.mars2d.cn/geoserver/mars/ows",
+      "typeNS": "mars",
+      "typeName": "hfjzw",
+      "minZoom": 15,
+      "geometryField": "the_geom",
+      "symbol": {
+        "styleOptions": {
+          "fillColor": "#3388ff",
           "fillOpacity": 0.3,
-          "outline": true,
-          "outlineWidth": 2,
-          "outlineColor": "#254dc4",
-          "outlineOpacity": 1
-        },
-        "popup": "all"
+          "outlineColor": "#0000FF",
+          "outlineOpacity": 1,
+          "outlineWidth": 1
+        }
       },
-      {
-        "pid": 4010,
-        "name": "建筑物",
-        "type": "arcgis_dynamic",
-        "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer",
-        "layers": [37],
-        "highlight": {
-          "fill": false,
-          "outline": true,
-          "outlineWidth": 2,
-          "outlineColor": "#FF0000",
-          "outlineOpacity": 1
-        },
-        "popup": "all"
+      "popup": "all"
+    },
+    {
+      "pid": 3020,
+      "name": "合肥区县界线",
+      "type": "wfs",
+      "url": "http://server.mars2d.cn/geoserver/mars/ows",
+      "typeNS": "mars",
+      "typeName": "hfbj",
+      "geometryField": "the_geom",
+      "symbol": {
+        "styleOptions": {
+          "color": "#ff0000",
+          "opacity": 1,
+          "width": 3,
+          "dashArray": "5, 10"
+        }
       },
-      {
-        "pid": 4010,
-        "name": "道路",
-        "type": "arcgis_dynamic",
-        "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer",
-        "layers": [24],
-        "popup": "{NAME}"
+      "popup": "{NAME}"
+    },
+    {
+      "pid": 3020,
+      "name": "体育设施点",
+      "type": "wfs",
+      "url": "http://server.mars2d.cn/geoserver/mars/ows",
+      "typeNS": "mars",
+      "typeName": "hfty",
+      "geometryField": "the_geom",
+      "symbol": {
+        "styleOptions": {
+          "image": "img/marker/mark1.png",
+          "width": 32,
+          "height": 44
+        }
       },
+      "popup": [
+        { "field": "项目名称", "name": "项目名称" },
+        { "field": "建设性质", "name": "建设性质" },
+        { "field": "设施级别", "name": "设施级别" },
+        { "field": "所属区县", "name": "所属区县" },
+        { "field": "建筑内容及", "name": "建筑内容" },
+        { "field": "新增用地（", "name": "新增用地" },
+        { "field": "开工", "name": "开工" },
+        { "field": "总投资（万", "name": "总投资" },
+        { "field": "资金来源", "name": "资金来源" },
+        { "field": "初步选址", "name": "初步选址" },
+        { "field": "设施类型", "name": "设施类型" },
+        { "field": "设施等级", "name": "设施等级" },
+        { "field": "所在区县", "name": "所在区县" },
+        { "field": "具体位置", "name": "具体位置" },
+        { "field": "建设内容（", "name": "建设内容" },
+        { "field": "用地面积（", "name": "用地面积", "unit": "亩" },
+        { "field": "设施规模（", "name": "设施规模" },
+        { "field": "举办者类型", "name": "举办者类型" },
+        { "field": "开工时间", "name": "开工时间" },
+        { "field": "总投资额（", "name": "总投资额", "unit": "亿元" },
+        { "field": "项目推进主", "name": "项目推进主体" },
+        { "field": "项目进度", "name": "项目进度" },
+        { "field": "项目来源", "name": "项目来源" },
+        { "field": "备注", "name": "备注" }
+      ]
+    },
 
-      {
-        "id": 30,
-        "name": "矢量数据",
-        "type": "group"
-      },
-      {
-        "id": 3030,
-        "pid": 30,
-        "name": "GeoJSON数据",
-        "type": "group"
-      },
-      {
-        "pid": 3030,
-        "name": "全国省界",
-        "type": "geojson",
-        "url": "http://data.mars2d.cn/file/geojson/areas/100000_full.json",
-        "symbol": {
-          "type": "polyline",
-          "styleOptions": {
-            "width": 2,
-            "color": "#ff0000",
-            "dashArray": "5 10"
-          }
-        },
-        "popup": "all"
-      },
-
-      {
-        "pid": 3030,
-        "name": "用地规划",
-        "type": "geojson",
-        "url": "//data.mars2d.cn/file/geojson/guihua.json",
-        "symbol": {
-          "type": "polygon",
-          "styleOptions": {
-            "fillOpacity": 0.6,
-            "fillColor": "#0000FF",
-            "outline": false
-          },
-          "styleField": "类型",
-          "styleFieldOptions": {
-            "一类居住用地": { "fillColor": "#FFDF7F" },
-            "二类居住用地": { "fillColor": "#FFFF00" },
-            "社区服务用地": { "fillColor": "#FF6A38" },
-            "幼托用地": { "fillColor": "#FF6A38" },
-            "商住混合用地": { "fillColor": "#FF850A" },
-            "行政办公用地": { "fillColor": "#FF00FF" },
-            "文化设施用地": { "fillColor": "#FF00FF" },
-            "小学用地": { "fillColor": "#FF7FFF" },
-            "初中用地": { "fillColor": "#FF7FFF" },
-            "体育场用地": { "fillColor": "#00A57C" },
-            "医院用地": { "fillColor": "#A5527C" },
-            "社会福利用地": { "fillColor": "#FF7F9F" },
-            "商业用地": { "fillColor": "#FF0000" },
-            "商务用地": { "fillColor": "#7F0000" },
-            "营业网点用地": { "fillColor": "#FF7F7F" },
-            "一类工业用地": { "fillColor": "#A57C52" },
-            "社会停车场用地": { "fillColor": "#C0C0C0" },
-            "通信用地": { "fillColor": "#007CA5" },
-            "排水用地": { "fillColor": "#00BFFF" },
-            "公园绿地": { "fillColor": "#00FF00" },
-            "防护绿地": { "fillColor": "#007F00" },
-            "河流水域": { "fillColor": "#7FFFFF" },
-            "配建停车场": { "fillColor": "#ffffff" },
-            "道路用地": { "fillColor": "#ffffff" }
-          }
-        },
-        "popup": "类型:{类型}"
-      },
-
-      {
-        "id": 3010,
-        "pid": 30,
-        "name": "ArcGIS Feature",
-        "type": "group"
-      },
-
-      {
-        "pid": 3010,
-        "name": "加油站",
-        "type": "arcgis_feature",
-        "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/10",
-        "popup": "<p>名称:{NAME}<br>地址:{address}</p>",
-        "symbol": {
-          "styleOptions": {
-            "image": "img/marker/mark3.png",
-            "width": 32,
-            "height": 44
-          }
-        },
-        "show": false
-      },
-      {
-        "pid": 3010,
-        "name": "服务区",
-        "type": "arcgis_feature",
-        "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/16",
-        "popup": [
-          { "field": "NAME", "name": "名称" },
-          { "field": "address", "name": "地址" }
-        ],
-        "symbol": {
-          "styleOptions": {
-            "image": "img/marker/mark1.png",
-            "width": 32,
-            "height": 44
-          },
-          "styleField": "NAME",
-          "styleFieldOptions": {
-            "新桥服务区": {
-              "image": "img/marker/mark2.png",
-              "shadowUrl": "img/marker/emergency.gif",
-              "shadowSize": [100, 100],
-              "shadowAnchor": [50, 50]
-            },
-            "丰乐服务区": { "iconUrl": "img/marker/mark3.png" },
-            "众兴服务区": { "iconUrl": "img/marker/mark4.png" }
-          }
-        },
-        "show": false
-      },
-      {
-        "pid": 3010,
-        "name": "收费站",
-        "type": "arcgis_feature",
-        "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/15",
-        "popup": {
-          "type": "iframe",
-          "url": "http://www.marsgis.cn/?id={FID}&name={NAME}",
-          "width": 600,
-          "height": 400
-        },
-        "symbol": {
-          "styleOptions": {
-            "iconFont": "fa fa-university",
-            "color": "#FF0000",
-            "width": 30
-          },
-          "styleField": "NAME",
-          "styleFieldOptions": {
-            "岗集收费站": { "iconFont": "fa fa-cab", "color": "#FC4E2A" },
-            "高刘收费站": { "color": "#E31A1C" },
-            "蜀山收费站": { "color": "#BD0026" },
-            "金寨路收费站": { "color": "#800026" }
-          }
-        },
-        "show": false
-      },
-
-      {
-        "pid": 3010,
-        "name": "铁路",
-        "type": "arcgis_feature",
-        "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/33",
-        "popup": "名称:{NAME}<br>地址:{address}",
-        "symbol": {
-          "styleOptions": {
-            "width": 6,
-            "color": "#000000",
-            "dashArray": "10 20"
-          }
-        },
-        "show": false
-      },
-
-      {
-        "pid": 3010,
-        "name": "乡镇",
-        "type": "arcgis_feature",
-        "url": "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/39",
-        "simplifyFactor": 0.35,
-        "precision": 5,
-        "popup": "all",
-        "symbol": {
-          "styleOptions": {
-            "fillColor": "#FED976",
-            "fillOpacity": 0.7,
-            "outlineColor": "white",
-            "outlineOpacity": 1,
-            "outlineWidth": 2
-          },
-          "styleField": "NAME",
-          "styleFieldOptions": {
-            "董岗乡": { "fillColor": "#FD8D3C" },
-            "店埠镇": { "fillColor": "#FC4E2A" },
-            "长淮街道": { "fillColor": "#E31A1C" },
-            "南七街道": { "fillColor": "#BD0026" }
-          }
-        },
-        "show": false
-      },
-      {
-        "id": 3020,
-        "pid": 30,
-        "name": "OGC WFS数据",
-        "type": "group"
-      },
-      {
-        "pid": 3020,
-        "name": "建筑物",
-        "type": "wfs",
-        "url": "http://server.mars2d.cn/geoserver/mars/ows",
-        "typeNS": "mars",
-        "typeName": "hfjzw",
-        "minZoom": 15,
-        "geometryField": "the_geom",
-        "symbol": {
-          "styleOptions": {
-            "fillColor": "#3388ff",
-            "fillOpacity": 0.3,
-            "outlineColor": "#0000FF",
-            "outlineOpacity": 1,
-            "outlineWidth": 1
-          }
-        },
-        "popup": "all"
-      },
-      {
-        "pid": 3020,
-        "name": "合肥区县界线",
-        "type": "wfs",
-        "url": "http://server.mars2d.cn/geoserver/mars/ows",
-        "typeNS": "mars",
-        "typeName": "hfbj",
-        "geometryField": "the_geom",
-        "symbol": {
-          "styleOptions": {
-            "color": "#ff0000",
-            "opacity": 1,
-            "width": 3,
-            "dashArray": "5, 10"
-          }
-        },
-        "popup": "{NAME}"
-      },
-      {
-        "pid": 3020,
-        "name": "体育设施点",
-        "type": "wfs",
-        "url": "http://server.mars2d.cn/geoserver/mars/ows",
-        "typeNS": "mars",
-        "typeName": "hfty",
-        "geometryField": "the_geom",
-        "symbol": {
-          "styleOptions": {
-            "image": "img/marker/mark1.png",
-            "width": 32,
-            "height": 44
-          }
-        },
-        "popup": [
-          { "field": "项目名称", "name": "项目名称" },
-          { "field": "建设性质", "name": "建设性质" },
-          { "field": "设施级别", "name": "设施级别" },
-          { "field": "所属区县", "name": "所属区县" },
-          { "field": "建筑内容及", "name": "建筑内容" },
-          { "field": "新增用地（", "name": "新增用地" },
-          { "field": "开工", "name": "开工" },
-          { "field": "总投资（万", "name": "总投资" },
-          { "field": "资金来源", "name": "资金来源" },
-          { "field": "初步选址", "name": "初步选址" },
-          { "field": "设施类型", "name": "设施类型" },
-          { "field": "设施等级", "name": "设施等级" },
-          { "field": "所在区县", "name": "所在区县" },
-          { "field": "具体位置", "name": "具体位置" },
-          { "field": "建设内容（", "name": "建设内容" },
-          { "field": "用地面积（", "name": "用地面积", "unit": "亩" },
-          { "field": "设施规模（", "name": "设施规模" },
-          { "field": "举办者类型", "name": "举办者类型" },
-          { "field": "开工时间", "name": "开工时间" },
-          { "field": "总投资额（", "name": "总投资额", "unit": "亿元" },
-          { "field": "项目推进主", "name": "项目推进主体" },
-          { "field": "项目进度", "name": "项目进度" },
-          { "field": "项目来源", "name": "项目来源" },
-          { "field": "备注", "name": "备注" }
-        ]
-      },
-
-      { "id": 99, "name": "数据图层", "type": "group" }
-    ]
-  }
+    { "id": 99, "name": "数据图层", "type": "group" }
+  ]
 }
