@@ -38,10 +38,6 @@ window.configLibs = {
     // 大数据Canvas合并渲染 插件
     "mars2d/thirdParty/canvasGeojson/leaflet-canvas-geojson.js"
   ],
-  antPath: [
-    // 流动线材质 插件
-    "mars2d/thirdParty/antPath/leaflet-ant-path.js"
-  ],
   timeDimension: [
     // 时间播放 插件
     "mars2d/thirdParty/timedimension/iso8601.min.js",

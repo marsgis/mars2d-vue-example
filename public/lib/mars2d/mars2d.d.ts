@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.2.10
- * 编译日期：2024-12-22 18:48
+ * 版本信息：v3.3.0
+ * 编译日期：2025-01-23 11:51
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -1088,6 +1088,134 @@ declare namespace Globe {
     };
 }
 
+declare namespace AntPath {
+    /**
+     * 动画铁路线 矢量对象 支持的样式信息
+     * @property [delay = 1000] - 动画毫秒数，值越大速度越慢
+     * @property [pulseColor = 'white'] - 虚线间隔的颜色
+     * @property [hardwareAccelerated = false] - 是否使用硬件加速运行
+     * @property [reverse = false] - 是否反向运动
+     * @property [paused = false] - 默认动画是否暂停
+     * @property [graphicType = "polyline"] - 渲染的矢量对象类型
+     * @property [dashArray] - 定义虚线线型，用于定义笔划模式,如："5, 10" 、 "5, 5, 1, 5"
+     * @property [color = '#3388ff'] - 颜色
+     * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
+     * @property [width = 2] - 线宽
+     * @property [offset] - 平行偏移值（像素），可用于平行线
+     * @property [gradientColors] - 多颜色线时，颜色数组
+     * @property [lineCap = 'round'] - 在线两段使用的形状, 如: butt、round、square
+     * @property [lineJoin = 'round'] - 在线转折处使用的形状, 如: miter、round、bevel
+     * @property [smoothFactor = 1.0] - 数值的大小可以简化每个缩放级别的折线。更多的意味着更好的性能和更平滑的外观，而更少的意味着更准确的表示。
+     * @property [noClip = false] - 禁用折线裁剪
+     * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
+     * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [label] - 支持附带文字的显示
+     */
+    type StyleOptions = {
+        delay?: number;
+        pulseColor?: number;
+        hardwareAccelerated?: boolean;
+        reverse?: boolean;
+        paused?: boolean;
+        graphicType?: string;
+        dashArray?: string;
+        color?: string;
+        opacity?: number;
+        width?: number;
+        offset?: number;
+        gradientColors?: string[];
+        lineCap?: string;
+        lineJoin?: string;
+        smoothFactor?: number;
+        noClip?: boolean;
+        interactive?: boolean;
+        renderer?: L.Renderer;
+        highlight?: Polyline.StyleOptions;
+        label?: Label.StyleOptions;
+    };
+}
+
+/**
+ * AntPath  矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param [options.latlngs] - 坐标数组
+ * @param [options.latlng] - 坐标(use: L.circle 时)
+ * @param [options.style] - 样式参数
+ * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
+ */
+declare class AntPath extends L.FeatureGroup {
+    constructor(options: {
+        latlngs?: L.LatLng[] | any;
+        latlng?: L.LatLng | any;
+        style?: AntPath.StyleOptions;
+        attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
+        popup?: string | HTMLElement | ((...params: any[]) => any);
+        popupOptions?: Map.PopupOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
+    });
+    /**
+     * 对象的id标识
+     */
+    id: string | number;
+    /**
+     * 坐标位置数组
+     */
+    latlngs: L.LatLng[];
+    /**
+     * 经纬度位置坐标(数组对象)，示例 [ [123.123456,32.654321], [111.123456,22.654321] ]
+     */
+    readonly coordinates: any[][];
+    /**
+     * 中心点
+     */
+    readonly center: L.LatLng;
+    /**
+     * 距离（单位：米）
+     */
+    readonly distance: number;
+    /**
+     * 围合的面积（单位：平方米）
+     */
+    readonly area: number;
+    /**
+     * 属性信息
+     */
+    attr: any;
+    /**
+     * 样式信息
+     */
+    style: any;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean;
+    /**
+     * 将图层数据导出为GeoJSON格式规范对象。
+     * @param [options] - 参数对象:
+     * @param [options.precision] - 保留经纬度的小数位数
+     * @returns GeoJSON格式规范对象
+     */
+    toGeoJSON(options?: any | {
+        precision?: number;
+    }): any | any;
+}
+
 /**
  * 画笔自由曲线 矢量对象
  * @param options - 参数对象，包括以下：
@@ -1410,6 +1538,7 @@ declare namespace Circle {
      * @property [lineCap = 'round'] - 边框中，线两段使用的形状, 如: butt、round、square
      * @property [lineJoin = 'round'] - 边框中，线转折处使用的形状, 如: miter、round、bevel
      * @property [dashArray] - 边框中，定义虚线线型，用于定义笔划模式,如："5, 10" 、 "5, 5, 1, 5"
+     * @property [dashSpeed] - 边框中，定义虚线线型时，可以指定速度，让其运动起来
      * @property [dashOffset] - 边框中，指定了dash模式到路径开始的距离，如果使用了一个百分比值，那么这个值就代表了当前viewport的一个百分比,值可以取为负值。
      * @property [smoothFactor = 1.0] - 边框中，数值的大小可以简化每个缩放级别的折线。更多的意味着更好的性能和更平滑的外观，而更少的意味着更准确的表示。
      * @property [noClip = false] - 边框中，禁用折线裁剪
@@ -1436,6 +1565,7 @@ declare namespace Circle {
         lineCap?: string;
         lineJoin?: string;
         dashArray?: string;
+        dashSpeed?: number;
         dashOffset?: string;
         smoothFactor?: number;
         noClip?: boolean;
@@ -1791,10 +1921,12 @@ declare class Circle extends L.Circle {
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
+     * @param [options.outline] - 是否导出为圆的边线坐标
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
     toGeoJSON(options?: any | {
+        outline?: boolean;
         precision?: number;
     }): any | any;
     /**
@@ -2396,6 +2528,7 @@ declare namespace Ellipse {
      * @property [lineCap = 'round'] - 边框中，线两段使用的形状, 如: butt、round、square
      * @property [lineJoin = 'round'] - 边框中，线转折处使用的形状, 如: miter、round、bevel
      * @property [dashArray] - 边框中，定义虚线线型，用于定义笔划模式,如："5, 10" 、 "5, 5, 1, 5"
+     * @property [dashSpeed] - 边框中，定义虚线线型时，可以指定速度，让其运动起来
      * @property [dashOffset] - 边框中，指定了dash模式到路径开始的距离，如果使用了一个百分比值，那么这个值就代表了当前viewport的一个百分比,值可以取为负值。
      * @property [smoothFactor = 1.0] - 边框中，数值的大小可以简化每个缩放级别的折线。更多的意味着更好的性能和更平滑的外观，而更少的意味着更准确的表示。
      * @property [noClip = false] - 边框中，禁用折线裁剪
@@ -2421,6 +2554,7 @@ declare namespace Ellipse {
         lineCap?: string;
         lineJoin?: string;
         dashArray?: string;
+        dashSpeed?: number;
         dashOffset?: string;
         smoothFactor?: number;
         noClip?: boolean;
@@ -4164,6 +4298,7 @@ declare namespace Polygon {
      * @property [lineCap = 'round'] - 边框中，线两段使用的形状, 如: butt、round、square
      * @property [lineJoin = 'round'] - 边框中，线转折处使用的形状, 如: miter、round、bevel
      * @property [dashArray] - 边框中，定义虚线线型，用于定义笔划模式,如："5, 10" 、 "5, 5, 1, 5"
+     * @property [dashSpeed] - 边框中，定义虚线线型时，可以指定速度，让其运动起来
      * @property [dashOffset] - 边框中，指定了dash模式到路径开始的距离，如果使用了一个百分比值，那么这个值就代表了当前viewport的一个百分比,值可以取为负值。
      * @property [smoothFactor = 1.0] - 边框中，数值的大小可以简化每个缩放级别的折线。更多的意味着更好的性能和更平滑的外观，而更少的意味着更准确的表示。
      * @property [noClip = false] - 边框中，禁用折线裁剪
@@ -4186,6 +4321,7 @@ declare namespace Polygon {
         lineCap?: string;
         lineJoin?: string;
         dashArray?: string;
+        dashSpeed?: number;
         dashOffset?: string;
         smoothFactor?: number;
         noClip?: boolean;
@@ -4533,6 +4669,7 @@ declare namespace Polyline {
      * @property [lineCap = 'round'] - 在线两段使用的形状, 如: butt、round、square
      * @property [lineJoin = 'round'] - 在线转折处使用的形状, 如: miter、round、bevel
      * @property [dashArray] - 定义虚线线型，用于定义笔划模式,如："5, 10" 、 "5, 5, 1, 5"
+     * @property [dashSpeed] - 边框中，定义虚线线型时，可以指定速度，让其运动起来
      * @property [dashOffset] - 指定了dash模式到路径开始的距离，如果使用了一个百分比值，那么这个值就代表了当前viewport的一个百分比,值可以取为负值。
      * @property [smoothFactor = 1.0] - 数值的大小可以简化每个缩放级别的折线。更多的意味着更好的性能和更平滑的外观，而更少的意味着更准确的表示。
      * @property [noClip = false] - 禁用折线裁剪
@@ -4551,6 +4688,7 @@ declare namespace Polyline {
         lineCap?: string;
         lineJoin?: string;
         dashArray?: string;
+        dashSpeed?: number;
         dashOffset?: string;
         smoothFactor?: number;
         noClip?: boolean;
@@ -5258,10 +5396,12 @@ declare class Rectangle extends L.Rectangle {
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
+     * @param [options.outline] - 是否导出为矩形的边线坐标
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
     toGeoJSON(options?: any | {
+        outline?: boolean;
         precision?: number;
     }): any | any;
     /**
@@ -6317,7 +6457,7 @@ declare class GraphicLayer extends L.FeatureGroup {
      * @param [attrName = 'id'] - 属性键
      * @returns 矢量数据对象
      */
-    getGraphicByAttr(attrValue: string | number, attrName?: string): any | BaseGraphic | any;
+    getGraphicByAttr(attrValue: string | number, attrName?: string): any | any;
     /**
      * 清除图层内所有矢量数据
      * @returns 无
@@ -8719,17 +8859,6 @@ declare class TileLayer extends L.TileLayer {
      */
     setOpacity(opacity: number): any | TileLayer;
     /**
-     * 设置图层矩形边界
-     * @param bounds - 矩形边界
-     * @returns 当前对象本身,可以链式调用
-     */
-    setBounds(bounds: L.LatLngBounds): any | TileLayer;
-    /**
-     * 获取图层矩形边界
-     * @returns 矩形边界
-     */
-    getBounds(): any | L.LatLngBounds;
-    /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
@@ -8850,6 +8979,16 @@ declare class TileLayer extends L.TileLayer {
      * 设置自定义颜色
      */
     customColor: string | ((...params: any[]) => any);
+    /**
+     * 设置图层矩形边界
+     * @param bounds - 矩形边界
+     */
+    setBounds(bounds: L.LatLngBounds): any | void;
+    /**
+     * 获取图层矩形边界(构造参数设置的)
+     * @returns 矩形边界
+     */
+    getBounds(): any | L.LatLngBounds;
     /**
      * 定位地图至当前图层数据区域
      * @param [options] - 定位参数，包括:
@@ -9003,17 +9142,6 @@ declare class WmsLayer extends L.TileLayer.WMS {
      */
     setOpacity(opacity: number): any | WmsLayer;
     /**
-     * 设置图层矩形边界
-     * @param bounds - 矩形边界
-     * @returns 当前对象本身,可以链式调用
-     */
-    setBounds(bounds: L.LatLngBounds): any | WmsLayer;
-    /**
-     * 获取图层矩形边界
-     * @returns 矩形边界
-     */
-    getBounds(): any | L.LatLngBounds;
-    /**
      * 将图层添加到地图
      * @param map - 地图对象
      * @returns 当前对象本身，可以链式调用
@@ -9143,6 +9271,16 @@ declare class WmsLayer extends L.TileLayer.WMS {
      * @returns 当前对象本身，可以链式调用
      */
     unbindPopup(): any | WmsLayer;
+    /**
+     * 设置图层矩形边界
+     * @param bounds - 矩形边界
+     */
+    setBounds(bounds: L.LatLngBounds): any | void;
+    /**
+     * 获取图层矩形边界(构造参数设置的)
+     * @returns 矩形边界
+     */
+    getBounds(): any | L.LatLngBounds;
 }
 
 /**
@@ -10468,7 +10606,7 @@ declare class EchartsLayer extends L.Layer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身,可以链式调用
      */
-    on(eventName?: string, callback?: (...params: any[]) => any, context?: any): any | EchartsLayer;
+    on(eventName?: string | any, callback?: (...params: any[]) => any, context?: any): any | EchartsLayer;
     /**
      * 带条件的绑定事件处理函数
      * @param eventName - 事件名称，全小写，例如'click'，'mousemove', 'legendselected'
@@ -10485,7 +10623,7 @@ declare class EchartsLayer extends L.Layer {
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 当前对象本身,可以链式调用
      */
-    off(eventName?: string, callback?: (...params: any[]) => any, context?: any): any | EchartsLayer;
+    off(eventName?: string | any, callback?: (...params: any[]) => any, context?: any): any | EchartsLayer;
 }
 
 declare namespace ArcGisDynamicLayer {

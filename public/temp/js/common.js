@@ -12,7 +12,7 @@ function init() {
 
       // 构建地图
       const initMapFun = window.initMap ? window.initMap : globalInitMap
-      parentGlobal._mapInstance = initMapFun(json.mars2d)
+      parentGlobal._mapInstance = initMapFun(json)
       parentGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
     })
     .catch(function (error) {

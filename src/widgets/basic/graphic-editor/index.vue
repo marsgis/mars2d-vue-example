@@ -50,7 +50,7 @@ function updataLayer() {
     return
   }
 
-  layerName.value = graphic._layer.name || ""
+  layerName.value = graphic._layer?.name || ""
   graphicType.value = graphic.type
   customType.value = currentWidget.data.styleType || graphic.options.styleType
 

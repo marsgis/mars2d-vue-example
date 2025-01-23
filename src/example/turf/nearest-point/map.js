@@ -98,7 +98,8 @@ function mapOnClickListener(e) {
     style: {
       width: 5,
       color: "red",
-      dashArray: "5, 10"
+      dashArray: "5, 10",
+      dashSpeed: -30 // 可以定义运动速度，注释后是静态的
     }
   })
   graphicLayer.addGraphic(polyline)

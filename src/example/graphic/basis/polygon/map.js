@@ -141,7 +141,8 @@ function addDemoGraphic4() {
       outlineWidth: 2,
       outlineColor: "#0000FF",
       outlineOpacity: 1.0,
-      dashArray: "5, 10"
+      dashArray: "5, 10",
+      dashSpeed: -30 // 可以定义运动速度，注释后是静态的
     },
     attr: { remark: "示例4" }
   })

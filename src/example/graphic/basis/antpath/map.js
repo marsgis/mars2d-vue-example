@@ -1,4 +1,5 @@
 import * as mars2d from "mars2d"
+const L = mars2d.L
 
 export let map // mars2d.Map三维地图对象
 export let graphicLayer
@@ -53,49 +54,68 @@ function addDemoGraphic1() {
     [117.28621, 31.801059, 24.6]
   ])
   console.log(latlngs)
-  const graphic = new mars2d.graphic.Polyline({
+
+  const graphic = new mars2d.graphic.AntPath({
     latlngs,
     style: {
-      color: "#ff0000",
-      width: 3
+      color: "#0000ff",
+      width: 6,
+      delay: 2000
     },
     attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
-
-  // 演示个性化处理graphic，
-  initGraphicManager(graphic)
 }
 
 function addDemoGraphic2() {
-  // 经纬度 转为leafelt的纬度、经度标准
-  const latlngs = mars2d.PointTrans.coords2latlngs([
-    [117.172852, 31.862736, 33.69],
-    [117.251461, 31.856011, 26.44]
-  ])
-  const graphic = new mars2d.graphic.Polyline({
-    latlngs,
+  const graphic = new mars2d.graphic.AntPath({
+    latlngs: [
+      [31.809299, 117.163284],
+      [31.777104, 117.169052],
+      [31.764332, 117.211006]
+    ],
     style: {
-      width: 3,
+      width: 6,
       color: "#ff0000",
-      dashArray: "15, 10",
-      dashSpeed: -30 // 可以定义运动速度，注释后是静态的
+      reverse: true
+    },
+    attr: { remark: "示例4" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic3() {
+  const graphic = new mars2d.graphic.AntPath({
+    latlng: [31.862736, 117.172852],
+    style: {
+      graphicType: "circle",
+      radius: 1500, // 单位：米
+      fill: true,
+      fillColor: "#00ffff",
+      fillOpacity: 0.3,
+      outline: true,
+      outlineWidth: 2,
+      outlineColor: "#00ffff",
+      outlineOpacity: 0.5
     },
     attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
 
-function addDemoGraphic3() {
+function addDemoGraphic4() {
   // 经纬度 转为leafelt的纬度、经度标准
   const latlngs = mars2d.PointTrans.coords2latlngs([
-    [117.313682, 31.7416, 10.85],
-    [117.311934, 31.774753, 19.71],
-    [117.305473, 31.800304, 23.86]
+    [117.271662, 31.870639, 21.49],
+    [117.290605, 31.871517, 19.47],
+    [117.302056, 31.858145, 16.27],
+    [117.299439, 31.847545, 14.77],
+    [117.267705, 31.8491, 22.11]
   ])
-  const graphic = new mars2d.graphic.Polyline({
+  const graphic = new mars2d.graphic.AntPath({
     latlngs,
     style: {
+      graphicType: "polygon",
       width: 3,
       color: "#0000ff",
       label: {
@@ -109,80 +129,9 @@ function addDemoGraphic3() {
   graphicLayer.addGraphic(graphic)
 }
 
-function addDemoGraphic4() {
-  const colors = ["rgb(255, 0, 100)", "rgb(20, 200, 100)", "rgb(0, 0, 255)"]
-
-  const graphic = new mars2d.graphic.Polyline({
-    latlngs: [
-      [31.809299, 117.163284],
-      [31.777104, 117.169052],
-      [31.764332, 117.211006]
-    ],
-    style: {
-      width: 4,
-      gradientColors: colors
-    },
-    attr: { remark: "示例4" }
-  })
-  graphicLayer.addGraphic(graphic)
-}
-export function drawDivMarker() {
-  graphicLayer.startDraw({
-    type: "divGraphic",
-    style: {
-      html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
-          <div class="marsTiltPanel-wrap">
-              <div class="area">
-                  <div class="arrow-lt"></div>
-                  <div class="b-t"></div>
-                  <div class="b-r"></div>
-                  <div class="b-b"></div>
-                  <div class="b-l"></div>
-                  <div class="arrow-rb"></div>
-                  <div class="label-wrap">
-                      <div class="title">火星水厂</div>
-                      <div class="label-content">
-                          <div class="data-li">
-                              <div class="data-label">实时流量：</div>
-                              <div class="data-value"><span id="lablLiuliang" class="label-num">39</span><span class="label-unit">m³/s</span>
-                              </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">水池液位：</div>
-                              <div class="data-value"><span id="lablYeWei"  class="label-num">10.22</span><span class="label-unit">m</span>
-                              </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">水泵状态：</div>
-                              <div class="data-value">
-                                <span id="lablSBZT1"  class="label-tag data-value-status-1" alt="中间状态">1号</span>
-                                <span id="lablSBZT2"  class="label-tag data-value-status-0" alt="关闭状态">2号</span>
-                               </div>
-                          </div>
-                          <div class="data-li">
-                              <div class="data-label">出水阀门：</div>
-                              <div class="data-value">
-                                <span id="lablCSFM1"   class="label-tag data-value-status-1" alt="中间状态">1号</span>
-                                <span id="lablCSFM2"   class="label-tag data-value-status-2" alt="打开状态">2号</span>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="b-t-l"></div>
-              <div class="b-b-r"></div>
-          </div>
-          <div class="arrow" ></div>
-      </div>`,
-      horizontalOrigin: mars2d.HorizontalOrigin.LEFT,
-      verticalOrigin: mars2d.VerticalOrigin.BOTTOM
-    }
-  })
-}
-
 export function startDrawGraphic() {
   graphicLayer.startDraw({
-    type: "polyline",
+    type: "antPath",
     style: {
       width: 3,
       color: "#0000ff",
@@ -213,7 +162,7 @@ export function addRandomGraphicByCount(count) {
     const pt1 = mars2d.PointUtil.getPointByDistanceAngle(latlng, result.radius, 225)
     const pt2 = mars2d.PointUtil.getPointByDistanceAngle(latlng, result.radius, 315)
 
-    const graphic = new mars2d.graphic.Polyline({
+    const graphic = new mars2d.graphic.AntPath({
       latlngs: [pt1, latlng, pt2],
       style: { width: 3, color: "#0000ff" },
       attr: { index }
@@ -224,42 +173,6 @@ export function addRandomGraphicByCount(count) {
   return count.length
 }
 
-// 也可以在单个Graphic上做个性化管理及绑定操作
-function initGraphicManager(graphic) {
-  // 3.在graphic上绑定监听事件
-  // graphic.on(mars2d.EventType.click, function(event) {
-  //   console.log('监听graphic，单击了矢量对象', event)
-  // })
-
-  // 绑定Tooltip
-  // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
-
-  // 绑定Popup
-  const inthtml = `<table style="width: auto;">
-      <tr>
-        <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
-      </tr>
-      <tr>
-        <td>提示：</td>
-        <td>这只是测试信息，可以任意html</td>
-      </tr>
-    </table>`
-  graphic.bindPopup(inthtml).openPopup()
-
-  // 绑定右键菜单
-  graphic.bindContextMenu([
-    {
-      text: "删除对象[graphic绑定]",
-      iconCls: "fa fa-trash-o",
-      callback: function (e) {
-        const graphic = e.graphic
-        if (graphic) {
-          graphic.remove()
-        }
-      }
-    }
-  ])
-}
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件

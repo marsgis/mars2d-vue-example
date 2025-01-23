@@ -255,6 +255,15 @@ const styleConfig = {
           { label: "点画线2", value: "15, 10, 5, 10" }
         ]
       },
+      {
+        name: "dashSpeed",
+        label: "虚线速度",
+        type: "number",
+        defval: 0,
+        show(style, allStyle, graphicType) {
+          return style.dashArray
+        }
+      },
       { name: "offset", label: "平行偏移", type: "number", defval: 0 }
     ]
   },
@@ -327,6 +336,15 @@ const styleConfig = {
         show(style, allStyle, graphicType) {
           return style.outline
         }
+      },
+      {
+        name: "dashSpeed",
+        label: "虚线速度",
+        type: "number",
+        defval: 0,
+        show(style, allStyle, graphicType) {
+          return style.dashArray
+        }
       }
     ]
   },
@@ -375,6 +393,15 @@ const styleConfig = {
           { label: "点画线1", value: "5, 5, 1, 5" },
           { label: "点画线2", value: "15, 10, 5, 10" }
         ]
+      },
+      {
+        name: "dashSpeed",
+        label: "虚线速度",
+        type: "number",
+        defval: 0,
+        show(style, allStyle, graphicType) {
+          return style.dashArray
+        }
       }
     ]
   },
@@ -425,6 +452,15 @@ const styleConfig = {
           { label: "点画线1", value: "5, 5, 1, 5" },
           { label: "点画线2", value: "15, 10, 5, 10" }
         ]
+      },
+      {
+        name: "dashSpeed",
+        label: "虚线速度",
+        type: "number",
+        defval: 0,
+        show(style, allStyle, graphicType) {
+          return style.dashArray
+        }
       },
 
       { name: "startAngle", label: "开始角度", type: "number", defval: 0 },

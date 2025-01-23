@@ -1,8 +1,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.2.10
- * 编译日期：2024-12-22 18:48
+ * 版本信息：v3.3.0
+ * 编译日期：2025-01-23 11:51
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -1235,4 +1235,66 @@
   padding: 1px 2px;
   white-space: nowrap;
   pointer-events: none;
+}
+@-webkit-keyframes leaflet-ant-path-animation {
+  from {
+    stroke-dashoffset: 100%;
+  }
+  to {
+    stroke-dashoffset: 0%;
+  }
+}
+@-moz-keyframes leaflet-ant-path-animation {
+  from {
+    stroke-dashoffset: 100%;
+  }
+  to {
+    stroke-dashoffset: 0%;
+  }
+}
+@-ms-keyframes leaflet-ant-path-animation {
+  from {
+    stroke-dashoffset: 100%;
+  }
+  to {
+    stroke-dashoffset: 0%;
+  }
+}
+@-o-keyframes leaflet-ant-path-animation {
+  from {
+    stroke-dashoffset: 100%;
+  }
+  to {
+    stroke-dashoffset: 0%;
+  }
+}
+@keyframes leaflet-ant-path-animation {
+  from {
+    stroke-dashoffset: 100%;
+  }
+  to {
+    stroke-dashoffset: 0%;
+  }
+}
+.leaflet-ant-path {
+  fill: none;
+  -webkit-animation: linear infinite leaflet-ant-path-animation;
+  -moz-animation: linear infinite leaflet-ant-path-animation;
+  -ms-animation: linear infinite leaflet-ant-path-animation;
+  -o-animation: linear infinite leaflet-ant-path-animation;
+  animation: linear infinite leaflet-ant-path-animation;
+}
+.leaflet-ant-path {
+  fill: none;
+  -webkit-animation: linear infinite leaflet-ant-path-animation;
+  -moz-animation: linear infinite leaflet-ant-path-animation;
+  -ms-animation: linear infinite leaflet-ant-path-animation;
+  -o-animation: linear infinite leaflet-ant-path-animation;
+  animation: linear infinite leaflet-ant-path-animation;
+}
+.leaflet-ant-path__hardware-acceleration {
+  transform: translateZ(0);
+}
+.leaflet-ant-path__reverse {
+  animation-direction: reverse;
 }

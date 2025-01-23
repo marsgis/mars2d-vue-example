@@ -1,6 +1,6 @@
 {
   "name": "mars2d-vue-example",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "在Vue3技术栈下的Mars2D平台 功能示例 演示项目",
   "scripts": {
     "serve": "vite --host",
@@ -25,7 +25,7 @@
     "echarts": "^5.5.0",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
-    "mars2d": "^3.2.0",
+    "mars2d": "^3.3.0",
     "monaco-editor": "^0.44.0",
     "nprogress": "^0.2.0",
     "serve": "^14.2.1",

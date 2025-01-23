@@ -236,6 +236,7 @@ function addDemoGraphic9() {
     style: {
       width: 1,
       dashArray: "5,10",
+      dashSpeed: -30, // 可以定义运动速度，注释后是静态的
       color: "black",
       opacity: 0.3
     },

@@ -40,7 +40,8 @@ function initMap() {
           styleOptions: {
             width: 2,
             color: "#ff0000",
-            dashArray: "5 10"
+            dashArray: "5 10",
+            dashSpeed: -30 // 可以定义运动速度，注释后是静态的
           }
         },
         popup: "all"

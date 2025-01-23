@@ -660,8 +660,7 @@
           {
             "name": "扩散动画点",
             "thumbnail": "graphic-basis-marker-pulse.gif",
-            "main": "graphic/basis/marker-pulse",
-            "es5_thumbnail": "graphic-basis-marker-pulse.gif"
+            "main": "graphic/basis/marker-pulse"
           },
           {
             "name": "图标点+文字(含聚合)",
@@ -671,8 +670,7 @@
           {
             "name": "MovingMarker 运动点",
             "thumbnail": "graphic-basis-movingMarker.gif",
-            "main": "graphic/basis/movingMarker",
-            "es5_thumbnail": "graphic-basis-movingMarker.gif"
+            "main": "graphic/basis/movingMarker"
           },
           {
             "name": "Point 像素点",
@@ -698,8 +696,7 @@
           {
             "name": "动态效果点",
             "thumbnail": "graphic-basis-marker-pulse-daxue.gif",
-            "main": "graphic/basis/marker-pulse-daxue",
-            "es5_thumbnail": "graphic-basis-marker-pulse-daxue.gif"
+            "main": "graphic/basis/marker-pulse-daxue"
           },
           {
             "name": "油气站标注",
@@ -788,13 +785,9 @@
           },
           {
             "name": "动画效果线(铁路)",
-            "thumbnail": "graphic-other-ant-path.gif",
-            "main": "graphic/other/ant-path",
-            "libs": [
-              "mars2d",
-              "antPath"
-            ],
-            "es5_thumbnail": "graphic-other-ant-path.gif"
+            "thumbnail": "graphic-basis-antpath.gif",
+            "main": "graphic/basis/antpath",
+            "hasPannel": true
           },
           {
             "name": "线的运动动画",
