@@ -8,7 +8,7 @@ const L = mars2d.L
 
 let map: mars2d.Map // 地图对象
 let graphicLayer: mars2d.layer.GraphicLayer
-let queryPoi: mars2d.query.GaodePOI // GaodePOI查询
+let queryPoi: mars2d.query.QueryPOI // GaodePOI查询
 let address: any = null
 
 export const eventTarget = new mars2d.BaseClass()
@@ -17,7 +17,7 @@ export const eventTarget = new mars2d.BaseClass()
 export function onMounted(mapInstance: mars2d.Map): void {
   map = mapInstance // 记录map
 
-  queryPoi = new mars2d.query.GaodePOI({
+  queryPoi = new mars2d.query.QueryPOI({
     // city: '合肥市',
   })
 

@@ -41,18 +41,6 @@ function showGeoJsonLayer() {
   // 用于显示查询结果（geojson）的图层
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
     name: "合肥项目",
-    symbol: {
-      styleOptions: {
-        image: "img/marker/mark3.png",
-        highlight: { type: "click", image: "img/marker/mark1.png" },
-        label: {
-          text: "{项目名称}",
-          font_size: 16,
-          color: "#0000ff",
-          offsetY: 30
-        }
-      }
-    },
     popup: "all"
   })
   map.addLayer(geoJsonLayer)
@@ -63,7 +51,12 @@ function showGeoJsonLayer() {
   })
 }
 
-export function query(text) {
+// 切换服务
+export function changeService(name) {
+  queryMapserver.layer = `mars:${name}`
+}
+
+export function query(text, name) {
   if (!drawGraphic) {
     globalMsg("请绘制区域")
     return
@@ -78,7 +71,9 @@ export function query(text) {
       } else {
         globalMsg("共查询到 " + result.count + " 条记录！")
       }
-      geoJsonLayer.load({ data: result.geojson })
+
+      const style = getGraphicStyle(name)
+      geoJsonLayer.load({ data: result.geojson, symbol: { styleOptions: style } })
     },
     error: (error, msg) => {
       console.log("服务访问错误", error)
@@ -87,6 +82,23 @@ export function query(text) {
   })
 }
 
+// 点查询
+export function drawPoint() {
+  clearAll()
+  graphicLayer.startDraw({
+    type: "point",
+    style: {
+      fillColor: "#0000ff",
+      fillOpacity: 0.3,
+      outline: true,
+      outlineColor: "#0000ff"
+    },
+    success: function (graphic) {
+      drawGraphic = graphic
+      console.log("点：", drawGraphic.toGeoJSON({ outline: true }))
+    }
+  })
+}
 // 框选范围
 export function drawRectangle() {
   clearAll()
@@ -154,4 +166,54 @@ export function clearAll(noClearDraw) {
     graphicLayer.clear()
   }
   geoJsonLayer.clear()
+}
+
+function getGraphicStyle(layerName) {
+  switch (layerName) {
+    case "hfjy":
+      return {
+        image: "img/marker/mark3.png",
+        highlight: { type: "click", image: "img/marker/mark1.png" },
+        label: {
+          text: "{项目名称}",
+          font_size: 16,
+          color: "#0000ff",
+          offsetY: 30
+        }
+      }
+    case "hfgh":
+      return {
+        fill: true,
+        fillColor: "#051453",
+        fillOpacity: 0.3,
+        outline: true,
+        outlineWidth: 2,
+        outlineColor: "#0000FF",
+        outlineOpacity: 1.0,
+        dashArray: "5, 10",
+        dashSpeed: -30, // 可以定义运动速度，注释后是静态的
+        label: {
+          text: "{用地名称}",
+          font_size: 16,
+          color: "#0600ff",
+          offsetY: 30
+        }
+      }
+
+    case "hfdl": {
+      return {
+        width: 4,
+        color: "rgb(20, 200, 100)",
+        label: {
+          text: "{NAME}",
+          font_size: 16,
+          color: "#0000ff",
+          offsetY: 30
+        }
+      }
+    }
+
+    default:
+      break
+  }
 }

@@ -5,6 +5,9 @@ let tileLayer // 叠加的图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
+  control: {
+    layers: { position: "topright" }
+  },
   // 方式1：在创建地图前的参数中配置
   basemaps: [
     {

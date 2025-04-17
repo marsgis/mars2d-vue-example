@@ -9,7 +9,6 @@ import { ref } from "vue"
 import * as mapWork from "./map.js"
 
 const enabled = ref(true)
-
 const onChangeEnabled = () => {
   mapWork.setCollisionDetection(enabled.value)
 }

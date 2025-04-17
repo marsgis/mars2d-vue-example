@@ -7,6 +7,9 @@ const attributionHtml = `©2024 Tencent - <span>审图号：GS(2023)1号</span>
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
+  control: {
+    layers: { position: "topright" }
+  },
   basemaps: [
     { name: "电子地图", type: "tencent", layer: "vec", attribution: attributionHtml, show: true },
     {

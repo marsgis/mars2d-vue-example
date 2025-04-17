@@ -9,6 +9,9 @@ const attributionHtml = `©2024 高德软件- <span>审图号：GS(2021)6375号<
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   maxZoom: 21,
+  control: {
+    layers: { position: "topright" }
+  },
   basemaps: [
     {
       name: "高德地图",

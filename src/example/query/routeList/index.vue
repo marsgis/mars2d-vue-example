@@ -1,6 +1,9 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-form>
+      <a-form-item label="服务">
+        <mars-select v-model:value="selectService" :options="serviceOptions" @change="changeService"> </mars-select>
+      </a-form-item>
       <a-form-item label="方式">
         <mars-select class="selectWidth" v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
       </a-form-item>
@@ -53,6 +56,25 @@ const strat = ref("")
 const count = ref(0)
 const selectWay = ref("1")
 const wayShow = ref(false)
+
+const selectService = ref("gaode")
+const serviceOptions = ref([
+  {
+    value: "tdt",
+    label: "天地图服务"
+  },
+  {
+    value: "gaode",
+    label: "高德服务"
+  },
+  {
+    value: "baidu",
+    label: "百度服务"
+  }
+])
+const changeService = () => {
+  mapWork.changeService(selectService.value)
+}
 
 // 表格数据
 const dataSource = ref<any[]>([])

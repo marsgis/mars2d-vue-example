@@ -100,6 +100,8 @@ window.configLibs = {
   'shpGeojson': [
     "geojson/shp-geojson.js"  // 项目KML/KMZ解析加载GeoJson插件
   ],
+  "geotiff":["geotiff/geotiff.js","geotiff/plotty.js"],
+  "xlsx": ["xlsx/xlsx.full.min.js"],
 }
 
 

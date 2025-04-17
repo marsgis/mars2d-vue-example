@@ -11,18 +11,10 @@ export const mapOptions = {
   zoom: 12,
   center: { lng: 117.220102, lat: 31.834912 },
   control: {
-    scale: true,
-    locationBar: {
-      crs: "CGCS2000_GK_Zone_3",
-      template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>横{crsx}  纵{crsy}</div> <div>层级:{level}</div>"
-    },
-    layers: { position: "topleft" },
-    zoom: { position: "bottomleft" },
-    toolBar: { position: "bottomleft" }
+    layers: { position: "topright" }
   },
   basemaps: [
     {
-      pid: 10,
       name: "百度地图",
       type: "baidu",
       layer: "vec",
@@ -32,7 +24,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "百度卫星",
       type: "baidu",
       layer: "img",
@@ -41,7 +32,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "电子大字体",
       type: "baidu",
       layer: "vec",
@@ -51,7 +41,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "卫星大字体",
       type: "baidu",
       layer: "img",
@@ -61,7 +50,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "草绿地图",
       type: "baidu",
       layer: "custom",
@@ -71,7 +59,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "深蓝地图",
       type: "baidu",
       layer: "custom",
@@ -81,7 +68,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "浅蓝地图",
       type: "baidu",
       layer: "custom",
@@ -91,7 +77,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "淡蓝地图",
       type: "baidu",
       layer: "custom",
@@ -101,7 +86,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "黑色地图",
       type: "baidu",
       layer: "custom",
@@ -111,7 +95,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "灰色地图",
       type: "baidu",
       layer: "custom",
@@ -121,7 +104,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "红色地图",
       type: "baidu",
       layer: "custom",
@@ -131,7 +113,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "粉红地图",
       type: "baidu",
       layer: "custom",
@@ -141,7 +122,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "墨绿地图",
       type: "baidu",
       layer: "custom",
@@ -152,7 +132,6 @@ export const mapOptions = {
     },
 
     {
-      pid: 10,
       name: "简约地图",
       type: "baidu",
       layer: "custom",
@@ -162,7 +141,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "谷歌地图",
       type: "baidu",
       layer: "custom",
@@ -171,7 +149,6 @@ export const mapOptions = {
       attribution: attributionHtml
     },
     {
-      pid: 10,
       name: "离线百度瓦片",
       type: "tile",
       url: "http://data.mars2d.cn/tile/baiduVec/{z}/{x}/{y}.jpg",
@@ -180,6 +157,9 @@ export const mapOptions = {
       icon: "img/basemaps/bd-c-googlelite.png",
       attribution: attributionHtml
     }
+  ],
+  operationallayers: [
+    { name: "实时路况", type: "baidu", layer: "time" }
   ]
 }
 

@@ -27,6 +27,10 @@ export function onUnmounted() {
   map = null
 }
 
+export function showClusteringFn(val) {
+  clusterLayer.clusterEnabled = val
+}
+
 export function removeLayer() {
   if (clusterLayer) {
     clusterLayer.remove()

@@ -218,6 +218,8 @@ class MapboxglLayer extends L.Layer {
   }
 
   _glMap_onLoadHander (e) {
+    if(!this.options)return
+
     if (this.options.source) {
       for (let key in this.options.source) {
         this._glMap.addSource(key, this.options.source[key])

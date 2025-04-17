@@ -57,7 +57,7 @@
     </a-space>
   </div>
 
-  <div class="f-mb">
+  <div class="f-mb" v-if="mapWork.addRandomGraphicByCount">
     <a-space>
       <span class="mars-pannel-item-label">数据测试:</span>
       <mars-input-number :min="1" :max="1000000" v-model:value="formState.count" step="1"></mars-input-number>

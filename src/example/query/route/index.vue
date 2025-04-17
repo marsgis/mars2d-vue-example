@@ -1,6 +1,9 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330" customClass="gaodeRoutePannel">
     <a-form>
+      <a-form-item label="服务">
+        <mars-select v-model:value="selectService" :options="serviceOptions" @change="changeService"> </mars-select>
+      </a-form-item>
       <a-form-item label="方式">
         <mars-select v-model:value="selectWay" :options="selectWayOptions" @change="btnAnalyse"> </mars-select>
       </a-form-item>
@@ -20,11 +23,9 @@
 
       <div class="f-tac">
         <div class="footer">
-          <a-space>
-            <!-- <mars-button @click="btnAnalyse">开始分析</mars-button> -->
-            <mars-button @click="saveGeoJSON">保存GeoJSON</mars-button>
-            <mars-button @click="removeAll" danger>清除</mars-button>
-          </a-space>
+          <!-- <mars-button @click="btnAnalyse">开始分析</mars-button> -->
+          <mars-button @click="saveGeoJSON">保存GeoJSON</mars-button>
+          <mars-button @click="removeAll" danger>清除</mars-button>
         </div>
 
       </div>
@@ -50,6 +51,28 @@ const allDiatance = ref("")
 const useTime = ref("")
 const dh = ref("")
 
+
+const selectService = ref("gaode")
+const serviceOptions = ref([
+  {
+    value: "tdt",
+    label: "天地图服务"
+  },
+  {
+    value: "gaode",
+    label: "高德服务"
+  },
+  {
+    value: "baidu",
+    label: "百度服务"
+  }
+])
+const changeService = () => {
+  mapWork.changeService(selectService.value)
+
+  btnAnalyse()
+}
+
 // 下拉菜单
 const selectWayOptions = ref([
   {
@@ -57,7 +80,10 @@ const selectWayOptions = ref([
     label: "步行路线查询"
   },
   {
-    // 2-行车路线
+    value: 2,
+    label: "骑行路线查询"
+  },
+  {
     value: "3",
     label: "驾车路线查询"
   }
@@ -73,19 +99,21 @@ mapWork.eventTarget.on("analyse", function (event: any) {
 
 // 起点
 const startPoint = () => {
-  mapWork.startPoint(selectWay.value)
+  mapWork.startPoint()
 }
 mapWork.eventTarget.on("start", function (event: any) {
   strat.value = getData(event.point.lng) + "," + getData(event.point.lat)
   wayShow.value = false
+  btnAnalyse()
 })
 // 终点
 const endPoint = () => {
-  mapWork.endPoint(selectWay.value)
+  mapWork.endPoint()
 }
 mapWork.eventTarget.on("end", function (event: any) {
   end.value = getData(event.point.lng) + "," + getData(event.point.lat)
   wayShow.value = false
+  btnAnalyse()
 })
 
 function getData(num) {
@@ -94,7 +122,9 @@ function getData(num) {
 
 // 开始分析
 const btnAnalyse = () => {
-  mapWork.btnAnalyse(selectWay.value)
+  if (strat.value && end.value) {
+    mapWork.queryRoute(selectWay.value)
+  }
 }
 // 清除数据
 const removeAll = () => {
@@ -143,8 +173,11 @@ const saveGeoJSON = () => {
 }
 
 .footer {
+  display: flex;
+  gap: 10px;
+
   .mars-button {
-    width: 143px;
+    flex: 1;
   }
 }
 </style>

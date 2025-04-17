@@ -1,29 +1,27 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-form>
+      <a-form-item label="服务：">
+        <mars-select v-model:value="selectService" :options="serviceOptions" @change="changeService"> </mars-select>
+      </a-form-item>
       <a-form-item label="名称：">
         <mars-input v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
       </a-form-item>
 
       <a-form-item label="范围：">
-        <div class="draw-range">
-          <a-space>
-            <mars-button @click="drawRectangle">框选范围</mars-button>
-            <mars-button @click="drawCircle">圆形范围</mars-button>
-            <mars-button class="long-btn" @click="drawPolygon">多边形范围</mars-button>
-          </a-space>
+        <div class="buttons">
+          <mars-button @click="drawPoint">点查询</mars-button>
+          <mars-button @click="drawRectangle">框选范围</mars-button>
+          <mars-button @click="drawCircle">圆形范围</mars-button>
+          <mars-button @click="drawPolygon">多边形范围</mars-button>
         </div>
-
       </a-form-item>
 
       <a-form-item>
-        <div class="footer">
-          <a-space>
-            <mars-button @click="query">查询</mars-button>
-            <mars-button @click="removeAll" danger>清除</mars-button>
-          </a-space>
+        <div class="buttons">
+          <mars-button @click="query">查询</mars-button>
+          <mars-button @click="removeAll" danger>清除</mars-button>
         </div>
-
       </a-form-item>
 
       <div v-show="show">
@@ -37,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, toRaw } from "vue"
+import { ref, toRaw } from "vue"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
 
@@ -54,57 +52,34 @@ const show = ref(false)
 
 // 表格数据
 const dataSource = ref([])
+const columns = ref([])
 
-onMounted(() => {
-  mapWork.eventTarget.on("befortUI", function (event: any) {
-    show.value = true
-    dataSource.value = []
-    event.list.forEach((item: any, index: number) => {
-      dataSource.value.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphic: item.graphic })
-    })
-  })
+mapWork.eventTarget.on("befortUI", function (event: any) {
+  dataSource.value = []
+  getServeColumnsAndData(event.list)
+
+  show.value = true
 })
 
-const columns = ref([
+// 服务
+const selectService = ref("hfjy")
+const serviceOptions = ref([
   {
-    title: "名称",
-    dataIndex: "name",
-    key: "name"
+    value: "hfjy",
+    label: "点"
   },
   {
-    title: "类型",
-    dataIndex: "type",
-    key: "type"
+    value: "hfdl",
+    label: "线"
   },
   {
-    title: "住址",
-    dataIndex: "address",
-    key: "address"
+    value: "hfgh",
+    label: "面"
   }
 ])
-
-const rowSelection = ref({
-  hideSelectAll: true,
-  hideDefaultSelections: true,
-  onSelect: (record: DataItem, selected: boolean) => {
-    if (record.graphic == null) {
-      $message(record.name + " 无经纬度坐标信息！")
-      return
-    }
-    if (selected) {
-      record.graphic.openHighlight()
-      record.graphic.flyTo({
-        radius: 1000, // 点数据：radius控制视距距离
-        scale: 1.5, // 线面数据：scale控制边界的放大比例
-        complete: () => {
-          record.graphic.openPopup()
-        }
-      })
-    } else {
-      record.graphic.closeHighlight()
-    }
-  }
-})
+const changeService = () => {
+  mapWork.changeService(selectService.value)
+}
 
 const customRow = (record: DataItem) => {
   return {
@@ -119,6 +94,10 @@ const customRow = (record: DataItem) => {
 }
 
 // 绘制范围
+const drawPoint = () => {
+  show.value = false
+  mapWork.drawPoint()
+}
 const drawRectangle = () => {
   show.value = false
   mapWork.drawRectangle()
@@ -137,7 +116,7 @@ const drawPolygon = () => {
 const query = () => {
   show.value = false
   mapWork.clearAll(true)
-  mapWork.query(serverName.value)
+  mapWork.query(serverName.value, selectService.value)
 }
 // 清除数据
 const removeAll = () => {
@@ -146,6 +125,50 @@ const removeAll = () => {
   dataSource.value = []
   mapWork.clearAll()
 }
+
+function getServeColumnsAndData(list) {
+  switch (selectService.value) {
+    case "hfjy": {
+      columns.value = [
+        { title: "名称", dataIndex: "name", key: "name" },
+        { title: "类型", dataIndex: "type", key: "type" },
+        { title: "住址", dataIndex: "address", key: "address" }
+      ]
+
+      dataSource.value = list.map((item: any, index: number) => {
+        return { key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphic: item.graphic }
+      })
+      break
+    }
+    case "hfdl": {
+      columns.value = [
+        { title: "名称", dataIndex: "name", key: "name" },
+        { title: "标识", dataIndex: "address", key: "address" }
+      ]
+
+      dataSource.value = list.map((item: any, index: number) => {
+        return { key: index, name: item.NAME, address: item.address, graphic: item.graphic }
+      })
+      break
+    }
+    case "hfgh": {
+      columns.value = [
+        { title: "名称", dataIndex: "name", key: "name" },
+        { title: "规划", dataIndex: "guihua", key: "guihua" },
+        { title: "用地编号", dataIndex: "order", key: "order" },
+        { title: "用地面积", dataIndex: "area", key: "area" }
+      ]
+
+      dataSource.value = list.map((item: any, index: number) => {
+        return { key: index, name: item["用地名称"], guihua: item["规划用地"], order: item["规划用地"], area: item.Shape_Area, graphic: item.graphic }
+      })
+      break
+    }
+
+    default:
+      break
+  }
+}
 </script>
 
 <style scoped lang="less">
@@ -153,20 +176,10 @@ const removeAll = () => {
   width: 255px;
 }
 
-.draw-range {
-  .mars-button {
-    width: 80px;
-  }
-
-  .long-btn {
-    padding-left: 1px !important;
-  }
-}
-
-.footer {
-  .mars-button {
-    width: 145px;
-  }
+.buttons {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .ant-form {

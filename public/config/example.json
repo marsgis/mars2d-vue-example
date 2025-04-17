@@ -48,7 +48,13 @@
             "hasPannel": true
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "name": "二维场景",
+    "icon": "fa-cubes",
+    "children": [
       {
         "name": "场景参数化",
         "details": "地图所有参数均可以存储在json或后端服务中",
@@ -106,6 +112,87 @@
             "name": "离线数据",
             "thumbnail": "map-control-offline.jpg",
             "main": "map/control/offline"
+          }
+        ]
+      },
+      {
+        "name": "视图切换和对比",
+        "children": [
+          {
+            "name": "双屏对比",
+            "thumbnail": "map-double-compare.jpg",
+            "main": "map/double/compare",
+            "resources": [
+              "compare.css"
+            ]
+          },
+          {
+            "name": "二三维联动(与cesium)",
+            "thumbnail": "map-double-cesium.jpg",
+            "main": "map/double/cesium",
+            "hasPannel": true,
+            "libs": [
+              "mars2d",
+              "mars3d"
+            ],
+            "resources": [
+              "map.css"
+            ]
+          },
+          {
+            "name": "街景联动",
+            "thumbnail": "map-double-streetview.jpg",
+            "main": "map/double/streetview",
+            "hasPannel": true,
+            "resources": [
+              "map.css"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "场景背景控制",
+        "children": [
+          {
+            "name": "场景出图(导出图片)",
+            "thumbnail": "thing-expImg.jpg",
+            "main": "thing/expImg",
+            "hasPannel": true,
+            "resources": [
+              "/lib/dom2img/dom-to-image.js"
+            ]
+          },
+          {
+            "name": "视角书签",
+            "thumbnail": "thing-bookmark.jpg",
+            "main": "thing/bookmark",
+            "hasPannel": true,
+            "resources": [
+              "/lib/dom2img/dom-to-image.js"
+            ]
+          },
+          {
+            "name": "设置地图背景",
+            "thumbnail": "map-manager-backgroundImage.jpg",
+            "main": "map/manager/backgroundImage",
+            "hasPannel": true
+          }
+        ]
+      },
+      {
+        "name": "鼠标交互控制",
+        "children": [
+          {
+            "name": "坐标拾取和转换",
+            "thumbnail": "map-manager-pointTrans.jpg",
+            "main": "map/manager/pointTrans",
+            "hasPannel": true
+          },
+          {
+            "name": "键盘漫游",
+            "thumbnail": "map-manager-keyboardRoam.jpg",
+            "main": "map/manager/keyboardRoam",
+            "hasPannel": true
           }
         ]
       }
@@ -166,6 +253,24 @@
             "thumbnail": "layer-tile-online-osm.jpg",
             "main": "layer-tile/online/osm",
             "hasPannel": true
+          },
+          {
+            "name": "星图地球",
+            "thumbnail": "layer-tile-online-geovisearth.jpg",
+            "main": "layer-tile/online/geovisearth",
+            "hasPannel": true
+          },
+          {
+            "name": "超图Supermap",
+            "thumbnail": "layer-tile-online-supermap.jpg",
+            "main": "layer-tile/online/supermap",
+            "hasPannel": true
+          },
+          {
+            "name": "实时交通态势图",
+            "thumbnail": "layer-tile-online-traffic-time.jpg",
+            "main": "layer-tile/online/traffic-time",
+            "hasPannel": true
           }
         ]
       },
@@ -214,6 +319,18 @@
             "thumbnail": "layer-tile-type-image.jpg",
             "main": "layer-tile/type/image",
             "hasPannel": true
+          },
+          {
+            "name": "全国温度图",
+            "thumbnail": "layer-tile-type-image-kriging.jpg",
+            "main": "layer-tile/type/image-kriging",
+            "libs": [
+              "mars2d",
+              "kriging"
+            ],
+            "resources": [
+              "krigingConfig.js"
+            ]
           },
           {
             "name": "本地单张图片(区域影像)",
@@ -292,6 +409,15 @@
               "mars2d",
               "mapbox-gl"
             ]
+          },
+          {
+            "name": "TIF影像文件加载",
+            "thumbnail": "layer-tile-type-image-tif.jpg",
+            "main": "layer-tile/type/image-tif",
+            "libs": [
+              "mars2d",
+              "geotiff"
+            ]
           }
         ]
       },
@@ -330,138 +456,6 @@
     ]
   },
   {
-    "name": "控件",
-    "icon": "fa-briefcase",
-    "children": [
-      {
-        "name": "Leaflet内置控件",
-        "details": "Leaflet内置的控件，直接按需调用即可",
-        "children": [
-          {
-            "name": "比例尺",
-            "thumbnail": "control-leaflet-scale.jpg",
-            "main": "control/leaflet/scale"
-          },
-          {
-            "name": "zoom放大缩小",
-            "thumbnail": "control-leaflet-zoom.jpg",
-            "main": "control/leaflet/zoom"
-          },
-          {
-            "name": "layers 图层管理",
-            "thumbnail": "control-leaflet-layers.jpg",
-            "main": "control/leaflet/layers"
-          }
-        ]
-      },
-      {
-        "name": "内置控件",
-        "details": "Mars2D内置的控件，直接按需调用即可",
-        "children": [
-          {
-            "name": "右键菜单",
-            "thumbnail": "control-inside-contextmenu.jpg",
-            "main": "control/inside/contextmenu"
-          },
-          {
-            "name": "Popup鼠标单击信息窗",
-            "thumbnail": "control-inside-popup.jpg",
-            "main": "control/inside/popup",
-            "hasPannel": true,
-            "resources": [
-              "newPopup.css"
-            ]
-          },
-          {
-            "name": "Tooltip 鼠标移入信息窗",
-            "thumbnail": "control-inside-tooltip.jpg",
-            "main": "control/inside/tooltip",
-            "hasPannel": true
-          },
-          {
-            "name": "SmallTooltip 鼠标小提示窗",
-            "thumbnail": "control-inside-smallTooltip.jpg",
-            "main": "control/inside/smallTooltip",
-            "hasPannel": true
-          }
-        ]
-      },
-      {
-        "name": "支持的控件",
-        "children": [
-          {
-            "name": "工具按钮栏",
-            "thumbnail": "control-basis-toolBar.jpg",
-            "main": "control/basis/toolBar"
-          },
-          {
-            "name": "下侧状态栏",
-            "thumbnail": "control-basis-locationBar.jpg",
-            "main": "control/basis/locationBar"
-          },
-          {
-            "name": "三维全景切换",
-            "thumbnail": "control-basis-mapSwich.jpg",
-            "main": "control/basis/mapSwich"
-          },
-          {
-            "name": "鱼骨导航",
-            "thumbnail": "control-basis-slider.jpg",
-            "main": "control/basis/slider"
-          },
-          {
-            "name": "鹰眼地图",
-            "thumbnail": "control-basis-overviewMap.jpg",
-            "main": "control/basis/overviewMap"
-          },
-          {
-            "name": "时间播放",
-            "thumbnail": "control-basis-timeDimension.jpg",
-            "main": "control/basis/timeDimension",
-            "libs": [
-              "mars2d",
-              "timeDimension"
-            ]
-          },
-          {
-            "name": "卷帘对比",
-            "thumbnail": "control-basis-mapSplit.jpg",
-            "main": "control/basis/mapSplit"
-          },
-          {
-            "name": "控件控制",
-            "thumbnail": "control-basis-display.jpg",
-            "main": "control/basis/display",
-            "hasPannel": true
-          },
-          {
-            "name": "自定义工具栏按钮",
-            "thumbnail": "control-basis-toolButton.jpg",
-            "main": "control/basis/toolButton"
-          },
-          {
-            "name": "移动端位置定位",
-            "thumbnail": "control-basis-geolocation.jpg",
-            "main": "control/basis/geolocation",
-            "resources": [
-              "https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0",
-              "Geolocation.js"
-            ]
-          },
-          {
-            "name": "POI兴趣点搜索",
-            "thumbnail": "control-basis-poiQueryButton.jpg",
-            "main": "control/basis/poiQueryButton",
-            "resources": [
-              "PoiQueryButton.css",
-              "PoiQueryButton.js"
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
     "name": "矢量图层",
     "icon": "fa-server",
     "children": [
@@ -473,6 +467,22 @@
             "thumbnail": "layer-graphic-basis-graphicLayer.jpg",
             "main": "layer-graphic/basis/graphicLayer",
             "hasPannel": true
+          },
+          {
+            "name": "业务后端数据图层",
+            "thumbnail": "layer-graphic-basis-busineData.jpg",
+            "main": "layer-graphic/basis/busineData",
+            "hasPannel": true
+          },
+          {
+            "name": "Excel、CSV格式加载",
+            "thumbnail": "layer-graphic-basis-excel.jpg",
+            "main": "layer-graphic/basis/excel",
+            "hasPannel": true,
+            "libs": [
+              "mars2d",
+              "xlsx"
+            ]
           }
         ]
       },
@@ -615,21 +625,21 @@
             "hasPannel": true
           },
           {
-            "name": "高德POI点查询",
+            "name": "POI点查询",
             "thumbnail": "query-gaodePOI.jpg",
-            "main": "query/gaodePOI",
+            "main": "query/poi",
             "hasPannel": true
           },
           {
-            "name": "高德路径规划查询",
+            "name": "路径规划查询",
             "thumbnail": "query-gaodeRoute.jpg",
-            "main": "query/gaodeRoute",
+            "main": "query/route",
             "hasPannel": true
           },
           {
-            "name": "高德路径规划查询(多条)",
+            "name": "路径规划查询(多条)",
             "thumbnail": "query-gaodeRouteList.jpg",
-            "main": "query/gaodeRouteList",
+            "main": "query/routeList",
             "hasPannel": true
           }
         ]
@@ -640,6 +650,29 @@
     "name": "矢量数据",
     "icon": "fa-puzzle-piece",
     "children": [
+      {
+        "name": "统一机制",
+        "details": "所有矢量对象的使用机制基本上是一致的，只是类型的差异",
+        "children": [
+          {
+            "name": "latlng坐标",
+            "thumbnail": "graphic-base-latlng.jpg",
+            "main": "graphic/base/latlng",
+            "hasPannel": true
+          },
+          {
+            "name": "style样式",
+            "thumbnail": "graphic-base-style.jpg",
+            "main": "graphic/base/style",
+            "hasPannel": true
+          },
+          {
+            "name": "attr属性",
+            "thumbnail": "graphic-base-attr.jpg",
+            "main": "graphic/base/attr"
+          }
+        ]
+      },
       {
         "name": "点状数据",
         "children": [
@@ -929,71 +962,135 @@
     ]
   },
   {
-    "name": "场景控制",
-    "icon": "fa-cubes",
+    "name": "控件",
+    "icon": "fa-briefcase",
     "children": [
       {
-        "name": "视图切换和对比",
+        "name": "内置控件",
+        "details": "内置的控件，直接按需调用即可",
         "children": [
           {
-            "name": "双屏对比",
-            "thumbnail": "map-double-compare.jpg",
-            "main": "map/double/compare",
+            "name": "右键菜单",
+            "thumbnail": "control-inside-contextmenu.jpg",
+            "main": "control/inside/contextmenu"
+          },
+          {
+            "name": "Popup鼠标单击信息窗",
+            "thumbnail": "control-inside-popup.jpg",
+            "main": "control/inside/popup",
+            "hasPannel": true,
             "resources": [
-              "compare.css"
+              "newPopup.css"
             ]
           },
           {
-            "name": "二三维联动(与cesium)",
-            "thumbnail": "map-double-cesium.jpg",
-            "main": "map/double/cesium",
-            "hasPannel": true,
-            "libs": [
-              "mars2d",
-              "mars3d"
-            ],
-            "resources": [
-              "map.css"
-            ]
+            "name": "Tooltip 鼠标移入信息窗",
+            "thumbnail": "control-inside-tooltip.jpg",
+            "main": "control/inside/tooltip",
+            "hasPannel": true
           },
           {
-            "name": "街景联动",
-            "thumbnail": "map-double-streetview.jpg",
-            "main": "map/double/streetview",
-            "hasPannel": true,
-            "resources": [
-              "map.css"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "场景背景控制",
-        "children": [
-          {
-            "name": "场景出图(导出图片)",
-            "thumbnail": "thing-expImg.jpg",
-            "main": "thing/expImg",
-            "hasPannel": true,
-            "resources": [
-              "/lib/dom2img/dom-to-image.js"
-            ]
-          },
-          {
-            "name": "设置地图背景",
-            "thumbnail": "map-manager-backgroundImage.jpg",
-            "main": "map/manager/backgroundImage",
+            "name": "SmallTooltip 鼠标小提示窗",
+            "thumbnail": "control-inside-smallTooltip.jpg",
+            "main": "control/inside/smallTooltip",
             "hasPannel": true
           }
         ]
       },
       {
-        "name": "鼠标交互控制",
+        "name": "按钮控件",
         "children": [
           {
-            "name": "坐标拾取和转换",
-            "thumbnail": "map-manager-pointTrans.jpg",
-            "main": "map/manager/pointTrans",
+            "name": "zoom放大缩小",
+            "thumbnail": "control-leaflet-zoom.jpg",
+            "main": "control/leaflet/zoom"
+          },
+          {
+            "name": "工具按钮栏",
+            "thumbnail": "control-basis-toolBar.jpg",
+            "main": "control/basis/toolBar"
+          },
+          {
+            "name": "自定义工具栏按钮",
+            "thumbnail": "control-basis-toolButton.jpg",
+            "main": "control/basis/toolButton"
+          },
+          {
+            "name": "移动端位置定位",
+            "thumbnail": "control-basis-geolocation.jpg",
+            "main": "control/basis/geolocation",
+            "resources": [
+              "https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0",
+              "Geolocation.js"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "面板控件",
+        "children": [
+          {
+            "name": "layers 图层管理",
+            "thumbnail": "control-leaflet-layers.jpg",
+            "main": "control/leaflet/layers"
+          },
+          {
+            "name": "比例尺",
+            "thumbnail": "control-leaflet-scale.jpg",
+            "main": "control/leaflet/scale"
+          },
+          {
+            "name": "下侧状态栏",
+            "thumbnail": "control-basis-locationBar.jpg",
+            "main": "control/basis/locationBar"
+          },
+          {
+            "name": "三维全景切换",
+            "thumbnail": "control-basis-mapSwich.jpg",
+            "main": "control/basis/mapSwich"
+          },
+          {
+            "name": "鱼骨导航",
+            "thumbnail": "control-basis-slider.jpg",
+            "main": "control/basis/slider"
+          },
+          {
+            "name": "鹰眼地图",
+            "thumbnail": "control-basis-overviewMap.jpg",
+            "main": "control/basis/overviewMap"
+          },
+          {
+            "name": "时间播放",
+            "thumbnail": "control-basis-timeDimension.jpg",
+            "main": "control/basis/timeDimension",
+            "libs": [
+              "mars2d",
+              "timeDimension"
+            ]
+          },
+          {
+            "name": "卷帘对比",
+            "thumbnail": "control-basis-mapSplit.jpg",
+            "main": "control/basis/mapSplit"
+          },
+          {
+            "name": "POI兴趣点搜索",
+            "thumbnail": "control-basis-poiQueryButton.jpg",
+            "main": "control/basis/poiQueryButton",
+            "resources": [
+              "PoiQueryButton.css",
+              "PoiQueryButton.js"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "控件的管理",
+        "children": [
+          {
+            "name": "控件的控制(显示及关闭)",
+            "thumbnail": "control-basis-display.jpg",
+            "main": "control/basis/display",
             "hasPannel": true
           }
         ]
@@ -1016,7 +1113,7 @@
         ]
       },
       {
-        "name": "客户端空间分析",
+        "name": "GIS客户端分析",
         "children": [
           {
             "name": "生成随机数据(点线面)",
@@ -1152,29 +1249,22 @@
     ]
   },
   {
-    "name": "可视化",
+    "name": "其他图层",
     "icon": "fa-street-view",
     "children": [
       {
-        "name": "普通可视化",
+        "name": "热力图",
         "children": [
           {
             "name": "热力图",
             "thumbnail": "layer-other-heatLayer.jpg",
             "main": "layer-other/heatLayer"
-          },
-          {
-            "name": "全国温度图",
-            "thumbnail": "layer-tile-type-image-kriging.jpg",
-            "main": "layer-tile/type/image-kriging",
-            "libs": [
-              "mars2d",
-              "kriging"
-            ],
-            "resources": [
-              "krigingConfig.js"
-            ]
-          },
+          }
+        ]
+      },
+      {
+        "name": "气象图层",
+        "children": [
           {
             "name": "风向图",
             "thumbnail": "layer-other-wind.jpg",

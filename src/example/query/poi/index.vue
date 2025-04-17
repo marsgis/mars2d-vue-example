@@ -1,40 +1,38 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-
-
     <div>
       <a-space align="start">
-        <span class="mars-pannel-item-label">范围：</span>
-        <div>
-          <a-radio-group v-model:value="radioFanwei">
-            <a-radio value="1">指定城市</a-radio>
-            <a-radio value="2" class="current-view">当前视域</a-radio>
-            <a-radio value="3">指定范围</a-radio>
-          </a-radio-group>
-        </div>
+        <span class="mars-pannel-item-label">服务：</span>
+        <mars-select v-model:value="selectService" :options="serviceOptions" @change="changeService"> </mars-select>
       </a-space>
     </div>
 
-
+    <div class="f-pt f-mb">
+      <a-space align="start">
+        <span class="mars-pannel-item-label">范围：</span>
+        <a-radio-group v-model:value="radioFanwei">
+          <a-radio value="1">指定城市</a-radio>
+          <a-radio value="2">当前视域</a-radio>
+          <a-radio value="3">指定范围</a-radio>
+        </a-radio-group>
+      </a-space>
+    </div>
 
     <div class="f-pt" v-show="radioFanwei === '1'">
       <a-space>
         <span class="mars-pannel-item-label">城市：</span>
-        <a-cascader v-model:value="value" :allowClear="false" popupClassName="mars-select-dropdown" :options="options"
-          @change="onChange" />
+        <Cascader v-model:value="value" :options="options" popupClassName="mars-select-dropdown" @change="onChange">
+        </Cascader>
       </a-space>
     </div>
-
-
 
     <div class="f-pt f-mb">
       <a-space>
         <span class="mars-pannel-item-label">关键字：</span>
         <mars-input v-model:value="serverName" placeholder="查询名称和地址"></mars-input>
       </a-space>
+
     </div>
-
-
 
     <div v-show="radioFanwei === '3'" class="range-select f-mb">
       <a-space>
@@ -49,30 +47,26 @@
       </a-space>
     </div>
 
-
-
     <div class="f-mb">
       <a-space>
         <mars-button @click="query">查询</mars-button>
         <mars-button @click="removeAll" danger>清除</mars-button>
       </a-space>
-
     </div>
 
     <div v-show="show">
-      <a-form-item>
-        <a-table :pagination="true" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small"
-          bordered :scroll="{ y: 400 }" />
-      </a-form-item>
+      <a-table :pagination="true" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small"
+        bordered :scroll="{ y: 400 }" />
     </div>
   </mars-dialog>
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from "vue"
+import { onBeforeMount, ref, toRaw } from "vue"
 import axios from "axios"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
+import { Cascader } from "ant-design-vue"
 
 interface DataItem {
   key: number
@@ -80,11 +74,32 @@ interface DataItem {
   graphic: any
 }
 
+
+// 服务
+const selectService = ref("gaode")
+const serviceOptions = ref([
+  {
+    value: "tdt",
+    label: "天地图服务"
+  },
+  {
+    value: "gaode",
+    label: "高德服务"
+  },
+  {
+    value: "baidu",
+    label: "百度服务"
+  }
+])
+const changeService = () => {
+  mapWork.changeService(selectService.value)
+}
+
+let cityShi = "合肥市"
+let cityShiKey = "340100"
 const radioFanwei = ref("1")
 const serverName = ref<string>("")
 const show = ref(false)
-const cityShiVal = ref("340100")
-
 
 const columns = ref([
   {
@@ -113,7 +128,7 @@ const customRow = (record: DataItem) => {
       }
       // 预留功能，后续支持该方法
       /* record.graphic.openHighlight() */
-      mapWork.flytoGraphic(record.graphic)
+      mapWork.flytoGraphic(toRaw(record.graphic))
     }
   }
 }
@@ -139,9 +154,12 @@ const query = () => {
   show.value = false
   mapWork.clearAll(true)
 
-  mapWork.clearAll(radioFanwei.value === "3")
 
-  mapWork.query(radioFanwei.value, cityShiVal.value, serverName.value)
+  if (selectService.value === "TDT") {
+    mapWork.query(radioFanwei.value, cityShiKey, serverName.value)
+  } else {
+    mapWork.query(radioFanwei.value, cityShi, serverName.value)
+  }
 
 }
 
@@ -166,9 +184,10 @@ onBeforeMount(async () => {
 })
 
 // 改变选择的城市
-const onChange = (_value: string, selectedOptions: Option[]) => {
-  cityShiVal.value = selectedOptions[1].value
-
+const onChange = (_value: any, selectedOptions: Option[]) => {
+  const sel = selectedOptions[selectedOptions.length - 1]
+  cityShi = sel.label
+  cityShiKey = sel.value
 }
 
 // 表格数据
@@ -192,7 +211,8 @@ const removeAll = () => {
 
 <style scoped lang="less">
 .ant-input,
-.ant-cascader {
+.ant-cascader,
+.ant-select {
   width: 230px !important;
 }
 
@@ -213,11 +233,6 @@ const removeAll = () => {
 
 :deep(.ant-table-row:nth-of-type(even)) {
   background-color: transparent !important;
-}
-
-.item-label {
-  margin-left: 18px;
-  color: rgba(234, 242, 255, 0.8);
 }
 
 .current-view {

@@ -1,6 +1,7 @@
 <template>
   <mars-dialog :visible="true" width="330" right="10" top="10">
     <a-space>
+      <a-checkbox v-model:checked="showClustering" @change="onChangeEnabled"> 是否聚合</a-checkbox>
       <mars-button @click="onCheckDefault">默认样式</mars-button>
       <mars-button @click="onCheckCustom">自定义样式</mars-button>
       <mars-button @click="onCheckPhoto">照片点</mars-button>
@@ -10,6 +11,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from "vue"
 import * as mapWork from "./map.js"
 
 const onCheckDefault = () => {
@@ -24,6 +26,12 @@ const onCheckPhoto = () => {
 const onCheckClear = () => {
   mapWork.removeLayer()
 }
+
+const showClustering = ref(true)
+const onChangeEnabled = () => {
+  mapWork.showClusteringFn(showClustering.value)
+}
+
 </script>
 
 <style scoped lang="less">

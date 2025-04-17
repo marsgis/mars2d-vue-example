@@ -3,7 +3,8 @@ import * as mars2d from "mars2d"
 let map // mars2d.Map二维地图对象
 
 let poiLayer
-let queryGaodePOI
+let queryPOI
+
 let drawGraphic // 限定区域
 let resultList = [] // 查询结果
 let lastQueryOptions // 上一次请求参数，用于 下一页使用
@@ -23,6 +24,12 @@ export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
+  globalNotify("已知问题提示", `(1) token如果访问失效或超流量了，请您自行申请替换mars3d.Token.update相关方法`)
+
+  queryPOI = new mars2d.query.QueryPOI({
+    service: mars2d.QueryServiceType.GAODE
+  })
 
   // 创建矢量数据图层
   poiLayer = new mars2d.layer.GraphicLayer()
@@ -52,10 +59,6 @@ export function onMounted(mapInstance) {
     inHtml += "</div>"
     return inHtml
   })
-
-  queryGaodePOI = new mars2d.query.GaodePOI({
-    // key: ['ae29a37307840c7ae4a785ac905927e0'],
-  })
 }
 
 /**
@@ -64,6 +67,11 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
+}
+
+// 切换服务
+export function changeService(type) {
+  queryPOI.setOptions({ service: type })
 }
 
 /**
@@ -104,7 +112,6 @@ export function query(radioFanwei, cityShi, text) {
         {
           page: 0,
           graphic: drawGraphic,
-          location: drawGraphic.distance,
           limit: true
         },
         text
@@ -131,14 +138,19 @@ function loadData(queryOptions, text) {
     return
   }
   showLoading()
-  console.log(queryOptions)
+  console.log("queryOptions", queryOptions)
   lastQueryOptions = {
     ...queryOptions,
     count: 25, // count 每页数量
     text,
     success: function (res) {
-      const data = res.list
+      const data = res?.list
+      if (!data || data.length === 0) {
+        globalMsg("未搜索到相关数据！")
+      }
       resultList = resultList.concat(data)
+
+      console.log("查询结果", resultList)
 
       addDemoGraphics(data)
 
@@ -147,11 +159,11 @@ function loadData(queryOptions, text) {
       hideLoading()
     },
     error: function (msg) {
-      globalAlert(msg)
       hideLoading()
+      globalAlert(msg)
     }
   }
-  queryGaodePOI.query(lastQueryOptions)
+  queryPOI.query(lastQueryOptions)
 }
 
 export function clearAll(noClearDraw) {
@@ -197,7 +209,7 @@ function addDemoGraphics(arr) {
 // 框选查询 矩形
 export function drawRectangle() {
   clearAll()
-  map.graphicLayer.startDraw({
+   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
       fillColor: "#0000ff",

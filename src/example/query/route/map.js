@@ -2,7 +2,7 @@ import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 let routeLayer
-let gaodeRoute
+let query
 
 // 当前页面业务相关
 let startGraphic, endGraphic
@@ -27,8 +27,8 @@ export function onMounted(mapInstance) {
   routeLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(routeLayer)
 
-  gaodeRoute = new mars2d.query.GaodeRoute({
-    // key: ['ae29a37307840c7ae4a785ac905927e0'],
+  query = new mars2d.query.QueryRoute({
+    service: mars2d.QueryServiceType.GAODE
   })
 }
 
@@ -38,14 +38,6 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-}
-
-// 开始分析按钮
-export function btnAnalyse(type) {
-  if (!startGraphic || !endGraphic) {
-    return
-  }
-  queryRoute(type)
 }
 
 // 清除按钮
@@ -62,14 +54,13 @@ export function removeAll() {
   routeLayer.clear()
 }
 
-/**
- * 起点按钮
- *
- * @export
- * @param {string} type 不同方式路线查询
- * @returns {void}
- */
-export function startPoint(type) {
+// 切换服务
+export function changeService(type) {
+  query.setOptions({ service: type })
+}
+
+// 起点按钮
+export function startPoint() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -79,32 +70,20 @@ export function startPoint(type) {
     type: "marker",
     style: {
       image: "img/marker/start.png"
-      // horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-      // verticalOrigin: Cesium.VerticalOrigin.BOTTOM
     },
     success: function (graphic) {
       startGraphic = graphic
 
       const point = graphic.latlng
-      // point.format()
 
       // 触发自定义事件，改变输入框的值
-      console.log(startGraphic)
       eventTarget.fire("start", { point })
-
-      queryRoute(type)
     }
   })
 }
 
-/**
- * 终点按钮
- *
- * @export
- * @param {string} type 不同方式路线查询
- * @returns {void}
- */
-export function endPoint(type) {
+// 终点按钮
+export function endPoint() {
   if (endGraphic) {
     endGraphic.remove()
     endGraphic = null
@@ -125,13 +104,11 @@ export function endPoint(type) {
 
       // 触发自定义事件，改变输入框的值
       eventTarget.fire("end", { point })
-
-      queryRoute(type)
     }
   })
 }
 
-function queryRoute(type) {
+export function queryRoute(type) {
   if (!startGraphic || !endGraphic) {
     return
   }
@@ -139,13 +116,14 @@ function queryRoute(type) {
   routeLayer.clear()
   showLoading()
 
-  gaodeRoute.query({
+  query.query({
     type: Number(type),
     points: [startGraphic.coordinates[0], endGraphic.coordinates[0]],
     success: function (data) {
       hideLoading()
       const firstItem = data.paths[0]
       const points = firstItem.points
+
       if (!points || points.length < 1) {
         return
       }

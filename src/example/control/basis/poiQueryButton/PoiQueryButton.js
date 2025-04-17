@@ -11,7 +11,7 @@ class PoiQueryButton extends mars2d.control.ToolButton {
     this._initQueryUI()
 
     // 查询控制器
-    this._gaodePOI = new mars2d.query.GaodePOI()
+    this._gaodePOI = new mars2d.query.QueryPOI()
 
     // 创建矢量数据图层
     this.graphicLayer = new mars2d.layer.GraphicLayer()

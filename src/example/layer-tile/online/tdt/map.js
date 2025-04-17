@@ -8,6 +8,9 @@ const attributionHtml = `©2024 自然资源部 - <span>审图号：GS(2024)0568
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   maxZoom: 21,
+  control: {
+    layers: { position: "topright" }
+  },
   basemaps: [
     {
       type: "group",

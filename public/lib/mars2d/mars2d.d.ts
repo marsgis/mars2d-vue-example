@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.3.0
- * 编译日期：2025-01-23 11:51
+ * 版本信息：v3.3.2
+ * 编译日期：2025-04-17 19:12
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -413,6 +413,42 @@ declare enum MapSwichType {
 }
 
 /**
+ * 路径规划方式 枚举
+ */
+declare enum QueryRouteType {
+    /**
+     * 步行
+     */
+    Walking = 1,
+    /**
+     * 骑行
+     */
+    Bicycling = 2,
+    /**
+     * 驾车
+     */
+    Driving = 3
+}
+
+/**
+ * 在线POI和路径规划查询服务类型 枚举
+ */
+declare enum QueryServiceType {
+    /**
+     * 天地图 tdt
+     */
+    TDT = "tdt",
+    /**
+     * 高德 gaode
+     */
+    GAODE = "gaode",
+    /**
+     * 百度 baidu
+     */
+    BAIDU = "baidu"
+}
+
+/**
  * 状态 枚举
  */
 declare enum State {
@@ -465,7 +501,7 @@ declare namespace Token {
     function updateTianditu(item: string | string[]): any | void;
     /**
      * 高德key数组，
-     * 官网： {@link https://console.amap.com/dev/key/app}
+     * 官网： {@link https://console.amap.com/dev/key/app} (服务平台类型：Web服务)
      */
     const gaodeArr: string[];
     /**
@@ -4370,6 +4406,7 @@ declare namespace Polygon {
  * @param [options.style] - 样式参数
  * @param [options.attr] - 属性信息
  * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
  * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
@@ -4383,6 +4420,7 @@ declare class Polygon extends L.Polygon {
         style?: Polygon.StyleOptions;
         attr?: any;
         hasEdit?: boolean;
+        hasMoveEdit?: boolean;
         isAutoEditing?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
@@ -4740,6 +4778,7 @@ declare namespace Polyline {
  * @param [options.attr] - 属性信息
  * @param [options.hasEdit = true] - 是否可以编辑
  * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -4753,6 +4792,7 @@ declare class Polyline extends L.Polyline {
         attr?: any;
         hasEdit?: boolean;
         isAutoEditing?: boolean;
+        hasMoveEdit?: boolean;
         popup?: string | HTMLElement | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -5412,6 +5452,176 @@ declare class Rectangle extends L.Rectangle {
     isInPoly(latlng: L.LatLng): any | boolean;
 }
 
+declare namespace BusineDataLayer {
+    /**
+     * 当前类支持的{@link EventType}事件类型（包括自定义字符串事件名）
+     * @example
+     * //绑定监听事件
+     * BusineDataLayer.on('load', function (event) {
+     *   console.log('触发了事件',event)
+     * });
+     * @property load - 数据加载完成
+     * @property layeradd - 添加矢量数据之后触发
+     * @property layerremove - 移除矢量数据之后触发
+     * @property add - 添加到map地图上之后触发
+     * @property remove - 从地图map上移除之后触发
+     * @property popupopen - 当绑定到当前图层的Popup弹窗打开时触发
+     * @property popupclose - 当绑定到当前图层的Popup弹窗关闭时触发
+     * @property tooltipopen - 当Tooltip提示框绑定到这个图层并打开时触发
+     * @property tooltipclose - 当Tooltip提示框绑定到这个图层并关闭时触发
+     */
+    type EventType = {
+        load: string;
+        layeradd: string;
+        layerremove: string;
+        add: string;
+        remove: string;
+        popupopen: string;
+        popupclose: string;
+        tooltipopen: string;
+        tooltipclose: string;
+    };
+}
+
+/**
+ * 业务数据(通过API接口获取)图层, 主要是为了封装后简化使用，或直接配置到config.json，也可以自行构造Graphic矢量对象加到GraphicLayer。<br />
+ *
+ * 样式信息：通过symbol配置graphic类型和样式<br />
+ * 坐标信息：建议接口返回中有规范的坐标字段lng\alt或用formatLatlng方法自定义解析
+ * @param options - 参数对象，包括以下：
+ * @param [options.url] - geojson文件或服务url地址
+ * @param [options.data] - geojson格式规范数据对象，与url二选一即可。
+ * @param [options.dataColumn] - 接口返回数据中，对应的业务数据数组所在的读取字段名称，支持多级(用.分割)；如果数据直接返回数组时可以不配置。
+ * @param [options.formatData] - 可以对加载的数据进行格式化或转换操作
+ * @param [options.formatLatlng] - 可以对加载的坐标进行格式化或转换操作 (优先级：formatLatlng方法>latlng字段>latColumn和lngColumn字段)
+ * @param [options.lngColumn = "lng"] - 点坐标时，经度值对应的字段名称, 如果数据内有latlng字段，latlng的优先级高于lngColumn (优先级：formatLatlng>latlng>lngColumn)
+ * @param [options.latColumn = "lat"] - 点坐标时，纬度值对应的字段名称
+ * @param [options.altColumn = "alt"] - 点坐标时，高度值对应的字段名称
+ * @param [options.onCreateGraphic] - 解析geojson后，外部自定义方法来创建Graphic对象
+ * @param [options.filter] - 数据筛选方法，方法体内返回false时排除数据 filter:function(feature){return true}
+ * @param [options.symbol] - 矢量数据的style样式,为Function时是完全自定义的回调处理 symbol(attr, style, feature)
+ * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
+ * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各{@link GraphicType}矢量数据的style参数。
+ * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.merge] - 是否合并并覆盖json中已有的style，默认不合并。
+ * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
+ * @param [options.graphicOptions] - 默认的graphic的构造参数，每种不同类型数据都有不同的属性，具体见各{@link GraphicType}矢量数据的构造参数。
+ * @param [options.proxy] - 加载资源时要使用的代理服务url。
+ * @param [options.queryParameters] - 一个对象，其中包含在检索资源时将发送的查询参数。比如：queryParameters: {'access_token': '123-435-456-000'}
+ * @param [options.headers] - 一个对象，将发送的其他HTTP标头。比如：headers: { 'X-My-Header': 'valueOfHeader' }
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
+ * @param [options.popupOptions] - popup弹窗时的配置参数,还包括：
+ * @param [options.popupOptions.title] - 固定的标题名称
+ * @param [options.popupOptions.titleField] - 标题对应的属性字段名称
+ * @param [options.popupOptions.noTitle] - 不显示标题
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑定，参数与popup属性完全相同。
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数,还包括：
+ * @param [options.tooltipOptions.title] - 固定的标题名称
+ * @param [options.tooltipOptions.titleField] - 标题对应的属性字段名称
+ * @param [options.tooltipOptions.noTitle] - 不显示标题
+ * @param [options.contextmenuItems] - 绑定的右键菜单值，也可以bindContextMenu方法绑定
+ * @param [options.id = createGuid()] - 图层id标识
+ * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
+ * @param [options.name = ''] - 图层名称
+ * @param [options.show = true] - 图层是否显示
+ * @param [options.zIndex] - 瓦片层的显式zIndex
+ * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
+ */
+declare class BusineDataLayer extends GraphicLayer {
+    constructor(options: {
+        url?: string;
+        data?: any;
+        dataColumn?: string;
+        formatData?: (...params: any[]) => any;
+        formatLatlng?: (...params: any[]) => any;
+        lngColumn?: string;
+        latColumn?: string;
+        altColumn?: string;
+        onCreateGraphic?: (...params: any[]) => any;
+        filter?: (...params: any[]) => any;
+        symbol?: {
+            type?: GraphicType | string;
+            styleOptions: any;
+            styleField?: string;
+            styleFieldOptions?: any;
+            merge?: boolean;
+            callback?: (...params: any[]) => any;
+        };
+        graphicOptions?: any;
+        proxy?: string;
+        queryParameters?: any;
+        headers?: any;
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
+        popupOptions?: {
+            title?: string;
+            titleField?: string;
+            noTitle?: string;
+        };
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltipOptions?: {
+            title?: string;
+            titleField?: string;
+            noTitle?: string;
+        };
+        contextmenuItems?: any;
+        id?: string | number;
+        pid?: string | number;
+        name?: string;
+        show?: boolean;
+        zIndex?: number;
+        pane?: string;
+    });
+    /**
+     * 加载新数据 或 刷新数据
+     * @param [newOptions] - 新设定的参数，会与类的构造参数合并。
+     * @param [newOptions.url] - geojson文件或服务url地址
+     * @param [newOptions.data] - geojson格式规范数据对象，与url二选一即可。
+     * @param [newOptions.clear = true] - 是否清楚当前图层的所有数据，默认true
+     * @param [newOptions.类参数] - 包含当前类支持的所有参数
+     * @param [newOptions.通用参数] - 包含父类支持的所有参数
+     * @returns 当前对象本身，可以链式调用
+     */
+    load(newOptions?: {
+        url?: string;
+        data?: any;
+        clear?: any;
+        类参数?: any;
+        通用参数?: any;
+    }): any | BusineDataLayer;
+    /**
+     * 将图层置于所有图层之上
+     * @returns 当前对象本身,可以链式调用
+     */
+    bringToFront(): any | GraphicLayer;
+    /**
+     * 将图层置于所有图层之下
+     * @returns 当前对象本身,可以链式调用
+     */
+    bringToBack(): any | GraphicLayer;
+    /**
+     * 将图层内的矢量数据转为GeoJSON格式对象
+     * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。
+     */
+    toGeoJSON(): any | any;
+    /**
+     * 绑定右键菜单
+     * @param contextmenuItems - 右键菜单数组
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindContextMenu(contextmenuItems: any): any | Map;
+    /**
+     * 获取绑定的右键菜单
+     * @returns 右键菜单数组
+     */
+    getContextMenu(): any | any;
+    /**
+     * 解除绑定右键菜单
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindContextMenu(): any | Map;
+}
+
 /**
  * 大数据Marker点 图层（基于Canvas渲染）
  * @param options - 参数对象，包括以下：
@@ -5851,6 +6061,10 @@ declare class ClusterLayer extends L.Layer {
      * @returns 当前对象本身，可以链式调用
      */
     unbindPopup(): any | ClusterLayer;
+    /**
+     * 是否开启聚合，如果修改聚合属性请调用setOptions方法
+     */
+    clusterEnabled: boolean;
 }
 
 /**
@@ -11612,6 +11826,52 @@ declare class MapVLayer extends L.Layer {
 }
 
 /**
+ * POI查询 工具类基类（统一的方法、参数及回传的值）
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.key] - 相关服务的Token值
+ * @param [options.headers = {}] - 将被添加到HTTP请求头。
+ * @param [options.proxy] - 加载资源时使用的代理。
+ */
+declare class BaseQueryPOI {
+    constructor(options?: {
+        key?: string | string[];
+        headers?: any;
+        proxy?: string;
+    });
+    /**
+     * 相关服务的Token值，内部轮询使用
+     */
+    keys: string[];
+    /**
+     * 轮询取单个key进行使用
+     */
+    readonly key: string;
+}
+
+/**
+ * 路径规划查询 工具类基类（统一的方法、参数及回传的值）
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.key] - 相关服务的Token值
+ * @param [options.headers = {}] - 将被添加到HTTP请求头。
+ * @param [options.proxy] - 加载资源时使用的代理。
+ */
+declare class BaseQueryRoute {
+    constructor(options?: {
+        key?: string | string[];
+        headers?: any;
+        proxy?: string;
+    });
+    /**
+     * 相关服务的Token值，内部轮询使用
+     */
+    keys: string[];
+    /**
+     * 轮询取单个key进行使用
+     */
+    readonly key: string;
+}
+
+/**
  * 高德 POI查询 工具类，
  * 参考文档： https://lbs.amap.com/api/webservice/guide/api/search
  * @param [options] - 参数对象，包括以下：
@@ -11623,266 +11883,6 @@ declare class GaodePOI {
         key?: string[];
         headers?: any;
     });
-    /**
-     * 高德key数组，内部轮询使用
-     */
-    keys: string[];
-    /**
-     * 轮询取单个key进行使用
-     */
-    readonly key: string;
-    /**
-     * 根据经纬度坐标获取地址，逆地理编码
-     * @param queryOptions - 查询参数
-     * @param [queryOptions.location = null] - 经纬度坐标
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    getAddress(queryOptions: {
-        location?: L.LatLng;
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
-    }): any | Promise<any>;
-    /**
-     * 高德搜索提示
-     * @param queryOptions - 查询参数
-     * @param queryOptions.text - 输入建议关键字（支持拼音）
-     * @param [queryOptions.location = null] - 建议使用location参数，可在此location附近优先返回搜索关键词信息,在请求参数city不为空时生效
-     * @param [queryOptions.city = null] - 可以重新限定查询的区域，默认为类构造时传入的city
-     * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    autoTip(queryOptions: {
-        text: string;
-        location?: L.LatLng;
-        city?: string;
-        citylimit?: boolean;
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
-    }): any | Promise<any>;
-    /**
-     * 根据ID获取POI点详情
-     * @param queryOptions - 查询参数
-     * @param queryOptions.id - AOI唯一标识， 最多可以传入1个id，传入目标区域的poiid即可
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    detail(queryOptions: {
-        id: string;
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
-    }): any | Promise<any>;
-    /**
-     * 按限定区域搜索
-     * @param queryOptions - 查询参数
-     * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
-     * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
-     * @param [queryOptions.graphic] - 限定的搜索区域
-     * @param [queryOptions.limit = false] - 取值为"true"，严格返回限定区域内检索结果
-     * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
-     * @param [queryOptions.count = 20] - 单次召回POI数量，默认为10条记录，最大返回20条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    query(queryOptions: {
-        text: string;
-        types?: string;
-        graphic?: Marker | Polyline | Polygon | Circle | Rectangle | any;
-        limit?: boolean;
-        page?: number;
-        count?: number;
-        error?: (...params: any[]) => any;
-        success?: (...params: any[]) => any;
-    }): any | Promise<any>;
-    /**
-     * 关键字搜索
-     * @param queryOptions - 查询参数
-     * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
-     * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
-     * @param [queryOptions.city] - 可以重新限定查询的区域，默认为类构造时传入的city
-     * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
-     * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
-     * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    queryText(queryOptions: {
-        text: string;
-        types?: string;
-        city?: string;
-        citylimit?: boolean;
-        count?: number;
-        page?: number;
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
-    }): any | Promise<any>;
-    /**
-     * 周边搜索(圆形搜索)
-     * @param queryOptions - 查询参数
-     * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
-     * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
-     * @param [queryOptions.location = null] - 圆形区域检索中心点，取值范围:0-50000。规则：大于50000按默认值，单位：米
-     * @param [queryOptions.radius = 3000] - 圆形区域检索半径，单位为米。（增加区域内数据召回权重，如需严格限制召回数据在区域内，请搭配使用radiuslimit参数），当半径过大，超过中心点所在城市边界时，会变为城市范围检索，检索范围为中心点所在城市
-     * @param [queryOptions.limit = false] - 是否严格限定召回结果在设置检索半径范围内。true（是），false（否）。设置为true时会影响返回结果中total准确性及每页召回poi数量， 设置为false时可能会召回检索半径外的poi。
-     * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
-     * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    queryCircle(queryOptions: {
-        text: string;
-        types?: string;
-        location?: L.LatLng;
-        radius?: number;
-        limit?: boolean;
-        count?: number;
-        page?: number;
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
-    }): any | Promise<any>;
-    /**
-     * 多边形搜索
-     * @param queryOptions - 查询参数
-     * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
-     * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
-     * @param queryOptions.polygon - 经纬度数组，经纬度小数点后不得超过6位。多边形为矩形时，可传入左上右下两顶点坐标对；其他情况下首尾坐标对需相同。
-     * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
-     * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    queryPolygon(queryOptions: {
-        text: string;
-        types?: string;
-        polygon: L.LatLng[];
-        count?: number;
-        page?: number;
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
-    }): any | Promise<any>;
-}
-
-/**
- * 高德 路径规划  工具类，
- * 参考文档：{@link https://lbs.amap.com/api/webservice/guide/api/direction}
- * @param [options] - 参数对象，包括以下：
- * @param [options.key = mars2d.Token.gaodeArr] - 百度KEY,在实际项目中请使用自己申请的高德KEY，因为我们的key不保证长期有效。
- * @param [options.headers = {}] - 将被添加到HTTP请求头。
- */
-declare class GaodeRoute {
-    constructor(options?: {
-        key?: string[];
-        headers?: any;
-    });
-    /**
-     * 高德key数组，内部轮询使用
-     */
-    keys: string[];
-    /**
-     * 轮询取单个key进行使用
-     */
-    readonly key: string;
-    /**
-     * 按指定类别自动查询
-     * @param queryOptions - 查询参数
-     * @param queryOptions.type - 类型
-     * @param queryOptions.points - 按起点、终点 顺序的坐标数组,如[[117.500244, 40.417801],[117.500244, 40.417801]]
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    query(queryOptions: {
-        type: GaodeRoute.RouteType | number;
-        points: any[][];
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
-    }): any | Promise<any>;
-    /**
-     * 按指定类别自动查询(多个路线数组，递归处理)
-     * @param queryOptions - 查询参数
-     * @param queryOptions.type - 类型
-     * @param queryOptions.points - 多条，按起点终点 顺序的坐标数组,如[
-     *  [ [117.500244, 40.417801],[117.500244, 40.417801] ],
-     *  [ [117.500244, 40.417801],[117.500244, 40.417801] ]
-     * ]
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    queryArr(queryOptions: {
-        type: GaodeRoute.RouteType;
-        points: any[][];
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
-    }): any | Promise<any>;
-    /**
-     * 计算结果中的最短距离的导航路径
-     * @param data - queryArr返回的结果数组
-     * @returns 返回路线数据和index顺序
-     */
-    getShortestPath(data: any): any | any;
-    /**
-     * 步行路径规划 (单个查询)
-     * @param queryOptions - 查询参数
-     * @param queryOptions.points - 按起点、终点 顺序的坐标数组,如[[117.500244, 40.417801],[117.500244, 40.417801]]
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    queryWalking(queryOptions: {
-        points: any[][];
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
-    }): any | Promise<any>;
-    /**
-     * 骑行路径查询 (单个查询)
-     * @param queryOptions - 查询参数
-     * @param queryOptions.points - 按起点、终点 顺序的坐标数组,如[[117.500244, 40.417801],[117.500244, 40.417801]]
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    queryBicycling(queryOptions: {
-        points: any[][];
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
-    }): any | Promise<any>;
-    /**
-     * 驾车路径规划查询
-     * @param queryOptions - 查询参数
-     * @param queryOptions.points - 按起点、途经点、终点 顺序的坐标数组,如[[117.500244, 40.417801],[117.500244, 40.417801]]
-     * @param queryOptions.avoidpolygons - 区域避让数组(支持多个)，支持32个避让区域，每个区域最多可有16个顶点。避让区域不能超过81平方公里，否则避让区域会失效。
-     * @param [queryOptions.strategy = 0] - 驾车选择策略，参考高德官网说明，默认为0：速度优先，不考虑当时路况，此路线不一定距离最短
-     * @param [queryOptions.success] - 查询完成的回调方法
-     * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 查询完成的Promise,等价于success参数
-     */
-    queryDriving(queryOptions: {
-        points: any[][];
-        avoidpolygons: any[][];
-        strategy?: string;
-        success?: (...params: any[]) => any;
-        error?: (...params: any[]) => any;
-    }): any | Promise<any>;
-}
-
-declare namespace GaodeRoute {
-    /**
-     * 路径规划方式
-     */
-    enum RouteType {
-        Walking,
-        Bicycling,
-        Driving
-    }
 }
 
 declare namespace QueryArcServer {
@@ -12104,44 +12104,49 @@ declare class QueryGeoServer extends BaseClass {
 }
 
 /**
- * 天地图 POI查询 工具类，
- * 参考文档：{@link http://lbs.tianditu.gov.cn/server/search2.html}
+ * POI查询 工具类基类（统一的方法、参数及回传的值）
  * @param [options] - 参数对象，包括以下：
- * @param [options.key = mars2d.Token.tiandituArr] - 天地图KEY,在实际项目中请使用自己申请的天地图KEY，因为我们的key不保证长期有效。
+ * @param [options.service = "gaode"] - 服务类型，支持："tdt"天地图POI服务,"baidu"百度POI服务,,"gaode"高德POI服务
+ * @param [options.key] - 对应服务的Token值
+ * @param [options.city = '全国'] - 百度POI时，限定查询的区域，支持城市及对应百度编码（Citycode）（指定的区域的返回结果加权，可能返回其他城市高权重结果。若要对返回结果区域严格限制，请使用city_limit参数）
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
+ * @param [options.proxy] - 加载资源时使用的代理。
  */
-declare class TdtPOI {
+declare class QueryPOI {
     constructor(options?: {
-        key?: string[];
+        service?: QueryServiceType | string;
+        key?: string | string[];
+        city?: string;
         headers?: any;
+        proxy?: string;
     });
     /**
-     * 天地图key数组，内部轮询使用
+     * 更新参数
+     * @param options - 与类的构造方法参数相同
      */
-    keys: string[];
-    /**
-     * 轮询取单个key进行使用
-     */
-    readonly key: string;
+    setOptions(options: any): any | void;
     /**
      * 根据经纬度坐标获取地址，逆地理编码
      * @param queryOptions - 查询参数
-     * @param [queryOptions.location] - 经纬度坐标
+     * @param [queryOptions.location = null] - 经纬度坐标
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
      * @returns 查询完成的Promise,等价于success参数
      */
     getAddress(queryOptions: {
-        location?: L.LatLng | string | any[] | any;
+        location?: L.LatLng;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): any | Promise<any>;
     /**
-     * 天地图搜索提示
+     * 搜索提示
      * @param queryOptions - 查询参数
      * @param queryOptions.text - 输入建议关键字（支持拼音）
      * @param [queryOptions.location] - 建议使用location参数，可在此location附近优先返回搜索关键词信息,在请求参数city不为空时生效
      * @param [queryOptions.city] - 可以限定查询的行政区
+     * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
+     * @param [queryOptions.level = 18] - TdtPOI时，查询的级别,1-18级
+     * @param [queryOptions.extent] - TdtPOI时，查询的地图范围: { xmin: 70,  xmax: 140,  ymin: 0,  ymax: 55 } ，可以传入extent: map.getExtent()
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
      * @returns 查询完成的Promise,等价于success参数
@@ -12150,16 +12155,34 @@ declare class TdtPOI {
         text: string;
         location?: L.LatLng | string | any[] | any;
         city?: string;
+        citylimit?: boolean;
+        level?: string;
+        extent?: any;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): any | Promise<any>;
     /**
-     * 按限定区域搜索
+     * 根据ID获取POI点详情
+     * @param queryOptions - 查询参数
+     * @param queryOptions.id - AOI唯一标识， 最多可以传入1个id，传入目标区域的poiid即可
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    detail(queryOptions: {
+        id: string;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): any | Promise<any>;
+    /**
+     * 搜索
      * @param queryOptions - 查询参数
      * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
      * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
      * @param [queryOptions.graphic] - 限定的搜索区域
      * @param [queryOptions.limit = false] - 取值为"true"，严格返回限定区域内检索结果
+     * @param [queryOptions.level = 18] - TdtPOI时，查询的级别,1-18级
+     * @param [queryOptions.extent] - TdtPOI时，查询的地图范围: { xmin: 70,  xmax: 140,  ymin: 0,  ymax: 55 } ，可以传入extent: map.getExtent()
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.count = 20] - 单次召回POI数量，默认为10条记录，最大返回20条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
      * @param [queryOptions.error] - 查询失败的回调方法
@@ -12169,8 +12192,10 @@ declare class TdtPOI {
     query(queryOptions: {
         text: string;
         types?: string;
-        graphic?: Marker | Polyline | Polygon | Circle | Rectangle | any;
+        graphic?: L.Layer | any;
         limit?: boolean;
+        level?: string;
+        extent?: any;
         page?: number;
         count?: number;
         error?: (...params: any[]) => any;
@@ -12182,9 +12207,10 @@ declare class TdtPOI {
      * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
      * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
      * @param [queryOptions.city] - 可以重新限定查询的区域，默认为类构造时传入的city
-     * @param [queryOptions.level = 18] - 查询的级别,1-18级
-     * @param [queryOptions.mapBound] - 查询的地图范围: "minx,miny,maxx,maxy"
-     * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回300条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
+     * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
+     * @param [queryOptions.level = 18] - TdtPOI时，查询的级别,1-18级
+     * @param [queryOptions.extent] - TdtPOI时，查询的地图范围: { xmin: 70,  xmax: 140,  ymin: 0,  ymax: 55 } ，可以传入extent: map.getExtent()
+     * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
@@ -12194,8 +12220,9 @@ declare class TdtPOI {
         text: string;
         types?: string;
         city?: string;
+        citylimit?: boolean;
         level?: string;
-        mapBound?: string;
+        extent?: any;
         count?: number;
         page?: number;
         success?: (...params: any[]) => any;
@@ -12250,11 +12277,12 @@ declare class TdtPOI {
         error?: (...params: any[]) => any;
     }): any | Promise<any>;
     /**
-     * 视野内搜索
+     * 矩形范围内搜索（可用于视野内，瓦片格内）
      * @param queryOptions - 查询参数
      * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
      * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
-     * @param queryOptions.extent - 可传入左上右下两顶点坐标对；
+     * @param queryOptions.extent - 可传入左上右下两顶点坐标对或{ xmin: 70,  xmax: 140,  ymin: 0,  ymax: 55 }；
+     * @param [queryOptions.limit = false] - 是否严格限定召回结果在设置检索的多边形或矩形范围内。true（是），false（否）。设置为true时会影响返回结果中total准确性及每页召回poi数量， 设置为false时可能会召回检索半径外的poi。
      * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.success] - 查询完成的回调方法
@@ -12264,12 +12292,117 @@ declare class TdtPOI {
     queryExtent(queryOptions: {
         text: string;
         types?: string;
-        extent: any[][];
+        extent: any[][] | any;
+        limit?: boolean;
         count?: number;
         page?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): any | Promise<any>;
+}
+
+/**
+ * 查询路径规划
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.service = "gaode"] - 服务类型，支持："tdt"天地图POI服务,"baidu"百度POI服务,,"gaode"高德POI服务
+ * @param [options.key] - 对应服务的Token值
+ * @param [options.headers = {}] - 将被添加到HTTP请求头。
+ * @param [options.proxy] - 加载资源时使用的代理。
+ */
+declare class QueryRoute {
+    constructor(options?: {
+        service?: QueryServiceType | string;
+        key?: string | string[];
+        headers?: any;
+        proxy?: string;
+    });
+    /**
+     * 更新参数
+     * @param options - 与类的构造方法参数相同
+     */
+    setOptions(options: any): any | void;
+    /**
+     * 按指定类别自动查询
+     * @param queryOptions - 查询参数
+     * @param queryOptions.type - 类型
+     * @param queryOptions.points - 按起点、终点 顺序的坐标数组,如[[117.500244, 40.417801],[117.500244, 40.417801]]
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    query(queryOptions: {
+        type: QueryRouteType | string;
+        points: any[][];
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): any | Promise<any>;
+    /**
+     * 按指定类别自动查询(多个路线数组，递归处理)
+     * @param queryOptions - 查询参数
+     * @param queryOptions.type - 类型
+     * @param queryOptions.points - 多条，按起点终点 顺序的坐标数组,如[
+     *  [ [117.500244, 40.417801],[117.500244, 40.417801] ],
+     *  [ [117.500244, 40.417801],[117.500244, 40.417801] ]
+     * ]
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    queryArr(queryOptions: {
+        type: QueryRouteType;
+        points: any[][];
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): any | Promise<any>;
+    /**
+     * 步行路径规划 (单个查询)
+     * @param queryOptions - 查询参数
+     * @param queryOptions.points - 按起点、终点 顺序的坐标数组,如[[117.500244, 40.417801],[117.500244, 40.417801]]
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    queryWalking(queryOptions: {
+        points: any[][];
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): any | Promise<any>;
+    /**
+     * 骑行路径查询 (单个查询)
+     * @param queryOptions - 查询参数
+     * @param queryOptions.points - 按起点、终点 顺序的坐标数组,如[[117.500244, 40.417801],[117.500244, 40.417801]]
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    queryBicycling(queryOptions: {
+        points: any[][];
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): any | Promise<any>;
+    /**
+     * 驾车路径规划查询
+     * @param queryOptions - 查询参数
+     * @param queryOptions.points - 按起点、途经点、终点 顺序的坐标数组,如[[117.500244, 40.417801],[117.500244, 40.417801]]
+     * @param queryOptions.avoidpolygons - 区域避让数组(支持多个)，支持32个避让区域，每个区域最多可有16个顶点。避让区域不能超过81平方公里，否则避让区域会失效。
+     * @param [queryOptions.strategy = 0] - 驾车选择策略，参考高德官网说明，默认为0：速度优先，不考虑当时路况，此路线不一定距离最短
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    queryDriving(queryOptions: {
+        points: any[][];
+        avoidpolygons: any[][];
+        strategy?: string;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): any | Promise<any>;
+    /**
+     * 计算结果中的最短距离的导航路径
+     * @param data - queryArr返回的结果数组
+     * @returns 返回路线数据和index顺序
+     */
+    getShortestPath(data: any): any | any;
 }
 
 /**
@@ -12334,7 +12467,63 @@ declare class ExpImg extends BaseThing {
         download?: boolean;
         fileName?: number;
         calllback?: (...params: any[]) => any;
-    }): any | void;
+    }): any | Promise<string>;
+}
+
+declare namespace KeyboardRoam {
+    /**
+     * 当前类支持的{@link EventType}事件类型
+     * @example
+     * //绑定监听事件
+     * layer.on(mars2d.EventType.load, function (event) {
+     *   console.log('矢量数据对象加载完成', event)
+     * })
+     * @property keydown - 左键单击 鼠标事件
+     * @property keyup - 完成加载，执行所有内部处理后
+     */
+    type EventType = {
+        keydown: string;
+        keyup: string;
+    };
+}
+
+/**
+ * 键盘漫游功能
+ * @param [options] - 参数对象，包括以下
+ * @param [options.id = createGuid()] - 对象的id标识
+ * @param [options.enabled = true] - 对象的启用状态
+ * @param [options.moveStep = 10] - 步长（米）
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
+ */
+declare class KeyboardRoam extends BaseThing {
+    constructor(options?: {
+        id?: string | number;
+        enabled?: boolean;
+        moveStep?: number;
+        eventParent?: BaseClass | boolean;
+    });
+    /**
+     * 是否启用
+     */
+    enabled: boolean;
+    /**
+     * 步幅
+     */
+    moveStep: number;
+    /**
+     * 更新参数
+     * @param options - 与类的构造方法参数相同
+     * @param [funOptions] - 方法参数，包括以下
+     * @param [funOptions.merge = true] - 是否合并参数, 如是完整覆盖不合并老的options，请传入fasle
+     * @returns 当前对象本身，可以链式调用
+     */
+    setOptions(options: any, funOptions?: {
+        merge?: boolean;
+    }): any | BaseThing | any;
+    /**
+     * 当前类的构造参数
+     */
+    readonly options: any;
 }
 
 /**
@@ -12955,6 +13144,20 @@ declare namespace PolyUtil {
      * @returns 坐标集合 ,如： {points:[LngLatPoint,LngLatPoint], size: 500 }
      */
     function getGridPoints(bounds: L.LatLngBounds, count: number): any | any;
+    /**
+     * 判断点是否 多边形内
+     * @param latlng - 需要判断的点位
+     * @param latlngs - 多边形的边界点
+     * @returns 是否在面内
+     */
+    function isInPoly(latlng: L.LatLng, latlngs: L.LatLng[]): any | boolean;
+    /**
+     * 求坐标数组的中心点
+     * @param latlngs - 坐标数组
+     * @param crs - 坐标系
+     * @returns 中心点坐标
+     */
+    function centerOfMass(latlngs: L.LatLng[], crs?: CRS | L.CRS | string | any): any | L.LatLng;
 }
 
 /**
@@ -13437,6 +13640,7 @@ declare namespace layer {
   export { WfsLayer }
   export { HeatLayer }
   export { CanvasMarkerLayer }
+  export { BusineDataLayer }
 
   export { EchartsLayer }
   export { MapVLayer }
@@ -13450,8 +13654,11 @@ declare namespace layer {
  * 服务查询类 命名空间
  */
 declare namespace query {
-  export { GaodePOI }
-  export { GaodeRoute }
+  export { BaseQueryPOI }
+  export { QueryPOI }
+  export { BaseQueryRoute }
+  export { QueryRoute }
+
   export { QueryArcServer }
   export { QueryGeoServer }
 }
@@ -13464,6 +13671,7 @@ declare namespace query {
 declare namespace thing {
   export { Measure }
   export { ExpImg }
+  export { KeyboardRoam }
 }
 
 
@@ -13472,6 +13680,6 @@ export {
   BaseClass, BaseThing, SmallTooltip, Token, CRS, ChinaCRS, EventType, GraphicType, LayerType, HorizontalOrigin, VerticalOrigin, MapSwichType, State,
   Util, Log, GraphicUtil, LayerUtil, PointUtil, PointTrans, PolyUtil, DrawUtil, MeasureUtil,
   BaseStyleConver, MarkerStyleConver, DivGraphicStyleConver, LabelStyleConver, PointStyleConver, CircleStyleConver, PolylineStyleConver, PolygonStyleConver, RectangleStyleConver,
-  control, graphic, layer, thing, query,
+  control, graphic, layer, thing, query, QueryServiceType, QueryRouteType,
   Map,
 };
