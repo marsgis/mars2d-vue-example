@@ -28,7 +28,11 @@ export function onUnmounted() {
 }
 
 export function showClusteringFn(val) {
-  clusterLayer.clusterEnabled = val
+  if (clusterLayer) {
+    clusterLayer.clusterEnabled = val
+  } else {
+    globalAlert("聚合图层未创建")
+  }
 }
 
 export function removeLayer() {

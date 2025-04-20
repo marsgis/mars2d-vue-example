@@ -45,7 +45,8 @@ function creatMap3D() {
   return mars2d.Util.fetchJson({ url: configUrl })
     .then(function (data) {
       // 构建地图
-      map3d = new mars3d.Map("map3d", data.map3d)
+      map3d = new mars3d.Map("map3d", data)
+      map3d.basemap = "天地图影像"
       bind3dEvent()
       bind2dEvent()
       viewTo23D() // 默认

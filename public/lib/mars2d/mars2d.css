@@ -2,7 +2,7 @@
  * Mars2D地理信息平台  mars2d
  *
  * 版本信息：v3.3.2
- * 编译日期：2025-04-17 19:12
+ * 编译日期：2025-04-20 12:04
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -1228,12 +1228,10 @@
 .mars2d-label-graphic {
   color: #333;
   white-space: nowrap;
-  width: 100%;
-  height: 100%;
 }
 .mars2d-label-graphic .mars2d-label-graphic-img {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

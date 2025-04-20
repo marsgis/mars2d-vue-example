@@ -3,7 +3,7 @@
  * Mars2D地理信息平台  mars2d
  *
  * 版本信息：v3.3.2
- * 编译日期：2025-04-17 19:12
+ * 编译日期：2025-04-20 12:04
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -312,6 +312,7 @@ declare enum GraphicType {
     ellipse,
     polyline,
     brushLine,
+    antPath,
     polygon,
     rectangle,
     image,
@@ -1173,7 +1174,7 @@ declare namespace AntPath {
 }
 
 /**
- * AntPath  矢量对象
+ * 动画铁路线  矢量对象
  * @param options - 参数对象，包括以下：
  * @param [options.latlngs] - 坐标数组
  * @param [options.latlng] - 坐标(use: L.circle 时)

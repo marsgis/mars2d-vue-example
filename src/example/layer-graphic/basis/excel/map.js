@@ -68,7 +68,6 @@ export function openFile(file) {
 }
 
 async function importCsvData(result) {
-
   const rows = result.split("\n")
   const heads = rows[0].trim().split(",") // 列头
 
@@ -175,7 +174,12 @@ function addGraphics(points) {
       style: {
         image: "img/marker/point-red.png",
         horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
-        verticalOrigin: mars2d.VerticalOrigin.BOTTOM
+        verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
+        label: {
+          text: item["名称"],
+          font_size: 18,
+          color: "#000000"
+        }
       },
       attr: item
     })

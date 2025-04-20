@@ -131,18 +131,24 @@ function addDemoGraphic4() {
 
 export function startDrawGraphic() {
   graphicLayer.startDraw({
-    type: "antPath",
+    type: "polyline",
     style: {
-      width: 3,
-      color: "#0000ff",
-      label: {
-        text: "我是文本",
-        color: "#0000FF",
-        font_size: 20
-      }
+      width: 6,
+      color: "#0000ff"
     },
-    success: function (graphic) {
-      console.log("标绘完成", graphic)
+    success: function (graphicLine) {
+      const latlngs = graphicLine.latlngs
+      graphicLine.remove()
+
+      const graphic = new mars2d.graphic.AntPath({
+        latlngs: latlngs,
+        style: {
+          width: 6,
+          color: "#0000ff",
+          delay: 2000
+        }
+      })
+      graphicLayer.addGraphic(graphic)
     }
   })
 }

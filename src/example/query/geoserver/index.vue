@@ -147,7 +147,8 @@ function getServeColumnsAndData(list) {
       ]
 
       dataSource.value = list.map((item: any, index: number) => {
-        return { key: index, name: item.NAME, address: item.address, graphic: item.graphic }
+        // return { key: index, name: item.NAME, address: item.address, graphic: item.graphic }
+        return { key: index, name: item["项目名称"], address: item["具体位置"], graphic: item.graphic }
       })
       break
     }
@@ -160,7 +161,8 @@ function getServeColumnsAndData(list) {
       ]
 
       dataSource.value = list.map((item: any, index: number) => {
-        return { key: index, name: item["用地名称"], guihua: item["规划用地"], order: item["规划用地"], area: item.Shape_Area, graphic: item.graphic }
+        // return { key: index, name: item["用地名称"], guihua: item["规划用地"], order: item["规划用地"], area: item.Shape_Area, graphic: item.graphic }
+        return { key: index, name: item["项目名称"], guihua: item.OBJECTID, order: item.OBJECTID, area: item["用地面积"], graphic: item.graphic }
       })
       break
     }

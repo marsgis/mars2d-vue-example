@@ -205,7 +205,7 @@ const geoUtil = {
     // 获得裁切点
     const intersects = turf.lineIntersect(polyLine, clipLine)
     if (intersects.features.length !== 2) {
-      throw new Error({ state: "裁剪失败", message: "切割线与多边形交点应该为2个,当前交点个数为" + intersects.features.length })
+      return
     }
     // 检查切割线与多边形的位置关系 （切割线的起点和终点不能落在多边形内部）
     const clipLineLength = clipLine.geometry.coordinates.length
