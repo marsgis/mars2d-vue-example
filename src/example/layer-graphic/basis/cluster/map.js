@@ -7,12 +7,7 @@ let clusterLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 

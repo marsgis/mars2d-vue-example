@@ -7,12 +7,7 @@ export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
@@ -36,6 +31,108 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
 }
+
+function addDemoGraphic1() {
+  const graphic = new mars2d.graphic.Point({
+    latlng: [31.854628, 117.245425],
+    style: {
+      pixelSize: 8,
+      color: "#ff0000"
+    },
+    attr: { remark: "示例1" }
+  })
+  graphicLayer.addGraphic(graphic)
+
+  // 演示个性化处理graphic，
+  initGraphicManager(graphic)
+}
+
+function addDemoGraphic2() {
+  const graphic = new mars2d.graphic.Point({
+    latlng: L.latLng(31.810858, 117.21),
+    style: {
+      pixelSize: 10,
+      fill: false,
+      outline: true,
+      outlineColor: "#0000FF",
+      outlineWidth: 3,
+      outlineOpacity: 1.0,
+      label: {
+        text: "我是火星科技",
+        color: "#0000FF",
+        font_size: 20,
+        offsetY: 30
+      }
+    },
+    attr: { remark: "示例2" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic3() {
+  const graphic = new mars2d.graphic.Point({
+    latlng: L.latLng(31.818606, 117.296904),
+    style: {
+      pixelSize: 10,
+      // fill: true,
+      color: "#00ffff",
+      opacity: 0.3,
+      outline: true,
+      outlineColor: "#00ff00",
+      outlineOpacity: 1.0
+    },
+    attr: { remark: "示例3" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+export function startDrawGraphic() {
+  graphicLayer.startDraw({
+    type: "point",
+    style: {
+      pixelSize: 8,
+      color: "#ff0000",
+      label: {
+        text: "我是文本",
+        color: "#ff0000",
+        font_size: 20,
+        offsetY: 30
+      }
+    },
+    success: function (graphic) {
+      console.log("标绘完成", graphic)
+    }
+  })
+}
+
+// 生成演示数据(测试数据量)
+export function addRandomGraphicByCount(count) {
+  graphicLayer.clear()
+
+  const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+  const result = mars2d.PolyUtil.getGridPoints(bbox, count, 30)
+  console.log("生成的测试网格坐标", result)
+
+  for (let j = 0; j < result.points.length; ++j) {
+    const latlng = result.points[j]
+    const index = j + 1
+
+    const graphic = new mars2d.graphic.Point({
+      latlng,
+      style: {
+        pixelSize: 8,
+        color: "#ff0000"
+      },
+      attr: { index }
+    })
+    graphicLayer.addGraphic(graphic)
+  }
+
+  return count.length
+}
+
+
+
 
 // 在图层级处理一些事物
 function initLayerManager() {
@@ -208,103 +305,4 @@ function initGraphicManager(graphic) {
       }
     }
   ])
-}
-
-function addDemoGraphic1() {
-  const graphic = new mars2d.graphic.Point({
-    latlng: [31.854628, 117.245425],
-    style: {
-      pixelSize: 8,
-      color: "#ff0000"
-    },
-    attr: { remark: "示例1" }
-  })
-  graphicLayer.addGraphic(graphic)
-
-  // 演示个性化处理graphic，
-  initGraphicManager(graphic)
-}
-
-function addDemoGraphic2() {
-  const graphic = new mars2d.graphic.Point({
-    latlng: L.latLng(31.810858, 117.21),
-    style: {
-      pixelSize: 10,
-      fill: false,
-      outline: true,
-      outlineColor: "#0000FF",
-      outlineWidth: 3,
-      outlineOpacity: 1.0,
-      label: {
-        text: "我是火星科技",
-        color: "#0000FF",
-        font_size: 20,
-        offsetY: 30
-      }
-    },
-    attr: { remark: "示例2" }
-  })
-  graphicLayer.addGraphic(graphic)
-}
-
-function addDemoGraphic3() {
-  const graphic = new mars2d.graphic.Point({
-    latlng: L.latLng(31.818606, 117.296904),
-    style: {
-      pixelSize: 10,
-      // fill: true,
-      color: "#00ffff",
-      opacity: 0.3,
-      outline: true,
-      outlineColor: "#00ff00",
-      outlineOpacity: 1.0
-    },
-    attr: { remark: "示例3" }
-  })
-  graphicLayer.addGraphic(graphic)
-}
-
-export function startDrawGraphic() {
-  graphicLayer.startDraw({
-    type: "point",
-    style: {
-      pixelSize: 8,
-      color: "#ff0000",
-      label: {
-        text: "我是文本",
-        color: "#ff0000",
-        font_size: 20,
-        offsetY: 30
-      }
-    },
-    success: function (graphic) {
-      console.log("标绘完成", graphic)
-    }
-  })
-}
-
-// 生成演示数据(测试数据量)
-export function addRandomGraphicByCount(count) {
-  graphicLayer.clear()
-
-  const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
-  const result = mars2d.PolyUtil.getGridPoints(bbox, count, 30)
-  console.log("生成的测试网格坐标", result)
-
-  for (let j = 0; j < result.points.length; ++j) {
-    const latlng = result.points[j]
-    const index = j + 1
-
-    const graphic = new mars2d.graphic.Point({
-      latlng,
-      style: {
-        pixelSize: 8,
-        color: "#ff0000"
-      },
-      attr: { index }
-    })
-    graphicLayer.addGraphic(graphic)
-  }
-
-  return count.length
 }

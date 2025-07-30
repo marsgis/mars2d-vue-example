@@ -348,6 +348,153 @@ const styleConfig = {
       }
     ]
   },
+  rain: {
+    name: "雨",
+    style: [
+      {
+        name: "color",
+        label: "填充颜色",
+        type: "color",
+        defval: "#4ea6e9"
+      },
+      {
+        name: "angle",
+        label: "角度",
+        type: "slider",
+        defval: 80,
+        min: 0.0,
+        max: 360.0,
+        step: 0.1
+      },
+      {
+        name: "width",
+        label: "宽度：",
+        type: "slider",
+        defval: 1,
+        min: 1.0,
+        max: 10.0,
+        step: 0.1
+      },
+      {
+        name: "spacing",
+        label: "水平空隙",
+        type: "slider",
+        defval: 10,
+        min: 1.0,
+        max: 20.0,
+        step: 1
+      },
+      {
+        name: "length",
+        label: "长度",
+        type: "slider",
+        defval: 4,
+        min: 1.0,
+        max: 10.0,
+        step: 0.1
+      },
+      {
+        name: "interval",
+        label: "垂直空隙",
+        type: "slider",
+        defval: 10,
+        min: 1.0,
+        max: 20.0,
+        step: 1
+      },
+      {
+        name: "speed",
+        label: "速度",
+        type: "slider",
+        defval: 1,
+        min: 0.1,
+        max: 10.0,
+        step: 0.1
+      }
+    ]
+  },
+  snow: {
+    name: "雪",
+    style: [
+      {
+        name: "color",
+        label: "填充颜色",
+        type: "color",
+        defval: "#ffffff"
+      },
+      {
+        name: "size",
+        label: "大小",
+        type: "slider",
+        defval: 12.0,
+        min: 1.0,
+        max: 24.0,
+        step: 1
+      },
+      {
+        name: "density",
+        label: "密度",
+        type: "slider",
+        defval: 4.0,
+        min: 1.0,
+        max: 5.0,
+        step: 1
+      },
+      {
+        name: "layersCount",
+        label: "层数",
+        type: "slider",
+        defval: 5.0,
+        min: 1.0,
+        max: 5.0,
+        step: 1
+      },
+      {
+        name: "speed",
+        label: "速度",
+        type: "slider",
+        defval: 150.0,
+        min: 1.0,
+        max: 300.0,
+        step: 1
+      }
+    ]
+  },
+  polyDecorator: {
+    name: "线面装饰点",
+    style: [
+      {
+        name: "offset",
+        label: "偏移量",
+        type: "slider",
+        defval: 100.0,
+        min: 1.0,
+        max: 100.0,
+        step: 1
+      },
+      {
+        name: "repeat",
+        label: "重复",
+        type: "slider",
+        defval: 0.0,
+        min: 1.0,
+        max: 100.0,
+        step: 1
+      },
+      {
+        name: "color",
+        label: "颜色",
+        type: "color",
+        defval: "rgba(51, 136, 255, 1)",
+        show(style, allStyle, graphicType) {
+          if (style.symbolOptions.type === "marker") {
+            return false
+          }
+          return true
+        }
+      },
+    ]
+  },
   rectangle: {
     name: "矩形",
     style: [

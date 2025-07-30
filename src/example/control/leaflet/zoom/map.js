@@ -12,12 +12,7 @@ export const mapOptions = function (option) {
   return option
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 

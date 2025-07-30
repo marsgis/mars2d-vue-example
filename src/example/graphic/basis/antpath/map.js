@@ -7,12 +7,7 @@ export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
@@ -53,7 +48,6 @@ function addDemoGraphic1() {
     [117.286308, 31.804112, 29.2],
     [117.28621, 31.801059, 24.6]
   ])
-  console.log(latlngs)
 
   const graphic = new mars2d.graphic.AntPath({
     latlngs,
@@ -131,24 +125,13 @@ function addDemoGraphic4() {
 
 export function startDrawGraphic() {
   graphicLayer.startDraw({
-    type: "polyline",
+    type: "antPath",
     style: {
       width: 6,
       color: "#0000ff"
     },
-    success: function (graphicLine) {
-      const latlngs = graphicLine.latlngs
-      graphicLine.remove()
-
-      const graphic = new mars2d.graphic.AntPath({
-        latlngs: latlngs,
-        style: {
-          width: 6,
-          color: "#0000ff",
-          delay: 2000
-        }
-      })
-      graphicLayer.addGraphic(graphic)
+    success: function (graphic) {
+      console.log("标绘完成", graphic)
     }
   })
 }
@@ -214,7 +197,7 @@ function bindLayerPopup() {
 
 // 绑定右键菜单
 function bindLayerContextMenu() {
-  graphicLayer.bindContextMenu([
+   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
@@ -243,6 +226,36 @@ function bindLayerContextMenu() {
       callback: function (e) {
         const graphic = e.graphic
         graphicLayer.stopEditing()
+      }
+    },
+    {
+      text: "复制",
+      iconCls: "fa fa-copy",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+        }
+      }
+    },
+    {
+      text: "剪切",
+      iconCls: "fa fa-scissors",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+
+          graphic.remove(true) // 移除原有对象
+        }
       }
     },
     {

@@ -176,6 +176,16 @@
             "thumbnail": "map-manager-backgroundImage.jpg",
             "main": "map/manager/backgroundImage",
             "hasPannel": true
+          },
+          {
+            "name": "旋转地图",
+            "thumbnail": "map-manager-rotate.jpg",
+            "main": "map/manager/rotate",
+            "hasPannel": true,
+            "libs": [
+              "mars2d",
+              "leaflet-rotate"
+            ]
           }
         ]
       },
@@ -595,6 +605,15 @@
             "name": "经纬网",
             "thumbnail": "layer-graphic-other-graticule.jpg",
             "main": "layer-graphic/other/graticule"
+          },
+          {
+            "name": "迁徙效果",
+            "main": "graphic/basis/polyline-migration",
+            "hasPannel": true,
+            "libs": [
+              "mars2d",
+              "leaflet-migration"
+            ]
           }
         ]
       },
@@ -696,6 +715,12 @@
             "main": "graphic/basis/marker-pulse"
           },
           {
+            "name": "弹跳图标点",
+            "thumbnail": "graphic-basis-bouncingMarker.jpg",
+            "main": "graphic/basis/bouncingMarker",
+            "hasPannel": true
+          },
+          {
             "name": "图标点+文字(含聚合)",
             "thumbnail": "graphic-basis-marker-labe.jpg",
             "main": "graphic/basis/marker-labe"
@@ -794,6 +819,18 @@
             "hasPannel": true
           },
           {
+            "name": "有线上文本的折线",
+            "thumbnail": "graphic-basis-polyline-text.jpg",
+            "main": "graphic/basis/polyline-text",
+            "hasPannel": true
+          },
+          {
+            "name": "线面装饰点(箭头线)",
+            "thumbnail": "graphic-basis-polyDecorator.jpg",
+            "main": "graphic/basis/polyDecorator",
+            "hasPannel": true
+          },
+          {
             "name": "平行线",
             "thumbnail": "graphic-basis-polyline-offset.jpg",
             "main": "graphic/basis/polyline-offset"
@@ -882,6 +919,18 @@
             "thumbnail": "graphic-basis-ellipse.jpg",
             "main": "graphic/basis/ellipse",
             "hasPannel": true
+          },
+          {
+            "name": "雨",
+            "thumbnail": "graphic-basis-rain.jpg",
+            "main": "graphic/basis/rain",
+            "hasPannel": true
+          },
+          {
+            "name": "雪",
+            "thumbnail": "graphic-basis-snow.jpg",
+            "main": "graphic/basis/snow",
+            "hasPannel": true
           }
         ]
       },
@@ -956,6 +1005,15 @@
             "thumbnail": "graphic-fun-isInPoly.jpg",
             "main": "graphic/fun/isInPoly",
             "hasPannel": true
+          },
+          {
+            "name": "时序轨迹路线",
+            "main": "layer-graphic/other/trackplayback",
+            "hasPannel": true,
+            "libs": [
+              "mars2d",
+              "leaflet-trackplayback"
+            ]
           }
         ]
       }

@@ -162,8 +162,9 @@ function getAttrForEvent(event) {
 // 绑定右键菜单
 function bindLayerContextMenu() {
   const graphicLayer = getManagerLayer()
+  const map = graphicLayer._map
 
-  graphicLayer.bindContextMenu([
+   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
@@ -192,6 +193,36 @@ function bindLayerContextMenu() {
       callback: function (e) {
         const graphic = e.graphic
         graphicLayer.stopEditing()
+      }
+    },
+    {
+      text: "复制",
+      iconCls: "fa fa-copy",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+        }
+      }
+    },
+    {
+      text: "剪切",
+      iconCls: "fa fa-scissors",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+
+          graphic.remove(true) // 移除原有对象
+        }
       }
     },
     {

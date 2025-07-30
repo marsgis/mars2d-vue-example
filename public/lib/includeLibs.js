@@ -58,6 +58,17 @@ window.configLibs = {
   "leaflet-wind": [
     "mars2d/thirdParty/wind/leaflet-wind.js",
   ],
+  "leaflet-migration": [
+    "mars2d/thirdParty/migration/leaflet-migrationLayer.js",
+  ],
+  "leaflet-rotate": [
+    "mars2d/thirdParty/rotate/leaflet-rotate.js",
+  ],
+  "leaflet-trackplayback": [
+    "mars2d/thirdParty/trackplayback/leaflet.trackplayback.js",
+  ],
+
+
   /// ///////////////////////mars3d及其插件////////////////////////
   mars3d: [
     // 地图 主库
@@ -106,21 +117,3 @@ window.configLibs = {
 
 
 
-// 本地测试  localStorage.setItem("muyao-debugger",1)
-if (localStorage.getItem("muyao-debugger") === "1") {
-  for (const key in window.configLibs) {
-    if (key.startsWith("mars2d")) {
-      const arrUrl = window.configLibs[key]
-      for (let index = 0; index < arrUrl.length; index++) {
-        const url = arrUrl[index]
-        const fileName = url?.substring(url.lastIndexOf("/") + 1, url.length)
-        if (fileName.startsWith("mars2d")) {
-          arrUrl[index] = arrUrl[index].replace(".js", "-src.js").replace(".css", "-src.css")
-        } else if (fileName.indexOf("leaflet") !== -1) {
-          arrUrl[index] = arrUrl[index].replace(".js", "-src.js")
-        }
-      }
-    }
-  }
-  console.log("正在使用SDK调试版本")
-}

@@ -12,12 +12,7 @@ let map: mars2d.Map // mars2d.Map三维地图对象
 let layersTool: mars2d.control.ToolButton
 let basemapsTool: mars2d.control.ToolButton
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance: mars2d.Map): void {
   console.log("tools-button onMounted 初始化")
   map = mapInstance // 记录map

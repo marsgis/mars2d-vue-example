@@ -1,8 +1,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.3.2
- * 编译日期：2025-04-20 12:04
+ * 版本信息：v3.3.3
+ * 编译日期：2025-07-30 22:05
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -868,6 +868,34 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: alpha(opacity=0);
   }
+}
+@keyframes mars2d-bouncing-move {
+  from {
+    transform: translate(var(--pos-x), var(--pos-y));
+  }
+  to {
+    transform: translate(var(--pos-x-jump, var(--pos-x)), var(--pos-y-jump));
+  }
+}
+@keyframes mars2d-bouncing-contract {
+  from {
+    transform: translate(var(--pos-x), var(--pos-y));
+  }
+  to {
+    transform: translate(var(--pos-x), var(--pos-y-contract)) scaleY(var(--scale-contract));
+  }
+}
+.mars2d-bouncing {
+  animation-name: mars2d-bouncing-move, mars2d-bouncing-move, mars2d-bouncing-contract, mars2d-bouncing-contract;
+  animation-direction: normal, reverse, normal, reverse;
+  animation-duration: var(--duration-jump), var(--duration-jump), var(--duration-contract), var(--duration-contract);
+  animation-delay: var(--delays);
+}
+.mars2d-bouncing.simple {
+  animation-name: mars2d-bouncing-move, mars2d-bouncing-move;
+  animation-direction: normal, reverse;
+  animation-duration: var(--duration-jump), var(--duration-jump);
+  animation-delay: var(--delays);
 }
 /**内置的DivGraphic通用样式【文本动态边框】*/
 .mars2d-divBoderLabel {

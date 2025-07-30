@@ -30,6 +30,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic3()
   addDemoGraphic4()
   addDemoGraphic5()
+  addDemoGraphic6()
 }
 
 /**
@@ -75,8 +76,8 @@ function bindLayerPopup() {
 
 // 绑定右键菜单
 function bindLayerContextMenu() {
-  graphicLayer.bindContextMenu([
-        {
+   graphicLayer.bindContextMenu([
+    {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
       show: function (e) {
@@ -104,6 +105,36 @@ function bindLayerContextMenu() {
       callback: function (e) {
         const graphic = e.graphic
         graphicLayer.stopEditing()
+      }
+    },
+    {
+      text: "复制",
+      iconCls: "fa fa-copy",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+        }
+      }
+    },
+    {
+      text: "剪切",
+      iconCls: "fa fa-scissors",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+
+          graphic.remove(true) // 移除原有对象
+        }
       }
     },
     {
@@ -324,8 +355,28 @@ function addDemoGraphic2() {
   }
 }
 
-// 示例3：吃豆豆
 function addDemoGraphic3() {
+  const graphic = new mars2d.graphic.Circle({
+    latlng: [30.686545, 116.08017],
+    style: {
+      diffuse: 3, // 扩散动画
+      radius: 5000, // 单位：米
+      startAngle: 45,
+      stopAngle: 100,
+      rotation: 0,
+
+      fill: true,
+      fillColor: "#ff0000",
+      fillOpacity: 0.9,
+      outline: false
+    },
+    attr: { remark: "示例3" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+// 示例3：吃豆豆
+function addDemoGraphic4() {
   const graphic = new mars2d.graphic.Circle({
     latlng: [30.7, 115.2],
     style: {
@@ -342,7 +393,7 @@ function addDemoGraphic3() {
       outlineOpacity: 1.0,
       outlineWidth: 2
     },
-    attr: { remark: "示例3" }
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -358,7 +409,7 @@ function addDemoGraphic3() {
 }
 
 // 组合：雷达线扇形
-function addDemoGraphic4() {
+function addDemoGraphic5() {
   const interval = 1000
   for (let i = 1; i <= 8; i++) {
     const graphic = new mars2d.graphic.Circle({
@@ -375,14 +426,14 @@ function addDemoGraphic4() {
         outlineColor: "#000",
         outlineOpacity: 1
       },
-      attr: { remark: "示例4" }
+      attr: { remark: "示例5" }
     })
     graphicLayer.addGraphic(graphic)
   }
 }
 
 // 组合：3各圆辐射标志组合
-function addDemoGraphic5() {
+function addDemoGraphic6() {
   const latlng = [30.7, 115.8]
   const radius = 5000
 
@@ -396,7 +447,7 @@ function addDemoGraphic5() {
       outline: true,
       outlineColor: "red"
     },
-    attr: { remark: "示例5" }
+    attr: { remark: "示例6" }
   }).addTo(graphicLayer)
 
   const graphic1 = new mars2d.graphic.Circle({

@@ -4,14 +4,11 @@ let map
 let echartsLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {}
+export const mapOptions = {
+  // zoomAnimation: false
+}
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.setView([33.652, 107.661], 4)
@@ -300,6 +297,7 @@ function showEchartsLayer() {
   })
 
   const options = {
+    animation: false,
     backgroundColor: "rgba(116, 112, 124, 0.2)",
     title: {
       text: "北京病人就诊流向图",
@@ -336,7 +334,7 @@ function showEchartsLayer() {
     series: mySeries
   }
 
-  const echartsLayer = new mars2d.layer.EchartsLayer(options)
+  echartsLayer = new mars2d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 
   echartsLayer.on("click", function (event) {

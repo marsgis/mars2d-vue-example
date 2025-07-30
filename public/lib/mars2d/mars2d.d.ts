@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.3.2
- * 编译日期：2025-04-20 12:04
+ * 版本信息：v3.3.3
+ * 编译日期：2025-07-30 22:05
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -2255,6 +2255,14 @@ declare class BaseDraw extends L.Handler {
  * @param [options.id] - 矢量数据id标识
  */
 declare class BaseSimpleShape extends BaseDraw {
+    constructor();
+}
+
+/**
+ * 圆  对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
+ */
+declare class DrawAntPath extends BaseDraw {
     constructor();
 }
 
@@ -13588,6 +13596,8 @@ declare namespace graphic {
   export { DrawDivGraphic }
   export { DrawPolyline }
   export { DrawPolygon }
+  export { DrawRain }
+  export { DrawSnow }
   export { DrawBrushLine }
   export { DrawDistanceMeasure }
   export { DrawAreaMeasure }

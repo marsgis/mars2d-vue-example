@@ -6,12 +6,7 @@ export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
@@ -295,7 +290,7 @@ function bindLayerPopup() {
 
 // 绑定右键菜单
 function bindLayerContextMenu() {
-  graphicLayer.bindContextMenu([
+   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
@@ -324,6 +319,36 @@ function bindLayerContextMenu() {
       callback: function (e) {
         const graphic = e.graphic
         graphicLayer.stopEditing()
+      }
+    },
+    {
+      text: "复制",
+      iconCls: "fa fa-copy",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+        }
+      }
+    },
+    {
+      text: "剪切",
+      iconCls: "fa fa-scissors",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+
+          graphic.remove(true) // 移除原有对象
+        }
       }
     },
     {
