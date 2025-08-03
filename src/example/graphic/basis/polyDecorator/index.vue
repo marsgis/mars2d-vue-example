@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <graphic-layer-state :interaction="false" />
+    <graphic-layer-state :interaction="false" showSingleDelete/>
   </mars-dialog>
 </template>
 

@@ -49,6 +49,10 @@
     <a-space>
       <mars-button class="width-80 right-menu" v-if="!formState.isDrawing" @click="onClickStartDraw">{{ props.drawLabel1
         }}</mars-button>
+      <mars-button v-if="props.showSingleDelete" class="delete-button" @click="onClickClear" danger>
+        <mars-icon icon="delete"/>
+        清除
+      </mars-button>
       <mars-button v-if="props.drawLabel2 && !formState.isDrawing" class="width-80 f-mt" @click="onClickStartDraw2">{{
         props.drawLabel2
       }}</mars-button>
@@ -135,6 +139,7 @@ const props = withDefaults(
     drawLabel2?: string // 绘制按钮2 文本
     defaultCount?: number // 默认的数据量
     customEditor?: string
+    showSingleDelete?: boolean // 是否显示删除按钮,没有批量生成功能，也需要删除按钮时，可以添加这个
   }>(),
   {
     interaction: true,
@@ -143,7 +148,8 @@ const props = withDefaults(
     drawLabel1: "图上标绘",
     drawLabel2: undefined,
     defaultCount: 100,
-    customEditor: ""
+    customEditor: "",
+    showSingleDelete: false
   }
 )
 
@@ -851,6 +857,9 @@ const deleteGraphic = (record: GraphicTableItem) => {
   width: 110px;
 }
 
+.delete-button {
+  margin-top: 10px
+}
 .right-menu {
   margin-top: 10px;
   margin-left: 69px;

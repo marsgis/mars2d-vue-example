@@ -9,8 +9,8 @@ export const mapOptions = {
   center: { lng: 117.317408, lat: 31.716156 },
   basemaps: [
     {
-      type: "group",
       name: "国家天地图",
+      type: "group",
       layers: [
         { type: "tdt", layer: "vec_d", crs: "EPSG:4326", key: mars2d.Token.tiandituArr },
         { type: "tdt", layer: "vec_z", crs: "EPSG:4326", key: mars2d.Token.tiandituArr }
@@ -18,12 +18,11 @@ export const mapOptions = {
       show: true
     },
     {
-      name: "wms地图",
+      name: "terrestris地图",
       type: "wms",
-      url: "http://vmap0.tiles.osgeo.org/wms/vmap0",
-      layers: "basic",
-      show: true,
-      format: "image/jpeg"
+      url: "https://ows.terrestris.de/osm/service",
+      layers: "OSM-WMS",
+      format: "image/png"
     }
   ]
 }

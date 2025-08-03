@@ -7,6 +7,18 @@ let map // mars2d.Map三维地图对象
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
+  addTileLayer()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addTileLayer() {
   const mapboxPbfLayer = new mars2d.layer.PbfLayer({
     url: "http://server.mars2d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf",
     interactive: true, // 是否允许鼠标交互，比如触发单击事件
@@ -46,14 +58,6 @@ export function onMounted(mapInstance) {
       .setContent(`用地编号:${attr["用地编号"]}<br/>用地名称:${attr["用地名称"]}<br/>规划用地:${attr["规划用地"]}<br/>`)
       .openOn(map)
   })
-}
-
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
 }
 
 // 规划 配色

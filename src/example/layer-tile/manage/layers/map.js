@@ -4,8 +4,8 @@ let map // mars2d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
-  zoom: 5,
-  center: { lng: 117.322405, lat: 31.623553 }
+  zoom: 10,
+  center: { lng: 117.233734, lat: 31.87989 }
 }
 
 // 事件对象，用于抛出事件给vue

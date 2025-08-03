@@ -45,7 +45,7 @@ function addGraphic1() {
     [117.286308, 31.804112, 29.2],
     [117.28621, 31.801059, 24.6]
   ])
-  console.log(latlngs)
+
   const graphic = new mars2d.graphic.Polyline({
     latlngs,
     style: {

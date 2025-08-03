@@ -11,6 +11,7 @@ export const mapOptions = {
 
   control: {
     scale: true,
+    layers: false,
     locationBar: {
       template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>层级:{level}</div>"
     },

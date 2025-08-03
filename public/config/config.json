@@ -153,7 +153,7 @@
   ],
   "operationallayers": [
     { "id": 20, "name": "辅助图层", "type": "group" },
-    { "pid": 20, "name": "实时路况", "type": "gaode", "layer": "time" },
+    { "pid": 20, "name": "实时路况", "type": "gaode", "layer": "time",   "proxy": "//server.mars2d.cn/proxy/" },
     { "pid": 20, "name": "经纬网", "type": "graticule" },
 
     {
@@ -370,8 +370,7 @@
           "width": 32,
           "height": 44
         }
-      },
-      "show": false
+      }
     },
     {
       "pid": 3010,
@@ -396,11 +395,10 @@
             "shadowSize": [100, 100],
             "shadowAnchor": [50, 50]
           },
-          "丰乐服务区": { "iconUrl": "img/marker/mark3.png" },
-          "众兴服务区": { "iconUrl": "img/marker/mark4.png" }
+          "丰乐服务区": { "image": "img/marker/mark3.png" },
+          "众兴服务区": { "image": "img/marker/mark4.png" }
         }
-      },
-      "show": false
+      }
     },
     {
       "pid": 3010,
@@ -426,8 +424,7 @@
           "蜀山收费站": { "color": "#BD0026" },
           "金寨路收费站": { "color": "#800026" }
         }
-      },
-      "show": false
+      }
     },
 
     {
@@ -442,8 +439,7 @@
           "color": "#000000",
           "dashArray": "10 20"
         }
-      },
-      "show": false
+      }
     },
 
     {
@@ -469,8 +465,7 @@
           "长淮街道": { "fillColor": "#E31A1C" },
           "南七街道": { "fillColor": "#BD0026" }
         }
-      },
-      "show": false
+      }
     },
     {
       "id": 3020,

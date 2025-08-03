@@ -337,9 +337,6 @@
             "libs": [
               "mars2d",
               "kriging"
-            ],
-            "resources": [
-              "krigingConfig.js"
             ]
           },
           {

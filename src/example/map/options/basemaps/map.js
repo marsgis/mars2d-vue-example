@@ -61,7 +61,7 @@ function initMap() {
         pid: 10,
         name: "高德卫星",
         type: "gaode",
-        layer: "img",
+        layer: "img_d",
         icon: "img/basemaps/bingimage.png"
       },
       {

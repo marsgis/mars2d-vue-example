@@ -60,6 +60,9 @@ function cameraChanged() {
     location: map.getCenter(),
     success: (result: any) => {
       address = result
+      if (Array.isArray(address.city) && address.city.length === 0) {
+        delete address.city
+      }
     }
   })
 }

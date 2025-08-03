@@ -183,11 +183,13 @@ function addGraphic4() {
     decorator.setStyle([
       {
         symbol: {
+          type: "dash",
           pathOptions: { color: "#1f1f1f" }
         }
       },
       {
         symbol: {
+          type: "dash",
           pathOptions: { color: "#f00" }
         }
       }

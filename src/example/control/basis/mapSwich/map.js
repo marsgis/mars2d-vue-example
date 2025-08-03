@@ -45,7 +45,7 @@ export function onMounted(mapInstance) {
         map.basemap = "天地图卫星"
         break
       case mars2d.control.MapSwich.Type.Map3D:
-        projectIfram.setAttribute("src", "http://mars3d.cn/project/jcxm/index.html") // mars3d的基础项目示例
+        projectIfram.setAttribute("src", "http://mars3d.cn/project/vue/map.html") // mars3d的基础项目示例
         projectIfram.style.display = ""
         projectIfram.style.zIndex = 400
 

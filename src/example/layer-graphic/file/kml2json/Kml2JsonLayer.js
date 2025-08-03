@@ -17,7 +17,7 @@ class Kml2JsonLayer extends mars2d.layer.GeoJsonLayer {
    */
   load(newOptions) {
     if (newOptions) {
-      if (mars2d.Util.defaultValue(newOptions.clear, true)) {
+      if (newOptions.clear ?? true) {
         delete this.options.url
         delete this.options.data
       }

@@ -3,7 +3,7 @@
  * Mars2D地理信息平台  mars2d
  *
  * 版本信息：v3.3.3
- * 编译日期：2025-07-30 22:05
+ * 编译日期：2025-08-03 20:06
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -13596,8 +13596,6 @@ declare namespace graphic {
   export { DrawDivGraphic }
   export { DrawPolyline }
   export { DrawPolygon }
-  export { DrawRain }
-  export { DrawSnow }
   export { DrawBrushLine }
   export { DrawDistanceMeasure }
   export { DrawAreaMeasure }

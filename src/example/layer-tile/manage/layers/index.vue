@@ -1,6 +1,7 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" bottom="40" width="330">
-    <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
+    <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys"
+      @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
@@ -58,9 +59,9 @@ const checkedChange = (keys: string[], e: any) => {
     if (keys.indexOf(e.node.id) !== -1) {
       layer.show = true
 
-      if (layer.options.center) {
-        layer.flyTo()
-      }
+      layer.flyTo() // 定位到图层
+      layer.once("load", layer.flyTo) // 部分图层需要等数据加载后再定位
+
     } else {
       layer.show = false
       mapWork.removeLayer(layer, layers)
@@ -166,6 +167,7 @@ function findChild(parent: any, list: any[]) {
   width: 220px;
   overflow-y: auto;
 }
+
 :deep(.ant-form-item) {
   margin-bottom: 10px;
 }

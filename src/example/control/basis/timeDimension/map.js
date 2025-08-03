@@ -3,6 +3,10 @@ const L = mars2d.L
 
 let map
 
+export const mapOptions = {
+  chinaCRS: mars2d.ChinaCRS.GCJ02
+}
+
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance

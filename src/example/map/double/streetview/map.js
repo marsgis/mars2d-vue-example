@@ -60,6 +60,7 @@ export function viewTo2d() {
   dom3d.style.right = "0"
 
   dom2d.style.display = "none"
+  map2d.invalidateSize(false)
 }
 
 // 街景显示
