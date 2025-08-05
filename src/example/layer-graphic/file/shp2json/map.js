@@ -44,7 +44,7 @@ export function shoXZM() {
   removeLayer()
 
   graphicLayer = new mars2d.layer.Shp2JsonLayer({
-    url: "http://data.mars3d.cn/file/shp/hefei_xz.zip",
+    url: "https://data.mars3d.cn/file/shp/hefei_xz.zip",
     encoding: "utf-8",
     simplify: { tolerance: 0.0001 },
     symbol: {
@@ -79,7 +79,7 @@ export function shoGCD() {
   removeLayer()
 
   graphicLayer = new mars2d.layer.Shp2JsonLayer({
-    url: "http://data.mars3d.cn/file/shp/yuexi_point.zip",
+    url: "https://data.mars3d.cn/file/shp/yuexi_point.zip",
     symbol: {
       type: "point",
       merge: true,

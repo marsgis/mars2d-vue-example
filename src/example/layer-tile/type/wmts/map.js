@@ -28,7 +28,7 @@ export const mapOptions = function (option) {
         name: "单张图片",
         icon: "img/basemaps/offline.png",
         type: "image",
-        url: "//data.mars3d.cn/file/img/world/world.jpg",
+        url: "https://data.mars3d.cn/file/img/world/world.jpg",
         show: false
       }
     ]

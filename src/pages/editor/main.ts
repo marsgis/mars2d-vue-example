@@ -33,7 +33,7 @@ marsEditor.on("loaded", (exampleConfig) => {
     destoryUI()
   }
 
-  window.document.getElementById("btn-jump-react").style.display = "none" // 隐藏技术栈
+  // window.document.getElementById("btn-jump-react").style.display = "none" // 隐藏技术栈
 
   initUI(!exampleConfig.hasPannel)
   inited = true

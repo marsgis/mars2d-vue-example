@@ -169,7 +169,7 @@ function selectOneTyphoon(item: typhoon) {
 // 访问后端接口，取单个台风轨迹数据
 function getPath(id) {
   // url: "http://typhoon.nmc.cn/weatherservice/typhoon/jsons/view_" + id, //在线实时接口
-  const url = "http://data.mars3d.cn/file/apidemo/typhoon/view_" + id + ".json"
+  const url = "https://data.mars3d.cn/file/apidemo/typhoon/view_" + id + ".json"
   return axios.get(url).then(function (res: any) {
     const newData = conversionPathData(res.data.typhoon) // 在Typhoon.js中
     return newData

@@ -146,7 +146,7 @@
       "name": "离线影像(供参考)",
       "icon": "/img/basemaps/google_img.png",
       "type": "xyz",
-      "url": "//data.mars3d.cn/tile/img/{z}/{x}/{y}.jpg",
+      "url": "https://data.mars3d.cn/tile/img/{z}/{x}/{y}.jpg",
       "chinaCRS": "GCJ02",
       "maxZoom": 13
     }

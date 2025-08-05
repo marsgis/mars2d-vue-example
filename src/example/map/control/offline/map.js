@@ -12,7 +12,7 @@ export const mapOptions = {
       name: "卫星地图",
       type: "xyz",
       icon: "img/basemaps/mapboxSatellite.png",
-      url: "//data.mars3d.cn/tile/img/{z}/{x}/{y}.jpg",
+      url: "https://data.mars3d.cn/tile/img/{z}/{x}/{y}.jpg",
       minZoom: 0,
       maxZoom: 12,
       show: true

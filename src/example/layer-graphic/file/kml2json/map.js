@@ -11,7 +11,7 @@ export const mapOptions = {
     {
       name: "国境线",
       type: "kml2json",
-      url: "//data.mars3d.cn/file/kml/countryboundary.kml",
+      url: "https://data.mars2d.cn/file/kml/countryboundary.kml",
       symbol: {
         styleOptions: {
           color: "#FED976",
@@ -24,7 +24,7 @@ export const mapOptions = {
     {
       name: "省界线",
       type: "kml2json",
-      url: "//data.mars3d.cn/file/kml/province.kml",
+      url: "https://data.mars2d.cn/file/kml/province.kml",
       symbol: {
         styleOptions: {
           color: "#00FF00",
@@ -42,6 +42,7 @@ export const treeEvent = new mars2d.BaseClass()
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
+
   shoRailway()
 }
 
@@ -71,7 +72,7 @@ export function shoRailway() {
   removeLayer()
 
   graphicLayer = new mars2d.layer.Kml2JsonLayer({
-    url: "//data.mars3d.cn/file/kml/hftl.kml",
+    url: "https://data.mars2d.cn/file/kml/hftl.kml",
     symbol: {
       styleOptions: {
         color: "#00ffff",
@@ -109,7 +110,7 @@ export function showExpressway() {
 
   graphicLayer = new mars2d.layer.Kml2JsonLayer({
     name: "路线",
-    url: "//data.mars3d.cn/file/kml/bslx.kmz",
+    url: "https://data.mars2d.cn/file/kml/bslx.kmz",
     popup: "all",
     flyTo: true
   })
@@ -131,7 +132,7 @@ export function showSafetyNotice() {
 
   graphicLayer = new mars2d.layer.Kml2JsonLayer({
     name: "海上安全警告",
-    url: "//data.mars3d.cn/file/kml/NAVWARN.kmz",
+    url: "https://data.mars2d.cn/file/kml/NAVWARN.kmz",
     symbol: function (attr, style, featue) {
       const geoType = featue.geometry?.type
       if (geoType === "Point") {
@@ -173,7 +174,7 @@ export function showMeteorological() {
 
   graphicLayer = new mars2d.layer.Kml2JsonLayer({
     name: "气象数据",
-    url: "//data.mars3d.cn/file/kml/dg8.kml",
+    url: "https://data.mars2d.cn/file/kml/dg8.kml",
     opacity: 0.7,
     popup: "all",
     flyTo: true
@@ -197,7 +198,7 @@ export function showGDP() {
 
   graphicLayer = new mars2d.layer.Kml2JsonLayer({
     name: "全球各国GDP",
-    url: "//data.mars3d.cn/file/kml/gdpPerCapita2008.kmz",
+    url: "https://data.mars2d.cn/file/kml/gdpPerCapita2008.kmz",
     symbol: function (attr, style, featue) {
       const geoType = featue.geometry?.type
       if (geoType === "Point") {

@@ -35,7 +35,7 @@ function initMap() {
       {
         name: "中国地质",
         type: "tile",
-        url: "//data.mars3d.cn/tile/dizhiChina/{z}/{x}/{y}.png",
+        url: "https://data.mars3d.cn/tile/dizhiChina/{z}/{x}/{y}.png",
         minZoom: 0,
         maxZoom: 10,
         rectangle: { xmin: 69.706929, xmax: 136.560941, ymin: 15.831038, ymax: 52.558005 }
