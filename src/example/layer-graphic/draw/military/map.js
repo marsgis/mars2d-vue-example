@@ -15,6 +15,8 @@ export function onMounted(mapInstance) {
     isAutoEditing: true // 绘制完成后是否自动激活编辑
   })
   map.addLayer(graphicLayer)
+  bindLayerPopup()
+  bindLayerContextMenu()
 }
 
 /**
@@ -26,10 +28,10 @@ export function onUnmounted() {
 }
 
 // 绘制
-export function drawPolygon(type) {
+export async function drawPolygon(type) {
   console.log("开始标绘：" + type)
 
-  graphicLayer.startDraw({
+  const graphic = await graphicLayer.startDraw({
     type,
     style: {
       fill: true,
@@ -41,6 +43,7 @@ export function drawPolygon(type) {
       outlineOpacity: 1
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
 // 绑定popup
@@ -57,7 +60,7 @@ export function bindLayerPopup() {
 
 // 绑定右键菜单
 export function bindLayerContextMenu() {
-   graphicLayer.bindContextMenu([
+  graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",

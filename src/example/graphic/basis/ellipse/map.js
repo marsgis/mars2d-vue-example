@@ -68,7 +68,7 @@ function bindLayerPopup() {
 // 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-        {
+    {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
       show: function (e) {

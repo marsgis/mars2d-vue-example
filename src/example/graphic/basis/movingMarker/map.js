@@ -53,6 +53,7 @@ function addDemoGraphic1(graphicLayer) {
     style: {
       image: "img/marker/bike.png",
       iconSize: [25, 39],
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
       autostart: true
     },
     attr: { remark: "示例1" }
@@ -93,6 +94,7 @@ function addDemoGraphic2(graphicLayer) {
     style: {
       image: "img/marker/bike.png",
       iconSize: [25, 39],
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
       autostart: true
     },
     attr: { remark: "示例2" }
@@ -116,6 +118,7 @@ function addDemoGraphic3(graphicLayer) {
     style: {
       image: "img/marker/bike.png",
       iconSize: [25, 39],
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
       autostart: false
     },
     attr: { remark: "示例3" }

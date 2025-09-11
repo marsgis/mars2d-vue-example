@@ -6,13 +6,13 @@
     <a-col :span="buttonSpan">
       <div class="data-manage-btns">
         <mars-button @click="onClickClear" danger>清除</mars-button>
-        <mars-button @click="onClickExpFile" title="保存GeoJSON">
+        <mars-button @click="onClickExpFile" title="保存JSON">
           <!-- <mars-icon icon="save" class="icon-vertical-a" /> -->
           保存
         </mars-button>
         <a-upload :multiple="false" name="file" accept="json,geojson" :file-list="fileList" :showUploadList="false"
                   :supportServerRender="true" :beforeUpload="beforeUploade" @change="onClickImpFile">
-          <mars-button title="打开GeoJSON">
+          <mars-button title="打开JSON">
             <!-- <mars-icon icon="upload-one" class="icon-vertical-a" /> -->
             打开
           </mars-button>
@@ -69,7 +69,7 @@ const onClickExpFile = () => {
     $message("当前没有标注任何数据，无需保存！")
     return
   }
-  const geojson = graphicLayer.toGeoJSON()
+  const geojson = graphicLayer.toJSON()
   mars2d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
 }
 // 打开geojson
@@ -89,9 +89,7 @@ const onClickImpFile = (info: any) => {
     reader.readAsText(item, "UTF-8")
     reader.onloadend = function (e) {
       const json = this.result
-      graphicLayer.loadGeoJSON(json, {
-        flyTo: true
-      })
+      graphicLayer.loadJSON(json, { clear: true, flyTo: true })
     }
   } else if (fileType === "kml") {
     const reader = new FileReader()

@@ -9,7 +9,8 @@ export const mapOptions = {}
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  map.basemap = 2017 // 切换到蓝色底图
+  map.container.style.backgroundColor = "#11243C"
+  map.basemap = 2017 // 蓝色底图
   map.setView([33.468108, 112.939453], 5)
 
   getJsonData()

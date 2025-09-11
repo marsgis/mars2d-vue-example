@@ -15,7 +15,8 @@ export const eventTarget = new mars2d.BaseClass()
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  map.basemap = 2017
+  map.container.style.backgroundColor = "#11243C"
+  map.basemap = 2017 // 蓝色底图
 
   // 显示边界
   const geoJsonLayer = new mars2d.layer.GeoJsonLayer({

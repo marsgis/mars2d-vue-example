@@ -3,7 +3,7 @@
  * Mars2D地理信息平台  mars2d
  *
  * 版本信息：v3.3.4
- * 编译日期：2025-08-05 21:12
+ * 编译日期：2025-09-11 19:24
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -1174,7 +1174,7 @@ declare namespace AntPath {
 }
 
 /**
- * 动画铁路线  矢量对象
+ * 动画铁路线  矢量对象 ，暂不支持编辑
  * @param options - 参数对象，包括以下：
  * @param [options.latlngs] - 坐标数组
  * @param [options.latlng] - 坐标(use: L.circle 时)
@@ -1203,46 +1203,6 @@ declare class AntPath extends L.FeatureGroup {
         id?: string | number;
     });
     /**
-     * 对象的id标识
-     */
-    id: string | number;
-    /**
-     * 坐标位置数组
-     */
-    latlngs: L.LatLng[];
-    /**
-     * 经纬度位置坐标(数组对象)，示例 [ [123.123456,32.654321], [111.123456,22.654321] ]
-     */
-    readonly coordinates: any[][];
-    /**
-     * 中心点
-     */
-    readonly center: L.LatLng;
-    /**
-     * 距离（单位：米）
-     */
-    readonly distance: number;
-    /**
-     * 围合的面积（单位：平方米）
-     */
-    readonly area: number;
-    /**
-     * 属性信息
-     */
-    attr: any;
-    /**
-     * 样式信息
-     */
-    style: any;
-    /**
-     * 显示隐藏状态
-     */
-    show: boolean;
-    /**
-     * 是否已添加到地图
-     */
-    readonly isAdded: boolean;
-    /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
      * @param [options.precision] - 保留经纬度的小数位数
@@ -1251,6 +1211,132 @@ declare class AntPath extends L.FeatureGroup {
     toGeoJSON(options?: any | {
         precision?: number;
     }): any | any;
+}
+
+declare namespace BouncingMarker {
+    /**
+     * 弹跳动态点 支持的样式信息
+     * @property [bounceTimes = 0.0] - 添加到地图上自动弹跳的次数，如果是0则不会弹跳
+     * @property [bounceHeight = 15.0] - 标记弹跳高度（像素）
+     * @property [contractHeight = 12.0] - 标记接触地面时收缩的高度（像素）
+     * @property [bounceSpeed = 52.0] - 弹跳速度系数，用于计算弹跳动画的速度。值越大，动画越慢
+     * @property [contractSpeed = 52.0] - 收缩速度系数
+     * @property [shadowAngle = -π÷4] - 阴影倾斜角度（弧度）。若设为 null 则禁用阴影动画
+     * @property [elastic = true] - 启用标记接触地面时的收缩动画
+     * @property [exclusive = false] - 若为 true，当前标记开始弹跳时会停止其他标记的弹跳；若有其他标记开始弹跳，当前标记则停止。
+     * @property [immediateStop = false] - 若为 true，标记停止时不会播放完整结束动画，而是立即停止。
+     * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
+     * @property [horizontalOrigin] - 横向方向的定位
+     * @property [verticalOrigin] - 垂直方向的定位
+     * @property [offsetX] - horizontalOrigin定位基础上，横向方向偏移数值
+     * @property [offsetY] - verticalOrigin定位基础上，垂直方向偏移数值
+     * @property [iconSize] - icon图片的大小（单位：像素），设置后width、height即失效。
+     * @property [iconAnchor] - 自定义图标的“指示地理位置的锚点”的坐标（相对于其左上角）。 以便图标显示准确位于标记的地理位置。 如果指定大小，则iconAnchor默认为图标中心点，也可以在带有负边距的CSS中设置。设置后horizontalOrigin、verticalOrigin即失效。
+     * @property [className] - 自定义样式class名称
+     * @property [minZoom] - 限定显示的最小的级别
+     * @property [maxZoom] - 限定显示的最大的级别
+     * @property [draggable = false] - 标记是否可以用鼠标/触摸拖动
+     * @property [keyboard = true] - 标记是否可以用键盘按键并按回车键
+     * @property [zIndexOffset = 0] - 默认情况下，注记图片的叠置顺序由纬度自动设置.如果你想将某一注记放置于其他之上可用这个选项，设置一个较大的值即可，比如1000（或是相反地设置一个较大的负值）
+     * @property [riseOnHover = false] - 如果为true，当您将鼠标悬停在其上时，标记将会放在其他顶部。
+     * @property [riseOffset = 250] - 用于riseOnHover功能的z-index偏移量。
+     * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
+     * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [label] - 支持附带文字的显示
+     */
+    type StyleOptions = {
+        bounceTimes?: number;
+        bounceHeight?: number;
+        contractHeight?: number;
+        bounceSpeed?: number;
+        contractSpeed?: number;
+        shadowAngle?: number;
+        elastic?: boolean;
+        exclusive?: boolean;
+        immediateStop?: boolean;
+        opacity?: number;
+        horizontalOrigin?: HorizontalOrigin;
+        verticalOrigin?: VerticalOrigin;
+        offsetX?: number;
+        offsetY?: number;
+        iconSize?: L.Point | number[];
+        iconAnchor?: L.Point | number[];
+        className?: string;
+        minZoom?: number;
+        maxZoom?: number;
+        draggable?: boolean;
+        keyboard?: boolean;
+        zIndexOffset?: number;
+        riseOnHover?: boolean;
+        riseOffset?: number;
+        interactive?: boolean;
+        highlight?: BouncingMarker.StyleOptions;
+        label?: Label.StyleOptions;
+    };
+    /**
+     * 当前类支持的{@link Marker.EventType}事件类型
+     * @property bounceend - 单击聚合点
+     */
+    type EventType = {
+        bounceend: string;
+    };
+}
+
+/**
+ * 弹跳动态点 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param options.latlng - 坐标位置
+ * @param [options.style] - 样式参数
+ * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
+ */
+declare class BouncingMarker extends Marker {
+    constructor(options: {
+        latlng: L.LatLng | number[];
+        style?: BouncingMarker.StyleOptions;
+        attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
+        popup?: string | HTMLElement | ((...params: any[]) => any);
+        popupOptions?: Map.PopupOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
+    });
+    /**
+     * 标记是否正在跳动，true表示正在跳动，false表示没有跳动
+     * @returns true表示正在跳动，false表示没有跳动
+     */
+    isBouncing(): any | boolean;
+    /**
+     * 开启弹跳
+     * @param times - 弹跳的次数，如果不传值，表示一直跳
+     * @returns bouncingMarker
+     */
+    bounce(times: number): any | BouncingMarker;
+    /**
+     * 关闭弹跳
+     * @param immediate - 是否立即停止，默认为false
+     * @returns bouncingMarker
+     */
+    stopBouncing(immediate: boolean): any | BouncingMarker;
+    /**
+     * 开始或停止标记的弹跳
+     * @returns bouncingMarker
+     */
+    toggleBouncing(): any | BouncingMarker;
+    /**
+     * 设置 样式信息 的钩子方法
+     * @param newStyle - 本次更新的部分样式信息,内部会合并属性
+     * @returns 当前对象本身，可以链式调用
+     */
+    setStyle(newStyle: any | Marker.StyleOptions): any | Marker;
 }
 
 /**
@@ -1562,6 +1648,7 @@ declare namespace Circle {
      * @property [rotation = 0] - 方向，单位：角度值
      * @property [startAngle = 0] - 当为扇形时的开始角度值
      * @property [stopAngle = 360] - 当为扇形时的结束角度值
+     * @property [diffuse] - 传入大于0的数字时，进行按对应数字的扩散动画。
      * @property [fill = true] - 是否填充
      * @property [fillColor = '#3388ff'] - 填充颜色
      * @property [fillOpacity = 1.0] - 填充透明度，取值范围：0.0-1.0
@@ -1589,6 +1676,7 @@ declare namespace Circle {
         rotation?: number;
         startAngle?: number;
         stopAngle?: number;
+        diffuse?: number;
         fill?: boolean;
         fillColor?: string;
         fillOpacity?: number;
@@ -2259,7 +2347,7 @@ declare class BaseSimpleShape extends BaseDraw {
 }
 
 /**
- * 圆  对象标绘处理类
+ * AntPath  对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
 declare class DrawAntPath extends BaseDraw {
@@ -2271,6 +2359,14 @@ declare class DrawAntPath extends BaseDraw {
  * @param [options.id] - 矢量数据id标识
  */
 declare class DrawAreaMeasure extends DrawPolygon {
+    constructor();
+}
+
+/**
+ * 像素点 对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
+ */
+declare class DrawBouncingMarker extends DrawMarker {
     constructor();
 }
 
@@ -2355,6 +2451,14 @@ declare class DrawPoint extends DrawMarker {
 }
 
 /**
+ * 对线面进行装饰的箭头等点状样式的矢量对象（如箭头线）  对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
+ */
+declare class DrawPolyDecorator extends BaseDraw {
+    constructor();
+}
+
+/**
  * 面  对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
@@ -2371,10 +2475,26 @@ declare class DrawPolyline extends BaseDraw {
 }
 
 /**
+ * 面  对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
+ */
+declare class DrawRain extends DrawPolyline {
+    constructor();
+}
+
+/**
  * 矩形 对象标绘处理类
  * @param [options.id] - 矢量数据id标识
  */
 declare class DrawRectangle extends BaseSimpleShape {
+    constructor();
+}
+
+/**
+ * 面  对象标绘处理类
+ * @param [options.id] - 矢量数据id标识
+ */
+declare class DrawSnow extends DrawPolyline {
     constructor();
 }
 
@@ -2894,6 +3014,74 @@ declare class Ellipse extends L.Path {
      * @returns 经纬度对象
      */
     getLatLng(): any | L.LatLng;
+}
+
+/**
+ * 继承FeatureGroup的矢量对象基类
+ * @param options - 参数对象，包括以下：
+ * @param [options.latlngs] - 坐标数组
+ * @param [options.latlng] - 坐标(use: L.circle 时)
+ * @param [options.style] - 样式参数
+ * @param [options.attr] - 属性信息
+ * @param [options.id] - 矢量数据id标识
+ */
+declare class FeatureGroup extends L.FeatureGroup {
+    constructor(options: {
+        latlngs?: L.LatLng[] | any;
+        latlng?: L.LatLng | any;
+        style?: any;
+        attr?: any;
+        id?: string | number;
+    });
+    /**
+     * 对象的id标识
+     */
+    id: string | number;
+    /**
+     * 坐标位置数组
+     */
+    latlngs: L.LatLng[];
+    /**
+     * 经纬度位置坐标(数组对象)，示例 [ [123.123456,32.654321], [111.123456,22.654321] ]
+     */
+    readonly coordinates: any[][];
+    /**
+     * 中心点
+     */
+    readonly center: L.LatLng;
+    /**
+     * 距离（单位：米）
+     */
+    readonly distance: number;
+    /**
+     * 围合的面积（单位：平方米）
+     */
+    readonly area: number;
+    /**
+     * 属性信息
+     */
+    attr: any;
+    /**
+     * 样式信息
+     */
+    style: any;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean;
+    /**
+     * 将图层数据导出为GeoJSON格式规范对象。
+     * @param [options] - 参数对象:
+     * @param [options.precision] - 保留经纬度的小数位数
+     * @returns GeoJSON格式规范对象
+     */
+    toGeoJSON(options?: any | {
+        precision?: number;
+    }): any | any;
 }
 
 declare namespace FontGraphic {
@@ -4327,6 +4515,73 @@ declare class Point extends L.CircleMarker {
     }): any | any;
 }
 
+declare namespace PolyDecorator {
+    /**
+     * 图案样式参数
+     * @property type - 图案的种类  dash  |  arrowHead  |  marker
+     * @property [pixelSize] - 像素大小
+     * @property [pathOptions] - 当type为dash或者arrowHead时，必选，对应的path属性比如{ color: "red", weight: 2, stroke: true }
+     * @property [markerOptions] - 当type为marker时，必选，icon属性比如{ icon: { iconUrl: "img/marker/icon_plane.png", iconAnchor: [16, 16] } }
+     */
+    type SymbolOptions = {
+        type: string;
+        pixelSize?: number;
+        pathOptions?: any;
+        markerOptions?: any;
+    };
+    /**
+     * 对线面进行装饰的箭头等点状样式的 矢量对象 支持的样式信息
+     * @property [offset = 0] - 从起点开始，第一个图案符号的偏移量
+     * @property [endOffset = 0] - 从线条终点到最后一个图案符号的最小偏移量
+     * @property [repeat] - 图案符号重复量
+     * @property symbol - 图案样式参数
+     */
+    type StyleOptions = {
+        offset?: number;
+        endOffset?: number;
+        repeat?: number;
+        symbol: PolyDecorator.SymbolOptions;
+    };
+}
+
+/**
+ * 对线面进行装饰的箭头等点状样式的矢量对象（如箭头线）
+ * @param options - 参数对象，包括以下：
+ * @param [options.latlngs] - 坐标数组
+ * @param [options.style] - 样式参数一般是{offset: 0, ...},如果一个装饰效果需要两个symbol，这个参数也可以是[{offset: 0, ...},{offset: 1, ...}]
+ * @param [options.attr] - 属性信息
+ * @param [options.hasEdit = true] - 是否可以编辑
+ * @param [options.isAutoEditing = false] - 是否构造后就自动启动编辑(需要hasEdit:true时)
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.id] - 矢量数据id标识
+ */
+declare class PolyDecorator extends FeatureGroup {
+    constructor(options: {
+        latlngs?: L.LatLng[] | any;
+        style?: PolyDecorator.StyleOptions;
+        attr?: any;
+        hasEdit?: boolean;
+        isAutoEditing?: boolean;
+        popup?: string | HTMLElement | ((...params: any[]) => any);
+        popupOptions?: Map.PopupOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Map.TooltipOptions;
+        id?: string | number;
+    });
+    /**
+     * 将图层数据导出为GeoJSON格式规范对象。
+     * @param [options] - 参数对象:
+     * @param [options.precision] - 保留经纬度的小数位数
+     * @returns GeoJSON格式规范对象
+     */
+    toGeoJSON(options?: any | {
+        precision?: number;
+    }): any | any;
+}
+
 declare namespace Polygon {
     /**
      * 面矢量对象 支持的样式信息
@@ -4723,6 +4978,15 @@ declare namespace Polyline {
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [renderer] - 使用的Renderer 特定实例。优先于地图的默认渲染器。
      * @property [snakingSpeed = 300] - 在snakeIn方法中的速度（像素/秒）
+     * @property [text] - 设置线上标注的文本
+     * @property [textOptions] - 线上标注的文本的参数
+     * @property [textOptions.orientation] - 旋转角度
+     * @property [textOptions.repeat] - 是否重复
+     * @property [textOptions.gap] - 重复的间隔空闲个数
+     * @property [textOptions.offset] - 在线宽度的偏移值
+     * @property [textOptions.below] - 在路径下方显示文本
+     * @property [textOptions.center] - 根据折线的边界框将文本居中
+     * @property [textOptions.attributes] - SVG的setAttribute支持的所有属性值
      * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
      * @property [label] - 支持附带文字的显示
      */
@@ -4742,6 +5006,16 @@ declare namespace Polyline {
         interactive?: boolean;
         renderer?: L.Renderer;
         snakingSpeed?: number;
+        text?: string;
+        textOptions?: {
+            orientation?: number;
+            repeat?: boolean;
+            gap?: boolean;
+            offset?: number;
+            below?: boolean;
+            center?: boolean;
+            attributes?: any;
+        };
         highlight?: Polyline.StyleOptions;
         label?: Label.StyleOptions;
     };
@@ -4834,11 +5108,6 @@ declare class Polyline extends L.Polyline {
      * @returns 当前对象本身，可以链式调用
      */
     redraw(): any | Polyline;
-    /**
-     * 将线移动到所有路径层的顶部
-     * @returns 当前对象本身,可以链式调用
-     */
-    bringToFront(): any | Polyline;
     /**
      * 将线移动到所有路径层的底部
      * @returns 当前对象本身,可以链式调用
@@ -5074,6 +5343,73 @@ declare class Polyline extends L.Polyline {
      * @returns 当前对象本身，可以链式调用
      */
     setOffset(offset: number): any | Polyline;
+    /**
+     * 将线移动到所有路径层的顶部
+     * @returns 当前对象本身,可以链式调用
+     */
+    bringToFront(): any | Polyline;
+}
+
+declare namespace Rain {
+    /**
+     * 雨 支持的样式信息
+     * @property [color = '#3388ff'] - 颜色
+     * @property [angle = 16] - 角度
+     * @property [width = 1] - 宽度
+     * @property [length = 4] - 长度
+     * @property [spacing = 10] - 水平空隙
+     * @property [interval = 10] - 垂直空隙
+     * @property [speed = 1] - 速度
+     */
+    type StyleOptions = {
+        color?: string;
+        angle?: number;
+        width?: number;
+        length?: number;
+        spacing?: number;
+        interval?: number;
+        speed?: number;
+    };
+}
+
+/**
+ * 雨 矢量对象
+ * 说明：不支持交互
+ * @param options - 参数对象，包括以下：
+ * @param options.latlng - 坐标位置
+ * @param [options.style] - 样式参数
+ * @param [options.id] - 矢量数据id标识
+ */
+declare class Rain extends Polygon {
+    constructor(options: {
+        latlng: L.LatLng | number[];
+        style?: Rain.StyleOptions;
+        id?: string | number;
+    });
+    /**
+     * 重新绘制。在更改路径所使用的坐标之后会很有用。
+     * @returns 当前对象本身，可以链式调用
+     */
+    redraw(): any | Polygon;
+    /**
+     * 将图层添加到地图
+     * @param map - 地图对象
+     * @returns 当前对象本身，可以链式调用
+     */
+    addTo(map: Map | any): any | Polygon;
+    /**
+     * 用给定的地理位置数组代替更新矢量对象中的所有点。
+     * @param latlngs - 经纬度数组
+     * @param [updateEditeMarkers = true] - 是否在编辑状态更新编辑点
+     * @returns 当前对象本身，可以链式调用
+     */
+    setLatLngs(latlngs: L.LatLng[], updateEditeMarkers?: boolean): any | Polygon;
+    /**
+     * 设置 样式信息 的钩子方法
+     * @param newStyle - 本次更新的部分样式信息,内部会合并属性
+     * @returns 当前对象本身，可以链式调用
+     */
+    setStyle(newStyle: any | Polygon.StyleOptions): any | Polygon;
 }
 
 declare namespace Rectangle {
@@ -5459,6 +5795,48 @@ declare class Rectangle extends L.Rectangle {
      * @returns 是否在矩形内
      */
     isInPoly(latlng: L.LatLng): any | boolean;
+}
+
+declare namespace Snow {
+    /**
+     * 雪 支持的样式信息
+     * @property [speed = 150] - 速度
+     * @property [layersCount = 5] - 层数
+     * @property [density = 4] - 密度
+     * @property [size = 12] - 大小
+     * @property [color = '#ffffff'] - 颜色
+     * @property [opacity = 0.5] - 透明度
+     */
+    type StyleOptions = {
+        speed?: number;
+        layersCount?: number;
+        density?: number;
+        size?: number;
+        color?: string;
+        opacity?: number;
+    };
+}
+
+/**
+ * 雪 矢量对象
+ * 说明：不支持交互
+ * @param options - 参数对象，包括以下：
+ * @param options.latlng - 坐标位置
+ * @param [options.style] - 样式参数
+ * @param [options.id] - 矢量数据id标识
+ */
+declare class Snow extends Polygon {
+    constructor(options: {
+        latlng: L.LatLng | number[];
+        style?: Snow.StyleOptions;
+        id?: string | number;
+    });
+    /**
+     * 设置 样式信息 的钩子方法
+     * @param newStyle - 本次更新的部分样式信息,内部会合并属性
+     * @returns 当前对象本身，可以链式调用
+     */
+    setStyle(newStyle: any | Polygon.StyleOptions): any | Polygon;
 }
 
 declare namespace BusineDataLayer {
@@ -6714,6 +7092,20 @@ declare class GraphicLayer extends L.FeatureGroup {
      */
     hasContextMenu(): any | boolean;
     /**
+     * 参数方式添加矢量对象, 同addGraphic
+     * @param json - 矢量数据构造参数，可以用toJSON方法导出的值； 传string时对应的值存放的json路径地址。
+     * @param [options] - 加载控制参数,包含：
+     * @param [options.clear = false] - 是否清除图层已有数据
+     * @param [options.flyTo = false] - 是否加载完成后进行飞行到数据区域
+     * @param [options.onEachFeature] - 创建每个Graphic前的回调
+     * @returns 绘制创建完成的Promise 添加后的Graphic对象
+     */
+    loadJSON(json: any | any | string, options?: {
+        clear?: boolean;
+        flyTo?: boolean;
+        onEachFeature?: (...params: any[]) => any;
+    }): any | Promise<any | any>;
+    /**
      * 将图层转为Json简单对象，用于存储后再传参加载
      * @returns Json简单对象
      */
@@ -6811,7 +7203,7 @@ declare class GraphicLayer extends L.FeatureGroup {
         attr?: any;
         maxPointNum?: number;
         success?: (...params: any[]) => any;
-    }): any | L.Layer;
+    }): any | Promise<any>;
     /**
      * 完成绘制和编辑，如有未完成的绘制会自动完成。
      * 在移动端需要调用此方法来类似PC端双击结束。
@@ -8746,6 +9138,18 @@ declare class SmTileLayer extends TileLayer {
         pane?: string;
     });
     /**
+     * 根据缩放级别获取比例尺。
+     * @param zoom - 缩放级别
+     * @returns 比例尺
+     */
+    getScale(zoom: number): any | number;
+    /**
+     * 通过行列号获取比例尺。
+     * @param coords - 行列号
+     * @returns 比例尺
+     */
+    getScaleFromCoords(coords: any): any | number;
+    /**
      * 仅在内部调用，返回给定坐标的瓦片的URL。扩展类TileLayer可以覆盖此功能，以提供自定义图块URL命名方案。
      * @param coords - 瓦片的xyz信息
      * @returns 瓦片图片URL地址
@@ -9986,7 +10390,7 @@ declare class Map extends L.Map {
     /**
      * 判断所有图层是否在加载瓦片中
      */
-    readonly isLoading: any;
+    readonly isLoading: boolean;
     /**
      * 获取地图的配置参数，即new Map传入的参数。
      * @returns 地图的配置参数
@@ -10044,12 +10448,31 @@ declare class Map extends L.Map {
      * @param [options] - 参数对象，包括以下：
      * @param [options.basemaps] - 默认不比较及处理，true:返回所有basemps中配置图层，false：排除所有所有basemps中配置图层
      * @param [options.layers] - 默认不比较及处理，true:返回所有operationallayers中配置图层，false：排除所有operationallayers中配置图层
+     * @param [options.filter] - 筛选方法，方法体内返回false时排除数据 filter:function(feature){return true}
      * @returns 图层数组
      */
     getLayers(options?: {
         basemaps?: boolean;
         layers?: boolean;
+        filter?: (...params: any[]) => any;
     }): any | L.Layer[];
+    /**
+     * 获取所有图层的配置信息，通常用于配置图层树
+     * @param [options] - 参数对象，包括以下：
+     * @param [options.filter] - 筛选方法，方法体内返回false时排除数据 filter:function(feature){return true}
+     * @param [options.forEach] - 递归调用图层配置信息，可以对导出的图层数据进行格式化或转换键值操作
+     * @param [options.autoGroup] - 自动分组(string时指定属性进行分组，比如传 autoGroup:"type")，注意：如果map有group图层时，该参数无效。
+     * @param [options.basemaps = false] - 默认不比较及处理，true:返回所有basemps中配置图层，false：排除所有所有basemps中配置图层[但已加到map的除外]
+     * @param [options.childs = true] - 是否获取GroupLayer内的已经实例化的子图层, 但没有加到map的图层不会去读取内部子图层
+     * @returns 返回值包括 { list: [id与pid关联的原始数组],  tree: [按children组织好的上下级树数组]}
+     */
+    getLayrsTree(options?: {
+        filter?: (...params: any[]) => any;
+        forEach?: (...params: any[]) => any;
+        autoGroup?: ((...params: any[]) => any) | string;
+        basemaps?: boolean;
+        childs?: boolean;
+    }): any | any;
     /**
      * 获取所有basemps底图图层
      * @param [removeEmptyGroup = false] - 是否移除 空图层组
@@ -12615,6 +13038,11 @@ declare class Measure extends BaseThing {
      */
     clear(): any | void;
     /**
+     * 清除正在绘制的对象
+     * @returns 是否清除了对象
+     */
+    clearDrawing(): any | boolean;
+    /**
      * 更新量测结果的单位
      * @param unit - 计量单位,{@link MeasureUtil#formatDistance}{@link MeasureUtil#formatArea} 可选值：auto、m、km、mile、zhang 等。auto时根据距离值自动选用k或km
      * @returns 无
@@ -13167,6 +13595,18 @@ declare namespace PolyUtil {
      * @returns 中心点坐标
      */
     function centerOfMass(latlngs: L.LatLng[], crs?: CRS | L.CRS | string | any): any | L.LatLng;
+    /**
+     * 整体平移坐标数组
+     * @param latlngs - 坐标数组
+     * @param options - 参数:
+     * @param [options.center] - [方式1] 移动到新的中心点坐标
+     * @param [options.offset] - [方式2] 按移动的变量 {lng: 经度偏移量, lat: 纬度偏移量}
+     * @returns 移动后的坐标点数组
+     */
+    function movePoints(latlngs: L.LatLng[], options: {
+        center?: L.LatLng;
+        offset?: any;
+    }): any | L.LatLng[];
 }
 
 /**
@@ -13319,10 +13759,12 @@ declare namespace Util {
      * @param attr - 属性对象
      * @param [options = {}] - 参数对象:
      * @param options.onlySimpleType - 是否只获取简易类型的对象
+     * @param [options.removeKeys = []] - 不复制的属性名 数组
      * @returns 最简的键值对属性对象
      */
     function getAttrVal(attr: any, options?: {
         onlySimpleType: boolean;
+        removeKeys?: string[];
     }): any | any;
     /**
      * 合并对象，对二级子属性为Object的对象也会进行融合。
@@ -13523,6 +13965,28 @@ declare namespace Util {
      * @returns 像素数值
      */
     function mm2px(mm: number): any | number;
+    /**
+     * 事件中使用的 函数节流，
+     * 说明：稀释fn函数的执行频率，但不管事件触发有多频繁，都会保证在delay毫秒内一定会执行一次fn函数
+     * @example
+     * let newFun = mars2d.Util.funThrottle(this._changeFun, 500)
+     * target.on("change", newFun)  // 解绑用 target.off("change", newFun)
+     * @param fn - 执行的方法
+     * @param delay - 节流时间范围，毫秒数
+     * @returns 包含一层的替代方法
+     */
+    function funThrottle(fn: (...params: any[]) => any, delay: number):  (...params: any[]) => any;
+    /**
+     * 事件中使用的 函数防抖，
+     * 说明：在delay毫秒内的多次调用操作，仅在最后一次调用时触发一次fn函数。
+     * @example
+     * let newFun = mars2d.Util.funDebounce(this._changeFun, 500)
+     * target.on("change", newFun)  // 解绑用 target.off("change", newFun)
+     * @param fn - 执行的方法
+     * @param delay - 节流时间范围，毫秒数
+     * @returns 包含一层的替代方法
+     */
+    function funDebounce(fn: (...params: any[]) => any, delay: number):  (...params: any[]) => any;
 }
 
 
@@ -13530,20 +13994,22 @@ declare namespace Util {
 
 /**
  * 控件类 命名空间，
- * 教程 http://mars2d.cn/dev/guide/map/control.html
+ * 教程 http://mars2d.cn/docs/basis/control/%E6%8E%A7%E4%BB%B6/
  */
 declare namespace control {
   export { ToolBar }
   export { LocationBar }
   export { MapSwich }
+  export { MapSplit }
   export { OverviewMap }
   export { Slider }
   export { ToolButton }
+
 }
 
 /**
  * 矢量数据类 命名空间，
- * 教程 http://mars2d.cn/dev/guide/map/graphic.html
+ * 教程 http://mars2d.cn/docs/basis/graphic/%E7%9F%A2%E9%87%8F%E6%95%B0%E6%8D%AE/
  */
 declare namespace graphic {
 
@@ -13618,7 +14084,7 @@ declare namespace graphic {
 
 /**
  * 图层类 命名空间，
- * 教程 http://mars2d.cn/dev/guide/map/layer.html
+ * 教程 http://mars2d.cn/docs/basis/layer/
  */
 declare namespace layer {
   export { GroupLayer }

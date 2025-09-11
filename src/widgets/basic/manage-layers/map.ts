@@ -13,6 +13,20 @@ export const eventTarget = new mars2d.BaseClass()
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance: mars2d.Map): void {
   map = mapInstance // 记录首次创建的map
+
+  map.on("popupopen", function (e) {
+    const popupBtn = e.popup._closeButton
+    const labels = e.popup._container.getElementsByTagName("label")
+    if (popupBtn) {
+      popupBtn.style.setProperty("color", "#757575", "important")
+    }
+    if (labels) {
+      for (let i = 0; i < labels.length; i++) {
+        const label = labels[i]
+        label.classList.add("mars-popup-label")
+      }
+    }
+  })
 }
 
 /**
@@ -44,6 +58,9 @@ export function flyToLayer(layer) {
   if (layer.flyTo) {
     layer.flyTo()
   } else if (layer.getBounds) {
-    map.flyToBounds(layer.getBounds())
+    const bounds = layer.getBounds()
+    if (bounds) {
+      map.flyToBounds(bounds)
+    }
   }
 }

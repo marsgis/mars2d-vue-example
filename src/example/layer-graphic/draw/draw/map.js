@@ -70,18 +70,19 @@ export function onUnmounted() {
   map = null
 }
 
-export function drawPoint() {
-  graphicLayer.startDraw({
+export async function drawPoint() {
+  const graphic = await graphicLayer.startDraw({
     type: "point",
     style: {
       pixelSize: 8,
       color: "#000dfc"
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-export function drawMarker() {
-  graphicLayer.startDraw({
+export async function drawMarker() {
+  const graphic = await graphicLayer.startDraw({
     type: "marker",
     style: {
       image: "img/marker/mark1.png",
@@ -91,10 +92,11 @@ export function drawMarker() {
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-export function drawLabel() {
-  graphicLayer.startDraw({
+export async function drawLabel() {
+  const graphic = await graphicLayer.startDraw({
     type: "label",
     style: {
       text: "Mars2D平台",
@@ -103,10 +105,11 @@ export function drawLabel() {
       font_family: "楷体"
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-export function drawDivMarker() {
-  graphicLayer.startDraw({
+export async function drawDivMarker() {
+  const graphic = await graphicLayer.startDraw({
     type: "divGraphic",
     style: {
       html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
@@ -157,30 +160,33 @@ export function drawDivMarker() {
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-export function drawPolyline() {
-  graphicLayer.startDraw({
+export async function drawPolyline() {
+  const graphic = await graphicLayer.startDraw({
     type: "polyline",
     style: {
       width: 3,
       color: "#000dfc"
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-export function drawCurveLine() {
-  graphicLayer.startDraw({
+export async function drawCurveLine() {
+  const graphic = await graphicLayer.startDraw({
     type: "brushLine",
     style: {
       width: 3,
       color: "#000dfc"
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-export function drawPolygon() {
-  graphicLayer.startDraw({
+export async function drawPolygon() {
+  const graphic = await graphicLayer.startDraw({
     type: "polygon",
     style: {
       fill: true,
@@ -192,10 +198,11 @@ export function drawPolygon() {
       outlineOpacity: 1
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-export function drawRectangle() {
-  graphicLayer.startDraw({
+export async function drawRectangle() {
+  const graphic = await graphicLayer.startDraw({
     type: "rectangle",
     style: {
       fill: true,
@@ -207,20 +214,22 @@ export function drawRectangle() {
       outlineOpacity: 1
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-export function drawImage() {
-  graphicLayer.startDraw({
+export async function drawImage() {
+  const graphic = await graphicLayer.startDraw({
     type: "image",
     style: {
       url: "img/simple/gugong.jpg",
       opacity: 1
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-export function drawCircle() {
-  graphicLayer.startDraw({
+export async function drawCircle() {
+  const graphic = await graphicLayer.startDraw({
     type: "circle",
     style: {
       fill: true,
@@ -232,6 +241,7 @@ export function drawCircle() {
       outlineOpacity: 1
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
 export function onClickSaveKml() {

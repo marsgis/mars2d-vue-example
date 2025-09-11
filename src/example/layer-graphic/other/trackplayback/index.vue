@@ -14,7 +14,7 @@
           <mars-button type="primary" @click="mapWork.slowSpeed">慢放</mars-button>
         </a-space>
         <a-space v-if="infoData">
-          <mars-slider :min="infoData.simpleStartTime" :max="infoData.simpleEndTime" @change="changeSlider" />
+          <mars-slider v-model:value="infoData.curFormatCurTime" :min="infoData.simpleStartTime" :max="infoData.simpleEndTime" :tip-formatter="formatter" @change="changeSlider" />
         </a-space>
       </a-form-item>
 
@@ -45,6 +45,7 @@ mapWork.eventTarget.on("dataLoad", ({ info }) => {
 
   infoData.value = {
     curTime: info.curTime,
+    curFormatCurTime: new Date(info.curTime).getTime() / 1000,
     endTime: info.endTime,
     speed: info.speed,
     startTime: info.startTime,
@@ -54,6 +55,16 @@ mapWork.eventTarget.on("dataLoad", ({ info }) => {
   }
   showDialog.value = true
 })
+const formatter = (timestamp: number) => {
+    const date = new Date(timestamp * 1000)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, "0")
+    const day = String(date.getDate()).padStart(2, "0")
+    const hours = String(date.getHours()).padStart(2, "0")
+    const minutes = String(date.getMinutes()).padStart(2, "0")
+    const seconds = String(date.getSeconds()).padStart(2, "0")
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+}
 
 function showTrackPoint() {
   mapWork.showTrackPoint(formState.showTrackPoint)

@@ -13,7 +13,9 @@ export const mapOptions = {
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-  map.basemap = 2017
+
+  map.container.style.backgroundColor = "#11243C"
+  map.basemap = 2017 // 蓝色底图
 
   // BusineDataLayer 业务数据(通过API接口获取)图层
   graphicLayer = new mars2d.layer.BusineDataLayer({

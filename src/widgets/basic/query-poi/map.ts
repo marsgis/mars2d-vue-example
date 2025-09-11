@@ -8,7 +8,7 @@ const L = mars2d.L
 
 let map: mars2d.Map // 地图对象
 let graphicLayer: mars2d.layer.GraphicLayer
-let queryPoi: mars2d.query.QueryPOI // GaodePOI查询
+let queryPoi: mars2d.query.QueryPOI // POI查询
 let address: any = null
 
 export const eventTarget = new mars2d.BaseClass()
@@ -18,7 +18,7 @@ export function onMounted(mapInstance: mars2d.Map): void {
   map = mapInstance // 记录map
 
   queryPoi = new mars2d.query.QueryPOI({
-    // city: '合肥市',
+    service: mars2d.QueryServiceType.GAODE
   })
 
   graphicLayer = new mars2d.layer.GraphicLayer({
@@ -33,19 +33,19 @@ export function onMounted(mapInstance: mars2d.Map): void {
     if (!item) {
       return
     }
-    let inHtml = `<div class="mars2d-template-title"><a href="https://www.amap.com/detail/${item.id}"  target="_black">${item.name}</a></div><div class="mars2d-template-content" >`
+    let inHtml = `<div class="mars2d-template-titile"><a href="https://www.amap.com/detail/${item.id}"  target="_black" style="color: #ffffff; ">${item.name}</a></div><div class="mars2d-template-content" >`
 
     if (item.tel.length && item.tel !== "") {
-      inHtml += "<div><label>电话:</label>" + item.tel + "</div>"
+      inHtml += "<div><label class='mars-popup-label'>电话:</label>" + item.tel + "</div>"
     }
 
     if (item.address) {
-      inHtml += "<div><label>地址:</label>" + item.address + "</div>"
+      inHtml += "<div><label class='mars-popup-label'>地址:</label>" + item.address + "</div>"
     }
     if (item.type) {
       const fl = item.type
       if (fl !== "") {
-        inHtml += "<div><label>类别:</label>" + fl + "</div>"
+        inHtml += "<div><label class='mars-popup-label'>类别:</label>" + fl + "</div>"
       }
     }
     inHtml += "</div>"
@@ -60,9 +60,6 @@ function cameraChanged() {
     location: map.getCenter(),
     success: (result: any) => {
       address = result
-      if (Array.isArray(address.city) && address.city.length === 0) {
-        delete address.city
-      }
     }
   })
 }
