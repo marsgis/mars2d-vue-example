@@ -5,7 +5,7 @@ import { injectState, key } from "@mars/widgets/common/store/widget"
 import { getExampleId, getQueryString } from "@mars/utils/mars-util"
 import store from "@mars/widgets/widget-store"
 import { Editor as MarsgisEditor } from "@marsgis/editor"
-import "@marsgis/editor/dist/style.css"
+import "@marsgis/editor/dist/editor.css"
 import "@mars/components/mars-ui/common"
 
 

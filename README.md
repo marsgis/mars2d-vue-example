@@ -23,7 +23,7 @@
  这是一个基于 Vue3.0 开发的 Mars2D 功能示例 演示项目。
 
  > 如果您不熟悉Vue，对原生JS比较熟悉，可以阅读： 
- [功能示例原生JS版教程](http://mars2d.cn/dev/guide/start/example-old.html) 、
+ [功能示例原生JS版教程](http://mars2d.cn/docs/guide/example-es5/) 、
  [mars2d-es5-example代码](https://gitee.com/marsgis/mars2d-es5-example) 
 
  

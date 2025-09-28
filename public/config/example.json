@@ -104,11 +104,6 @@
             "hasPannel": true
           },
           {
-            "name": "蒙板遮盖",
-            "thumbnail": "map-control-mask-div.jpg",
-            "main": "map/control/mask-div"
-          },
-          {
             "name": "离线数据",
             "thumbnail": "map-control-offline.jpg",
             "main": "map/control/offline"
@@ -178,14 +173,9 @@
             "hasPannel": true
           },
           {
-            "name": "旋转地图",
-            "thumbnail": "map-manager-rotate.jpg",
-            "main": "map/manager/rotate",
-            "hasPannel": true,
-            "libs": [
-              "mars2d",
-              "leaflet-rotate"
-            ]
+            "name": "蒙板遮盖",
+            "thumbnail": "map-control-mask-div.jpg",
+            "main": "map/control/mask-div"
           }
         ]
       },
@@ -202,6 +192,152 @@
             "name": "键盘漫游",
             "thumbnail": "map-manager-keyboardRoam.jpg",
             "main": "map/manager/keyboardRoam",
+            "hasPannel": true
+          },
+          {
+            "name": "旋转地图",
+            "thumbnail": "map-manager-rotate.jpg",
+            "main": "map/manager/rotate",
+            "hasPannel": true,
+            "libs": [
+              "mars2d",
+              "leaflet-rotate"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "控件",
+    "icon": "fa-briefcase",
+    "children": [
+      {
+        "name": "内置控件",
+        "details": "内置的控件，直接按需调用即可",
+        "children": [
+          {
+            "name": "右键菜单",
+            "thumbnail": "control-inside-contextmenu.jpg",
+            "main": "control/inside/contextmenu"
+          },
+          {
+            "name": "Popup鼠标单击信息窗",
+            "thumbnail": "control-inside-popup.jpg",
+            "main": "control/inside/popup",
+            "hasPannel": true,
+            "resources": [
+              "newPopup.css"
+            ]
+          },
+          {
+            "name": "Tooltip 鼠标移入信息窗",
+            "thumbnail": "control-inside-tooltip.jpg",
+            "main": "control/inside/tooltip",
+            "hasPannel": true
+          },
+          {
+            "name": "SmallTooltip 鼠标小提示窗",
+            "thumbnail": "control-inside-smallTooltip.jpg",
+            "main": "control/inside/smallTooltip",
+            "hasPannel": true
+          }
+        ]
+      },
+      {
+        "name": "按钮控件",
+        "children": [
+          {
+            "name": "zoom放大缩小",
+            "thumbnail": "control-leaflet-zoom.jpg",
+            "main": "control/leaflet/zoom"
+          },
+          {
+            "name": "工具按钮栏",
+            "thumbnail": "control-basis-toolBar.jpg",
+            "main": "control/basis/toolBar"
+          },
+          {
+            "name": "自定义工具栏按钮",
+            "thumbnail": "control-basis-toolButton.jpg",
+            "main": "control/basis/toolButton"
+          },
+          {
+            "name": "移动端位置定位",
+            "thumbnail": "control-basis-geolocation.jpg",
+            "main": "control/basis/geolocation",
+            "resources": [
+              "https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0",
+              "Geolocation.js"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "面板控件",
+        "children": [
+          {
+            "name": "layers 图层管理",
+            "thumbnail": "control-leaflet-layers.jpg",
+            "main": "control/leaflet/layers"
+          },
+          {
+            "name": "比例尺",
+            "thumbnail": "control-leaflet-scale.jpg",
+            "main": "control/leaflet/scale"
+          },
+          {
+            "name": "下侧状态栏",
+            "thumbnail": "control-basis-locationBar.jpg",
+            "main": "control/basis/locationBar"
+          },
+          {
+            "name": "三维全景切换",
+            "thumbnail": "control-basis-mapSwich.jpg",
+            "main": "control/basis/mapSwich"
+          },
+          {
+            "name": "鱼骨导航",
+            "thumbnail": "control-basis-slider.jpg",
+            "main": "control/basis/slider"
+          },
+          {
+            "name": "鹰眼地图",
+            "thumbnail": "control-basis-overviewMap.jpg",
+            "main": "control/basis/overviewMap"
+          },
+          {
+            "name": "时间播放",
+            "thumbnail": "control-basis-timeDimension.jpg",
+            "main": "control/basis/timeDimension",
+            "libs": [
+              "mars2d",
+              "timeDimension"
+            ]
+          },
+          {
+            "name": "卷帘对比",
+            "thumbnail": "control-basis-mapSplit.jpg",
+            "main": "control/basis/mapSplit"
+          },
+          {
+            "name": "POI兴趣点搜索",
+            "thumbnail": "control-basis-poiQueryButton.jpg",
+            "main": "control/basis/poiQueryButton",
+            "resources": [
+              "PoiQueryButton.css",
+              "PoiQueryButton.js"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "控件的管理",
+        "children": [
+          {
+            "name": "控件的控制(显示及关闭)",
+            "thumbnail": "control-basis-display.jpg",
+            "main": "control/basis/display",
             "hasPannel": true
           }
         ]
@@ -1017,147 +1153,11 @@
     ]
   },
   {
-    "name": "控件",
-    "icon": "fa-briefcase",
-    "children": [
-      {
-        "name": "内置控件",
-        "details": "内置的控件，直接按需调用即可",
-        "children": [
-          {
-            "name": "右键菜单",
-            "thumbnail": "control-inside-contextmenu.jpg",
-            "main": "control/inside/contextmenu"
-          },
-          {
-            "name": "Popup鼠标单击信息窗",
-            "thumbnail": "control-inside-popup.jpg",
-            "main": "control/inside/popup",
-            "hasPannel": true,
-            "resources": [
-              "newPopup.css"
-            ]
-          },
-          {
-            "name": "Tooltip 鼠标移入信息窗",
-            "thumbnail": "control-inside-tooltip.jpg",
-            "main": "control/inside/tooltip",
-            "hasPannel": true
-          },
-          {
-            "name": "SmallTooltip 鼠标小提示窗",
-            "thumbnail": "control-inside-smallTooltip.jpg",
-            "main": "control/inside/smallTooltip",
-            "hasPannel": true
-          }
-        ]
-      },
-      {
-        "name": "按钮控件",
-        "children": [
-          {
-            "name": "zoom放大缩小",
-            "thumbnail": "control-leaflet-zoom.jpg",
-            "main": "control/leaflet/zoom"
-          },
-          {
-            "name": "工具按钮栏",
-            "thumbnail": "control-basis-toolBar.jpg",
-            "main": "control/basis/toolBar"
-          },
-          {
-            "name": "自定义工具栏按钮",
-            "thumbnail": "control-basis-toolButton.jpg",
-            "main": "control/basis/toolButton"
-          },
-          {
-            "name": "移动端位置定位",
-            "thumbnail": "control-basis-geolocation.jpg",
-            "main": "control/basis/geolocation",
-            "resources": [
-              "https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0",
-              "Geolocation.js"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "面板控件",
-        "children": [
-          {
-            "name": "layers 图层管理",
-            "thumbnail": "control-leaflet-layers.jpg",
-            "main": "control/leaflet/layers"
-          },
-          {
-            "name": "比例尺",
-            "thumbnail": "control-leaflet-scale.jpg",
-            "main": "control/leaflet/scale"
-          },
-          {
-            "name": "下侧状态栏",
-            "thumbnail": "control-basis-locationBar.jpg",
-            "main": "control/basis/locationBar"
-          },
-          {
-            "name": "三维全景切换",
-            "thumbnail": "control-basis-mapSwich.jpg",
-            "main": "control/basis/mapSwich"
-          },
-          {
-            "name": "鱼骨导航",
-            "thumbnail": "control-basis-slider.jpg",
-            "main": "control/basis/slider"
-          },
-          {
-            "name": "鹰眼地图",
-            "thumbnail": "control-basis-overviewMap.jpg",
-            "main": "control/basis/overviewMap"
-          },
-          {
-            "name": "时间播放",
-            "thumbnail": "control-basis-timeDimension.jpg",
-            "main": "control/basis/timeDimension",
-            "libs": [
-              "mars2d",
-              "timeDimension"
-            ]
-          },
-          {
-            "name": "卷帘对比",
-            "thumbnail": "control-basis-mapSplit.jpg",
-            "main": "control/basis/mapSplit"
-          },
-          {
-            "name": "POI兴趣点搜索",
-            "thumbnail": "control-basis-poiQueryButton.jpg",
-            "main": "control/basis/poiQueryButton",
-            "resources": [
-              "PoiQueryButton.css",
-              "PoiQueryButton.js"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "控件的管理",
-        "children": [
-          {
-            "name": "控件的控制(显示及关闭)",
-            "thumbnail": "control-basis-display.jpg",
-            "main": "control/basis/display",
-            "hasPannel": true
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "分析",
+    "name": "空间分析",
     "icon": "fa-futbol-o",
     "children": [
       {
-        "name": "空间分析",
+        "name": "测量分析",
         "children": [
           {
             "name": "量算 (长度、面积)",
@@ -1168,7 +1168,7 @@
         ]
       },
       {
-        "name": "GIS客户端分析",
+        "name": "客户端分析",
         "children": [
           {
             "name": "生成随机数据(点线面)",

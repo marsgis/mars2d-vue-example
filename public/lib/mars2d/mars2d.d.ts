@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.3.4
- * 编译日期：2025-09-21 15:44
+ * 版本信息：v3.3.5
+ * 编译日期：2025-09-28 20:27
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -14141,7 +14141,7 @@ declare namespace query {
 
 /**
  * 管理或分析类 命名空间，
- * 教程 http://mars2d.cn/dev/guide/map/thing.html
+ * 教程 http://mars2d.cn/docs/basis/thing/%E5%88%86%E6%9E%90%E5%8A%9F%E8%83%BD/
  */
 declare namespace thing {
   export { Measure }

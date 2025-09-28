@@ -58,7 +58,7 @@
                 </div>
               </div>
               <p>1. 您可以访问<a :href="`https://gitee.com/marsgis/mars2d-vue-example`" target="_black">GitHub</a>下载当前示例代码到本地运行</p>
-              <p>2. 名称内有 demo 的属于存在已知问题的示例，此处仅做演示</p>
+              <p>2. 存在已知问题 的示例打开后有对应已知问题提示，此处仅做演示。</p>
               <p>
                 3. 如果您访问体验当中发现bug问题或有好的建议，欢迎随时反馈给
                 <a href="http://marsgis.cn/weixin.html" target="_blank">我们</a>.
@@ -111,7 +111,7 @@
               <template v-for="item2 in item1.children" :key="item2.id">
                 <li
                   v-if="item2.main && item2.hidden != true"
-                  :title="item2.name + '  ' + item2.main"
+                  :title="getTitle(item2)"
                   @click="jumpurl(item2)"
                   style="overflow: hidden"
                 >
@@ -141,6 +141,7 @@
                       >[{{ item2.plugins }}插件]</span
                     >
                   </p>
+                  <span class="hideInfo">{{ item2.main  }} , {{ item2.api  }}</span>
                 </li>
               </template>
             </ul>
@@ -258,13 +259,26 @@ export default {
         return (this.wrapFixed = false)
       }
     },
+    getTitle(item) {
+        let title = `${item.name}
+目录：${item.main}`
+      if (item.api) {
+        const api_name = item.api.replaceAll(".html", "").replaceAll("global.", "")
+        title += `
+API：mars3d.${api_name}`
+      }
+      return title
+    },
     jumpurl(item) {
       this.$emit("jump", item)
     },
     imgOnError(e) {
       const img = e.srcElement
+      console.log(`缺少缩略图图片: ${img.src}`)
+
       img.src = "/config/thumbnail/map-options-basemaps.jpg"
       img.onerror = null
+
     },
     searchDetail() {
       if (!this.searchValue) {
@@ -280,7 +294,7 @@ export default {
             if (ite.children) {
               const lis = []
               ite.children.forEach((itemes) => {
-                if (itemes.name.toLowerCase().search(searchValue) !== -1) {
+                if (itemes.name.toLowerCase().search(searchValue) !== -1 || (itemes.api && itemes.api.toLowerCase().search(searchValue) !== -1)) {
                   lis.push(itemes)
                 }
               })
@@ -408,6 +422,7 @@ export default {
 
 <style scoped>
 .page-wrap {
+  margin-top: 68px;
   padding-top: 0px;
   height: 100vh;
   box-sizing: border-box;
@@ -905,6 +920,13 @@ input:-ms-input-placeholder {
   vertical-align: middle;
   margin-left: 10px;
   cursor: pointer;
+}
+
+.hideInfo{
+  color: rgba(255, 255, 255, 0.01);
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .three .tan1 {

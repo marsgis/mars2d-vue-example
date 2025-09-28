@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@icon-park/svg": "^1.4.2",
-    "@marsgis/editor": "^1.4.0",
+    "@marsgis/editor": "^1.4.2",
     "ant-design-vue": "^4.1.2",
     "axios": "^1.6.7",
     "core-js": "^3.36.0",
@@ -25,7 +25,7 @@
     "echarts": "^5.5.0",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
-    "mars2d": "^3.3.0",
+    "mars2d": "^3.3.4",
     "monaco-editor": "^0.52.2",
     "nprogress": "^0.2.0",
     "serve": "^14.2.1",

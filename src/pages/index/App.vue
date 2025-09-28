@@ -1,6 +1,6 @@
 <template>
   <!--导航-->
-  <Head :navActive="navActive" @clickNav="clickNav" />
+  <Head @clickNav="clickNav" />
   <example-list v-show="!showIframe" @jump="jumpUrl"></example-list>
   <iframe v-show="showIframe" style="width: 100%; height: 100vh; overflow: auto; margin-top: 68px" frameborder="0" :src="iframeSrc"></iframe>
 </template>
@@ -11,7 +11,6 @@ import ExampleList from "@mars/components/mars-work/example-list.vue"
 import Head from "@/components/mars-work/mars-head.vue"
 
 const iframeSrc = ref("")
-const navActive = ref(0)
 const showIframe = ref(false)
 
 const jumpUrl = (item: any) => {
@@ -30,13 +29,11 @@ const jumpUrl = (item: any) => {
   window.open(url, "_blank")
 }
 
-const clickNav = (url) => {
-  if (url) {
+const clickNav = (item) => {
+  if (item.page) {
     showIframe.value = true
-    iframeSrc.value = url
-    navActive.value = 1
+    iframeSrc.value = item.page
   } else {
-    navActive.value = 0
     showIframe.value = false
   }
 }
