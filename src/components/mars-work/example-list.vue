@@ -175,7 +175,7 @@ export default {
   created() {
     const marsEditor = new MarsgisEditor({
       baseUrl: process.env.BASE_URL,
-      thumbnailPublicPath: "/config/thumbnail/",
+      thumbnailPublicPath: `${process.env.BASE_URL}config/thumbnail/`,
       configSourceUrl: `${process.env.BASE_URL}config/example.json`
     })
 
@@ -276,7 +276,7 @@ API：mars3d.${api_name}`
       const img = e.srcElement
       console.log(`缺少缩略图图片: ${img.src}`)
 
-      img.src = "/config/thumbnail/map-options-basemaps.jpg"
+      img.src = `${process.env.BASE_URL}/config/thumbnail/map-options-basemaps.jpg`
       img.onerror = null
 
     },

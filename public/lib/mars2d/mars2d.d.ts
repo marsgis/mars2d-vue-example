@@ -3,7 +3,7 @@
  * Mars2D地理信息平台  mars2d
  *
  * 版本信息：v3.3.5
- * 编译日期：2025-09-28 20:27
+ * 编译日期：2025-10-25 20:35
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -8231,6 +8231,8 @@ declare class ArcGisCompactLayer extends TileLayer {
  * @param options - 参数对象，包括以下：
  * @param options.url - 用于请求瓦片图块的URL模板，比如："https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"
  * @param [options.subdomains = ''] - 瓦片服务的子域名。可以以一个字符串的形式（每个字母都是子域名）或一个字符串数组的形式传递。
+ * @param [options.token] - 如果您在服务需要传递令牌，它将包含在对服务的所有请求中。
+ * @param [options.proxy] - 代理服务URL
  * @param [options.opacity = 1] - 瓦片的不透明度。
  * @param [options.minZoom = 0] - 最小的缩放级别
  * @param [options.maxZoom = 18] - 最大的缩放级别
@@ -8268,6 +8270,8 @@ declare class ArcGisLayer extends TileLayer {
     constructor(options: {
         url: string;
         subdomains?: string | string[];
+        token?: string;
+        proxy?: string;
         opacity?: number;
         minZoom?: number;
         maxZoom?: number;
@@ -8396,6 +8400,45 @@ declare class BaiduLayer extends TileLayer {
         show?: boolean;
         pane?: string;
     });
+}
+
+/**
+ * 空白图层， 比如用于无底图的切换
+ * @param options - 参数对象，包括以下：
+ * @param [options.id = createGuid()] - 图层id标识
+ * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
+ * @param [options.name = ''] - 图层名称
+ * @param [options.show = true] - 图层是否显示
+ * @param [options.pane = 'tilePane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
+ */
+declare class EmptyTileLayer extends L.Layer {
+    constructor(options: {
+        id?: string | number;
+        pid?: string | number;
+        name?: string;
+        show?: boolean;
+        pane?: string;
+    });
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean;
+    /**
+     * 对象的pid标识
+     */
+    pid: string | number;
+    /**
+     * 对象的id标识
+     */
+    id: string | number;
+    /**
+     * 名称 标识
+     */
+    name: string;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean;
 }
 
 /**
@@ -9690,6 +9733,9 @@ declare class TileLayer extends L.TileLayer {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [highlight] - 鼠标移单击后高亮对应的矢量对象的样式
  * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -9739,12 +9785,14 @@ declare class WmsLayer extends L.TileLayer.WMS {
         updateWhenZooming?: boolean;
         noWrap?: boolean;
         chinaCRS?: ChinaCRS;
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
+        popupOptions?: Map.PopupOptions;
         id?: string | number;
         pid?: string | number;
         name?: string;
         show?: boolean;
         pane?: string;
-    });
+    }, highlight?: any);
     /**
      * 使用新参数更新合并参数，并更新服务。
      * @param params - 合并参数
@@ -9949,6 +9997,11 @@ declare class WmsLayer extends L.TileLayer.WMS {
  * @param [options.updateWhenZooming = true] - 默认情况下，平滑缩放动画（touch zoom 或flyTo()） 会在整个缩放级别更新网格图层。设置此选项false将仅在平滑动画结束时更新网格层。
  * @param [options.noWrap = false] - 该层是否在子午线断面。 如果为true，GridLayer只能在低缩放级别显示一次。当地图CRS 不包围时，没有任何效果。 可以结合使用bounds 以防止在CRS限制之外请求瓦片。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
+ * @param [options.pickFeaturesUrl] - enablePickFeatures为true时，用于单击查看矢量对象功能的对应wms服务url。
+ * @param [options.getFeatureInfoParameters] - 在单击坐标处通过GetFeatureInfo请求接口时,传递给WMS服务器的附加参数。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [highlight] - 鼠标移单击后高亮对应的矢量对象的样式
  * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -9994,12 +10047,28 @@ declare class WmtsLayer extends TileLayer {
         updateWhenZooming?: boolean;
         noWrap?: boolean;
         chinaCRS?: ChinaCRS;
+        pickFeaturesUrl?: Cesium.Resource | string;
+        getFeatureInfoParameters?: any;
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
+        popupOptions?: Map.PopupOptions;
         id?: string | number;
         pid?: string | number;
         name?: string;
         show?: boolean;
         pane?: string;
-    });
+    }, highlight?: any);
+    /**
+     * 绑定Popup弹窗配置
+     * @param fn - Popup弹窗模板或回调方法
+     * @param [popupOptions] - Popup弹窗参数
+     * @returns 当前对象本身，可以链式调用
+     */
+    bindPopup(fn: string | any | ((...params: any[]) => any), popupOptions?: Map.PopupOptions): any | WmsLayer;
+    /**
+     * 解除绑定Popup弹窗配置
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindPopup(): any | WmsLayer;
     /**
      * 仅在内部调用，返回给定坐标的瓦片的URL。扩展类TileLayer可以覆盖此功能，以提供自定义图块URL命名方案。
      * @param coords - 瓦片的xyz信息
@@ -10376,9 +10445,13 @@ declare class Map extends L.Map {
      */
     bounds: L.LatLngBounds;
     /**
+     * 当前地图坐标系实际的CRS定义对象
+     */
+    readonly _crs: any;
+    /**
      * 当前地图坐标系
      */
-    crs: string;
+    crs: string | any;
     /**
      * 默认绑定的图层，简单场景时快捷方便使用
      */
@@ -11311,13 +11384,15 @@ declare namespace ArcGisDynamicLayer {
  * @param [options.opacity = 1] - 图层的不透明度。应该是介于0(完全透明)和1(完全不透明)之间的值。
  * @param [options.dynamicLayers] - 用于覆盖服务定义的图层符号系统的一个或多个 JSON 对象的数组。需要哪些支持10.1+地图服务请求。
  * @param [options.disableCache = false] - 如果启用，将时间戳附加到每个请求以确保在服务器端创建新图像。
- * @param [options.popup] - popup弹窗配置
  * @param [options.minZoom] - 图层将显示在地图上的最远缩放级别。
  * @param [options.maxZoom] - 图层将显示在地图上的最近缩放级别。
  * @param [options.token] - 如果您在服务需要传递令牌，它将包含在对服务的所有请求中。
  * @param [options.proxy] - 代理服务URL
  * @param [options.useCors = true] - 如果此服务在发出 GET 请求时应使用 CORS。
  * @param [options.zIndex] - 用于图层间排序
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [highlight] - 鼠标移单击后高亮对应的矢量对象的样式
  * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -11333,18 +11408,19 @@ declare class ArcGisDynamicLayer extends L.TileLayer {
         opacity?: number;
         dynamicLayers?: any;
         disableCache?: boolean;
-        popup?: string;
         minZoom?: number;
         maxZoom?: number;
         token?: string;
         proxy?: string;
         useCors?: boolean;
         zIndex?: number;
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
+        popupOptions?: Map.PopupOptions;
         id?: string | number;
         pid?: string | number;
         name?: string;
         pane?: string;
-    });
+    }, highlight?: any);
     /**
      * 在所有其他叠加层下方重绘此层。
      * @returns 当前对象本身,可以链式调用
@@ -11589,6 +11665,8 @@ declare namespace ArcGisFeatureLayer {
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
  * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
+ * @param [options.popupOptions] - popup弹窗时的配置参数
  * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -11611,6 +11689,8 @@ declare class ArcGisFeatureLayer extends L.Layer {
             styleFieldOptions?: any;
             callback?: (...params: any[]) => any;
         };
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
+        popupOptions?: Map.PopupOptions;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -13878,9 +13958,10 @@ declare namespace Util {
      * 导出下载文本文件
      * @param fileName - 文件完整名称，需要含后缀名
      * @param string - 文本内容
+     * @param [mimeType] - MIME类型,如：'text/plain'、'text/html'、'application/json'
      * @returns 无
      */
-    function downloadFile(fileName: string, string: string): any | void;
+    function downloadFile(fileName: string, string: string, mimeType?: string): any | void;
     /**
      * 执行alert弹窗
      * @param msg - 弹窗内的内容

@@ -741,6 +741,7 @@
           },
           {
             "name": "迁徙效果",
+            "thumbnail": "graphic-basis-polyline-migration.jpg",
             "main": "graphic/basis/polyline-migration",
             "hasPannel": true,
             "libs": [
@@ -1141,6 +1142,7 @@
           },
           {
             "name": "时序轨迹路线",
+            "thumbnail": "layer-graphic-other-trackplayback.jpg",
             "main": "layer-graphic/other/trackplayback",
             "hasPannel": true,
             "libs": [

@@ -95,14 +95,14 @@
     {
       "pid": 10,
       "name": "腾讯电子",
-      "icon": "/img/basemaps/tencent_vec.png",
+      "icon": "img/basemaps/tencent_vec.png",
       "type": "tencent",
       "layer": "vec"
     },
     {
       "pid": 10,
       "name": "腾讯影像",
-      "icon": "/img/basemaps/tencent_img.png",
+      "icon": "img/basemaps/tencent_img.png",
       "type": "group",
       "layers": [
         { "name": "底图", "type": "tencent", "layer": "img_d" },
@@ -144,11 +144,17 @@
     {
       "pid": 10,
       "name": "离线影像(供参考)",
-      "icon": "/img/basemaps/google_img.png",
+      "icon": "img/basemaps/google_img.png",
       "type": "xyz",
       "url": "https://data.mars3d.cn/tile/img/{z}/{x}/{y}.jpg",
       "chinaCRS": "GCJ02",
       "maxZoom": 13
+    },
+    {
+      "pid": 10,
+      "name": "无底图",
+      "icon": "img/basemap/null.png",
+      "type": "empty"
     }
   ],
   "operationallayers": [
