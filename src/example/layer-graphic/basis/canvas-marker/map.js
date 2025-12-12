@@ -19,6 +19,16 @@ export function onMounted(mapInstance) {
     console.log("单击了", e)
   })
 
+  canvasMarkerLayer.bindPopup(function (event) {
+    const attr = event?.attr || {}
+    attr["类型"] = event.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars2d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr })
+  })
+
+
   // 图层控制控件
   if (map.controls && map.controls.layers) {
     map.controls.layers.addOverlay(canvasMarkerLayer, "canvas点")
@@ -56,13 +66,17 @@ export function addMarkers(numPoints) {
     })
     canvasMarkerLayer.addGraphic(graphic)
 
-    graphic.bindPopup("第" + i + "个点")
+    // graphic.bindPopup("第" + i + "个点")
   }
 }
 
 // 添加随机图标点
 export function addCustomDrawMarkers(numPoints) {
   canvasMarkerLayer.clear()
+
+  // if (map.dragging.moving()) {
+  //   return
+  // }
 
   for (let i = 0; i < numPoints; i++) {
     const latlng = getRandomLatLng()
