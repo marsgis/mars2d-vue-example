@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 const attributionHtml = `©2024 Baidu - <span>审图号：GS(2023)3206号</span>
 - 甲测资字11111342- <a target="_blank" href="https://map.baidu.com/zt/client/service/index.html">服务条款</a>`
@@ -158,9 +158,7 @@ export const mapOptions = {
       attribution: attributionHtml
     }
   ],
-  operationallayers: [
-    { name: "实时路况", type: "baidu", layer: "time" }
-  ]
+  operationallayers: [{ name: "实时路况", type: "baidu", layer: "time" }]
 }
 
 // 事件对象，用于抛出事件给vue
@@ -200,7 +198,6 @@ function addTestMarker() {
 
   graphic.bindPopup("<p>我是WGS84坐标下，望江西路与怀宁路交口</p>").openPopup()
 }
-
 
 // 在下侧状态栏增加一个额外div展示图层版权信息
 let attributionDOM

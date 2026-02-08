@@ -1,10 +1,10 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = function (option) {
-    // 第一种添加控件方法
+  // 第一种添加控件方法
   option.control = {
     layers: { position: "topleft" }
   }
@@ -15,9 +15,9 @@ export const mapOptions = function (option) {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-    // 第二种添加控件方法
-    // const layers = L.control.layers({ position: "bottomleft" })
-    // map.addControl(layers)
+  // 第二种添加控件方法
+  // const layers = L.control.layers({ position: "bottomleft" })
+  // map.addControl(layers)
 }
 
 /**

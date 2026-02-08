@@ -8,7 +8,7 @@
       </a-space>
     </div>
     <div class="attr-editor-main">
-      <mars-styles :style="style" :layerName="layerName" :customType="customType" :graphicType="graphicType" @styleChange="styleChange" />
+      <mars-styles :styleData="style" :layerName="layerName" :customType="customType" :graphicType="graphicType" @styleChange="styleChange" />
     </div>
   </mars-dialog>
 </template>

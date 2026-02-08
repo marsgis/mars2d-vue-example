@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -43,8 +43,8 @@ export function onMounted(mapInstance) {
 
   const graphicImg = new mars2d.graphic.Image({
     latlngs: [
-      [30.70, 116.05],
-      [32.86, 118.50]
+      [30.7, 116.05],
+      [32.86, 118.5]
     ],
     style: {
       url: "img/icon/calib.png",

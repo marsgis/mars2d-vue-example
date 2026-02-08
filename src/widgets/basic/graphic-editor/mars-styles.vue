@@ -74,7 +74,7 @@ const props = defineProps<{
   layerName: string
   graphicType: string
   customType?: string
-  style: any
+  styleData: any
 }>()
 
 const emit = defineEmits(["styleChange"])
@@ -88,7 +88,7 @@ const globalKey = ref(0)
 watch(
   props,
   () => {
-    if (props && props.style) {
+    if (props && props.styleData) {
       globalKey.value++
       setDefault() // 处理初始化默认值（不做任何修改之前的状态）
       updateViewStyles() // 处理属性控件的显示隐藏
@@ -151,7 +151,7 @@ function getViewDefval(config, styleOptions) {
 
 // 设置初始化的默认值
 function setDefault() {
-  styleValue.value = _.cloneDeep(props.style)
+  styleValue.value = _.cloneDeep(props.styleData)
 
   styleValue.value.opacity = 1
 

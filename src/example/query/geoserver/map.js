@@ -1,7 +1,7 @@
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 let queryMapserver
 let geoJsonLayer
 let drawGraphic
@@ -63,6 +63,7 @@ export function query(text, name) {
     success: (result) => {
       if (result.count === 0) {
         globalMsg("未查询到相关记录！")
+        return
       } else {
         globalMsg("共查询到 " + result.count + " 条记录！")
       }

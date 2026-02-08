@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-export let map // mars2d.Map三维地图对象
+export let map // mars2d.Map二维地图对象
 export let graphicLayer // 矢量图层对象
 export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到面板中
 

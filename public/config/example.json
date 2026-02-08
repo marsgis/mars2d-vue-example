@@ -308,7 +308,7 @@
           },
           {
             "name": "时间播放",
-            "thumbnail": "control-basis-timeDimension.jpg",
+            "thumbnail": "control-basis-timeDimension.gif",
             "main": "control/basis/timeDimension",
             "libs": [
               "mars2d",
@@ -741,7 +741,7 @@
           },
           {
             "name": "迁徙效果",
-            "thumbnail": "graphic-basis-polyline-migration.jpg",
+            "thumbnail": "graphic-basis-polyline-migration.gif",
             "main": "graphic/basis/polyline-migration",
             "hasPannel": true,
             "libs": [
@@ -909,7 +909,7 @@
           },
           {
             "name": "动态水球点",
-            "thumbnail": "graphic-divGraphic-echarts-liquidfill.jpg",
+            "thumbnail": "graphic-divGraphic-echarts-liquidfill.gif",
             "main": "graphic/divGraphic/echarts-liquidfill",
             "libs": [
               "mars2d",
@@ -1398,7 +1398,7 @@
           },
           {
             "name": "动态轨迹",
-            "thumbnail": "layer-other-mapv-dynamic-line.jpg",
+            "thumbnail": "layer-other-mapv-dynamic-line.gif",
             "main": "layer-other/mapv/dynamic-line",
             "libs": [
               "mars2d",
@@ -1407,7 +1407,7 @@
           },
           {
             "name": "强边界图",
-            "thumbnail": "layer-other-mapv-line-forceEdgeBunding.jpg",
+            "thumbnail": "layer-other-mapv-line-forceEdgeBunding.gif",
             "main": "layer-other/mapv/line-forceEdgeBunding",
             "libs": [
               "mars2d",
@@ -1416,7 +1416,7 @@
           },
           {
             "name": "迁徙图",
-            "thumbnail": "layer-other-mapv-qianxi.jpg",
+            "thumbnail": "layer-other-mapv-qianxi.gif",
             "main": "layer-other/mapv/qianxi",
             "libs": [
               "mars2d",
@@ -1425,7 +1425,7 @@
           },
           {
             "name": "大迁徙图",
-            "thumbnail": "layer-other-mapv-qianxi-time.jpg",
+            "thumbnail": "layer-other-mapv-qianxi-time.gif",
             "main": "layer-other/mapv/qianxi-time",
             "libs": [
               "mars2d",
@@ -1538,7 +1538,7 @@
           },
           {
             "name": "流向动态效果",
-            "thumbnail": "layer-other-echarts-line3.jpg",
+            "thumbnail": "layer-other-echarts-line3.gif",
             "main": "layer-other/echarts/line3",
             "libs": [
               "mars2d",

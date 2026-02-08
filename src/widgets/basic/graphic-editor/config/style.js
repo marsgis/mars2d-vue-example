@@ -65,7 +65,7 @@ const styleConfig = {
         name: "border_width",
         label: "边框宽度",
         type: "number",
-        defval: 3,
+        defval: 1,
         show(style, allStyle, graphicType) {
           return style.border
         }
@@ -470,7 +470,13 @@ const styleConfig = {
         defval: 100.0,
         min: 1.0,
         max: 100.0,
-        step: 1
+        step: 1,
+        show(style) {
+          if (style.length > 0) {
+            return false
+          }
+          return true
+        }
       },
       {
         name: "repeat",
@@ -479,7 +485,13 @@ const styleConfig = {
         defval: 0.0,
         min: 1.0,
         max: 100.0,
-        step: 1
+        step: 1,
+        show(style) {
+          if (style.length > 0) {
+            return false
+          }
+          return true
+        }
       },
       {
         name: "color",
@@ -487,12 +499,16 @@ const styleConfig = {
         type: "color",
         defval: "rgba(51, 136, 255, 1)",
         show(style, allStyle, graphicType) {
-          if (style.symbolOptions.type === "marker") {
+          // console.log("----style----", style)
+          if (style.length > 0) {
+            return false
+          }
+          if (style.symbol.options.type === "marker") {
             return false
           }
           return true
         }
-      },
+      }
     ]
   },
   rectangle: {

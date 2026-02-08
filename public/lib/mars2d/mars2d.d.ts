@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.3.7
- * 编译日期：2026-01-01 14:09
+ * 版本信息：v3.4.0
+ * 编译日期：2026-02-08 17:34
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2025-01-23
  */
@@ -6637,6 +6637,11 @@ declare class GeoJsonLayer extends GraphicLayer {
      * @returns 当前对象本身,可以链式调用
      */
     bringToBack(): any | GraphicLayer;
+    /**
+     * 获取图层矩形边界
+     * @returns 矩形边界
+     */
+    getBounds(): any | L.LatLngBounds;
     /**
      * 将图层内的矢量数据转为GeoJSON格式对象
      * @returns 返回GeoJSON格式对象（作为GeoJSON GeometryCollection）。

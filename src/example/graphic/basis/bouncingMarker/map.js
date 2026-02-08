@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-export let map // mars2d.Map三维地图对象
+export let map // mars2d.Map二维地图对象
 const L = mars2d.L
 export let graphicLayer
 
@@ -84,7 +84,6 @@ function addDemoGraphic3() {
   })
   graphicLayer.addGraphic(graphic)
 }
-
 
 function addDemoGraphic4() {
   const graphic = new mars2d.graphic.BouncingMarker({

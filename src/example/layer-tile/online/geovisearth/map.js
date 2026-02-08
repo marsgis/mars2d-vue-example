@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-export let map // mars2d.Map三维地图对象
+export let map // mars2d.Map二维地图对象
 
 const creditHtml = `©2023 中科星图- <span>审图号：GS (2023) 1924号</span>
 -  甲测资字11111577 - <a href="https://geovisearth.com/declaration#/user" target="_blank" trace="tos">服务条款</a> `

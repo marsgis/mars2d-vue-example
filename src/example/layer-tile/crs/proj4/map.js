@@ -1,7 +1,7 @@
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 // 地图瓦片信息
 const tileInfo = {

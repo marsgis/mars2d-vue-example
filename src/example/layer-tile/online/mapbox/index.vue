@@ -39,7 +39,7 @@ const removeLayer = () => {
 <style lang="less" scoped>
 .map_btn {
   position: absolute;
-  top: 10px;
+  bottom: 0px;
   right: 10px;
   padding: 10px;
 

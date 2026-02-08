@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-export let map // mars2d.Map三维地图对象
+export let map // mars2d.Map二维地图对象
 export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
@@ -32,7 +32,6 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
 }
-
 
 function addDemoGraphic1() {
   // 经纬度 转为leafelt的纬度、经度标准
@@ -206,8 +205,6 @@ function addDemoGraphic6() {
   graphicLayer.addGraphic(graphic)
 }
 
-
-
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件
@@ -243,7 +240,7 @@ function bindLayerPopup() {
 
 // 绑定右键菜单
 function bindLayerContextMenu() {
-   graphicLayer.bindContextMenu([
+  graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",

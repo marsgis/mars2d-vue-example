@@ -1,7 +1,7 @@
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 let canvasMarkerLayer
 
 // 事件对象，用于抛出事件给vue
@@ -27,7 +27,6 @@ export function onMounted(mapInstance) {
 
     return mars2d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr })
   })
-
 
   // 图层控制控件
   if (map.controls && map.controls.layers) {

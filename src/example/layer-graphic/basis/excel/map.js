@@ -2,7 +2,7 @@
 import * as mars2d from "mars2d"
 // import * as XLSX from "xlsx"
 
-export let map // mars2d.Map三维地图对象
+export let map // mars2d.Map二维地图对象
 export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）

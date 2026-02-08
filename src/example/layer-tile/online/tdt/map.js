@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 const attributionHtml = `©2024 自然资源部 - <span>审图号：GS(2024)0568号</span>
  - 甲测资字1100471 - <a href="https://www.tianditu.gov.cn/about/contact.html?type=2" target="_blank" trace="tos">服务条款</a> `
@@ -80,7 +80,6 @@ function addTestMarker() {
 
   graphic.bindPopup("<p>我是WGS84坐标下，望江西路与怀宁路交口</p>").openPopup()
 }
-
 
 // 在下侧状态栏增加一个额外div展示图层版权信息
 let attributionDOM

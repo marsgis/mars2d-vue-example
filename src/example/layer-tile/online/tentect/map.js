@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 const attributionHtml = `©2024 Tencent - <span>审图号：GS(2023)1号</span>
 - <a target="_blank" href="https://lbs.qq.com/terms.html">服务条款</a>`

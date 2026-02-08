@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-export let map // mars2d.Map三维地图对象
+export let map // mars2d.Map二维地图对象
 export let graphicLayer
 
 // 事件对象，用于抛出事件给vue
@@ -76,7 +76,7 @@ function bindLayerPopup() {
 
 // 绑定右键菜单
 function bindLayerContextMenu() {
-   graphicLayer.bindContextMenu([
+  graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",

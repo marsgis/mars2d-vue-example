@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 export const eventTarget = new mars2d.BaseClass()
 
 const attributionHtml = `©2024 高德软件- <span>审图号：GS(2021)6375号</span>

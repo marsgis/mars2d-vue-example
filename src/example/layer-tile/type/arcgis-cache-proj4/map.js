@@ -8,8 +8,7 @@ const tileInfo = {
   bounds: { xmin: 39397376.21529983, ymin: 3811337.7700739773, xmax: 39553472.811626874, ymax: 3984005.5674397806 }
 }
 
-
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -50,7 +49,6 @@ export const eventTarget = new mars2d.BaseClass()
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-
 
   const center = map._crs.unproject(L.point((tileInfo.bounds.xmin + tileInfo.bounds.xmax) / 2, (tileInfo.bounds.ymin + tileInfo.bounds.ymax) / 2))
   console.log("地图center", center)

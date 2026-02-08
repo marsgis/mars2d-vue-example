@@ -27,6 +27,7 @@ export function onUnmounted() {
 }
 
 function getJsonData() {
+  globalMsg("数据量较大，可能会卡顿，正在加载中请耐心等待......")
   mars2d.Util.fetchJson({
     url: "http://data.mars2d.cn/file/apidemo/weibo.json"
   })

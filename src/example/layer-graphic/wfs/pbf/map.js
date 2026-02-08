@@ -1,7 +1,7 @@
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
