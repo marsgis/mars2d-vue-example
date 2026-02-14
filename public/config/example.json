@@ -267,7 +267,7 @@
             "thumbnail": "control-basis-geolocation.jpg",
             "main": "control/basis/geolocation",
             "resources": [
-              "https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0",
+              "https://webapi.amap.com/maps?v=1.4.15&key=ac4fc0bd7dbc89e56265f7455591ee83",
               "Geolocation.js"
             ]
           }

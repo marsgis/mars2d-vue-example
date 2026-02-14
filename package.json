@@ -1,6 +1,6 @@
 {
   "name": "mars2d-vue-example",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "在Vue3技术栈下的Mars2D平台 功能示例 演示项目",
   "scripts": {
     "serve": "vite --host",
