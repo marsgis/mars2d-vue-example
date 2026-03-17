@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 /**
  * 统一定义ts模块类型
- * @copyright 火星科技 mars2d.cn
+ * @copyright mars2d.cn
  * @author 木遥 2022-01-01
  */
 

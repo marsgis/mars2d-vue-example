@@ -41,7 +41,7 @@ function addDemoGraphic1(graphicLayer) {
   const graphic = new mars2d.graphic.Label({
     latlng: [31.839868, 117.13151],
     style: {
-      text: "火星科技Mars3D平台",
+      text: "欢迎使用Mars2D平台",
       font_size: 25,
       font_family: "楷体",
       font_style: "italic",

@@ -30,7 +30,7 @@ export function onMounted(mapInstance) {
   const latlng = map.getCenter()
   const marker = L.marker(latlng).addTo(map)
 
-  marker.name = "火星科技"
+  marker.name = "欢迎使用Mars2D平台"
   marker.bindContextMenu([
     {
       text: "显示名称",

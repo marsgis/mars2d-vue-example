@@ -53,7 +53,7 @@ export function onMounted(mapInstance) {
         pixelSize: 2,
         color: "#3388ff",
 
-        text: "火星科技\n Mars2D",
+        text: "欢迎使用\n Mars2D",
         textStyle: {
           stroke: true,
           color: "#3388ff",
@@ -65,7 +65,7 @@ export function onMounted(mapInstance) {
     })
     graphicLayer.addGraphic(graphic)
 
-    graphic.bindPopup("火星科技 mars2d.cn")
+    graphic.bindPopup("欢迎使用mars2d.cn")
   }
 }
 

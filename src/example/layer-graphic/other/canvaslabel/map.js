@@ -76,7 +76,7 @@ export function onMounted(mapInstance) {
         color: "#3388ff",
 
         labelStyle: {
-          text: "火星科技\n Mars2D",
+          text: "欢迎使用\n Mars2D",
           stroke: true,
           color: "#3388ff",
           font: "15px 'Microsoft Yahei'",
@@ -87,7 +87,7 @@ export function onMounted(mapInstance) {
     })
     graphicLayer.addGraphic(graphic)
 
-    graphic.bindPopup("火星科技 mars2d.cn")
+    graphic.bindPopup("欢迎使用mars2d.cn")
   }
 }
 

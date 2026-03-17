@@ -236,7 +236,7 @@ function addDemoGraphic2() {
     latlng: [31.42959, 117.162323],
     style: {
       html: `<div class="marsBlueGradientPnl">
-                    <div>合肥火星科技有限公司</div>
+                    <div>欢迎使用Mars2D平台</div>
                 </div>`,
       offsetY: 60,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
@@ -292,7 +292,7 @@ function addDemoGraphic6() {
   const graphic = new mars2d.graphic.DivBoderLabel({
     latlng: [31.542078, 117.577057],
     style: {
-      text: "火星科技Mars2D平台",
+      text: "欢迎使用Mars2D平台",
       font_size: 15,
       font_family: "微软雅黑",
       color: "#ccc",
@@ -325,7 +325,7 @@ function addDemoGraphic8() {
   const graphic = new mars2d.graphic.DivGraphic({
     latlng: [31.612314, 116.441345],
     style: {
-      html: "火星科技",
+      html: "Mars2D地理信息平台",
       className: "mars2d-label-graphic"
     },
     attr: { remark: "示例8" }
@@ -493,7 +493,7 @@ export function startDrawGraphic() {
     type: "divGraphic",
     style: {
       html: `<div class="marsBlueGradientPnl">
-            <div>我是火星科技</div>
+            <div>我是Mars2D平台</div>
         </div>`,
       offsetY: 60,
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
@@ -521,7 +521,7 @@ export function addRandomGraphicByCount(count) {
       latlng,
       style: {
         html: `<div class="marsBlueGradientPnl">
-                      <div>合肥火星科技有限公司</div>
+                      <div>Mars2D地理信息平台</div>
                   </div>`,
         offsetY: 60,
         horizontalOrigin: mars2d.HorizontalOrigin.CENTER,

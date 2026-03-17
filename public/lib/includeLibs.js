@@ -1,7 +1,7 @@
 /**
  * 第3方公共类库配置文件
  *
- * @copyright 火星科技 mars2d.cn
+ * @copyright mars2d.cn
  * @author 木遥 2021-11-26
  */
 window.configLibs = {

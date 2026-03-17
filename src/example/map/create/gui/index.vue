@@ -89,7 +89,7 @@ const options: GuiItem[] = [
     type: "textarea",
     field: "remark",
     label: "备注",
-    value: "火星科技",
+    value: "欢迎使用Mars2D平台",
     change(data) {
       $message("你输入了：" + data)
     }

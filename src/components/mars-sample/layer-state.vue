@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 /**
  * 公共组件：封装图层状态操作
- * @copyright 火星科技 mars2d.cn
+ * @copyright mars2d.cn
  * @author 火星渣渣灰 2022-01-01
  */
 import { reactive } from "vue"

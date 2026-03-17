@@ -1,7 +1,7 @@
 /**
  * 电子沙盘
  *
- * @copyright 火星科技 mars2d.cn
+ * @copyright mars2d.cn
  * @author 火星渣渣灰 2022-01-05
  */
 import * as mars2d from "mars2d"

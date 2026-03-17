@@ -1,6 +1,6 @@
 /**
  * 高德POI 查询栏 （左上角）
- * @copyright 火星科技 mars2d.cn
+ * @copyright mars2d.cn
  * @author 火星吴彦祖 2022-01-10
  */
 import * as mars2d from "mars2d"

@@ -243,7 +243,7 @@ function addDemoGraphic2() {
       outlineColor: "#0000ff",
       outlineOpacity: 1.0,
       label: {
-        text: "我是火星科技",
+        text: "欢迎使用Mars2D平台",
         color: "#0000FF",
         font_size: 20
       }

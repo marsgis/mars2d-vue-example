@@ -9,6 +9,7 @@ const attributionHtml = `©2024 Baidu - <span>审图号：GS(2023)3206号</span>
 export const mapOptions = {
   crs: mars2d.CRS.BAIDU,
   zoom: 12,
+  maxZoom: 19,
   center: { lng: 117.220102, lat: 31.834912 },
   control: {
     layers: { position: "topright" }

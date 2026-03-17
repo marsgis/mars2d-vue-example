@@ -26,7 +26,7 @@
 		"gis",
 		"webgis"
 	],
-	"author": "火星科技",
+	"author": "mars2d",
 	"license": "Apache-2.0",
 	"homepage": "http://mars2d.cn",
 	"build": {

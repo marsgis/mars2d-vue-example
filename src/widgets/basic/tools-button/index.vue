@@ -5,7 +5,7 @@
 <script setup lang="ts">
 /**
  * 导航菜单按钮 （控件）
- * @copyright 火星科技 mars2d.cn
+ * @copyright mars2d.cn
  * @author 火星渣渣灰 2022-01-10
  */
 import { useWidget } from "@mars/widgets/common/store/widget"

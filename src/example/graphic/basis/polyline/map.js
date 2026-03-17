@@ -94,7 +94,7 @@ function addDemoGraphic3() {
       width: 3,
       color: "#0000ff",
       label: {
-        text: "我是火星科技",
+        text: "欢迎使用Mars2D平台",
         color: "#0000FF",
         font_size: 20
       }

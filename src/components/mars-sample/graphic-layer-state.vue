@@ -122,7 +122,7 @@
 <script lang="ts" setup>
 /**
  * 公共组件：封装矢量图层操作
- * @copyright 火星科技 mars2d.cn
+ * @copyright mars2d.cn
  * @author 火星渣渣灰 2022-08-31
  */
 import { ref, reactive, onMounted, markRaw } from "vue"

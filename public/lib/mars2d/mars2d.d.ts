@@ -2,9 +2,9 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.4.0
- * 编译日期：2026-02-14 20:23
- * 版权所有：Copyright by 火星科技  http://mars2d.cn
+ * 版本信息：v3.4.1
+ * 编译日期：2026-03-17 16:42
+ * 版权所有：Copyright by http://mars2d.cn
  * 使用单位：免费公开版 ，2025-01-23
  */
 import * as L from "leaflet"
@@ -10128,7 +10128,7 @@ declare namespace Map {
      * @property [touchZoom] - 是否可以通过用两根手指触摸拖动来缩放地图。如果设置为'center'，它将缩放到视图的中心，而不管触摸事件（手指）在哪里。 仅在具有触控功能的网络浏览器中有效，旧版Android除外。
      * @property [bounceAtZoomLimits = true] - 如果您不希望在地图缩放超过最小/最大缩放范围时反弹，请将其设置为false。
      * @property [preferCanvas = false] - 是否应该在一个Canvas渲染器上呈现线面矢量对象. 默认情况下，所有线面矢量对象都是在 SVG呈现程序中呈现的.
-     * @property [copyright = true] - 是否显示火星科技的Logo
+     * @property [copyright = true] - 是否显示右下角的Logo图标
      * @property [defaultContextMenu = true] - 是否绑定默认的地图右键菜单
      * @property [contextmenuItems] - 自定义绑定右键菜单配置数组
      * @property [control] - 控件参数
@@ -13782,8 +13782,8 @@ declare namespace Util {
     /**
      * 根据数据和格式化字符串模板，返回字符串
      * @example
-     * let str = mars2d.Util.template("<div>名称：{name}</div>", { name:"火星科技", date:"2017-8-25"} );
-     *  //str结果为 : "<div>名称：火星科技</div>"
+     * let str = mars2d.Util.template("<div>名称：{name}</div>", { name:"欢迎使用Mars2D平台", date:"2017-8-25"} );
+     *  //str结果为 : "<div>名称：欢迎使用Mars2D平台</div>"
      * @param str - 格式化字符串模版，属性字段为大括号，如 {name}
      * @param data - 数据对象
      * @param [toEmpty = false] - 是否将模板中未匹配项转为空值

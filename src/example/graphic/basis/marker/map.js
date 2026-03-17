@@ -60,7 +60,7 @@ function addDemoGraphic2() {
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
       verticalOrigin: mars2d.VerticalOrigin.CENTER,
       label: {
-        text: "我是火星科技",
+        text: "欢迎使用Mars2D平台",
         color: "#ff0000",
         font_size: 20,
         offsetY: 30
