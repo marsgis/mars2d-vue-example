@@ -4,6 +4,7 @@
       <mars-button @click="showMapImg">查看场景出图</mars-button>
       <mars-button @click="downLoad">全屏导出</mars-button>
       <mars-button @click="downLoad2">框选导出</mars-button>
+      <mars-button @click="shotPartImg">局部截图</mars-button>
     </a-space>
   </mars-dialog>
 
@@ -33,6 +34,11 @@ const downLoad = () => {
 
 const downLoad2 = () => {
   mapWork.downLoad2()
+}
+
+// 截取部分图片
+const shotPartImg = () => {
+  mapWork.shotPartImg()
 }
 </script>
 <style scoped lang="less">

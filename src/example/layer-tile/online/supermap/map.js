@@ -14,7 +14,7 @@ export const mapOptions = {
       name: "3857地图",
       icon: "img/basemap/google_vec.png",
       type: "tile",
-      url: `http://www.supermapol.com/realspace/services/map-China400/rest/maps/China400/tileImage.png?transparent=true&cacheEnabled=true&_cache=true&width=256&height=256&redirect=false&overlapDisplayed=false&origin={origin}&x={x}&y={y}&scale={scale}`,
+      url: `http://support.supermap.com:8090/iserver/services/map-china400/rest/maps/China/tileImage.webp?transparent=true&cacheEnabled=true&_cache=true&width=256&height=256&redirect=false&overlapDisplayed=false&origin={origin}&x={x}&y={y}&scale={scale}`,
       show: true
     }
   ]
@@ -33,7 +33,7 @@ export const mapOptions = {
 //       name: "4326地图",
 //       icon: "img/basemap/gaode_img.png",
 //       type: "tile",
-//       url: `http://www.supermapol.com/realspace/services/map-World/rest/maps/World_Image/tileImage.png?transparent=true&cacheEnabled=true&_cache=true&width=256&height=256&redirect=false&overlapDisplayed=false&origin={origin}&x={x}&y={y}&scale={scale}`,
+//       url: `http://support.supermap.com:8090/iserver/services/map-world/rest/maps/World/tileImage.png?transparent=true&cacheEnabled=true&_cache=true&width=256&height=256&redirect=false&overlapDisplayed=false&origin={origin}&x={x}&y={y}&scale={scale}`,
 //       crs: "EPSG:4326",
 //       show: true
 //     }
