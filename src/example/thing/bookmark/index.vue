@@ -25,6 +25,7 @@
 import { onMounted, reactive } from "vue"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
+import localforage from "localforage"
 
 const formState = reactive({
   input: "",
@@ -37,9 +38,9 @@ onMounted(() => {
 })
 
 // 读取历史记录
-function getLocalStorage() {
+async function getLocalStorage() {
   try {
-    const data = JSON.parse(localStorage.getItem("bookmark"))
+    const data = JSON.parse(await localforage.getItem("bookmark"))
     if (data && data.length > 0) {
       console.log("历史数据", data)
       for (let i = 0; i < data.length; i++) {
@@ -93,7 +94,11 @@ mapWork.eventTarget.on("addImgObject", (event: any) => {
   formState.imgObject.push(event.item)
 
   // 记录到历史
-  localStorage.setItem("bookmark", JSON.stringify(formState.imgObject))
+  try {
+    localforage.setItem("bookmark", JSON.stringify(formState.imgObject))
+  } catch (err) {
+    $message("数据保存到本地出错")
+  }
 })
 
 // 视角操作
@@ -107,11 +112,11 @@ const butDeleteTxtName = (index: number) => {
   if (formState.imgObject.length === 0) {
     formState.imgObject = [{ name: "没有匹配的值", img: "", view: "" }]
     formState.found = false
-    localStorage.removeItem("bookmark")
+    localforage.removeItem("bookmark")
     return
   }
   // 记录到历史
-  localStorage.setItem("bookmark", JSON.stringify(formState.imgObject))
+  localforage.setItem("bookmark", JSON.stringify(formState.imgObject))
 }
 </script>
 <style scoped lang="less">

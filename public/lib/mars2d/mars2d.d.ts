@@ -3,7 +3,7 @@
  * Mars2D地理信息平台  mars2d
  *
  * 版本信息：v3.4.2
- * 编译日期：2026-04-19 22:09
+ * 编译日期：2026-06-03 19:31
  * 版权所有：Copyright by http://mars2d.cn
  * 使用单位：免费公开版 ，2025-01-23
  */
@@ -8332,7 +8332,7 @@ declare class ArcGisLayer extends TileLayer {
  * @param [options.opacity = 1] - 瓦片的不透明度。
  * @param [options.minZoom = 0] - 最小的缩放级别
  * @param [options.maxZoom = 18] - 最大的缩放级别
- * @param [options.maxNativeZoom] - 瓦片来源可用的最大缩放倍数。如果指定，则所有缩放级别上的图块maxNativeZoom将高于将从maxNativeZoom级别加载并自动缩放。
+ * @param [options.maxNativeZoom = 18] - 瓦片来源可用的最大缩放倍数。如果指定，则所有缩放级别上的图块maxNativeZoom将高于将从maxNativeZoom级别加载并自动缩放。
  * @param [options.minNativeZoom] - 瓦片来源可用的最小缩放数。如果指定，所有缩放级别上的图块minNativeZoom将从minNativeZoom级别加载并自动缩放。
  * @param [options.zIndex = 1] - 瓦片层的显式zIndex
  * @param [options.rectangle] - 瓦片数据的矩形区域范围
@@ -10052,7 +10052,7 @@ declare class WmtsLayer extends TileLayer {
         updateWhenZooming?: boolean;
         noWrap?: boolean;
         chinaCRS?: ChinaCRS;
-        pickFeaturesUrl?: Cesium.Resource | string;
+        pickFeaturesUrl?: string;
         getFeatureInfoParameters?: any;
         popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;

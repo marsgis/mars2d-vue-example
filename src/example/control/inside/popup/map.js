@@ -23,7 +23,7 @@ export function onMounted(mapInstance) {
   map.on(mars2d.EventType.popupopen, function (event) {
     const container = event.popup._container // popup对应的DOM
     if (container.querySelector(".leaflet-popup-content").childElementCount) {
-      container.querySelector(".leaflet-popup-close-button").style.color = "#6c6c6c" // 关闭按钮颜色
+      container.querySelector(".leaflet-popup-close-button").style.setProperty("color", "#6c6c6c", "important") // 关闭按钮颜色
     }
     console.log("打开了popup(全局监听)", event)
   })

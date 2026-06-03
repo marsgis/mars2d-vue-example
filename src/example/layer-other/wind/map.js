@@ -4,8 +4,8 @@ let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
-  zoom: 2,
-  center: { lng: 90, lat: -16.972741 },
+  zoom: 3,
+  center: { lng: 26.894531, lat: 31.203405 },
   worldCopyJump: true
 }
 

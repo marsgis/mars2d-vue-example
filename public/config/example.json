@@ -133,15 +133,6 @@
             "resources": [
               "map.css"
             ]
-          },
-          {
-            "name": "街景联动",
-            "thumbnail": "map-double-streetview.jpg",
-            "main": "map/double/streetview",
-            "hasPannel": true,
-            "resources": [
-              "map.css"
-            ]
           }
         ]
       },

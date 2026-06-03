@@ -330,7 +330,7 @@ const onChangeTooltip = () => {
       attr["备注"] = "我支持鼠标移入交互"
 
       return mars2d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr })
-    })
+    }, { sticky: true, direction: "auto" }) // sticky: true, direction: "auto"修改打开tooltip之后tip位置距离较远的问题
   } else {
     layer.unbindTooltip()
   }
