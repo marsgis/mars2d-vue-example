@@ -117,7 +117,7 @@
                 >
                   <span title="这是最近新加的功能" :class="{ nweVer: isNew }" v-if="isnew(item2)">新</span>
                   <div class="pic">
-                    <img :src="item2.thumbnail" :onerror="imgOnError" />
+                    <img :src="item2.thumbnail" :onerror="imgOnError" loading="lazy" />
                   </div>
                   <p>
                     {{ item2.name }}
@@ -173,7 +173,9 @@ export default {
     }
   },
   created() {
-    const marsEditor = new MarsgisEditor({
+    // Editor 构造会初始化 Util 内部的 config/thumbnail 路径，删了 Util.getExampleList 就拿不到数据
+    // eslint-disable-next-line no-new
+    new MarsgisEditor({
       baseUrl: process.env.BASE_URL,
       thumbnailPublicPath: `${process.env.BASE_URL}config/thumbnail/`,
       configSourceUrl: `${process.env.BASE_URL}config/example.json`
@@ -197,6 +199,9 @@ export default {
       this.downloadFile("Mars2D功能清单.csv", this.getVerDiff())
     }
     window.addEventListener("scroll", this.isfixed)
+  },
+  unmounted() {
+    window.removeEventListener("scroll", this.isfixed)
   },
   methods: {
     clearBoth() {
@@ -286,26 +291,23 @@ API：mars3d.${api_name}`
         return
       }
       const searchValue = this.searchValue.toLowerCase()
-      const newList = JSON.parse(JSON.stringify(this.examples_list))
-      newList.forEach((item) => {
-        if (item.children) {
-          const childrenList = []
-          item.children.forEach((ite) => {
-            if (ite.children) {
-              const lis = []
-              ite.children.forEach((itemes) => {
-                if (itemes.name.toLowerCase().search(searchValue) !== -1 || (itemes.api && itemes.api.toLowerCase().search(searchValue) !== -1)) {
-                  lis.push(itemes)
-                }
-              })
-              ite.children = lis
-            }
-            if (ite.children.length !== 0) {
-              childrenList.push(ite)
-            }
-          })
-          item.children = childrenList
+      // 浅拷贝构建过滤树（仅替换分组节点），避免每次按键对整棵示例树做 JSON 深拷贝
+      const newList = this.examples_list.map((item) => {
+        if (!item.children) {
+          return item
         }
+        const childrenList = []
+        item.children.forEach((ite) => {
+          if (ite.children) {
+            const lis = ite.children.filter(
+              (itemes) => itemes.name.toLowerCase().search(searchValue) !== -1 || (itemes.api && itemes.api.toLowerCase().search(searchValue) !== -1)
+            )
+            if (lis.length !== 0) {
+              childrenList.push({ ...ite, children: lis })
+            }
+          }
+        })
+        return { ...item, children: childrenList }
       })
       this.list = newList
     },
@@ -853,6 +855,7 @@ input:-ms-input-placeholder {
   margin-bottom: 28px;
   padding-top: 10px;
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 /*.three  li:nth-child(5n+5){*/
@@ -861,24 +864,22 @@ input:-ms-input-placeholder {
 .three li:hover {
   box-shadow: 0px 6px 12px rgba(0, 138, 255, 0.56);
   background-color: #018afe;
-  transition-duration: 1s;
+  transform: translateY(-4px);
 }
 
 .three li:hover p {
   color: #ffffff;
-  transition-duration: 1s;
 }
 
 .three li .pic {
   width: 90%;
-  height: 80%;
   margin: 3px 0px 10px 0px;
 }
 
 .three li .pic img {
   border-radius: 10px;
   width: 100%;
-  height: 100%;
+  background-color: #f5f5f5;
 }
 .three li .vue {
   width: 14px;
@@ -897,6 +898,7 @@ input:-ms-input-placeholder {
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: center;
+  transition: color 0.3s ease;
 }
 
 .three {

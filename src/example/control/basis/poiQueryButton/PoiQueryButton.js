@@ -25,9 +25,11 @@ class PoiQueryButton extends mars2d.control.ToolButton {
       }
       let inHtml = `<div class="mars2d-template-title"><a href="https://www.amap.com/detail/${item.id}"  target="_black">${item.name}</a></div><div class="mars2d-template-content" >`
 
-      const phone = String(item.tel).trim()
-      if (phone) {
-        inHtml += "<div><label>电话</label>" + phone + "</div>"
+      if (item.tel) {
+        const phone = String(item.tel).trim()
+        if (phone) {
+          inHtml += "<div><label>电话</label>" + phone + "</div>"
+        }
       }
 
       const dz = String(item.address).trim()

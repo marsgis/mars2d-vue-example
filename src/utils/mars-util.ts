@@ -78,7 +78,8 @@ export function isPc() {
   const Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"]
   let flag = true
   for (let v = 0; v < Agents.length; v++) {
-    if (userAgentInfo.indexOf(Agents[v]) > 0) {
+    // 注意必须用 > -1：UA 以关键词开头时 indexOf 为 0，> 0 会漏判
+    if (userAgentInfo.indexOf(Agents[v]) > -1) {
       flag = false
       break
     }

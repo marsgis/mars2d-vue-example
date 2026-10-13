@@ -20,6 +20,15 @@ export const mapOptions = {
         { type: "tencent", layer: "img_z" }
       ]
     }
+  ],
+  operationallayers: [
+    {
+      name: "国家天地图注记",
+      type: "tdt",
+      layer: "vec_z",
+      crs: "EPSG:4326",
+      key: mars2d.Token.tiandituArr
+    }
   ]
 }
 

@@ -32,6 +32,7 @@ export default defineComponent({
   padding-right: 10px;
   color: #ffffff;
   border-radius: 2px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 
   :deep(.mars-icon) {
     font-size: 18px !important;

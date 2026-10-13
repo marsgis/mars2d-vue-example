@@ -78,7 +78,26 @@ export default ({ mode }: ConfigEnv) => {
         output: {
           chunkFileNames: "example/assets-vue/js/[name]-[hash].js",
           entryFileNames: "example/assets-vue/js/[name]-[hash].js",
-          assetFileNames: "example/assets-vue/[ext]/[name]-[hash].[ext]"
+          assetFileNames: "example/assets-vue/[ext]/[name]-[hash].[ext]",
+          // 按依赖大类分包：避免 monaco/echarts 等大库与业务代码挤在同一个 common chunk
+          manualChunks(id: string) {
+            if (!id.includes("node_modules")) {
+              return undefined
+            }
+            if (/[\\/](echarts|zrender|echarts-gl)[\\/]/.test(id)) {
+              return "echarts"
+            }
+            if (/[\\/]monaco-editor[\\/]|[\\/]@marsgis[\\/]editor[\\/]/.test(id)) {
+              return "monaco"
+            }
+            if (/[\\/]ant-design-vue[\\/]|[\\/]@ant-design[\\/]/.test(id)) {
+              return "antd"
+            }
+            if (/[\\/]leaflet[\\/]|[\\/]mars2d(-[a-z]+)*[\\/]/.test(id)) {
+              return "mars2d"
+            }
+            return "vendor"
+          }
         }
       },
       // 当设置为 true, 构建后将会生成 manifest.json 文件

@@ -75,6 +75,7 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
 
   // 饼状图数据
   const pieDom: any = document.getElementById("pieChart")
+  echarts.getInstanceByDom(pieDom)?.dispose() // 重复查询时先销毁旧实例，避免重复初始化告警
   const pieEcharts = echarts.init(pieDom)
 
   // echarts饼状图
@@ -118,6 +119,7 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
 
   // 柱状图数据
   const histogramDom: any = document.getElementById("histogram")
+  echarts.getInstanceByDom(histogramDom)?.dispose() // 重复查询时先销毁旧实例，避免重复初始化告警
   const histogramECharts = echarts.init(histogramDom)
 
   // echarts柱状图

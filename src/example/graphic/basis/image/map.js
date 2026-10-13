@@ -14,6 +14,21 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
+
+  // graphicLayer.on(mars2d.EventType.click, function (event) {
+  //   console.log("监听graphic，单击了矢量对象", event)
+
+  //   graphic.setStyle({
+  //     opacity: 0.2
+  //   })
+  // })
+
+  // map.on(mars2d.EventType.click, function (event) {
+  //   graphic.setStyle({
+  //     opacity: 1
+  //   })
+  // })
+
   // 图层管理的相关处理，
   initLayerManager(graphicLayer)
 }
@@ -24,6 +39,27 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
+}
+
+function addDemoGraphic1() {
+  // 经纬度 转为leafelt的纬度、经度标准
+  const latlngs = mars2d.PointTrans.coords2latlngs([
+    [117.225323, 31.832941],
+    [117.225323, 31.856418],
+    [117.245922, 31.856418],
+    [117.245922, 31.832941]
+  ])
+
+  const graphic = new mars2d.graphic.Image({
+    latlngs,
+    style: {
+      url: "img/simple/gugong.jpg",
+      opacity: 1
+    },
+    attr: { remark: "示例1" }
+  })
+  graphicLayer.addGraphic(graphic)
+
 }
 
 // 在图层级处理一些事物
@@ -45,6 +81,8 @@ function initLayerManager() {
     enabledTooltip: false,
     enabledRightMenu: true
   })
+
+  addDemoGraphic1()
 }
 
 // 绑定popup

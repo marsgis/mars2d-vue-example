@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.4.2
- * 编译日期：2026-06-03 19:31
+ * 版本信息：v3.4.3
+ * 编译日期：2026-10-13 12:42
  * 版权所有：Copyright by http://mars2d.cn
  * 使用单位：免费公开版 ，2025-01-23
  */
@@ -863,6 +863,24 @@ declare class ToolButton extends L.Control {
      * 获取控件对应的DOM容器
      */
     readonly container: HTMLElement;
+    /**
+     * 修改按钮标题
+     * @param title - 按钮标题
+     * @returns 无返回值
+     */
+    setTitle(title: string): any | void;
+    /**
+     * 修改按钮图标
+     * @param img - 按钮图片url路径
+     * @returns 无返回值
+     */
+    setIcon(img: string): any | void;
+    /**
+     * 修改按钮位置
+     * @param pos - 按钮位置 'topleft','topright','bottomleft','bottomright'
+     * @returns 无返回值
+     */
+    setPosition(pos: string): any | void;
 }
 
 /**
@@ -7048,9 +7066,10 @@ declare class GraphicLayer extends L.FeatureGroup {
     eachGraphic(method: (...params: any[]) => any, context?: any): any | GraphicLayer;
     /**
      * 获取图层内 所有矢量数据
+     * @param [hasPrivate = false] - 是否取私有的graphic
      * @returns 矢量数据数组
      */
-    getGraphics(): any | L.Layer[];
+    getGraphics(hasPrivate?: boolean): any | L.Layer[];
     /**
      * 根据id取矢量数据对象
      * @param id - 矢量数据id
@@ -8090,7 +8109,7 @@ declare class GroupLayer extends L.LayerGroup {
  * @param [options.tms] - 如果此值为true，反转切片Y轴的编号（对于TMS服务需将此项打开）
  * @param [options.zoomReverse = false] - 如果设置为true，则URL网址中使用的缩放z数字将被颠倒（maxZoom - zoom而不是zoom）
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -8176,7 +8195,7 @@ declare class ArcGisCacheLayer extends TileLayer {
  * @param [options.tms] - 如果此值为true，反转切片Y轴的编号（对于TMS服务需将此项打开）
  * @param [options.zoomReverse = false] - 如果设置为true，则URL网址中使用的缩放z数字将被颠倒（maxZoom - zoom而不是zoom）
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -8255,7 +8274,7 @@ declare class ArcGisCompactLayer extends TileLayer {
  * @param [options.tms] - 如果此值为true，反转切片Y轴的编号（对于TMS服务需将此项打开）
  * @param [options.zoomReverse = false] - 如果设置为true，则URL网址中使用的缩放z数字将被颠倒（maxZoom - zoom而不是zoom）
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -8348,7 +8367,7 @@ declare class ArcGisLayer extends TileLayer {
  * @param [options.xOffset] - 对URL中地图的缩放级别x值加上xOffset值
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -8479,7 +8498,7 @@ declare class EmptyTileLayer extends L.Layer {
  * @param [options.xOffset] - 对URL中地图的缩放级别x值加上xOffset值
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -8569,7 +8588,7 @@ declare class GaodeLayer extends TileLayer {
  * @param [options.xOffset] - 对URL中地图的缩放级别x值加上xOffset值
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -8990,7 +9009,7 @@ declare class ImageRotatedLayer extends ImageLayer {
  * @param [options.xOffset] - 对URL中地图的缩放级别x值加上xOffset值
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -9076,7 +9095,7 @@ declare class MapboxLayer extends TileLayer {
  * @param [options.xOffset] - 对URL中地图的缩放级别x值加上xOffset值
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -9239,7 +9258,7 @@ declare class SmTileLayer extends TileLayer {
  * @param [options.xOffset] - 对URL中地图的缩放级别x值加上xOffset值
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -9329,7 +9348,7 @@ declare class TdtLayer extends WmtsLayer {
  * @param [options.xOffset] - 对URL中地图的缩放级别x值加上xOffset值
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -9458,7 +9477,7 @@ declare namespace TileLayer {
  * @param [options.xOffset] - 对URL中地图的缩放级别x值加上xOffset值
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -9728,7 +9747,7 @@ declare class TileLayer extends L.TileLayer {
  * @param [options.xOffset] - 对URL中地图的缩放级别x值加上xOffset值
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -9992,7 +10011,7 @@ declare class WmsLayer extends L.TileLayer.WMS {
  * @param [options.tms] - 如果此值为true，反转切片Y轴的编号（对于TMS服务需将此项打开）
  * @param [options.zoomReverse = false] - 如果设置为true，则URL网址中使用的缩放z数字将被颠倒（maxZoom - zoom而不是zoom）
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -12123,7 +12142,7 @@ declare class ArcGisImageLayer extends L.TileLayer {
  * @param [options.xOffset] - 对URL中地图的缩放级别x值加上xOffset值
  * @param [options.yOffset] - 对URL中地图的缩放级别y值加上yOffset值
  * @param [options.zOffset] - 对URL中地图的缩放级别z值加上zOffset值
- * @param [options.customTags] - 自定义对瓦片请求参数处理
+ * @param [options.customTags] - 自定义对瓦片请求参数处理 ，比如：customTags:function(data, original){data.z+=1;}
  * @param [options.tileSize = 256] - 网格中瓦片的宽度和高度。如果宽度和高度相等，则使用数字，否则L.point(width, height)。
  * @param [options.className] - 要分配给瓦片图层的自定义类名称
  * @param [options.keepBuffer = 2] - 当平移地图时，在卸载它们之前，先保留许多行和列的数据块。
@@ -13465,7 +13484,7 @@ declare namespace PointTrans {
     /**
      * 经度/纬度 十进制 转为 度分秒格式
      * @param value - 经度或纬度值
-     * @returns 度分秒对象，如： { degree:113, minute:24, second:40 }
+     * @returns 度分秒对象，如： { sign: '-', degree: 12, minute: 0, second: 0, str: `-12° 0' 0"` }
      */
     function degree2dms(value: number): any | any;
     /**
