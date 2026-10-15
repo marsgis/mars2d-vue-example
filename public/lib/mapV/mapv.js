@@ -1,3 +1,9 @@
+/*! @license mars2d-vendored
+ * MapV 2.0.62
+ * Copyright (c) 2016 Baidu, Inc. and MapV contributors
+ * Licensed under the BSD 3-Clause License - https://github.com/huiyan-fe/mapv
+ * Vendored by Mars2D; full license text: ./LICENSE ; attribution notes: ./NOTICE.md
+ */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :

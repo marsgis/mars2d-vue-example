@@ -1,44 +1,26 @@
-#terraformer gis格式转换插件
+# Terraformer
+Esri 开源的地理数据格式转换工具集
 
-官方网站：http://terraformer.io/
-github地址： https://github.com/Esri/terraformer
-            https://github.com/Esri/terraformer-wkt-parser
- 
- 
+## 简要介绍
+提供 GeoJSON/WKT 等格式转换与空间索引，随目录含 WKT Parser（见同目录 LICENSE-wkt-parser）。
 
+## 相关地址
+- github地址：https://github.com/Esri/terraformer
 
- =============================================================
+## 本地版本信息
+1.0.9 / WKT Parser 1.2.0
 
-// parse ArcGIS JSON, convert it to a Terraformer.Primitive
-var primitive = Terraformer.ArcGIS.parse({
-  x:"-122.6764",
-  y:"45.5165",
-  spatialReference: {
-    wkid: 4326
-  }
-});
+## 本地文件说明
+目录内文件：`LICENSE`、`LICENSE-wkt-parser`、`terraformer-1.0.9.min.js`、`terraformer-wkt-parser-1.2.0.min.js`
 
-// take a Terraformer.Primitive or GeoJSON and convert it to ArcGIS JSON
-var point = Terraformer.ArcGIS.convert({
-  "type": "Point",
-  "coordinates": [45.5165, -122.6764]
-});
+## 第三方组件署名声明
 
+> 著作权归上游权利人所有。请在复制、再分发时保留本声明及同目录许可证文件。
 
+- **组件名称**：Terraformer + Terraformer WKT Parser
+- **本地版本**：1.0.9 / 1.2.0
+- **上游地址**：https://github.com/Esri/terraformer
+- **版权归属**：Copyright Esri 及贡献者
+- **许可证**：MIT（许可证全文见同目录 LICENSE、LICENSE-wkt-parser）
 
-
- ============================================================= 
-
- // parse a WKT file, convert it into a primitive
-var primitive = Terraformer.WKT.parse('LINESTRING (30 10, 10 30, 40 40)');
-
-// take a primitive and convert it into a WKT representation
-var polygon = Terraformer.WKT.convert({
-  "type": "Polygon",
-  "coordinates": [
-    [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ],
-    [ [100.2, 0.2], [100.8, 0.2], [100.8, 0.8], [100.2, 0.8], [100.2, 0.2] ]
-  ]
-});
- 
- 
+本目录含两个组件：`terraformer-1.0.9.min.js`（LICENSE）与 `terraformer-wkt-parser-1.2.0.min.js`（LICENSE-wkt-parser）。

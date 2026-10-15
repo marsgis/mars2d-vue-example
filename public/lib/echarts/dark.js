@@ -1,3 +1,9 @@
+/*! @license mars2d-vendored
+ * ECharts "dark" theme (distributed with Apache ECharts)
+ * Copyright (c) Apache Software Foundation and ECharts contributors
+ * Licensed under the Apache License, Version 2.0 - https://github.com/apache/echarts
+ * Vendored by Mars2D; full license text: ../LICENSE ; attribution notes: ../NOTICE.md
+ */
 
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {

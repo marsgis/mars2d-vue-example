@@ -1,3 +1,8 @@
+/*! @license mars2d-vendored
+ * leaflet-wind (wind-layer) - Copyright (c) 2017 sakitam-fdd and contributors
+ * Licensed under the MIT License - https://github.com/sakitam-fdd/wind-layer
+ * Vendored by Mars2D; full license text: ./LICENSE ; attribution notes: ./NOTICE.md
+ */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('leaflet')) :
   typeof define === 'function' && define.amd ? define(['exports', 'leaflet'], factory) :

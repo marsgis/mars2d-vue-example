@@ -1,47 +1,20 @@
-# kml-geojson (kgUtil)
+# kml-geojson / shp-geojson
+KML/KMZ、SHP 与 GeoJSON 格式互转工具库
 
- kml或kmz格式 与  GeoJSON格式 互相转换工具类(kgUtil)
+## 简要介绍
+`kml-geojson`（全局对象 `kgUtil`）提供 KML/KMZ 与 GeoJSON 格式互相转换；`shp-geojson` 提供 Shapefile 与 GeoJSON 格式互相转换。两者均为木遥开源的格式转换工具类，使用示例见上游仓库 README。
 
-地址：https://github.com/muyao1987/kml-geojson
+## 相关地址
+- kml-geojson github地址：https://github.com/muyao1987/kml-geojson
 
-## 运行命令
- 
-### 首次运行前安装依赖
- `npm install` 或 `cnpm install`
-  
-### 打包编译项目
- 运行`npm run build`来构建项目。 
+## 本地版本信息
+kml-geojson（编译日期 2025-08-04）；shp-geojson（编译日期 2024-12-22）
 
+## 本地文件说明
+`kml-geojson.js`、`shp-geojson.js` 为压缩版，`*-src.js` 为源码版。
+目录内文件：`kml-geojson.js`、`kml-geojson-src.js`、`shp-geojson.js`、`shp-geojson-src.js`
 
-## 使用示例
- 
-### KML转GeoJSON示例：
-```js
-//直接加载url
-kgUtil.toGeoJSON('https://data.mars2d.cn/file/kml/NAVWARN.kmz').then((geojoson) => {
-  console.log(geojoson) 
-})
-
-//加载input文件控件的二进制流
-kgUtil.toGeoJSON(e.target.files[0]).then((geojoson) => {
-  console.log(geojoson) 
-})
-
-//加载kml文档对象
-$.ajax('https://data.mars2d.cn/file/kml/dg8.kml').done(function (xml) {
-  kgUtil.toGeoJSON(xml).then((geojoson) => {
-    console.log(geojoson) 
-  })
-})
-```
-
-### GeoJSON转KML示例
-
-```js 
-var kml = kgUtil.tokml(geojsonObject, {
-  name: 'Mars3D标绘数据',
-  documentName: 'Mars3D标绘数据文件',
-  documentDescription: '标绘数据 by mars3d.cn',
-  simplestyle: true,
-}) 
-```
+## 第三方组件署名声明
+> 著作权归上游权利人所有。请在复制、再分发时保留本声明。
+- **版权归属**：Copyright by 木遥（muyao1987）
+- **许可证**：上游仓库未显式声明许可证

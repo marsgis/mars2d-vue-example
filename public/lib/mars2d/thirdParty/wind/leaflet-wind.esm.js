@@ -1,3 +1,8 @@
+/*! @license mars2d-vendored
+ * leaflet-wind (wind-layer) - Copyright (c) 2017 sakitam-fdd and contributors
+ * Licensed under the MIT License - https://github.com/sakitam-fdd/wind-layer
+ * Vendored by Mars2D; full license text: ./LICENSE ; attribution notes: ./NOTICE.md
+ */
 import * as L from 'leaflet';
 import { createCanvas, WindCore, defaultOptions, isArray, formatData, assign } from 'wind-core';
 export { Field } from 'wind-core';

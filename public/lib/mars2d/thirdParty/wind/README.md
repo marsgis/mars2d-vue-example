@@ -1,117 +1,26 @@
-# `leaflet-wind`
+# wind-layer（leaflet-wind）
+气象风场/流场可视化图层插件
 
-> [leaflet](https://leafletjs.com/) wind layer adapter
+## 简要介绍
+sakitam-fdd 开发，基于 Canvas 渲染风场粒子动画图层。
 
-## Usage
+## 相关地址
+- github地址：https://github.com/sakitam-fdd/wind-layer
 
-### Install
+## 本地版本信息
+见源文件
 
-```bash
-pnpm i leaflet-wind -S
-```
+## 本地文件说明
+目录内文件：`index.d.ts`、`leaflet-wind.esm.js`、`leaflet-wind.esm.js.map`、`leaflet-wind.js`、`leaflet-wind.js.map`、`LICENSE`、`README-ALL.md`
 
-### Example
+## 第三方组件署名声明
 
-```vue
-<template>
-  <div class="demo-content">
-    <div class="map-warp" ref="map"></div>
-  </div>
-</template>
-<script setup>
-import {ref, onMounted} from 'vue'
+> 著作权归上游权利人所有。请在复制、再分发时保留本声明及同目录许可证文件。
 
-const map = ref(null)
+- **组件名称**：wind-layer（leaflet-wind 构建）
+- **本地版本**：见源文件
+- **上游地址**：https://github.com/sakitam-fdd/wind-layer
+- **版权归属**：Copyright (c) 2017 sakitam-fdd；算法参考 cambecc/earth、Esri/wind-js、danwild/wind-js-leaflet、mapbox/webgl-wind 等（详见 README-ALL.md）
+- **许可证**：MIT（npm 包元数据 license=MIT）（许可证全文见同目录 LICENSE）
 
-const initMap = async (dom) => {
-  const L = await import('leaflet');
-  const { WindLayer } = await import('leaflet-wind');
-
-  const map = new L.map(dom, {
-    // center: [113.53450137499999, 34.44104525],
-    zoom: 5,
-    center: [113.53450137499999, 34.44104525].reverse(),
-    // zoom: 4
-  });
-
-  const layer = L.tileLayer('//{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
-    subdomains: ['a', 'b', 'c', 'd'],
-  });
-
-  map.addLayer(layer);
-
-  fetch('https://sakitam.oss-cn-beijing.aliyuncs.com/codepen/wind-layer/json/wind.json')
-      .then(res => res.json())
-      .then(res => {
-        const velocityScale = [0.1, 0.2, 0.3, 0.4, 0.5];
-
-        const windLayer = new WindLayer('wind', res, {
-          windOptions: {
-            // colorScale: (m) => {
-            //   // console.log(m);
-            //   return '#fff';
-            // },
-            colorScale: [
-              "rgb(36,104, 180)",
-              "rgb(60,157, 194)",
-              "rgb(128,205,193 )",
-              "rgb(151,218,168 )",
-              "rgb(198,231,181)",
-              "rgb(238,247,217)",
-              "rgb(255,238,159)",
-              "rgb(252,217,125)",
-              "rgb(255,182,100)",
-              "rgb(252,150,75)",
-              "rgb(250,112,52)",
-              "rgb(245,64,32)",
-              "rgb(237,45,28)",
-              "rgb(220,24,32)",
-              "rgb(180,0,35)"
-            ],
-            // velocityScale: 1 / 20,
-            // paths: 5000,
-            frameRate: 16,
-            maxAge: 60,
-            globalAlpha: 0.9,
-            velocityScale: () => {
-              return velocityScale[map.getZoom() - 5] * 0.1 || 0.1;
-            },
-            // paths: 10000,
-            paths: 1000,
-          },
-        });
-
-        console.log(map, windLayer);
-
-        map.addLayer(windLayer);
-      });
-}
-
-onMounted(() => {
-  initMap(map.value);
-});
-</script>
-
-<style lang="less">
-.demo-content {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  background-color: #cbe0ff;
-
-  &-datgui {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1;
-    pointer-events: auto;
-  }
-
-  .map-warp {
-    width: 100%;
-    height: 100%;
-  }
-}
-</style>
-
-```
+本地 `leaflet-wind.js` / `leaflet-wind.esm.js` 为打包产物，原文件头无版权注释（代码注释中保留了对 sakitam-fdd/wind-layer 等来源的引用），本次已在文件首行补版权 banner 注释并补附 LICENSE 与本署名。
