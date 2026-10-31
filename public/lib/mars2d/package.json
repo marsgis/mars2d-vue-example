@@ -1,6 +1,6 @@
 {
 	"name": "mars2d",
-	"version": "3.4.3",
+	"version": "3.5.0",
 	"description": "Mars2D地理信息平台",
 	"main": "./mars2d.js",
 	"types": "./mars2d.d.ts",
@@ -35,5 +35,6 @@
 			"leaflet": "L"
 		},
 		"minify": "obfuscator"
-	}
+	},
+	"_fp": "HX"
 }

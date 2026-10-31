@@ -29,6 +29,10 @@ export function onMounted(mapInstance) {
  */
 
 export function onUnmounted() {
+  if (keyboardRoam) {
+    keyboardRoam.off()
+    keyboardRoam = null
+  }
   map = null
 }
 

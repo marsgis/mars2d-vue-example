@@ -81,7 +81,8 @@ const options: GuiItem[] = [
           alert("点击了")
         }
       },
-      "测试"
+      // 函数式插槽，避免 Vue 对非函数默认插槽的告警
+      () => "测试"
     ),
     extraType: "custom"
   },

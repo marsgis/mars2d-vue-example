@@ -52,28 +52,48 @@ const typhoonName = ref<string>() // 当前展示的台风名称
 const typhoonList = ref<typhoon[]>([]) // 列表数据
 const pathData = ref<any[]>([])
 
+// 默认选中第一个台风：等列表接口真正返回后再执行。
+// 原实现用固定 500ms 定时器，接口慢时 typhoonList[0] 还是空，会直接抛 TypeError
+function selectDefaultTyphoon() {
+  const first = typhoonList.value[0]
+  if (!first) {
+    return
+  }
+  // selectedRowKeys 必须是 rowKey 值（台风id），放对象无法匹配
+  rowKeys.value = [first.id]
+  getPath(first.id)
+    .then(function (res: any) {
+      if (!res || !res.path) {
+        return
+      }
+      first.path = res.path
+      selectOneTyphoon(first)
+    })
+    .catch(function (err: any) {
+      console.log("获取台风路径失败", err)
+    })
+}
+
 onMounted(() => {
   // 访问后端接口，取台风列表数据
   const url = "//data.mars2d.cn/file/apidemo/typhoon/list_2020.json"
-  axios.get(url).then(function (res: any) {
-    const data = res.data
-    typhoonList.value = data.typhoonList.map((item: any) => ({
-      id: item[0],
-      name_en: item[1],
-      name_cn: item[2],
-      typnumber: item[3],
-      state: item[7]
-    }))
-    rowKeys.value = data.typhoonList.map((item: any) => ({ id: item[0] }))
-  })
-
-  setTimeout(() => {
-    rowKeys.value.push(typhoonList.value[0].id)
-    getPath(typhoonList.value[0].id).then(function (res: any) {
-      typhoonList.value[0].path = res.path
-      selectOneTyphoon(typhoonList.value[0])
+  axios
+    .get(url)
+    .then(function (res: any) {
+      const data = res.data
+      typhoonList.value = (data?.typhoonList || []).map((item: any) => ({
+        id: item[0],
+        name_en: item[1],
+        name_cn: item[2],
+        typnumber: item[3],
+        state: item[7]
+      }))
+      rowKeys.value = []
+      selectDefaultTyphoon()
     })
-  }, 500)
+    .catch(function (err: any) {
+      console.log("获取台风列表失败", err)
+    })
 
   setAutoHeight((height) => {
     tableScrollHeight.value = height

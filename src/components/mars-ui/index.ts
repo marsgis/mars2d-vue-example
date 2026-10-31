@@ -139,7 +139,6 @@ export default function (app: App, config: Record<string, any> = {}): App {
   app.use(Card)
   app.use(Image)
   app.use(Pagination)
-  app.use(Table)
   app.use(Empty)
 
   components.forEach((comp) => {

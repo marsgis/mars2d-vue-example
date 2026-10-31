@@ -21,5 +21,6 @@ export function updateBrightness(val) {
 
 // 是否运行地图鼠标交互
 export function enableMapMouseController(value) {
-  map.setOptions({ dragging: false })
+  // 开关关闭后要能恢复拖拽，不能固定写 false
+  map.setOptions({ dragging: value })
 }

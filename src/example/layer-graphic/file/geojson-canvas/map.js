@@ -1,6 +1,7 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let canvasLayer
 const L = mars2d.L
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -20,6 +21,9 @@ export function onMounted(mapInstance) {
     url: "http://data.mars2d.cn/file/geojson/urban.json"
   })
     .then((geojson) => {
+      if (!map) {
+        return
+      }
       for (let i = 0; i < geojson.features.length; i++) {
         const feature = geojson.features[i]
         if (feature.properties.area_sqkm > 1000) {
@@ -33,6 +37,7 @@ export function onMounted(mapInstance) {
     })
     .catch((error) => {
       console.log("请求出错了", error)
+      globalNotify("数据加载失败", "城市面数据请求失败，请检查网络后重试")
     })
 }
 
@@ -41,11 +46,15 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (canvasLayer) {
+    map.removeLayer(canvasLayer)
+    canvasLayer = null
+  }
   map = null
 }
 
 function showData(geojsonData) {
-  const canvasLayer = new L.CanvasGeojsonLayer({
+  canvasLayer = new L.CanvasGeojsonLayer({
     style: {},
     onClick: function (features, latlng) {
       if (features.length === 0) {

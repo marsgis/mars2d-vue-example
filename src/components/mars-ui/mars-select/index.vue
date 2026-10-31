@@ -23,14 +23,14 @@ export default defineComponent({
 <style lang="less" scoped>
 .mars-select {
   width: 100%;
-  height: 32px;
+  height: var(--mars-control-height, 32px);
   background-color: var(--mars-control-bg);
-  border-radius: 2px;
+  border-radius: var(--mars-radius-sm, 4px);
   box-shadow: none;
   :deep(.ant-select-selector) {
-    height: 100% !important; 
+    height: 100% !important;
     border-color: var(--mars-control-border);
-    border-radius: 2px;
+    border-radius: var(--mars-radius-sm, 4px);
     background: none;
     color: var(--mars-text-color);
     &:hover,

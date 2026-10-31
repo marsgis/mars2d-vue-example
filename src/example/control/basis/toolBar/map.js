@@ -2,6 +2,7 @@ import * as mars2d from "mars2d"
 
 let map
 let geolocation
+let toolbarControl
 const L = mars2d.L
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -18,6 +19,7 @@ export function onMounted(mapInstance) {
     position: "bottomleft"
     // onGoLocate
   })
+  toolbarControl = control
   map.addControl(control)
 }
 
@@ -26,6 +28,10 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map && toolbarControl) {
+    map.removeControl(toolbarControl)
+    toolbarControl = null
+  }
   map = null
 }
 

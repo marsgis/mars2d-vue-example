@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global XLSX */ // 由示例框架按 libs 配置加载到 window 上，本文件直接使用全局变量
 import * as mars2d from "mars2d"
 // import * as XLSX from "xlsx"
 
@@ -29,6 +29,11 @@ export function onMounted(mapInstance) {
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
+  if (map && graphicLayer) {
+    // click 监听挂在图层上，移除图层即可一并释放
+    map.removeLayer(graphicLayer)
+    graphicLayer = null
+  }
   map = null
 }
 

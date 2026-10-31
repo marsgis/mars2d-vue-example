@@ -5,16 +5,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue"
+import { ref, onMounted, onBeforeUnmount } from "vue"
 import * as mapWork from "./map.js"
 
+const rotate = ref(0)
+
+const onMapRotate = () => {
+  rotate.value = mapWork.map.getBearing()
+}
+
 onMounted(() => {
-  mapWork.map.on("rotate", function () {
-    rotate.value = mapWork.map.getBearing()
-  })
+  mapWork.map.on("rotate", onMapRotate)
 })
 
-const rotate = ref(0)
+onBeforeUnmount(() => {
+  // map.js 的 onUnmounted 会把 map 置空，这里需判空
+  if (mapWork.map) {
+    mapWork.map.off("rotate", onMapRotate)
+  }
+})
 
 function changeRotate() {
   mapWork.changeRotate(rotate.value)

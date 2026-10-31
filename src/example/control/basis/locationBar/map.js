@@ -1,6 +1,7 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let locationBarControl
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = function (option) {
@@ -23,6 +24,7 @@ export function onMounted(mapInstance) {
     //           <div>层级:${locationData.level}</div>`
     // }
   })
+  locationBarControl = control
   map.addControl(control)
 }
 
@@ -31,5 +33,9 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map && locationBarControl) {
+    map.removeControl(locationBarControl)
+    locationBarControl = null
+  }
   map = null
 }

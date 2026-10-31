@@ -32,7 +32,7 @@ function globalInitMap(options) {
     }
   }
 
-  // 创建三维地球场景
+  // 创建二维地图场景
   return new mars2d.Map("mars2dContainer", options)
 }
 

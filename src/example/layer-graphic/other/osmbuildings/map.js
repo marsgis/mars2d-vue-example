@@ -3,6 +3,7 @@ const L = mars2d.L
 
 let map // mars2d.Map二维地图对象
 let geojson
+let osmb
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -18,7 +19,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加建筑物图层
-  const osmb = new OSMBuildings(map)
+  osmb = new OSMBuildings(map)
   osmb
     .date(new Date(2017, 5, 15, 17, 30))
     .load()
@@ -32,11 +33,15 @@ export function onMounted(mapInstance) {
     url: "http://data.mars2d.cn/file/geojson/buildings-bj.json"
   })
     .then((data) => {
+      if (!map || !osmb) {
+        return
+      }
       geojson = data
       osmb.set(geojson)
     })
     .catch((error) => {
       console.log("请求出错了", error)
+      globalNotify("数据加载失败", "北京建筑物数据请求失败，请检查网络后重试")
     })
 }
 
@@ -45,6 +50,8 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  osmb = null
+  geojson = null
   map = null
 }
 

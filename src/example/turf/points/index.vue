@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" width="330" right="10" top="10">
+  <mars-dialog :visible="true" width="360" right="10" top="10">
     <span class="title-vertical_line">相关计算</span>
 
     <div class="points-btns f-mb">
@@ -50,12 +50,13 @@ const tinPolygon = () => {
 <style scoped lang="less">
 .points-btns {
   display: grid;
-  grid-template-columns: repeat(3, 94px);
+  // 按可用宽度均分列宽，避免“计算泰森多边形”等较长按钮文字被截断
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
 }
 
 .btns-little {
-  grid-template-columns: repeat(2, 146px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 // 有竖线的标题

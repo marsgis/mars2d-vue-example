@@ -68,6 +68,8 @@ export default ({ mode }: ConfigEnv) => {
       },
       // 静态资源文件生成的目录
       assetsDir: "example/assets-vue",
+      // mars2d/echarts/monaco 单库均超过 1MB，放宽阈值，避免预期内的体积告警淹没真实告警
+      chunkSizeWarningLimit: 6000,
       // 自定义底层的 Rollup 打包配置
       rollupOptions: {
         input: {

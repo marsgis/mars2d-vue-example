@@ -125,10 +125,11 @@
  * @copyright mars2d.cn
  * @author 火星渣渣灰 2022-08-31
  */
-import { ref, reactive, onMounted, markRaw } from "vue"
+import { ref, reactive, onMounted, onBeforeUnmount, markRaw } from "vue"
 import type { UnwrapRef } from "vue"
 import { $alert, $message, $showLoading, $hideLoading } from "@mars/components/mars-ui/index"
 import { useWidget } from "@mars/widgets/common/store/widget"
+import { onMapWorkReady } from "@mars/utils/map-work"
 
 const props = withDefaults(
   defineProps<{
@@ -187,6 +188,19 @@ const currentPage = ref(5) // 分页查询每页条数
 const mapWork = window.mapWork
 const mars2d = mapWork.mars2d
 
+// 获取map.js中定义的需要管理的图层
+function getManagerLayer() {
+  if (mapWork.getManagerLayer) {
+    return mapWork.getManagerLayer()
+  }
+  return mapWork.graphicLayer
+}
+
+// 取消“地图业务就绪”的监听
+let offMapWorkReady: (() => void) | null = null
+// 图层对象是否已初始化，避免重复注册图层事件
+let layerInited = false
+
 onMounted(() => {
   // 恢复默认状态
   if (mapWork.eventTarget) {
@@ -199,40 +213,66 @@ onMounted(() => {
     })
   }
 
-  setTimeout(() => {
-    const layer = getManagerLayer()
-    if (layer) {
-      formState.enabledShowHide = layer.show
-
-      formState.enabledPopup = layer.hasPopup()
-      formState.enabledTooltip = layer.hasTooltip()
-      formState.enabledRightMenu = layer.hasContextMenu()
-      formState.hasEdit = layer.isEditing
-
-      const graphics = layer.getGraphics()
-
-      if (graphics.length > 0) {
-        const lastgraphic = graphics[graphics.length - 1]
-        formState.enabledOpacity = lastgraphic.hasOpacity
-      }
-
-      formState.hasTable = graphics.length > 0
-
-      layer.on("drawStart drawMouseMove drawCreated addGraphic removeGraphic ", function (e) {
-        setTimeout(() => {
-          formState.isDrawing = layer.isDrawing
-        }, 10)
-      })
-    }
-  }, 500)
+  // map.js 的 onMounted 由框架（pages/editor|read/App.vue）调用 useLifecycle() 触发，
+  // 与本组件的 onMounted 没有固定先后顺序，等“地图业务就绪”后再访问 graphicLayer 等对象，
+  // 避免 window.mapWork.graphicLayer 还未创建时报 undefined 错误
+  offMapWorkReady = onMapWorkReady(() => initByManagerLayer(), {
+    // 兜底：旧版框架未派发就绪事件时，以“图层对象已创建”作为就绪条件
+    probe: () => !!getManagerLayer()
+  })
 })
 
-// 获取map.js中定义的需要管理的图层
-function getManagerLayer() {
-  if (mapWork.getManagerLayer) {
-    return mapWork.getManagerLayer()
+onBeforeUnmount(() => {
+  if (offMapWorkReady) {
+    offMapWorkReady()
+    offMapWorkReady = null
   }
-  return mapWork.graphicLayer
+})
+
+/**
+ * 图层对象就绪后的初始化
+ * 原来分散在 3 个 onMounted 中，并依赖 setTimeout(500) 抢时序，现统一收敛到这里
+ */
+function initByManagerLayer() {
+  const layer = getManagerLayer()
+  if (!layer) {
+    console.warn("[graphic-layer-state] 未获取到 map.js 中创建的图层对象，跳过初始化")
+    return
+  }
+  if (layerInited) {
+    return
+  }
+  layerInited = true
+
+  // 注册顺序与改造前保持一致：编辑事件 -> 数据列表 -> 图层状态
+  bindEditorEvent(layer)
+  initGraphicTable(layer)
+  initLayerState(layer)
+}
+
+// 初始化图层状态（显示、Popup、Tooltip、右键菜单、透明度等）
+function initLayerState(layer: any) {
+  formState.enabledShowHide = layer.show
+
+  formState.enabledPopup = layer.hasPopup()
+  formState.enabledTooltip = layer.hasTooltip()
+  formState.enabledRightMenu = layer.hasContextMenu()
+  formState.hasEdit = layer.isEditing
+
+  const graphics = layer.getGraphics()
+
+  if (graphics.length > 0) {
+    const lastgraphic = graphics[graphics.length - 1]
+    formState.enabledOpacity = lastgraphic.hasOpacity
+  }
+
+  formState.hasTable = graphics.length > 0
+
+  layer.on("drawStart drawMouseMove drawCreated addGraphic removeGraphic ", function () {
+    setTimeout(() => {
+      formState.isDrawing = layer.isDrawing
+    }, 10)
+  })
 }
 
 // 分页查询每页条数
@@ -651,9 +691,9 @@ const fileList = ref([])
 
 // 数据编辑属性面板 相关处理
 const { activate, disable, isActivate, updateWidget } = useWidget()
-onMounted(() => {
-  const graphicLayer = getManagerLayer()
 
+// 绑定图层编辑相关事件（图层对象就绪后调用）
+function bindEditorEvent(graphicLayer: any) {
   // 矢量数据创建完成
   graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
     if (formState.hasEdit || props.customEditor) {
@@ -665,19 +705,12 @@ onMounted(() => {
     showEditor(e.graphic)
   })
   // 停止编辑
-  graphicLayer.on("editStop removeGraphic", function (e) {
+  graphicLayer.on("editStop removeGraphic", function () {
     setTimeout(() => {
       disable("graphic-editor")
-      // if (!graphicLayer.isEditing) {
-      //   if (props.customEditor) {
-      //     emit("onStopEditor")
-      //   } else {
-      //     disable("graphic-editor")
-      //   }
-      // }
     }, 100)
   })
-})
+}
 
 const showEditor = (graphic: any) => {
   if (props.customEditor === graphic.type) {
@@ -733,8 +766,8 @@ const graphicColumns = [
   }
 ]
 
-onMounted(() => {
-  const graphicLayer = getManagerLayer()
+// 初始化数据列表（图层对象就绪后调用）
+function initGraphicTable(graphicLayer: any) {
   initGraphicableData(graphicLayer)
 
   graphicLayer.on(mars2d.EventType.drawCreated, function (event) {
@@ -756,7 +789,7 @@ onMounted(() => {
       graphicDataList.value.splice(idx, 1)
     }
   })
-})
+}
 
 function initGraphicableData(graphicLayer) {
   const list = graphicLayer.graphics

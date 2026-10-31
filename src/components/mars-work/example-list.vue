@@ -57,7 +57,7 @@
                   <span></span>
                 </div>
               </div>
-              <p>1. 您可以访问<a :href="`https://gitee.com/marsgis/mars2d-vue-example`" target="_black">GitHub</a>下载当前示例代码到本地运行</p>
+              <p>1. 您可以访问<a :href="`https://gitee.com/marsgis/mars2d-vue-example`" target="_black">Gitee</a>下载当前示例代码到本地运行</p>
               <p>2. 存在已知问题 的示例打开后有对应已知问题提示，此处仅做演示。</p>
               <p>
                 3. 如果您访问体验当中发现bug问题或有好的建议，欢迎随时反馈给
@@ -165,6 +165,7 @@ export default {
     return {
       examples_list: [],
       list: [], // 当前列表（含查询筛选后的）
+      allCount: 0, // 示例总数，mounted 后由 Util.totalCount 赋值
       indexActive: "",
       navActive: 1, // head的激活顺序
       searchValue: "",
@@ -202,6 +203,9 @@ export default {
   },
   unmounted() {
     window.removeEventListener("scroll", this.isfixed)
+    // 与 mounted 中的赋值成对清理，避免向全局泄漏组件实例方法
+    delete window.downloadExampleTxt
+    delete window.downloadExampleCsv
   },
   methods: {
     clearBoth() {
@@ -270,7 +274,7 @@ export default {
       if (item.api) {
         const api_name = item.api.replaceAll(".html", "").replaceAll("global.", "")
         title += `
-API：mars3d.${api_name}`
+API：mars2d.${api_name}`
       }
       return title
     },
@@ -281,7 +285,8 @@ API：mars3d.${api_name}`
       const img = e.srcElement
       console.log(`缺少缩略图图片: ${img.src}`)
 
-      img.src = `${process.env.BASE_URL}/config/thumbnail/map-options-basemaps.jpg`
+      // BASE_URL 以 "/" 结尾，不能再拼 "/"，否则得到 "//config/..." 协议相对地址
+      img.src = `${process.env.BASE_URL}config/thumbnail/map-options-basemaps.jpg`
       img.onerror = null
 
     },
@@ -838,23 +843,30 @@ input:-ms-input-placeholder {
   align-items: center;
 }
 
+/* 固定列宽 + 统一图片比例：卡片不再随标题文字长度/缩略图原始尺寸变形错位 */
 .three ul {
   margin-top: 15px;
-  flex-wrap: wrap;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px 20px;
+  padding-right: 37px;
 }
 
 .three li {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
   box-shadow: 0px 3px 6px rgba(112, 112, 112, 0.53);
   background-color: #ffffff;
   opacity: 1;
   border-radius: 10px;
-  margin-bottom: 28px;
-  padding-top: 10px;
+  margin-bottom: 0;
+  padding: 10px 0 14px;
   cursor: pointer;
+  overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
@@ -872,13 +884,22 @@ input:-ms-input-placeholder {
 }
 
 .three li .pic {
-  width: 90%;
-  margin: 3px 0px 10px 0px;
+  width: calc(100% - 20px);
+  aspect-ratio: 16 / 10;
+  margin: 3px 0 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: #f5f5f5;
 }
 
 .three li .pic img {
-  border-radius: 10px;
+  display: block;
   width: 100%;
+  height: 100%;
+  /* 不同尺寸的缩略图统一裁切填充，保证每张卡片视觉高度一致 */
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 10px;
   background-color: #f5f5f5;
 }
 .three li .vue {
@@ -887,8 +908,9 @@ input:-ms-input-placeholder {
 }
 
 .three ul p {
-  width: 90%;
-  padding: 0px 5%;
+  width: calc(100% - 20px);
+  margin-top: auto;
+  padding: 0 10px;
   font-size: 16px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -909,6 +931,30 @@ input:-ms-input-placeholder {
 
 .three .three ul {
   border: none;
+}
+
+/* 窄屏逐级减少列数，避免卡片被压得过窄 */
+@media screen and (max-width: 1400px) {
+  .three ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .three ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-right: 20px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .three ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .big .three,
+  .three {
+    margin-left: 15px;
+  }
 }
 
 .question {
@@ -1086,13 +1132,6 @@ input:-ms-input-placeholder {
   }
 }
 
-@media screen and (min-width: 1400px) {
-  .three li {
-    width: 18%;
-    margin-right: 1.5%;
-    max-width: 280px;
-  }
-}
 @media screen and (max-width: 1150px) {
   .nav-item {
     font-size: 20px;
@@ -1101,24 +1140,6 @@ input:-ms-input-placeholder {
     margin-right: 40px;
     cursor: pointer;
     position: relative;
-  }
-}
-@media screen and (max-width: 1400px) and (min-width: 1200px) {
-  .three li {
-    width: 23%;
-    margin-right: 1.5%;
-  }
-}
-@media screen and (max-width: 1200px) and (min-width: 990px) {
-  .three li {
-    width: 31%;
-    margin-right: 1.5%;
-  }
-}
-@media screen and (max-width: 990px) and (min-width: 770px) {
-  .three li {
-    width: 48%;
-    margin-right: 1.5%;
   }
 }
 @media screen and (max-width: 770px) {
@@ -1137,10 +1158,6 @@ input:-ms-input-placeholder {
   .sidebar {
     display: none !important;
   }
-  .three li {
-    width: 95%;
-  }
-
   .search-wrap {
     margin-top: 100px;
   }

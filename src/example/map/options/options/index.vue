@@ -22,7 +22,7 @@
               <a-radio value="2">否</a-radio>
             </a-radio-group>
       </a-form-item>
-      <a-form-item label="地球背景色" >
+      <a-form-item label="地图背景色" >
         <mars-color-picker
               v-if="data[2].operation === 'color'"
               @change=";(data[2] as any).change(2)"

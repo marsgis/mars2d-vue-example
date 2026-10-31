@@ -2,6 +2,8 @@ import * as mars2d from "mars2d"
 const L = mars2d.L
 
 let map
+let mapSplitControl
+const splitLayers = []
 
 // 合并属性参数，可覆盖config.json中的对应配置
 export const mapOptions = {
@@ -25,12 +27,14 @@ export function onMounted(mapInstance) {
   const tdtLayer = new mars2d.layer.TdtLayer({ layer: "img_d" })
   map.addLayer(tdtLayer)
 
+  splitLayers.push(gaodeLayer, gaodeLayer2, tdtLayer)
+
   // 卷帘控件
-  const control = new mars2d.control.MapSplit({
+  mapSplitControl = new mars2d.control.MapSplit({
     leftLayer: [gaodeLayer, gaodeLayer2],
     rightLayer: tdtLayer
   })
-  map.addControl(control)
+  map.addControl(mapSplitControl)
 }
 
 /**
@@ -38,5 +42,15 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map && mapSplitControl) {
+    map.removeControl(mapSplitControl)
+    mapSplitControl = null
+  }
+  if (map) {
+    splitLayers.forEach((layer) => {
+      map.removeLayer(layer)
+    })
+  }
+  splitLayers.length = 0
   map = null
 }

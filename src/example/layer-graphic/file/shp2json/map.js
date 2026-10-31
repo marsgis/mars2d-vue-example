@@ -23,6 +23,7 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  removeLayer()
   map = null
 }
 

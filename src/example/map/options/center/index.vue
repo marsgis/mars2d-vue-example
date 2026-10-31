@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <div class="label">景点视角:</div>
+    <div class="label">景点视角：</div>
     <a-space>
       <mars-button class="btn" @click="changeView1">故宫</mars-button>
       <mars-button class="btn" @click="changeView2">珠峰</mars-button>

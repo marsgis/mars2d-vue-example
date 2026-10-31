@@ -51,7 +51,7 @@ export function onMounted(mapInstance) {
   mapEx = new mars2d.Map("cesiumContainerEx", mapOptions2)
   mapEx.basemap = "天地图卫星"
 
-  map.on("movestart", _map_movestartHandler, this)
+  map.on("movestart", _map_movestartHandler)
   mapEx.on("movestart", _mapEx_movestartHandler, this)
 
   _map_movestartHandler()
@@ -63,15 +63,38 @@ export function onMounted(mapInstance) {
  */
 
 export function onUnmounted() {
+  if (map) {
+    map.off("movestart", _map_movestartHandler)
+    map.off("moveend", _map_moveendHandler)
+  }
+  if (mapEx) {
+    mapEx.off("movestart", _mapEx_movestartHandler)
+    mapEx.off("moveend", _mapEx_moveendHandler)
+    mapEx.destroy()
+    mapEx = null
+  }
+
+  // 移除双屏示例动态创建的第二个地图容器，并恢复主地图宽度
+  const centerDivEx = document.getElementById("centerDivEx")
+  if (centerDivEx) {
+    centerDivEx.remove()
+  }
+  const mapOld = document.getElementById("centerDiv2D")
+  if (mapOld) {
+    mapOld.style.width = "100%"
+  }
+
   map = null
 }
 
 function _map_movestartHandler(e) {
-  map.on("moveend", _map_moveendHandler, this)
+  // 先解绑再绑定，避免连续拖动时 moveend 监听叠加导致重复同步
+  map.off("moveend", _map_moveendHandler)
+  map.on("moveend", _map_moveendHandler)
 }
 
 function _map_moveendHandler(e) {
-  map.off("moveend", _map_moveendHandler, this)
+  map.off("moveend", _map_moveendHandler)
   mapEx.setView(map.getCenter(), map.getZoom(), { animate: false, noMoveStart: true })
 }
 

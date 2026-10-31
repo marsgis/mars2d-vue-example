@@ -14,13 +14,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { onBeforeUnmount, ref } from "vue"
 import * as mapWork from "./map.js"
 
 const showLayer = ref(false)
 
-mapWork.eventTarget.on("showWebsite", function (event: any) {
+const onShowWebsite = (event: any) => {
   showLayer.value = event.showHistoryLayer
+}
+mapWork.eventTarget.on("showWebsite", onShowWebsite)
+
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("showWebsite", onShowWebsite)
 })
 
 const onBindMapDemo = () => {

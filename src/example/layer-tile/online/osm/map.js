@@ -1,6 +1,7 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let osmLayer // OSM底图图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -24,7 +25,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 地图底图
-  mars2d.LayerUtil.create({ type: "osm" }).addTo(map)
+  osmLayer = mars2d.LayerUtil.create({ type: "osm" }).addTo(map)
 }
 
 /**
@@ -32,5 +33,9 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map && osmLayer) {
+    map.removeLayer(osmLayer)
+    osmLayer = null
+  }
   map = null
 }

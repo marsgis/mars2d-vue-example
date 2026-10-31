@@ -12,6 +12,8 @@ export const mapOptions = {
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+let magicTimer = null // 逐个添加 magic 标记的定时器
+
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -66,7 +68,10 @@ export function onMounted(mapInstance) {
     "spaceInLeft"
   ]
   let i = 0
-  const showMagicMarker = setInterval(function () {
+  if (magicTimer) {
+    clearInterval(magicTimer)
+  }
+  magicTimer = setInterval(function () {
     if (i < 28) {
       const magicType = magicArr[i]
 
@@ -90,7 +95,8 @@ export function onMounted(mapInstance) {
 
       i++
     } else {
-      clearInterval(showMagicMarker)
+      clearInterval(magicTimer)
+      magicTimer = null
     }
   }, 1000)
 }
@@ -100,5 +106,9 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (magicTimer) {
+    clearInterval(magicTimer)
+    magicTimer = null
+  }
   map = null
 }

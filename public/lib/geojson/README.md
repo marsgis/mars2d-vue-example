@@ -11,8 +11,8 @@ KML/KMZ、SHP 与 GeoJSON 格式互转工具库
 kml-geojson（编译日期 2025-08-04）；shp-geojson（编译日期 2024-12-22）
 
 ## 本地文件说明
-`kml-geojson.js`、`shp-geojson.js` 为压缩版，`*-src.js` 为源码版。
-目录内文件：`kml-geojson.js`、`kml-geojson-src.js`、`shp-geojson.js`、`shp-geojson-src.js`
+`kml-geojson.js`、`shp-geojson.js` 为压缩版，`*-src.js` 为源码版，`kml-geojson-src.js.map` 为源码映射。
+目录内文件：`kml-geojson.js`、`kml-geojson-src.js`、`kml-geojson-src.js.map`、`shp-geojson.js`、`shp-geojson-src.js`
 
 ## 第三方组件署名声明
 > 著作权归上游权利人所有。请在复制、再分发时保留本声明。

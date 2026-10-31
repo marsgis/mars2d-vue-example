@@ -1,6 +1,8 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let wmsLayer // 道路WMS图层
+let resultLayer // 单击查询结果图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -32,7 +34,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
-  const layer = new mars2d.layer.WmsLayer({
+  wmsLayer = new mars2d.layer.WmsLayer({
     name: "道路",
     type: "wms",
     url: "http://server.mars2d.cn/geoserver/mars/wms",
@@ -41,27 +43,30 @@ export function onMounted(mapInstance) {
     format: "image/png"
     // cql_filter: "1=1"
   })
-  map.addLayer(layer)
+  map.addLayer(wmsLayer)
 
-  const resultLayer = new mars2d.layer.GraphicLayer()
+  resultLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(resultLayer)
 
-  layer.on(mars2d.EventType.click, function (event) {
-    console.log("单击了wms图层", event)
+  wmsLayer.on(mars2d.EventType.click, onWmsLayerClick)
+}
 
-    if (event.feature) {
-      resultLayer.clear()
+// 单击WMS图层后高亮显示查询到的要素
+function onWmsLayerClick(event) {
+  console.log("单击了wms图层", event)
 
-      const graphicsOptions = mars2d.Util.geoJsonToGraphics(event.feature, {
-        type: "polyline",
-        style: {
-          width: 5,
-          color: "#ff0000"
-        }
-      })
-      resultLayer.addGraphic(graphicsOptions)
-    }
-  })
+  if (event.feature) {
+    resultLayer.clear()
+
+    const graphicsOptions = mars2d.Util.geoJsonToGraphics(event.feature, {
+      type: "polyline",
+      style: {
+        width: 5,
+        color: "#ff0000"
+      }
+    })
+    resultLayer.addGraphic(graphicsOptions)
+  }
 }
 
 /**
@@ -69,5 +74,16 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (wmsLayer) {
+    wmsLayer.off(mars2d.EventType.click, onWmsLayerClick)
+    if (map) {
+      map.removeLayer(wmsLayer)
+    }
+    wmsLayer = null
+  }
+  if (map && resultLayer) {
+    map.removeLayer(resultLayer)
+    resultLayer = null
+  }
   map = null
 }

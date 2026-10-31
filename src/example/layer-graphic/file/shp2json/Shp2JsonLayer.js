@@ -51,4 +51,4 @@ class Shp2JsonLayer extends mars2d.layer.GeoJsonLayer {
 mars2d.layer.Shp2JsonLayer = Shp2JsonLayer
 
 // 注册下
-mars2d.LayerUtil.register("kml2json", Shp2JsonLayer)
+mars2d.LayerUtil.register("shp2json", Shp2JsonLayer)

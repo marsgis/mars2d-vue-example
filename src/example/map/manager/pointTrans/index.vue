@@ -64,9 +64,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue"
+import { onBeforeUnmount, onMounted, reactive } from "vue"
 import * as mapWork from "./map.js"
 import { $alert } from "@mars/components/mars-ui/index"
+import { onMapWorkReady } from "@mars/utils/map-work"
 
 const formState = reactive({
   radioFanwei: "1",
@@ -87,15 +88,33 @@ const formState = reactive({
 let currJD: number
 let currWD: number
 
+// 默认显示地图中心点坐标
+const onLoadOK = (event: any) => {
+  const point = event.point
+  currJD = point.lng
+  currWD = point.lat
+  formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
+  formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
+}
+
+let offMapWorkReady: (() => void) | undefined
+
 onMounted(() => {
-  // 默认显示地图中心点坐标
-  mapWork.eventTarget.on("loadOK", function (event: any) {
-    const point = event.point
-    currJD = point.lng
-    currWD = point.lat
-    formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
-    formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
+  mapWork.eventTarget.on("loadOK", onLoadOK)
+
+  // map.js 的 onMounted 可能早于面板挂载执行，loadOK 事件会错过；
+  // 地图业务就绪后再兜底读取一次中心点，保证面板默认值不为 0
+  offMapWorkReady = onMapWorkReady(() => {
+    if (currJD === undefined) {
+      onLoadOK({ point: mapWork.getCenter() })
+    }
   })
+})
+
+onBeforeUnmount(() => {
+  offMapWorkReady && offMapWorkReady()
+  mapWork.eventTarget.off("loadOK", onLoadOK)
+  mapWork.eventTarget.off("clickMap", onMapClick)
 })
 
 const changeFanwei = () => {
@@ -134,18 +153,22 @@ const changeFendai = () => {
   }
 }
 
+const onMapClick = (event: any) => {
+  currJD = event.coordinate.lng
+  currWD = event.coordinate.lat
+  formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
+  formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
+  changeFanwei()
+  // 更新面板
+  mapWork.updateMarker(false, currJD, currWD)
+}
+
 const bindMourseClick = () => {
   mapWork.bindMourseClick()
 
-  mapWork.eventTarget.on("clickMap", (event: any) => {
-    currJD = event.coordinate.lng
-    currWD = event.coordinate.lat
-    formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
-    formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
-    changeFanwei()
-    // 更新面板
-    mapWork.updateMarker(false, currJD, currWD)
-  })
+  // 反复点击「图上拾取」按钮时先解绑上一次，避免监听叠加触发多次
+  mapWork.eventTarget.off("clickMap", onMapClick)
+  mapWork.eventTarget.on("clickMap", onMapClick)
 }
 
 const submitCenter = () => {

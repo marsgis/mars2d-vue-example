@@ -132,7 +132,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, nextTick, reactive, ref } from "vue"
+import { onBeforeUnmount, onMounted, nextTick, reactive, ref } from "vue"
 import * as mapWork from "./map.js"
 import { TableColumnType, TableProps } from "ant-design-vue"
 import axios from "axios"
@@ -183,9 +183,10 @@ const onTextChange = () => {
 const onClickDrawExtent = () => {
   mapWork.drawExtent(formState.extent)
 }
-mapWork.eventTarget.on("drawExtent", function (event: any) {
+const onDrawExtent = (event: any) => {
   formState.extent = event.extent
-})
+}
+mapWork.eventTarget.on("drawExtent", onDrawExtent)
 
 // 数字输入框修改事件
 const onNumberChange = () => {
@@ -289,7 +290,7 @@ const onClickLoading = async () => {
 
 // 按钮点击事件，演示顶部不遮盖的loading
 const onClickTopLoading = () => {
-  $message("演示顶部不遮盖的loaing,看上面", "warning")
+  $message("演示顶部不遮盖的loading，看上面", "warning")
 
   window.$showLoading("top") // top 调用出现在顶部的加载进度
   setTimeout(() => {
@@ -329,16 +330,22 @@ const typhoonList = ref<typhoon[]>([]) // 列表数据
 onMounted(() => {
   // 访问后端接口，取台风列表数据
   const url = "//data.mars2d.cn/file/apidemo/typhoon/list_2020.json"
-  axios.get(url).then(function (res: any) {
-    const data = res.data
-    typhoonList.value = data.typhoonList.map((item: any) => ({
-      id: item[0],
-      name_en: item[1],
-      name_cn: item[2],
-      typnumber: item[3],
-      state: item[7]
-    }))
-  })
+  axios
+    .get(url)
+    .then(function (res: any) {
+      const data = res.data
+      typhoonList.value = data.typhoonList.map((item: any) => ({
+        id: item[0],
+        name_en: item[1],
+        name_cn: item[2],
+        typnumber: item[3],
+        state: item[7]
+      }))
+    })
+    .catch(() => {
+      // 接口失败时给出可见反馈，避免表格一直空白且无提示
+      $message("台风列表加载失败，请检查网络", "error")
+    })
 })
 
 // 勾选了表格列表的行
@@ -369,9 +376,10 @@ const treeData = ref<any[]>([])
 const expandedKeys = ref<string[]>([])
 const checkedKeys = ref<string[]>([])
 
-mapWork.eventTarget.on("loadOK", () => {
+const onLoadOK = () => {
   initTree()
-})
+}
+mapWork.eventTarget.on("loadOK", onLoadOK)
 
 function initTree() {
   layers = mapWork.getLayers()
@@ -509,6 +517,12 @@ function renderChildNode(keys: string[], children: any[]) {
     }
   })
 }
+
+// 与 setup 中的 eventTarget.on 成对清理，避免切换示例后旧面板的回调仍被执行
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("drawExtent", onDrawExtent)
+  mapWork.eventTarget.off("loadOK", onLoadOK)
+})
 </script>
 <style lang="less">
 .infoView {

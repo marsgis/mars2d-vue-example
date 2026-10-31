@@ -135,15 +135,17 @@ function getComponent(type: keyof typeof components) {
 }
 
 function mergeItemOption(item) {
+  // 浅拷贝后再规范化，避免直接改写调用方传入的 props.options 元素
+  const option = { ...item }
   // show字段转为function
-  if (typeof item.show !== "function") {
-    item.show = () => (item.show === undefined ? true : !!item.show)
+  if (typeof option.show !== "function") {
+    option.show = () => (option.show === undefined ? true : !!option.show)
   }
 
   // extra 字段转为function
-  item.extra = mergeExtra(item.extra)
-  item.extraType = item.extraType || "string"
-  return item
+  option.extra = mergeExtra(option.extra)
+  option.extraType = option.extraType || "string"
+  return option
 }
 
 function mergeExtra(extra) {

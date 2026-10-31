@@ -1,6 +1,7 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let maskDiv // 覆盖在地图上的渐变蒙版
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export function mapOptions(options) {
@@ -40,7 +41,7 @@ export function onMounted(mapInstance) {
   }
 
   // 添加蒙版
-  const maskDiv = document.createElement("div")
+  maskDiv = document.createElement("div")
   maskDiv.className = "maskDiv"
   document.body.appendChild(maskDiv)
   maskDiv.style.cssText = `
@@ -60,5 +61,10 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 蒙版挂在 document.body 上，不随图层销毁，需手动移除
+  if (maskDiv) {
+    maskDiv.remove()
+    maskDiv = null
+  }
   map = null
 }

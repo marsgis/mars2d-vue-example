@@ -22,15 +22,15 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .mars-input {
-  height: 32px;
+  height: var(--mars-control-height, 32px);
   color: var(--mars-control-text);
   background-color: var(--mars-control-bg);
-  font-size: 12px !important;
-  border-radius: 0;
+  font-size: var(--mars-font-size-xs, 12px) !important;
   border: 1px solid;
   border-color: var(--mars-control-border);
-  border-radius: 2px;
+  border-radius: var(--mars-radius-sm, 4px);
   font-family: var(--mars-font-family);
+  transition: border-color var(--mars-transition-fast, 0.2s ease);
   &::placeholder {
     color: var(--mars-control-placeholder);
   }
@@ -38,7 +38,7 @@ export default defineComponent({
     background-color: transparent !important;
     border-color: var(--mars-control-border);
     color: var(--mars-control-text);
-    font-size: 14px;
+    font-size: var(--mars-font-size-md, 14px);
     &::placeholder {
       color: var(--mars-control-placeholder);
     }

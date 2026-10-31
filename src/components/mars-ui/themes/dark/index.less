@@ -1,53 +1,77 @@
 @import url("./zhts.less");
 
 :root[data-theme="dark"] {
-  --mars-base-bg: rgba(39, 44, 54, 0.8); // 整个面板整体背景色
-  --mars-base-shadow: none; // 整个面板整体阴影
-  // 边框渐变 - border-image 与 border-radius 无法共存，使用background
+  /* ===== 面板/卡片 ===== */
+  --mars-base-bg: rgba(39, 44, 54, 0.8);
+  --mars-base-shadow: none;
+  /* 边框渐变 - border-image 与 border-radius 无法共存，使用 background */
   --mars-base-border: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 100%);
-  --mars-collapse-title-bg: rgba(58, 64, 79, 1); // 折叠面板大标题颜色
-  --mars-collapse-title-shadow: none; // 折叠面板大标题阴影
-  --mars-sub-title-color: rgba(234, 242, 255, 0.8); // 小标题的颜色
-  --mars-extra-text-color: rgba(234, 242, 255, 0.7); // 额外字段颜色
-  // 文本
-  --mars-text-color: #ffffff; // 文本颜色
-  --mars-font-family: HarmonyOS Sans SC;
+  --mars-collapse-title-bg: rgba(58, 64, 79, 1);
+  --mars-collapse-title-shadow: none;
 
-  // 控件基本样式
-  --mars-control-bg: rgba(35, 39, 47, 0.7); // 框的背景色
-  --mars-control-border: rgba(234, 242, 255, 0.15); // 框的边框色
+  /* ===== 文本层级 ===== */
+  --mars-sub-title-color: rgba(234, 242, 255, 0.8);
+  --mars-extra-text-color: rgba(234, 242, 255, 0.7);
+  --mars-text-color: #ffffff;
 
-  // poi搜索框的边框
+  /* ===== 字体：与 light 主题保持同一套字号/字重刻度 ===== */
+  --mars-font-family: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mars-font-size-xs: 12px;
+  --mars-font-size-sm: 13px;
+  --mars-font-size-md: 14px;
+  --mars-font-size-lg: 16px;
+  --mars-font-size-xl: 20px;
+  --mars-font-size-title: var(--mars-font-size-md);
+  --mars-font-size-text: var(--mars-font-size-xs);
+  --mars-font-weight-regular: 400;
+  --mars-font-weight-medium: 500;
+  --mars-line-height: 1.5;
+
+  /* ===== 圆角与间距 ===== */
+  --mars-radius-xs: 2px;
+  --mars-radius-sm: 4px;
+  --mars-radius-md: 6px;
+  --mars-radius-lg: 10px;
+  --mars-space-xs: 4px;
+  --mars-space-sm: 8px;
+  --mars-space-md: 12px;
+  --mars-space-lg: 16px;
+  --mars-space-xl: 24px;
+
+  /* ===== 控件 ===== */
+  --mars-control-bg: rgba(35, 39, 47, 0.7);
+  --mars-control-border: rgba(234, 242, 255, 0.15);
   --mars-poi-border: linear-gradient(96deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 99%);
   --mars-collapse-icon: #ffffff;
+  --mars-control-height: 32px;
+  --mars-dialog-header-height: 44px;
+  --mars-transition-fast: 0.2s ease;
 
-  --mars-control-text: rgba(234, 242, 255, 1); // 框中文本颜色
-  --mars-control-placeholder: rgba(234, 242, 255, 0.2); // 框中默认文本颜色
-  --mars-control-icon: rgba(234, 242, 255, 0.4); // 框后面的小图标颜色
+  --mars-control-text: rgba(234, 242, 255, 1);
+  --mars-control-placeholder: rgba(234, 242, 255, 0.2);
+  --mars-control-icon: rgba(234, 242, 255, 0.4);
 
-  --mars-table-odd-bg: rgba(234, 242, 255, 0.1); // 奇数表格背景
-  --mars-table-header-bg: rgba(234, 242, 255, 0.1); // 表格表头背景
+  --mars-table-odd-bg: rgba(234, 242, 255, 0.1);
+  --mars-table-header-bg: rgba(234, 242, 255, 0.1);
+  --mars-dropdown-bg: rgba(39, 44, 54, 0.9);
 
-  // 下拉菜单背景色
-  --mars-dropdown-bg: rgba(39, 44, 54, 0.9); // 整个面板整体背景色
+  /* 树控件 */
+  --mars-tree-text: rgba(216, 223, 234, 1);
+  --mars-tree-hover-text: #ffffff;
 
-  // 树控件
-  --mars-tree-text: rgba(216, 223, 234, 1); // 文本颜色
-  --mars-tree-hover-text: #ffffff; // 移入后文本颜色
-
-  // --mars-menu-emb: url(../assets/images/sub-menu-emb-light.png);
+  /* 菜单分隔线 */
   --mars-menu-emb: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(255, 255, 255, 0) 100%);
 
-  // 状态
+  /* ===== 状态色 ===== */
   --mars-primary-color: #3385ff;
   --mars-dangerous-color: #f96868;
-  --mars-close-color: rgba(35, 39, 47, 0.7); // 关闭状态
-  --mars-disable-color: rgba(255, 255, 255, 0.2); // 不可用状态
-  --mars-hover-color: rgba(64, 150, 255, 1); // 移入状态
-  --mars-list-active: rgba(51, 133, 255, 0.3); // 选中激活列
-  --mars-list-select: rgba(51, 133, 255, 0.15); // 选中菜单
+  --mars-close-color: rgba(35, 39, 47, 0.7);
+  --mars-disable-color: rgba(255, 255, 255, 0.2);
+  --mars-hover-color: rgba(64, 150, 255, 1);
+  --mars-list-active: rgba(51, 133, 255, 0.3);
+  --mars-list-select: rgba(51, 133, 255, 0.15);
 
-  // 组件
+  /* ===== 组件 ===== */
   --mars-msg-title-bg: rgba(70, 76, 90, 1);
   --mars-msg-title-color: rgba(35, 39, 47, 0.7);
 

@@ -1,6 +1,7 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let pgisLayer // PGIS底图图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -32,7 +33,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加底图
-  mars2d.LayerUtil.create({
+  pgisLayer = mars2d.LayerUtil.create({
     type: "tile",
     url: "http://127.0.0.1/QuadServer/services/maps/wmts100?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=CGC2000&STYLE=Default&FORMAT=image/jpeg&TILEMATRIXSET=PGIS_TILE_STORE&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
     minZoom: 11,
@@ -47,5 +48,9 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map && pgisLayer) {
+    map.removeLayer(pgisLayer)
+    pgisLayer = null
+  }
   map = null
 }

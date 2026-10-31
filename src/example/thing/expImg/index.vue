@@ -9,20 +9,25 @@
   </mars-dialog>
 
   <mars-dialog top="50" left="50" width="calc(100% - 100px)" title="场景出图" v-model:visible="showImg">
-    <img :src="imges" class="show-img" />
+    <img :src="imges" class="show-img" alt="场景出图预览" />
   </mars-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { onBeforeUnmount, ref } from "vue"
 import * as mapWork from "./map.js"
 
 const showImg = ref(false)
 const imges = ref()
 
-mapWork.eventTarget.on("loadOk", function (event: any) {
+const onLoadOk = (event: any) => {
   imges.value = event.base64
   showImg.value = true
+}
+mapWork.eventTarget.on("loadOk", onLoadOk)
+
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("loadOk", onLoadOk)
 })
 
 const showMapImg = () => {

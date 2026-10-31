@@ -40,7 +40,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   map.setView([30.451633, 111.700745], 13)
 
@@ -53,11 +53,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-// MapboxglLayer定义在public\lib\mars2d\thirdParty\mapbox\leaflet-mapbox-gl.js
+// MapboxglLayer定义在public\lib\leaflet\thirdParty\mapbox\leaflet-mapbox-gl.js
 function addMapboxGLLayer() {
   // eslint-disable-next-line no-undef
   const mapboxglLayer = new MapboxglLayer({

@@ -17,6 +17,7 @@ import { useWidgetStore } from "@mars/widgets/common/store/widget"
 import MarsWidget from "@mars/widgets/widget.vue"
 import { ConfigProvider } from "ant-design-vue"
 import locale from "ant-design-vue/es/locale/zh_CN"
+import { markMapWorkReady } from "@mars/utils/map-work"
 
 const widgetStore = useWidgetStore()
 
@@ -35,9 +36,26 @@ const marsOnload = (map: any) => {
   mapLoaded.value = true
 }
 
+// 同一次地图业务（同一个 mapWork）只执行一次 onMounted，
+// 防止面板重复挂载导致图层等对象被创建两次
+let initedMapWork: any = null
+
 function onChildMounted() {
-  window.marsEditor.useLifecycle() // 通知执行mapWork.onMounted
-  marsOnload(window._mapInstance)
+  if (initedMapWork === window.mapWork) {
+    return
+  }
+  initedMapWork = window.mapWork
+
+  try {
+    window.marsEditor.useLifecycle() // 通知执行mapWork.onMounted
+  } catch (err) {
+    // 单个示例 map.js 初始化异常时，不影响面板继续渲染（具体错误可查看控制台）
+    console.error("[example] mapWork.onMounted 执行失败", err)
+  } finally {
+    // 地图业务初始化完成，通知面板组件（如 graphic-layer-state.vue）再访问图层等对象
+    markMapWorkReady()
+    marsOnload(window._mapInstance)
+  }
 }
 </script>
 <style lang="less">

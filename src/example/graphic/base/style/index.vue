@@ -5,5 +5,5 @@
 </template>
 
 <script setup lang="ts">
- import GraphicLayerState from "@mars/components/mars-sample/graphic-layer-state.vue"
+import GraphicLayerState from "@mars/components/mars-sample/graphic-layer-state.vue"
 </script>

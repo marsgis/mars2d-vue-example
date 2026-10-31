@@ -9,18 +9,20 @@ export const mapOptions = {}
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  map.on(mars2d.EventType.load, (event) => {
+  mapLoadHandler = (event) => {
     console.log("map load", event)
-  })
+  }
+  map.on(mars2d.EventType.load, mapLoadHandler)
 
   // on绑定事件
-  map.on(mars2d.EventType.move, map_cameraChangedHandler, this)
-  map.on(mars2d.EventType.click, map_clickHandler, this)
-  map.on(mars2d.EventType.dblclick, map_dblClickHandler, this)
+  map.on(mars2d.EventType.move, map_cameraChangedHandler)
+  map.on(mars2d.EventType.click, map_clickHandler)
+  map.on(mars2d.EventType.dblclick, map_dblClickHandler)
 
-  map.on(mars2d.EventType.rightClick, function (event) {
+  mapRightClickHandler = function (event) {
     console.log("鼠标右击了地图", event)
-  })
+  }
+  map.on(mars2d.EventType.rightClick, mapRightClickHandler)
 }
 
 /**
@@ -28,14 +30,25 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
-  map = null
+  if (!map) {
+    return
+  }
 
-  // off移除事件
-  // map.off(mars2d.EventType.move, this.map_cameraChangedHandler, this);
+  // 与 onMounted 中注册的监听成对移除，并清掉尚未触发的防抖定时器
+  map.off(mars2d.EventType.load, mapLoadHandler)
+  map.off(mars2d.EventType.move, map_cameraChangedHandler)
+  map.off(mars2d.EventType.click, map_clickHandler)
+  map.off(mars2d.EventType.dblclick, map_dblClickHandler)
+  map.off(mars2d.EventType.rightClick, mapRightClickHandler)
+  clearTimeout(clickTimeId)
+  clearTimeout(mapMoveNum)
+  map = null
 }
 
 let clickTimeId // 双击会触发两次单击事件的解决
 let mapMoveNum
+let mapLoadHandler
+let mapRightClickHandler
 
 function map_clickHandler(event) {
   clearTimeout(clickTimeId)

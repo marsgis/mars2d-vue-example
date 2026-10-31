@@ -26,6 +26,11 @@ export function onUnmounted() {
   map = null
 }
 
+// 供面板在错过 loadOK 事件时主动读取当前中心点
+export function getCenter() {
+  return map.getCenter()
+}
+
 // 坐标转化的三种方法
 export function marsUtilFormtNum(item, num) {
   return mars2d.Util.formatNum(item, num)

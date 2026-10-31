@@ -10,7 +10,7 @@
     <div class="bookmarkView">
       <div v-bind:class="formState.found ? 'addNewImg' : 'noFound'" :key="value.name"
         v-for="(value, index) in formState.imgObject">
-        <img class="markImg" :src="value.img" @click="flytoView(value)" v-show="formState.found" />
+        <img class="markImg" :src="value.img" :alt="value.name" @click="flytoView(value)" v-show="formState.found" />
         <p class="name">{{ value.name }}
           <mars-icon icon="delete" class="deleteImg" color="#000000" @click="butDeleteTxtName(index)"
             v-show="formState.found" />
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue"
+import { onBeforeUnmount, onMounted, reactive } from "vue"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
 import localforage from "localforage"
@@ -90,15 +90,18 @@ const butAddTxtName = (isDraw) => {
 }
 
 // 触发事件
-mapWork.eventTarget.on("addImgObject", (event: any) => {
+const onAddImgObject = (event: any) => {
   formState.imgObject.push(event.item)
 
-  // 记录到历史
-  try {
-    localforage.setItem("bookmark", JSON.stringify(formState.imgObject))
-  } catch (err) {
+  // 记录到历史（localforage 返回 Promise，用 catch 承接异步失败）
+  localforage.setItem("bookmark", JSON.stringify(formState.imgObject)).catch(() => {
     $message("数据保存到本地出错")
-  }
+  })
+}
+mapWork.eventTarget.on("addImgObject", onAddImgObject)
+
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("addImgObject", onAddImgObject)
 })
 
 // 视角操作
@@ -112,11 +115,15 @@ const butDeleteTxtName = (index: number) => {
   if (formState.imgObject.length === 0) {
     formState.imgObject = [{ name: "没有匹配的值", img: "", view: "" }]
     formState.found = false
-    localforage.removeItem("bookmark")
+    localforage.removeItem("bookmark").catch(() => {
+      $message("数据保存到本地出错")
+    })
     return
   }
   // 记录到历史
-  localforage.setItem("bookmark", JSON.stringify(formState.imgObject))
+  localforage.setItem("bookmark", JSON.stringify(formState.imgObject)).catch(() => {
+    $message("数据保存到本地出错")
+  })
 }
 </script>
 <style scoped lang="less">

@@ -27,7 +27,7 @@ li,
 pre,
 /* text formatting elements 文本格式元素 */
 fieldset,
-lengend,
+legend,
 button,
 input,
 textarea,
@@ -54,7 +54,11 @@ body,
 html {
   background-color: var(--mars-base-bg) !important;
   color: var(--mars-text-color) !important;
-  font-size: 14px;
+  font-family: var(--mars-font-family);
+  font-size: var(--mars-font-size-md, 14px);
+  line-height: var(--mars-line-height, 1.5);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   // min-width: 900px;
   overflow: hidden;
   width: 100%;
@@ -72,6 +76,12 @@ html {
     font-size: 14px;
     box-sizing: border-box; // 使padding 不影响盒子的宽高；
   }
+}
+
+/* 键盘聚焦时给出统一、可见的焦点环（鼠标点击不触发） */
+:focus-visible {
+  outline: 2px solid var(--mars-primary-color);
+  outline-offset: 2px;
 }
 
 .mars-primary-table {

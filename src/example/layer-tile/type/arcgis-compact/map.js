@@ -1,6 +1,7 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let tileLayer // 叠加的图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -33,6 +34,7 @@ export function onMounted(mapInstance) {
     url: "http://data.mars2d.cn/arcgis_cache/hfghBundle/_alllayers"
   })
   map.addLayer(layer)
+  tileLayer = layer
 }
 
 /**
@@ -40,5 +42,9 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map && tileLayer) {
+    map.removeLayer(tileLayer)
+    tileLayer = null
+  }
   map = null
 }

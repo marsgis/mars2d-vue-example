@@ -13,6 +13,8 @@ export const mapOptions = {
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+let refreshTimer = null // 面板数据刷新定时器
+
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -45,6 +47,10 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (refreshTimer) {
+    clearInterval(refreshTimer)
+    refreshTimer = null
+  }
   map = null
 }
 
@@ -420,7 +426,10 @@ function addDemoGraphic11() {
   })
 
   // 刷新局部DOM,不影响面板的其他控件操作
-  setInterval(() => {
+  if (refreshTimer) {
+    clearInterval(refreshTimer)
+  }
+  refreshTimer = setInterval(() => {
     const container = graphic?.container // popup对应的DOM
     if (!container) {
       return

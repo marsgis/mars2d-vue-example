@@ -106,6 +106,10 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map && graphicLayer) {
+    map.removeLayer(graphicLayer)
+    graphicLayer = null
+  }
   map = null
 }
 

@@ -22,6 +22,7 @@ export function onMounted(mapInstance) {
  */
 
 export function onUnmounted() {
+  removeTileLayer()
   map = null
 }
 
@@ -37,7 +38,18 @@ export async function addTileLayer() {
   let xmin, xmax, ymin, ymax
 
   // 加载江西省各县年平均降水量数据
-  const result = await mars2d.Util.fetchJson({ url: "https://data.mars3d.cn/file/apidemo/jxjy.json" })
+  let result
+  try {
+    result = await mars2d.Util.fetchJson({ url: "https://data.mars3d.cn/file/apidemo/jxjy.json" })
+  } catch (error) {
+    console.log("加载降水数据失败", error)
+    globalNotify("数据加载失败", "江西省降水数据请求失败，请检查网络后重试")
+    return
+  }
+  // 请求返回时示例可能已卸载，map 已置空，直接跳过避免访问空地图
+  if (!map) {
+    return
+  }
   for (let i = 0; i < result.length; i++) {
     const item = result[i]
     const lat = item.y

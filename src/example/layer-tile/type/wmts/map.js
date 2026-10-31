@@ -2,6 +2,7 @@ import * as mars2d from "mars2d"
 const L = mars2d.L
 
 let map // mars2d.Map二维地图对象
+let wmtsLayer // 叠加的WMTS图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = function (option) {
@@ -53,7 +54,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
-  const layer = new mars2d.layer.WmtsLayer({
+  wmtsLayer = new mars2d.layer.WmtsLayer({
     url: "//server.mars3d.cn/geoserver/gwc/service/wmts",
     layer: "mars:hfgh",
     format: "image/png",
@@ -74,7 +75,7 @@ export function onMounted(mapInstance) {
       outlineColor: "#ffffff"
     }
   })
-  map.addLayer(layer)
+  map.addLayer(wmtsLayer)
 }
 
 /**
@@ -82,5 +83,9 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map && wmtsLayer) {
+    map.removeLayer(wmtsLayer)
+    wmtsLayer = null
+  }
   map = null
 }

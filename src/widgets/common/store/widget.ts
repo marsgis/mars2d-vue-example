@@ -4,7 +4,7 @@
  * @author 火星渣渣灰 2022-02-19
  */
 import { Store, StoreOptions, createStore, useStore } from "vuex"
-import { InjectionKey, computed, nextTick, onUnmounted, inject } from "vue"
+import { InjectionKey, nextTick, onUnmounted, inject } from "vue"
 import { v4 as uuidV4 } from "uuid"
 
 // 为 store state 声明类型
@@ -41,20 +41,28 @@ export let key: InjectionKey<Store<WidgetState>> = Symbol("widget")
  * @return {Store<WidgetState>} 公共状态
  */
 export const injectState = (options: StoreOptions<WidgetState>): Store<WidgetState> => {
+  // 先校验参数，避免 options 为空时读取 options.state 直接抛 TypeError
+  if (!options) {
+    throw new Error("injectState 参数不能为空")
+  }
+
   key = Symbol("widget")
   if (typeof options.state === "function") {
     options.state = (options.state() || {}) as WidgetState
   }
+  // 未传 state / widgets 时给出空集合，保证初始化不崩溃
+  options.state = (options.state || {}) as WidgetState
+  options.state.widgets = options.state.widgets || []
+  options.state.openAtStart = options.state.openAtStart || []
+
   const defaultOption = {
     autoDisable: true,
     disableOther: false,
     ...options.state.defaultOption
   }
-  const openAtStart = options.state?.openAtStart
-  if (!options) {
-    throw new Error("injectState 参数不能为空")
-  } else {
-    const widgets = options.state?.widgets.map((item) => {
+  const openAtStart = options.state.openAtStart
+  {
+    const widgets = options.state.widgets.map((item) => {
       return {
         visible: openAtStart?.includes(item.name),
         ...defaultOption,
@@ -88,11 +96,19 @@ export const injectState = (options: StoreOptions<WidgetState>): Store<WidgetSta
     },
     actions: {
       activate({ commit, state, dispatch }, widget: any) {
+        if (widget == null) {
+          console.warn("activate 参数不能为空")
+          return
+        }
         const value = typeof widget === "string" ? widget : widget.name
+        if (!value) {
+          console.warn("activate 缺少 widget.name", widget)
+          return
+        }
 
         const pannel = state.widgets.find((item) => item.name === value)
         if (!pannel) {
-          console.log("widget不存在", widget)
+          console.warn("widget不存在", widget)
           return
         }
 
@@ -109,21 +125,23 @@ export const injectState = (options: StoreOptions<WidgetState>): Store<WidgetSta
           pannel.visible = true
         })
 
-        // 处理其他面板的显示隐藏
+        // 先处理显式互斥列表，再统一关闭同组面板
+        if (Array.isArray(pannel.disableOther)) {
+          pannel.disableOther.forEach((name: string) => {
+            dispatch("disable", name)
+          })
+        }
         state.widgets.forEach((item) => {
-          if (pannel.name !== item.name) {
-            // 默认关闭同组
-            if (pannel.group && item.group === pannel.group) {
-              item.visible = false
-            }
-            // 关闭非同组需要关闭的面板
-            if (Array.isArray(pannel.disableOther)) {
-              pannel.disableOther.forEach((item: string) => {
-                dispatch("disable", item)
-              })
-            } else if (pannel.disableOther && item.autoDisable) {
-              item.visible = false
-            }
+          if (pannel.name === item.name) {
+            return
+          }
+          // 默认关闭同组
+          if (pannel.group && item.group === pannel.group) {
+            item.visible = false
+          }
+          // 关闭需要互斥的面板
+          if (!Array.isArray(pannel.disableOther) && pannel.disableOther && item.autoDisable) {
+            item.visible = false
           }
         })
 
@@ -132,19 +150,13 @@ export const injectState = (options: StoreOptions<WidgetState>): Store<WidgetSta
         }
       },
       disable({ state }, widget: string) {
-        const value = widget
-        const pannel = state.widgets.find((item, i) => {
-          if (item.name === value) {
-            delete state.widgets[i].data
-            return true
-          } else {
-            return false
-          }
-        })
-        // 显示面板
-        if (pannel) {
-          pannel.visible = false
+        const pannel = state.widgets.find((item) => item.name === widget)
+        if (!pannel) {
+          return
         }
+        // 关闭时清空一次性传参，meta 保留
+        delete pannel.data
+        pannel.visible = false
       },
       disableAll({ state }, hasAll: boolean) {
         state.widgets.forEach((item: Widget) => {
@@ -248,6 +260,10 @@ export function useWidget() {
     },
     setVisible(name: string, visible: boolean) {
       const widget = store.state.widgets.find((item: any) => item.name === name)
+      if (!widget) {
+        console.warn("widget不存在", name)
+        return
+      }
       widget.visible = visible
     },
     // 出发对应widget的onUpdate
@@ -267,7 +283,6 @@ export function useWidget() {
       } else {
         widgets = option
       }
-      console.log("widgets", widgets)
       widgets.forEach((widget) => {
         let params: any
         if (typeof widget === "string") {

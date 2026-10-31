@@ -19,11 +19,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue"
+import { computed, onBeforeUnmount, ref } from "vue"
 import * as mapWork from "./map.js"
 
 const slideStep = ref<number>(10)
-const activeValue = ref(0)
+const activeValue = ref<number | undefined>(0)
 
 
 const list = [
@@ -65,11 +65,18 @@ const codeList = computed(() => list.filter((item) => item.codeValue === activeV
 const onChangeSlider = () => {
   mapWork.changeSlider(slideStep.value)
 }
-mapWork.eventTarget.on("keydown", function (event) {
+const onKeydown = (event: any) => {
   activeValue.value = event.keyCode
-})
-mapWork.eventTarget.on("keyup", function (event) {
+}
+const onKeyup = () => {
   activeValue.value = undefined
+}
+mapWork.eventTarget.on("keydown", onKeydown)
+mapWork.eventTarget.on("keyup", onKeyup)
+
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("keydown", onKeydown)
+  mapWork.eventTarget.off("keyup", onKeyup)
 })
 
 </script>

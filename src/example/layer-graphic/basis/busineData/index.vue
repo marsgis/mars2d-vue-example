@@ -10,11 +10,18 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, ref } from "vue"
+import { nextTick, onBeforeUnmount, onMounted, ref } from "vue"
 import * as mapWork from "./map.js"
 
-mapWork.eventTarget.on("refTree", (event: any) => {
+// 树数据可能在地图业务就绪后异步推送，用 on/off 成对注册，面板销毁时解绑避免重复挂载叠加
+const onRefTree = (event: any) => {
   initTree(event.list)
+}
+onMounted(() => {
+  mapWork.eventTarget.on("refTree", onRefTree)
+})
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("refTree", onRefTree)
 })
 
 // 初始化树控件

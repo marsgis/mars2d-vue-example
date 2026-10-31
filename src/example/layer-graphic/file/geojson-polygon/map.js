@@ -1,6 +1,7 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let geoJsonLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -17,7 +18,7 @@ export function onMounted(mapInstance) {
 
   addLegend()
 
-  const geoJsonLayer = new mars2d.layer.GeoJsonLayer({
+  geoJsonLayer = new mars2d.layer.GeoJsonLayer({
     name: "各省市",
     url: "http://data.mars2d.cn/file/geojson/areas/100000_full.json",
     symbol: {
@@ -96,6 +97,10 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (geoJsonLayer) {
+    map.removeLayer(geoJsonLayer, true)
+    geoJsonLayer = null
+  }
   map = null
 }
 
@@ -131,7 +136,7 @@ function getColor(num) {
   return arrColor[length - 1]
 }
 
-function addLegend() {
+export function addLegend() {
   let strHtml = "<div class='legend-title'>港口数量(个)</div>"
 
   let length = arrSpan.length

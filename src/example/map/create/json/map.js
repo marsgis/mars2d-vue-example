@@ -8,7 +8,7 @@ function initMap() {
     .then((json) => {
       console.log("读取 config.json 配置文件完成", json) // 打印测试信息
 
-      // 创建三维地球场景
+      // 创建二维地图场景
       const map = new mars2d.Map("mars2dContainer", json)
 
       // 打印测试信息

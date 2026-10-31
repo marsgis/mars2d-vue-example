@@ -28,7 +28,6 @@
   </mars-dialog>
 </template>
 
-<script setup lang="ts"></script>
 <style lang="less" scoped>
 .mars-load-head {
   font-size: 16px;

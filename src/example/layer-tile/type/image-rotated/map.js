@@ -3,6 +3,7 @@ const L = mars2d.L
 
 let map // mars2d.Map二维地图对象
 let imgLayer // 添加的图片图层
+const editMarkers = [] // 三个拖动编辑控制点
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -37,6 +38,7 @@ export function onMounted(mapInstance) {
   const marker1 = L.marker(topleft, { draggable: true, icon: myIcon }).bindTooltip("top-left").addTo(map)
   const marker2 = L.marker(topright, { draggable: true, icon: myIcon }).bindTooltip("top-right").addTo(map)
   const marker3 = L.marker(bottomleft, { draggable: true, icon: myIcon }).bindTooltip("bottom-left").addTo(map)
+  editMarkers.push(marker1, marker2, marker3)
   function repositionImage() {
     imgLayer.setPosition(marker1.getLatLng(), marker2.getLatLng(), marker3.getLatLng())
   }
@@ -50,6 +52,18 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map) {
+    // 先解绑拖动监听再移除控制点与图片图层，避免重复进入示例叠加
+    editMarkers.forEach((marker) => {
+      marker.off("drag dragend")
+      map.removeLayer(marker)
+    })
+  }
+  editMarkers.length = 0
+  if (map && imgLayer) {
+    map.removeLayer(imgLayer)
+    imgLayer = null
+  }
   map = null
 }
 

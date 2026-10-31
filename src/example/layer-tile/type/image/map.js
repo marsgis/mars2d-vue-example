@@ -61,6 +61,8 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 面板可能已点过「添加图层」，卸载时先移除再置空 map
+  removeLayer()
   map = null
 }
 

@@ -6,66 +6,66 @@
  */
 window.configLibs = {
   /// ///////////////////////Mars2D地图渲染相关库////////////////////////
-  'mars2d': [//地图 主库
+  mars2d: [// 地图 主库
     "leaflet/leaflet.css",
     "leaflet/leaflet.js",
     "mars2d/mars2d.css",
     "mars2d/mars2d.js",
-    "mars2d/plugins/esri/mars2d-esri.js" //非必须，加载arcgis图层时需要
+    "mars2d/plugins/esri/mars2d-esri.js" // 非必须，加载arcgis图层时需要
   ],
-  'mars2d-esri': [
-    //arcgis服务支持插件
+  "mars2d-esri": [
+    // arcgis服务支持插件
     // "mars2d/plugins/esri/mars2d-esri.js"
   ],
-  'mars2d-mapv': [
-    //mapv支持插件
-    'mapV/mapv.min.js',
+  "mars2d-mapv": [
+    // mapv支持插件
+    "mapV/mapv.min.js",
     "mars2d/plugins/mapv/mars2d-mapv.js"
   ],
-  'mars2d-echarts': [
-    //echarts支持插件
+  "mars2d-echarts": [
+    // echarts支持插件
     "echarts/echarts.min.js",
     "mars2d/plugins/echarts/mars2d-echarts.js"
   ],
-  //////////////////////////leaflet第3方插件////////////////////////
-  "leaflet-sideBySide": ["mars2d/thirdParty/sideBySide/leaflet-side-by-side.min.js"],
+  /// ///////////////////////leaflet第3方插件////////////////////////
+  "leaflet-sideBySide": ["leaflet/thirdParty/sideBySide/leaflet-side-by-side.min.js"],
   OSMBuildings: [
     // 建筑物3D立体 插件
-    "mars2d/thirdParty/OSMBuildings/OSMBuildings-Leaflet.debug.js",
-    "mars2d/thirdParty/OSMBuildings/OSMBuildings-Leaflet.js"
+    "leaflet/thirdParty/OSMBuildings/OSMBuildings-Leaflet.debug.js",
+    "leaflet/thirdParty/OSMBuildings/OSMBuildings-Leaflet.js"
   ],
   CanvasGeojsonLayer: [
     // 大数据Canvas合并渲染 插件
-    "mars2d/thirdParty/canvasGeojson/leaflet-canvas-geojson.js"
+    "leaflet/thirdParty/canvasGeojson/leaflet-canvas-geojson.js"
   ],
   timeDimension: [
     // 时间播放 插件
-    "mars2d/thirdParty/timedimension/iso8601.min.js",
-    "mars2d/thirdParty/timedimension/leaflet.timedimension.control.css",
-    "mars2d/thirdParty/timedimension/leaflet.timedimension.js"
+    "leaflet/thirdParty/timedimension/iso8601.min.js",
+    "leaflet/thirdParty/timedimension/leaflet.timedimension.control.css",
+    "leaflet/thirdParty/timedimension/leaflet.timedimension.js"
   ],
   textCollision: [
-    "mars2d/thirdParty/textCollision/LabelTextCollision.js",
+    "leaflet/thirdParty/textCollision/LabelTextCollision.js"
   ],
   canvaslabel: [
-    "mars2d/thirdParty/textCollision/Leaflet.canvaslabel.js",
+    "leaflet/thirdParty/textCollision/Leaflet.canvaslabel.js"
   ],
-  'mapbox-gl': [
-    "mars2d/thirdParty/mapbox/mapbox-gl.css",
-    "mars2d/thirdParty/mapbox/mapbox-gl.js",
-    "mars2d/thirdParty/mapbox/leaflet-mapbox-gl.js",
+  "mapbox-gl": [
+    "leaflet/thirdParty/mapbox/mapbox-gl.css",
+    "leaflet/thirdParty/mapbox/mapbox-gl.js",
+    "leaflet/thirdParty/mapbox/leaflet-mapbox-gl.js"
   ],
   "leaflet-wind": [
-    "mars2d/thirdParty/wind/leaflet-wind.js",
+    "leaflet/thirdParty/wind/leaflet-wind.js"
   ],
   "leaflet-migration": [
-    "mars2d/thirdParty/migration/leaflet-migrationLayer.js",
+    "leaflet/thirdParty/migration/leaflet-migrationLayer.js"
   ],
   "leaflet-rotate": [
-    "mars2d/thirdParty/rotate/leaflet-rotate.js",
+    "leaflet/thirdParty/rotate/leaflet-rotate.js"
   ],
   "leaflet-trackplayback": [
-    "mars2d/thirdParty/trackplayback/leaflet.trackplayback.js",
+    "leaflet/thirdParty/trackplayback/leaflet.trackplayback.js"
   ],
 
 
@@ -79,40 +79,40 @@ window.configLibs = {
     "http://mars3d.cn/lib/mars3d/mars3d.js"
   ],
 
-  //////////////////////////其他地图渲染相关库////////////////////////
-  'turf': [
+  /// ///////////////////////其他地图渲染相关库////////////////////////
+  turf: [
     "turf/turf.min.js"
   ],
-  'echarts': [
+  echarts: [
     "echarts/echarts.min.js",
     "echarts/dark.js"
   ],
-  'echarts-gl': [
+  "echarts-gl": [
     "echarts/echarts.min.js",
     "echarts/echarts-gl/echarts-gl.min.js"
   ],
-  'echarts-liquidfill': [
+  "echarts-liquidfill": [
     "echarts/echarts.min.js",
     "echarts/echarts-liquidfill/echarts-liquidfill.js"
   ],
-  'terraformer': [
+  terraformer: [
     "terraformer/terraformer-1.0.9.min.js",
-    "terraformer/terraformer-wkt-parser-1.2.0.min.js",
+    "terraformer/terraformer-wkt-parser-1.2.0.min.js"
   ],
-  'kriging': [
+  kriging: [
     "kriging/kriging.min.js"
   ],
-  'three': [
+  three: [
     "three/three.js"
   ],
-  'kmlGeojson': [
-    "geojson/kml-geojson.js"  // 项目KML/KMZ解析加载GeoJson插件
+  kmlGeojson: [
+    "geojson/kml-geojson.js" // 项目KML/KMZ解析加载GeoJson插件
   ],
-  'shpGeojson': [
-    "geojson/shp-geojson.js"  // 项目KML/KMZ解析加载GeoJson插件
+  shpGeojson: [
+    "geojson/shp-geojson.js" // 项目KML/KMZ解析加载GeoJson插件
   ],
-  "geotiff":["geotiff/geotiff.js","geotiff/plotty.js"],
-  "xlsx": ["xlsx/xlsx.full.min.js"],
+  geotiff: ["geotiff/geotiff.js", "geotiff/plotty.js"],
+  xlsx: ["xlsx/xlsx.full.min.js"]
 }
 
 

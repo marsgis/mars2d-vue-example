@@ -6,6 +6,8 @@ export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+let rotateTimer = null // 扇形动画定时器
+
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -38,6 +40,11 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 动画定时器必须清理：否则示例切换后仍会持续修改已销毁的 graphic
+  if (rotateTimer) {
+    clearInterval(rotateTimer)
+    rotateTimer = null
+  }
   map = null
 }
 
@@ -399,7 +406,10 @@ function addDemoGraphic4() {
 
   let open
   let counter = 1
-  setInterval(function () {
+  if (rotateTimer) {
+    clearInterval(rotateTimer)
+  }
+  rotateTimer = setInterval(function () {
     counter += 0.5
     open = 358 - (1 + Math.sin(counter)) * 45
 

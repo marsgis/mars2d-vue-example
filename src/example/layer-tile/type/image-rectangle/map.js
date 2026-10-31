@@ -1,6 +1,7 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let tileLayer // 叠加的图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -26,7 +27,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
-  const tileLayer = new mars2d.layer.ImageLayer({
+  tileLayer = new mars2d.layer.ImageLayer({
     name: "中科大-西区",
     url: "//data.mars2d.cn/file/img/zkd-xq.png",
     rectangle: { xmin: 117.245648, xmax: 117.254431, ymin: 31.836891, ymax: 31.843413 }
@@ -39,5 +40,9 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map && tileLayer) {
+    map.removeLayer(tileLayer)
+    tileLayer = null
+  }
   map = null
 }

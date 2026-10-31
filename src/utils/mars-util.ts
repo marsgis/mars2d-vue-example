@@ -24,22 +24,22 @@ export function isLonLat(text: string): boolean {
  * @param {string} [container="mars-main-view"] 窗口id
  * @return {void}
  */
-export function setAutoHeight(callback: (v: number) => void, lose = 0, container = "mars-main-view"): void {
+export function setAutoHeight(callback: (v: number) => void, lose = 0, container = "mars-main-view"): () => void {
   const wapper = document.getElementById(container) || document.body
 
-  let wapperHeight = wapper?.clientHeight || 0
-  const result = wapperHeight - lose
-  callback(result)
-
   const resize = () => {
-    wapperHeight = wapper?.clientHeight || 0
-    const resizeHeight = wapperHeight - lose
-    callback(resizeHeight)
+    const wapperHeight = wapper?.clientHeight || 0
+    callback(Math.max(0, wapperHeight - lose))
   }
 
   window.addEventListener("resize", resize)
-
+  // 只执行一次初始计算（原实现先 callback 再 resize()，会重复触发）
   resize()
+
+  // 返回清理函数，组件卸载时务必调用，避免 window resize 监听泄漏
+  return () => {
+    window.removeEventListener("resize", resize)
+  }
 }
 
 /**

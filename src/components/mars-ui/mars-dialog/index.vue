@@ -4,33 +4,59 @@
       <mars-icon :icon="mergeProps.thumbnail.icon" :width="20" color="#41A8FF"></mars-icon>
     </div>
     <div class="mars-dialog" :class="[customClass, animationClass]" ref="dialogRef" v-show="visible && !isFold && show">
-      <div v-if="showHeader" class="mars-dialog__header" :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }"
-           @mousedown="dragStart">
+      <div
+        v-if="showHeader"
+        :class="['mars-dialog__header', slots.tabs ? 'header-shadow_no' : '']"
+        :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }"
+        @mousedown="dragStart"
+      >
         <mars-icon v-if="mergeProps.icon" :icon="mergeProps.icon" :width="18" color="#41A8FF" class="icon"></mars-icon>
+        <slot v-else-if="slots.icon" name="icon"></slot>
         <slot v-if="slots.title" name="title"></slot>
         <span v-else class="title">{{ mergeProps.title }}</span>
-        <mars-icon v-if="mergeProps.closeable && mergeProps.closeButton" icon="close" :width="18" class="close-btn"
-                   @click="close"></mars-icon>
+        <mars-icon
+          v-if="mergeProps.closeable && mergeProps.closeButton"
+          icon="close"
+          color="#3385FF"
+          :width="18"
+          class="close-btn"
+          @click="close"
+        ></mars-icon>
       </div>
-      <mars-icon v-else-if="mergeProps.closeable && mergeProps.closeButton" icon="close-one" :width="18"
-                 class="close-btn__flot" @click="close"></mars-icon>
 
-      <div
-        class="mars-dialog__content"
-        :style="getContentStyle()">
+      <mars-icon
+        v-else-if="mergeProps.closeable && mergeProps.closeButton"
+        icon="close-one"
+        :width="18"
+        class="close-btn__flot"
+        @click="close"
+      ></mars-icon>
+
+      <div v-if="slots.tabs" class="mars-dialog__tabs">
+        <slot name="tabs"></slot>
+      </div>
+      <div class="mars-dialog__content" :style="getContentStyle()">
         <slot></slot>
+      </div>
+
+      <div v-if="slots.sideBar" class="mars-dialog_sideBar" :class="{ siderBarRight: barPosition === 'right' }">
+        <slot name="sideBar"></slot>
       </div>
 
       <div v-if="slots.footer" class="mars-dialog__footer">
         <slot name="footer"></slot>
       </div>
 
-      <div v-for="handle in actualHandles" :key="handle" class="mars-dialog__handle" :class="['handle-' + handle]"
-           @mousedown="resizeStart(handle, $event)"></div>
+      <div
+        v-for="handle in actualHandles"
+        :key="handle"
+        class="mars-dialog__handle"
+        :class="['handle-' + handle]"
+        @mousedown="resizeStart(handle, $event)"
+      ></div>
     </div>
   </teleport>
 </template>
-
 <script lang="ts" setup>
 /**
  * dialog弹框
@@ -76,6 +102,7 @@ interface Props {
   minHeight?: number // 最小高度
   maxWidth?: number // 最大宽度
   maxHeight?: number // 最大高度
+  barPosition?: string // 侧边栏的位置
   zIndex?: number // 层级
 
   icon?: string
@@ -108,7 +135,8 @@ const props = withDefaults(defineProps<Props>(), {
   minHeight: 100,
   maxWidth: window.innerWidth,
   maxHeight: window.innerHeight,
-  zIndex: 900
+  zIndex: 900,
+  barPosition: "left"
 })
 
 const emits = defineEmits(["update:visible", "resize", "move", "closed"])
@@ -146,7 +174,7 @@ const mergeProps = computed(() => {
   newProps.thumbnail.icon = newProps.thumbnail.icon ?? newProps.icon ?? "left-expand"
 
   if (!isAllowValue(newProps.left) && !isAllowValue(newProps.right)) {
-    // left right 都不存在时默认出现在左侧
+    // left right 都不存在时默认出现在右侧
     newProps.right = 10
   }
   if (!isAllowValue(newProps.top) && !isAllowValue(newProps.bottom)) {
@@ -167,7 +195,7 @@ const mergeProps = computed(() => {
 
 const showHeader = computed(() => slots.title || isAllowValue(mergeProps.value.icon) || isAllowValue(mergeProps.value.title))
 const getContentStyle = () => {
-  const style:any = {}
+  const style: any = {}
   style.height = "100%"
   // 头部和脚部各有一个时
   if (showHeader.value) {
@@ -250,7 +278,8 @@ function initDialog() {
   autoNiceHeight()
 }
 onMounted(() => {
-  warpperEle = document.querySelector(mergeProps.value.warpper)
+  // 容器不存在时退回 body，否则后续 initSize/initPosition 读取 offsetWidth 会直接报错
+  warpperEle = document.querySelector(mergeProps.value.warpper) || document.body
   if (isFold.value) {
     initThumbnail()
   } else {
@@ -504,20 +533,21 @@ function emitClose() {
 
 const animationClass = computed(() => {
   if (mergeProps.value.animation === true) {
+    // 注意：这里判断的是各自方向的定位配置，不要拿 left 去判断 top/bottom
     const right = mergeProps.value.right
-    if (right && right >= 0 && right < 100) {
+    if (isAllowValue(right) && right >= 0 && right < 100) {
       return "fadein-right"
     }
     const left = mergeProps.value.left
-    if (left || (left >= 0 && left < 100)) {
+    if (isAllowValue(left)) {
       return "fadein-left"
     }
     const top = mergeProps.value.top
-    if (left || (top >= 0 && top < 100)) {
+    if (isAllowValue(top) && top >= 0 && top < 100) {
       return "fadein-down"
     }
     const bottom = mergeProps.value.bottom
-    if (bottom || (bottom >= 0 && bottom < 100)) {
+    if (isAllowValue(bottom) && bottom >= 0 && bottom < 100) {
       return "fadein-up"
     }
     return "fadein-center"
@@ -547,6 +577,11 @@ function bindMouseDrag(callback) {
   addEvent(document.documentElement, "mouseup", handleUp)
 
   function handleMove(e) {
+    // 拖拽过程中组件若被卸载，dialogRef 已置空，残留监听器继续回调会抛 TypeError，此处自清理
+    if (!dialogRef.value) {
+      handleUp(e)
+      return
+    }
     e.preventDefault()
     e.stopPropagation()
     hasUserSet = true
@@ -587,7 +622,6 @@ function removeEvent(el: any, event: any, handler: (e: any) => void) {
   }
 }
 </script>
-
 <script lang="ts">
 export default {
   name: "mars-dialog"
@@ -599,9 +633,10 @@ export default {
   background-color: var(--mars-base-bg);
   backdrop-filter: blur(10px);
   position: absolute;
-  padding: 5px;
-  border-radius: 5px;
+  padding: var(--mars-space-xs, 4px);
+  border-radius: var(--mars-radius-sm, 4px);
   cursor: pointer;
+  z-index: 999;
 }
 
 .mars-dialog {
@@ -611,21 +646,21 @@ export default {
 
   .mars-drop-bg();
   box-shadow: var(--mars-base-shadow);
-  border-radius: 4px;
   // border-image 与 border-radius 无法共存
   // padding 作为边框，与 mars-dialog__content 背景
   padding: 1px;
   background: var(--mars-base-border);
-  border-radius: 4px;
+  border-radius: var(--mars-radius-md, 6px);
   backdrop-filter: blur(10px);
 
   .mars-dialog__header {
-    height: 44px;
+    height: var(--mars-dialog-header-height, 44px);
     width: 100%;
-    line-height: 44px;
+    line-height: var(--mars-dialog-header-height, 44px);
     overflow: hidden;
     .mars-msg-title();
-    border-radius: 4px 4px 0 0;
+    box-shadow: var(--mars-collapse-title-shadow);
+    border-radius: var(--mars-radius-md, 6px) var(--mars-radius-md, 6px) 0 0;
     padding: 0 5px 0px 10px;
     color: var(--mars-text-color);
     position: relative;
@@ -633,12 +668,13 @@ export default {
     left: 0;
 
     .icon {
-      margin-right: 5px;
+      margin-right: 11px;
       color: #41a8ff;
     }
 
     .title {
-      font-size: 16px;
+      font-size: var(--mars-font-size-lg, 16px);
+      font-weight: var(--mars-font-weight-medium, 500);
     }
 
     .close-btn {
@@ -647,6 +683,10 @@ export default {
       margin-top: 12px;
       color: var(--mars-text-color);
     }
+  }
+
+  .header-shadow_no {
+    box-shadow: none !important;
   }
 
   .close-btn__flot {
@@ -658,14 +698,28 @@ export default {
 
   .mars-dialog__content {
     height: 100%;
-    padding: 14px;
+    padding: var(--mars-space-md, 12px);
     overflow: auto;
-    border-radius: 4px;
+    border-radius: var(--mars-radius-sm, 4px);
     background-color: var(--mars-dropdown-bg);
 
     :deep(.ant-form) {
       padding: 0;
     }
+  }
+
+  .mars-dialog__tabs {
+    width: 100%;
+    height: 32px;
+  }
+
+  .mars-dialog_sideBar {
+    position: absolute;
+    top: 42px;
+  }
+
+  .siderBarRight {
+    right: -32px;
   }
 
   .mars-dialog__footer {

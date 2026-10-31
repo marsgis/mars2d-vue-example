@@ -1,7 +1,7 @@
 import * as mars2d from "mars2d"
 
 function initMap() {
-  // 创建三维地球场景
+  // 创建二维地图场景
   const map = new mars2d.Map("mars2dContainer", {
     zoom: 13,
     center: { lng: 117.240601, lat: 31.827107 },

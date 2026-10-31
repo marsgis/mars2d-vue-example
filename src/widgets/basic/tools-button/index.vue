@@ -8,6 +8,7 @@
  * @copyright mars2d.cn
  * @author 火星渣渣灰 2022-01-10
  */
+import { onUnmounted } from "vue"
 import { useWidget } from "@mars/widgets/common/store/widget"
 import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
 import * as mapWork from "./map"
@@ -30,6 +31,11 @@ mapWork.eventTarget.on("openManageBasemaps", () => {
   } else {
     disable("manage-basemap")
   }
+})
+
+// 控件销毁时清理事件中心，避免重复挂载后回调叠加
+onUnmounted(() => {
+  mapWork.eventTarget.off()
 })
 </script>
 <script lang="ts">

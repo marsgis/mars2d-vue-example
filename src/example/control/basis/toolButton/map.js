@@ -1,6 +1,7 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+const toolButtons = []
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -25,6 +26,7 @@ export function onMounted(mapInstance) {
     }
   })
   map.addControl(toolButton)
+  toolButtons.push(toolButton)
 
   const toolButton2 = new mars2d.control.ToolButton({
     title: "示例按钮good",
@@ -35,6 +37,7 @@ export function onMounted(mapInstance) {
     }
   })
   map.addControl(toolButton2)
+  toolButtons.push(toolButton2)
 
   const toolButton3 = new mars2d.control.ToolButton({
     title: "示例按钮chinese",
@@ -44,6 +47,7 @@ export function onMounted(mapInstance) {
     }
   })
   map.addControl(toolButton3)
+  toolButtons.push(toolButton3)
 }
 
 /**
@@ -51,5 +55,11 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map) {
+    toolButtons.forEach((control) => {
+      map.removeControl(control)
+    })
+  }
+  toolButtons.length = 0
   map = null
 }

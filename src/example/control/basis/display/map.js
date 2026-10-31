@@ -64,7 +64,11 @@ export function bindLegend(val) {
 }
 // 底图切换
 export function bindBaseLayerPicker(val) {
-  map.controls.basemapsTool.container.style.display = val ? "block" : "none"
+  // 本示例的 mapOptions.control 与 config.json 都没有启用 basemaps 控件，取不到时直接跳过
+  const control = map.controls.basemapsTool
+  if (control) {
+    control.container.style.display = val ? "block" : "none"
+  }
 }
 
 // 图层控制

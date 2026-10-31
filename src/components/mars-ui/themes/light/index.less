@@ -1,55 +1,86 @@
 @import url("./zhts.less");
 
 :root[data-theme="light"] {
-  --mars-base-bg: #ffffff; // 整个面板整体背景色
-  --mars-base-shadow: 0px 12px 28px 0px rgba(0, 0, 0, 0.15), 0px 2px 4px 0px rgba(0, 0, 0, 0.1), inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05); // 整个面板整体阴影
-  --mars-base-border: #ffffff; // 边框色
-  --mars-collapse-title-bg: #ffffff; // 折叠面板大标题背景色
-  --mars-collapse-title-shadow: 0px 8px 24px 0px rgba(149, 157, 165, 0.2); // 折叠面板大标题阴影
-  --mars-sub-title-color: rgba(0, 0, 0, 0.88); // 小标题的颜色
-  --mars-extra-text-color: #9e9e9e; // 额外字段颜色
-  // 文本
-  // --mars-text-color: rgba(3, 26, 61, 1); // 文本颜色
-  --mars-text-color: rgba(0, 0, 0, 0.88); // 文本颜色
-  --mars-font-family: HarmonyOS Sans SC;
+  /* ===== 面板/卡片：白底 + 微阴影 + 浅灰描边，与地图底图分层次 ===== */
+  --mars-base-bg: #ffffff;
+  --mars-base-shadow: 0 4px 12px rgba(15, 30, 60, 0.08), 0 1px 3px rgba(15, 30, 60, 0.04);
+  --mars-base-border: rgba(15, 30, 60, 0.08);
 
-  // 控件基本样式
-  --mars-control-bg: #ffffff; // 框的背景色
-  --mars-control-border: rgba(0, 0, 0, 0.15); // 框的边框色
+  /* 折叠面板大标题：主色浅底 + 主色文字，与内容区清晰分离 */
+  --mars-collapse-title-bg: rgba(78, 140, 255, 0.1);
+  --mars-collapse-title-shadow: 0 1px 0 rgba(78, 140, 255, 0.15);
 
-  --mars-poi-border: #ffffff;
-  --mars-collapse-icon: #3385ff;
+  /* ===== 文本三级层级（地图场景要克制，避免喧宾夺主） ===== */
+  --mars-sub-title-color: rgba(15, 30, 60, 0.9);
+  --mars-extra-text-color: rgba(15, 30, 60, 0.45);
+  --mars-text-color: rgba(15, 30, 60, 0.88);
 
-  --mars-control-text: rgba(3, 26, 61, 1); // 框中文本颜色
-  --mars-control-placeholder: rgba(3, 26, 61, 0.25); // 框中默认文本颜色
-  --mars-control-icon: rgba(3, 26, 61, 0.5); // 框后面的小图标颜色
+  /* ===== 字体：全站统一字族、字号与字重层级 ===== */
+  --mars-font-family: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mars-font-size-xs: 12px;
+  --mars-font-size-sm: 13px;
+  --mars-font-size-md: 14px;
+  --mars-font-size-lg: 16px;
+  --mars-font-size-xl: 20px;
+  /* 兼容历史代码中的旧变量名 */
+  --mars-font-size-title: var(--mars-font-size-md);
+  --mars-font-size-text: var(--mars-font-size-xs);
+  --mars-font-weight-regular: 400;
+  --mars-font-weight-medium: 500;
+  --mars-line-height: 1.5;
 
-  --mars-table-odd-bg: transparent; // 奇数表格背景
-  --mars-table-header-bg: rgba(0, 0, 0, 0.02); // 表格表头背景
+  /* ===== 圆角与间距：控件/面板/弹窗三级 ===== */
+  --mars-radius-xs: 2px;
+  --mars-radius-sm: 4px;
+  --mars-radius-md: 6px;
+  --mars-radius-lg: 10px;
+  --mars-space-xs: 4px;
+  --mars-space-sm: 8px;
+  --mars-space-md: 12px;
+  --mars-space-lg: 16px;
+  --mars-space-xl: 24px;
 
-  // 下拉菜单背景色
-  --mars-dropdown-bg: #ffffff; // 整个面板整体背景色
+  /* ===== 控件：浅灰底、细描边、聚焦变主色 ===== */
+  --mars-control-bg: #f5f7fa;
+  --mars-control-border: rgba(15, 30, 60, 0.12);
+  --mars-poi-border: rgba(15, 30, 60, 0.12);
+  --mars-collapse-icon: #4e8cff;
+  --mars-control-height: 32px;
+  --mars-dialog-header-height: 44px;
+  --mars-transition-fast: 0.2s ease;
 
-  // 树控件
-  --mars-tree-text: rgba(3, 26, 61, 0.7); // 文本颜色
-  --mars-tree-hover-text: #031a3d; // 文本颜色
+  --mars-control-text: rgba(15, 30, 60, 0.88);
+  --mars-control-placeholder: rgba(15, 30, 60, 0.32);
+  --mars-control-icon: rgba(15, 30, 60, 0.4);
 
-  // --mars-menu-emb: url(../assets/images/sub-menu-emb.png);
-  --mars-menu-emb: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+  /* ===== 表格/列表：浅灰底斑马纹 ===== */
+  --mars-table-odd-bg: rgba(15, 30, 60, 0.02);
+  --mars-table-header-bg: rgba(15, 30, 60, 0.04);
 
-  // 状态
-  --mars-primary-color: #1677ff;
-  --mars-dangerous-color: #f96868;
-  --mars-close-color: rgba(0, 0, 0, 0.25); // 关闭状态
-  --mars-disable-color: rgba(3, 26, 61, 0.2); // 不可用状态
-  --mars-hover-color: rgba(64, 150, 255, 1); // 移入状态
-  --mars-list-active: rgba(242, 243, 255, 1); // 选中激活列
-  --mars-list-select: rgba(51, 133, 255, 0.15); // 选中菜单
+  /* 下拉菜单：白底 + 阴影 */
+  --mars-dropdown-bg: #ffffff;
 
-  // 组件
-  --mars-msg-title-bg: #ffffff;
-  --mars-msg-title-color: #ffffff;
+  /* 树控件 */
+  --mars-tree-text: rgba(15, 30, 60, 0.75);
+  --mars-tree-hover-text: rgba(15, 30, 60, 0.95);
 
-  --mars-scrollbar-thumb: rgb(173, 173, 173, 0.4);
-  --mars-scrollbar-track: rgb(236, 236, 236);
+  /* 菜单分隔线 */
+  --mars-menu-emb: linear-gradient(0deg, rgba(15, 30, 60, 0) 0%, rgba(15, 30, 60, 0.06) 50%, rgba(15, 30, 60, 0) 100%);
+
+  /* ===== 状态色：主色用 #4e8cff（在地图白底上更明亮点睛） ===== */
+  --mars-primary-color: #4e8cff;
+  --mars-dangerous-color: #ff5c5c;
+  --mars-close-color: rgba(15, 30, 60, 0.3);
+  --mars-disable-color: rgba(15, 30, 60, 0.15);
+  --mars-hover-color: #6ea4ff;
+  --mars-list-active: rgba(78, 140, 255, 0.12);
+  --mars-list-select: rgba(78, 140, 255, 0.06);
+
+  /* ===== 组件 ===== */
+  --mars-msg-title-bg: #f5f7fa;
+  --mars-msg-title-color: rgba(15, 30, 60, 0.88);
+
+  /* 滚动条 */
+  --mars-scrollbar-thumb: rgba(15, 30, 60, 0.2);
+  --mars-scrollbar-track: rgba(15, 30, 60, 0.04);
 }

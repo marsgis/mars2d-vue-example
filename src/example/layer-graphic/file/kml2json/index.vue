@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref } from "vue"
+import { nextTick, ref, onMounted, onBeforeUnmount } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
@@ -44,8 +44,16 @@ expandedKeys.value.push(0)
 
 const layersObj: any = {}
 
-mapWork.treeEvent.on("tree", (event: any) => {
+const onTree = (event: any) => {
   initTree(event)
+}
+
+onMounted(() => {
+  mapWork.treeEvent.on("tree", onTree)
+})
+
+onBeforeUnmount(() => {
+  mapWork.treeEvent.off("tree", onTree)
 })
 
 const checkedChange = (_keys: string[], checkedNodes: any) => {

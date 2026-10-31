@@ -4,9 +4,18 @@
   background-color: var(--mars-control-bg);
 
   // border-image 与 border-radius 无法共存
-  border-radius: 4px;
+  border-radius: var(--mars-radius-sm, 4px);
   // border: 1px solid;
   // border-image: var(--mars-base-border) 1;
+}
+
+//popup 样式
+.mars2d-popup-btn {
+  background: #1995ff;
+  border: none;
+  width: 100px;
+  height: 30px;
+  color: #fff;
 }
 
 .mars2d-popup-edititem {
@@ -20,21 +29,109 @@
   &:active,
   &:focus-visible,
   &:hover {
-    border: 1px solid #1890ff;
+    border: 1px solid var(--mars-primary-color);
   }
+}
+
+.mars2d-popup-edititem::placeholder {
+  color: #000;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.mars2d-template-content div {
+  display: flex;
+  align-items: center;
+}
+
+.mars2d-popup-plot-name,
+.mars2d-popup-plot-content {
+  height: 32px;
+  color: #031a3d;
+  font-size: 14px;
+  font-family: var(--mars-font-family);
+}
+
+.mars2d-popup-btn-custom {
+  width: 100% !important;
+}
+
+.mars2d-template-title {
+  box-shadow:
+    0px 6px 12px -2px rgba(50, 50, 93, 0.15),
+    0px 3px 7px -3px rgba(0, 0, 0, 0.2);
+}
+
+.mars2d-template-content label {
+  display: inline-block;
+  height: 32px;
+  line-height: 32px;
+  background: rgba(3, 26, 61, 0.02);
+  border: 1px solid rgba(3, 26, 61, 0.15);
+  border-right: 0 !important;
+  text-align: center;
+  margin-right: 0;
+  margin-left: 0;
+  font-size: 14px;
+  font-weight: normal;
+  color: #031a3d;
+  font-family: var(--mars-font-family);
+}
+
+.mars-popup-label {
+  border: none !important;
+  background: none !important;
+  color: #031a3d;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.mars2d-template-titile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-radius: 3px 0 0 3px;
+  padding: 0 80px 0 20px;
+  height: 42px;
+  line-height: 42px;
+  font-size: 16px;
+  color: white;
+  background-color: var(--mars-primary-color);
+  border-bottom: 1px solid #eee;
+  overflow: hidden;
+  box-shadow:
+    0px 6px 12px -2px rgba(50, 50, 93, 0.15),
+    0px 3px 7px -3px rgba(0, 0, 0, 0.2);
+
+  a {
+    text-decoration: none;
+    font-size: 16px;
+  }
+}
+
+.leaflet-popup-content-wrapper {
+  box-shadow:
+    0px 12px 28px 0px rgba(0, 0, 0, 0.2),
+    0px 2px 4px 0px rgba(0, 0, 0, 0.1),
+    inset 0px 0px 0px 1px rgba(255, 255, 255, 0.05);
+}
+
+.leaflet-popup-close-button {
+  color: #fff !important;
 }
 
 // 提示组件标题样式
 .mars-msg-title {
-  height: 41px;
-  line-height: 41px !important;
-  padding-left: 13px;
+  height: var(--mars-dialog-header-height, 44px);
+  line-height: var(--mars-dialog-header-height, 44px) !important;
+  padding-left: var(--mars-space-md, 12px);
   color: var(--mars-control-text) !important;
   background: var(--mars-msg-title-bg);
   font-family: var(--mars-font-family);
-  font-size: 16px !important;
-  font-weight: normal !important;
-  border-radius: 4px 4px 0 0 !important;
+  font-size: var(--mars-font-size-lg, 16px) !important;
+  font-weight: var(--mars-font-weight-regular, 400) !important;
+  border-radius: var(--mars-radius-md, 6px) var(--mars-radius-md, 6px) 0 0 !important;
   box-shadow: var(--mars-base-shadow);
 }
 
@@ -43,7 +140,7 @@
   box-shadow:
     0px 6px 12px -2px rgba(50, 50, 93, 0.05),
     0px 3px 7px -3px rgba(0, 0, 0, 0.1);
-  border-radius: 2px;
+  border-radius: var(--mars-radius-sm, 4px);
   background-color: var(--mars-dropdown-bg);
 }
 
@@ -86,7 +183,7 @@
       line-height: normal;
     }
 
-    .ant-collapse-expand-icon{
+    .ant-collapse-expand-icon {
       color: var(--mars-collapse-icon);
     }
   }
@@ -118,7 +215,7 @@
 
   // 选中按钮
   .ant-radio-button-checked {
-    background-color: #1890ff;
+    background-color: var(--mars-primary-color);
   }
 
   // 表单元素
@@ -137,7 +234,7 @@
     color: var(--mars-control-text);
 
     .ant-form-item-label > label {
-      font-size: 14px;
+      font-size: var(--mars-font-size-title);
       font-family: var(--mars-font-family);
       color: var(--mars-sub-title-color);
     }
@@ -233,11 +330,11 @@
 
     .ant-radio-checked {
       .ant-radio-inner {
-        border-color: #1677ff;
+        border-color: var(--mars-primary-color);
         box-shadow: 0px 0px 0px 2px rgba(5, 145, 255, 0.1);
 
         &::after {
-          background-color: #1677ff;
+          background-color: var(--mars-primary-color);
         }
       }
     }
@@ -249,10 +346,10 @@
 
       .ant-radio-checked {
         .ant-radio-inner {
-          border-color: #1677ff;
+          border-color: var(--mars-primary-color);
 
           &::after {
-            background-color: #4096ff;
+            background-color: var(--mars-hover-color);
           }
         }
       }
@@ -265,7 +362,7 @@
     color: var(--mars-control-text);
     background: none !important;
     font-family: var(--mars-font-family);
-    font-size: 12px;
+    font-size: var(--mars-font-size-text);
     font-weight: 500;
 
     border-start-end-radius: 0 !important;
@@ -287,6 +384,7 @@
   .ant-table {
     .ant-table-header {
       border-radius: 0;
+
       .ant-table-thead {
         background-color: var(--mars-table-header-bg);
       }
@@ -294,7 +392,7 @@
   }
 
   .ant-table-tbody > tr.ant-table-placeholder > td {
-    background: #141414;
+    background: var(--mars-control-bg);
   }
 
   .ant-table-row:hover > td,
@@ -304,7 +402,7 @@
 
   .ant-table-cell {
     font-family: var(--mars-font-family);
-    font-size: 14px;
+    font-size: var(--mars-font-size-title);
     font-weight: normal;
     color: var(--mars-control-text);
     border: 0.5px solid var(--mars-control-border) !important;
@@ -364,7 +462,7 @@
       height: 32px;
       color: var(--mars-control-text);
       background-color: var(--mars-control-bg);
-      font-size: 12px !important;
+      font-size: var(--mars-font-size-text) !important;
       border-radius: 0;
       border: 1px solid;
       border-color: var(--mars-control-border);
@@ -420,7 +518,7 @@
       .ant-pagination-item-link {
         color: var(--mars-sub-title-color);
         font-family: var(--mars-font-family);
-        font-size: 12px;
+        font-size: var(--mars-font-size-text);
         font-weight: normal;
       }
     }
@@ -457,7 +555,7 @@
 
         &:hover,
         &:focus {
-          border-color: #4db3ff !important;
+          border-color: var(--mars-primary-color) !important;
         }
       }
 
@@ -528,7 +626,7 @@
     }
 
     .ant-list-item {
-      border-bottom: 1px solid #303030;
+      border-bottom: 1px solid var(--mars-control-border);
     }
 
     .ant-list-item-meta-description {
@@ -571,11 +669,11 @@
 
     &.ant-tabs-card {
       .ant-tabs-nav .ant-tabs-tab-active {
-        background: #20a0ff33;
+        background: var(--mars-list-active);
       }
 
       .ant-tabs-tab {
-        background: #20a0ff33 !important;
+        background: var(--mars-list-active) !important;
         border-color: var(--mars-control-border);
       }
     }
@@ -656,7 +754,7 @@
 
 // 无头部自定义 table 样式
 .mars-noHeader-table {
-  :deep(.ant-table) {
+  .ant-table {
     margin-top: 10px;
 
     .ant-table-tbody {
@@ -664,13 +762,17 @@
         display: flex;
         width: 300px;
         border-radius: 2px;
-        border: 1px solid rgba(234, 242, 255, 0.1);
-        background: rgba(234, 242, 255, 0.2);
+        border: 1px solid rgba(51, 51, 51, 0.1);
+        background: #fff;
         margin-bottom: 10px;
         cursor: pointer;
 
         &:hover {
-          background: rgba(234, 242, 255, 0.4);
+          box-shadow: 0px 5px 15px 0px rgba(51, 51, 51, 0.15);
+
+          .ant-table-cell {
+            color: #031a3d;
+          }
         }
       }
 
@@ -690,6 +792,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 216px;
+        color: rgba(3, 26, 61, 0.7);
 
         &:last-child {
           position: absolute;

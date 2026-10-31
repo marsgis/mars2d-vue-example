@@ -1,5 +1,5 @@
 <template>
-  <PannelComponent v-if="loaded" @updateMap="onChildMounted"  @vue:before-mount="onChildMounted" @vue:unmounted="onChildUnmounted" />
+  <PannelComponent v-if="loaded" @vue:before-mount="onChildMounted" @vue:unmounted="onChildUnmounted" />
 </template>
 <script lang="ts" setup>
 /**
@@ -16,9 +16,8 @@ let componentName: string | null = ""
 
 let PannelComponent: any
 
+// 示例面板不是 widget，调用方（如 useWidget）拿到 null 即走非 widget 分支
 provide("getCurrentWidget", () => {
-  console.log(`注意：${componentName}为非widget组件，通过无法获取到currentWidget`)
-
   return null
 })
 

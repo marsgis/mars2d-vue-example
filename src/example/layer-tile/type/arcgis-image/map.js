@@ -1,6 +1,7 @@
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let tileLayer // 叠加的图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = function (option) {
@@ -30,11 +31,11 @@ export function onMounted(mapInstance) {
   map.setView([37.75, -122.23], 10)
 
   // 添加底图 [需要引用esri-leaflet插件]
-  const layer = new mars2d.layer.ArcGisImageLayer({
+  tileLayer = new mars2d.layer.ArcGisImageLayer({
     type: "arcgis_image",
     url: "https://landsat.arcgis.com/arcgis/rest/services/Landsat/PS/ImageServer"
   })
-  map.addLayer(layer)
+  map.addLayer(tileLayer)
   globalNotify(
     "已知问题提示",
     `如图层未显示或服务URL访问超时，是因为目前国家测绘主管部门对未经审核批准的国外地图服务做了屏蔽封锁。
@@ -47,5 +48,9 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map && tileLayer) {
+    map.removeLayer(tileLayer)
+    tileLayer = null
+  }
   map = null
 }

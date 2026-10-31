@@ -10,9 +10,7 @@ export function onMounted(mapInstance) {
   // 关闭tooltip
   map.closeSmallTooltip()
 
-  map.on(mars2d.EventType.mousemove, (event) => {
-    map.openSmallTooltip(event.containerPoint, "可以放任意html信息")
-  })
+  map.on(mars2d.EventType.mousemove, onMapMouseMove)
 
   // 启用/禁用
   // $("#chkEnabled").change(function () {
@@ -22,11 +20,19 @@ export function onMounted(mapInstance) {
   // })
 }
 
+function onMapMouseMove(event) {
+  map.openSmallTooltip(event.containerPoint, "可以放任意html信息")
+}
+
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map) {
+    map.off(mars2d.EventType.mousemove, onMapMouseMove)
+    map.closeSmallTooltip()
+  }
   map = null
 }
 

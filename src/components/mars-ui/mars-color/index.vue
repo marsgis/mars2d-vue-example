@@ -5,7 +5,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, ref, watchEffect } from "vue"
 
 export default defineComponent({
   name: "mars-color",
@@ -18,8 +18,13 @@ export default defineComponent({
   },
   emits: ["update:value", "change"],
   setup(props, context) {
-    const color = props.value
+    // 内部值必须是 ref 才能支撑 v-model 双向绑定；外部 value 变化时同步刷新
+    const color = ref(props.value)
+    watchEffect(() => {
+      color.value = props.value
+    })
     const changeColor = (e: any) => {
+      context.emit("update:value", e.target.value)
       context.emit("change", e.target.value)
     }
     return {

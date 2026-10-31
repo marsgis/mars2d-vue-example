@@ -12,6 +12,8 @@ export const mapOptions = {
 
 export const eventTarget = new mars2d.BaseClass()
 
+let timeTik = null // popup 内时间局部刷新的定时器
+
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance
@@ -20,19 +22,26 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  map.on(mars2d.EventType.popupopen, function (event) {
-    const container = event.popup._container // popup对应的DOM
-    if (container.querySelector(".leaflet-popup-content").childElementCount) {
-      container.querySelector(".leaflet-popup-close-button").style.setProperty("color", "#6c6c6c", "important") // 关闭按钮颜色
-    }
-    console.log("打开了popup(全局监听)", event)
-  })
-  map.on(mars2d.EventType.popupclose, function (event) {
-    const container = event.popup._container // popup对应的DOM
-    console.log("关闭了popup(全局监听)", event)
-  })
+  map.on(mars2d.EventType.popupopen, onPopupOpen)
+  map.on(mars2d.EventType.popupclose, onPopupClose)
+
+  // popup 内容里的内联 javascript: 调用运行在全局作用域，需把入口挂到 window
+  window.showXQ = showXQ
 
   bindLayerDemo()
+}
+
+function onPopupOpen(event) {
+  const container = event.popup._container // popup对应的DOM
+  if (container.querySelector(".leaflet-popup-content").childElementCount) {
+    container.querySelector(".leaflet-popup-close-button").style.setProperty("color", "#6c6c6c", "important") // 关闭按钮颜色
+  }
+  console.log("打开了popup(全局监听)", event)
+}
+
+function onPopupClose(event) {
+  const container = event.popup._container // popup对应的DOM
+  console.log("关闭了popup(全局监听)", event)
 }
 
 /**
@@ -40,6 +49,16 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (timeTik) {
+    clearInterval(timeTik)
+    timeTik = null
+  }
+  if (map) {
+    map.off(mars2d.EventType.popupopen, onPopupOpen)
+    map.off(mars2d.EventType.popupclose, onPopupClose)
+    map.closePopup()
+  }
+  delete window.showXQ
   map = null
   removeDemoLayer()
 }
@@ -186,8 +205,6 @@ export function bindGraphicDemo2() {
     }
   })
   graphicLayer.addGraphic(graphic)
-
-  let timeTik
 
   // 刷新局部DOM,不影响popup面板的其他控件操作
   graphic.on(mars2d.EventType.popupopen, function (event) {

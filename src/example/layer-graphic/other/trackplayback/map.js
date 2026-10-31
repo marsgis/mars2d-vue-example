@@ -27,7 +27,7 @@ export function onMounted(mapInstance) {
 }
 
 function initTtrackplayback(data) {
-  // L.trackplayback代码见 lib/mars2d/thirdParty/trackplayback/leaflet.trackplayback.js
+  // L.trackplayback代码见 lib/leaflet/thirdParty/trackplayback/leaflet.trackplayback.js
   trackplayback = L.trackplayback(data, map, {
     targetOptions: {
       useImg: true,

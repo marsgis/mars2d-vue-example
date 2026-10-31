@@ -13,7 +13,7 @@
       <a-space>
         <a-upload :multiple="false" name="file" accept=".xls,.xlsx,.csv" :file-list="fileList" :showUploadList="false"
           :supportServerRender="true" :beforeUpload="() => false" @change="onClickImpFile">
-          <mars-button class="open-file-btn" title="打开GeoJSON">
+          <mars-button class="open-file-btn" title="打开本地 CSV / Excel 文件">
             打开文件
           </mars-button>
         </a-upload>

@@ -23,16 +23,20 @@ export default defineComponent({
 <style lang="less" scoped>
 // 按钮
 .mars-button {
-  height: 32px;
+  height: var(--mars-control-height, 32px);
   font-family: var(--mars-font-family);
-  font-size: 14px;
+  font-size: var(--mars-font-size-md, 14px);
+  font-weight: var(--mars-font-weight-medium, 500);
   background: var(--mars-primary-color);
   border: none;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: var(--mars-space-md, 12px);
+  padding-right: var(--mars-space-md, 12px);
   color: #ffffff;
-  border-radius: 2px;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  border-radius: var(--mars-radius-sm, 4px);
+  transition:
+    background-color var(--mars-transition-fast, 0.2s ease),
+    border-color var(--mars-transition-fast, 0.2s ease),
+    color var(--mars-transition-fast, 0.2s ease);
 
   :deep(.mars-icon) {
     font-size: 18px !important;

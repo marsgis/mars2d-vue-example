@@ -23,6 +23,21 @@ export function onMounted(mapInstance) {
  */
 
 export function onUnmounted() {
+  if (map2d) {
+    unbind2dEvent()
+  }
+  if (map3d) {
+    map3d.off(cameraChangedType, camera_moveEndHandler)
+    map3d.destroy()
+    map3d = null
+  }
+
+  // 移除二三维联动动态创建的 3D 容器
+  const mapDiv = document.getElementById("centerDiv3D")
+  if (mapDiv) {
+    mapDiv.remove()
+  }
+
   map2d = null
 }
 
@@ -113,8 +128,11 @@ function unbind3dEvent() {
   map2d.off("zoomend", _map_extentChangeHandler, this)
 }
 
+let cameraChangedType
+
 function bind3dEvent() {
-  map3d.on(mars3d.EventType.cameraChanged, camera_moveEndHandler, this)
+  cameraChangedType = mars3d.EventType.cameraChanged
+  map3d.on(cameraChangedType, camera_moveEndHandler)
 }
 
 function camera_moveEndHandler() {

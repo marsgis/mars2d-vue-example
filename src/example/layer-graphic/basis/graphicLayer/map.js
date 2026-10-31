@@ -45,6 +45,11 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (map && graphicLayer) {
+    // 图层上的 click、popup、右键菜单都挂在图层上，移除图层即可一并释放
+    map.removeLayer(graphicLayer)
+    graphicLayer = null
+  }
   map = null
 }
 
@@ -356,7 +361,8 @@ function initLayerManager() {
 // 绑定popup
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    const attr = event?.attr || {}
+    // 拷贝一份属性再追加展示字段，避免把弹窗文案写回 graphic.attr 污染业务数据
+    const attr = { ...(event?.attr || {}) }
     attr["类型"] = event.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
