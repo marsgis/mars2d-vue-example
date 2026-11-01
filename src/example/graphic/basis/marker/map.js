@@ -4,6 +4,10 @@ export let map // mars2d.Map二维地图对象
 const L = mars2d.L
 export let graphicLayer
 
+export const mapOptions = {
+  // preferCanvas: true
+}
+
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 

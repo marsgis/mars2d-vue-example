@@ -114,6 +114,3 @@ window.configLibs = {
   geotiff: ["geotiff/geotiff.js", "geotiff/plotty.js"],
   xlsx: ["xlsx/xlsx.full.min.js"]
 }
-
-
-

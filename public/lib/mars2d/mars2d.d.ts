@@ -2,7 +2,7 @@
 /**
  * Mars2D地理信息平台  mars2d 免费公开版
  * 版本信息：v3.5.0
- * 编译日期：2026-10-31 17:23 HX
+ * 编译日期：2026-11-01 17:14 HX
  * 版权所有：Copyright by http://mars2d.cn
  *
  * Apache-2.0 WITH Mars2D Additional Terms | https://mars2d.cn
@@ -1430,6 +1430,8 @@ declare class MarsArray {
     contains(key: string | number): any | boolean;
     /**
      * 将提供的键与提供的值关联起来。如果密钥已经存在, 存在时，它将被新值覆盖。
+     *
+     * 注意：覆盖已有键时，旧元素会先被移除，新值追加到末尾——即 {@link MarsArray#values} 的顺序会变化。
      * @param key - 主键
      * @param value - 与提供的键相关联的值
      */
@@ -1458,10 +1460,22 @@ declare class MarsArray {
     getListByAttr(attrValue: string | number, attrName?: string, exObj?: string): any | any[];
     /**
      * 从集合中移除键值对
+     *
+     * 注意：单次移除是 O(n)——按值定位（indexOf）后还要搬移数组元素。
+     * 需要一次移除多个主键时请用 {@link MarsArray#removeMany}，逐个调用会退化成 O(n²)。
      * @param key - 主键
      * @returns 是否移除
      */
     remove(key: string | number): any | boolean;
+    /**
+     * 批量从集合中移除键值对。
+     *
+     * 一次性遍历数组完成整理（先按主键删哈希，再一次压实数组），
+     * 避免逐个 remove 时反复 indexOf + splice 造成 O(n²)；保留剩余元素的原有顺序。
+     * @param keys - 主键数组
+     * @returns 实际移除的数量
+     */
+    removeMany(keys: (String | number)[]): any | number;
     /**
      * 遍历每一个对象并将其作为参数传递给回调函数
      * @param method - 回调方法
@@ -7057,6 +7071,19 @@ declare namespace GraphicLayer {
 
 /**
  * 矢量数据图层
+ *
+ * 注意：本图层创建的矢量默认使用地图的渲染器（未指定时是 SVG，每个矢量对应一个 DOM 节点）。
+ * 面/线要素数量上千后平移与缩放会明显变慢，实测数据见 {@link Map} 构造参数 `renderer` 的说明。
+ * 大数据量时给地图或本图层的 graphicOptions 传入同一个 Canvas 渲染器实例：
+ * @example
+ * // 方式一：整张地图统一使用 Canvas 渲染器
+ * const map = new mars2d.Map("mars3dContainer", { renderer: L.canvas() });
+ *
+ * // 方式二：只让本图层的矢量走 Canvas（同一实例可被该图层所有矢量共享）
+ * const canvasRenderer = L.canvas({ padding: 0.5 });
+ * const layer = new mars2d.layer.GraphicLayer({ graphicOptions: { renderer: canvasRenderer } });
+ * map.addLayer(layer);
+ * layer.loadGeoJSON(geojson);
  * @param [options] - 参数对象，包括以下：
  * @param [options.hasEdit = false] - 是否自动激活编辑（true时，单击后自动激活编辑）
  * @param [options.isAutoEditing = true] - 完成标绘时是否自动启动编辑(需要hasEdit:true时)
@@ -7085,6 +7112,7 @@ declare namespace GraphicLayer {
  * @param [options.show = true] - 图层是否显示
  * @param [options.zIndex] - 瓦片层的显式zIndex
  * @param [options.pane = 'overlayPane'] - 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
+ * @param [options.graphicOptions] - 默认的 graphic 构造参数，会被合并进 addGraphic/loadGeoJSON 的每一项（可统一指定 renderer、pane、popup 等），具体见各 {@link GraphicType} 矢量数据的构造参数。
  */
 declare class GraphicLayer extends L.FeatureGroup {
     constructor(options?: {
@@ -7118,6 +7146,7 @@ declare class GraphicLayer extends L.FeatureGroup {
         show?: boolean;
         zIndex?: number;
         pane?: string;
+        graphicOptions?: any;
     });
     /**
      * 获取图层矩形边界
@@ -10415,6 +10444,10 @@ declare namespace Map {
      * @property [crs = "EPSG:3857"] - 地图坐标系。如果你不确定坐标系这是什么意思，请不要改变它
      * @property [chinaCRS = ChinaCRS.WGS84] - 标识当前地图的国内坐标系（用于部分图层内对比判断来自动纠偏或加偏）
      * @property [renderer] - 在地图上绘制矢量图层的默认方法，使用 L.SVG 或 L.Canvas 默认情况下取决于浏览器支持。
+     *   注意：默认的 SVG 渲染器会为每个矢量生成一个 DOM 节点，要素数量上千后平移/缩放开销会迅速上升。
+     *   实测（1920×1080、本机无头 Edge、发布包 mars2d.js、真实鼠标拖拽）：2000 个面要素约 50fps；5000 个面要素降到约 4fps；
+     *   20000 个面要素首屏 >10 分钟未完成；同样 20000 个面改用 `renderer: L.canvas()` 后首屏约 0.3s、拖拽约 59fps。
+     *   数据量较大时建议在构造地图时传入 `renderer: L.canvas()`，或按图层指定 renderer，也可以改用 CanvasMarkerLayer / ClusterLayer 等自带 Canvas 或聚合能力的图层。
      * @property [closePopupOnClick = true] - 如果你不想让Popup弹窗在用户点击地图时关闭，那就把它设为false
      * @property [zoomSnap = 1] - 强制地图的缩放级别始终为此的倍数，特别是在 fitBounds() 缩放或缩小后。默认情况下，缩放级别将捕捉到最接近的整数; 较低的值（例如0.5 or 0.1）允许更大的粒度。数值0意味着缩放级别将不会被fitBounds放大或缩小。 可以设置小于1（例如0.5）的值允许更大的展示粒度。
      * @property [zoomDelta = 1] - 控制当使用了 zoomIn()、 zoomOut()以及按+ -键或者使用Zoom控件之后，地图的缩放级别的改变的级别值
@@ -10797,11 +10830,24 @@ declare class Map extends L.Map {
     addLayer(layer: any, addToControl?: boolean): any | L.Layer;
     /**
      * 从地图上移除一个指定的图层
+     *
+     * 注意：每移除一个图层都会在内部图层列表里做一次 O(n) 的按值删除。
+     * 需要一次移除多个图层时请用 {@link Map#removeLayers}，循环调用在大量图层场景会退化成 O(n²)。
      * @param layer - 图层
      * @param [removeFromControl = false] - 当存在layers控件时，是否从图层管理控件移除
      * @returns 当前对象本身，可以链式调用
      */
     removeLayer(layer: L.Layer | any, removeFromControl?: boolean): any | Map;
+    /**
+     * 批量从地图上移除图层。
+     *
+     * 与逐个调用 {@link Map#removeLayer} 的结果一致（同样按图层触发 removeLayer 事件、同步图层管理控件），
+     * 区别是内部图层列表只做一次批量清理，避免大批量移除时的 O(n²)。
+     * @param layers - 图层数组（null/undefined 元素会被忽略）
+     * @param [removeFromControl = false] - 当存在layers控件时，是否从图层管理控件移除
+     * @returns 当前对象本身，可以链式调用
+     */
+    removeLayers(layers: L.Layer[], removeFromControl?: boolean): any | Map;
     /**
      * 获取图层ID值，按顺序取值。
      * 没有id的图层，会自动使用本方法进行id赋值处理
@@ -13775,6 +13821,13 @@ declare namespace PointTrans {
      * @returns EPSG值
      */
     function getCGCS2000EPSGByX(x: number): any | string | undefined;
+    /**
+     * 获取（并缓存）proj4 转换器
+     * @param fromProjParams - 原始坐标系
+     * @param toProjParams - 目标坐标系
+     * @returns proj4 转换器
+     */
+    function getProj4Converter(fromProjParams: string | any, toProjParams: string | any): any | any;
     /**
      * 使用proj4转换坐标（支持任意坐标系），
      * 坐标系 可以在 {@link http://epsg.io }进行查询，已经内置支持 EPSG:4326、EPSG:3857、EPSG:4490、EPSG:4491至4554

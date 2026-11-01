@@ -6,7 +6,9 @@ let geoJsonLayer
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 11,
-  center: { lng: 117.287917, lat: 31.904563 }
+  center: { lng: 117.287917, lat: 31.904563 },
+  // 线面矢量改用 Canvas 渲染器：要素较多时比默认 SVG 快得多（见 mars2d 中 Map 构造参数 renderer 的说明）
+  preferCanvas: true
 }
 
 // 事件对象，用于抛出事件给vue

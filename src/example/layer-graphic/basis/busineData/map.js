@@ -7,7 +7,9 @@ export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 12,
-  center: { lng: 118.759117, lat: 32.0977 }
+  center: { lng: 118.759117, lat: 32.0977 },
+  // 线面矢量改用 Canvas 渲染器：要素较多时比默认 SVG 快得多（见 mars2d 中 Map 构造参数 renderer 的说明）
+  preferCanvas: true
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数

@@ -3,6 +3,7 @@ import type { ConfigEnv } from "vite"
 import { defineConfig, loadEnv } from "vite" // 帮手函数，这样不用 jsdoc 注解也可以获取类型提示
 import vue from "@vitejs/plugin-vue"
 import examplePlugin from "./build/vite-example-plugin"
+import cleanDistPlugin from "./build/vite-clean-dist-plugin"
 import copyPlugin from "rollup-plugin-copy"
 import monacoEditorPlugin from "vite-plugin-monaco-editor"
 import eslintPlugin from "vite-plugin-eslint"
@@ -153,7 +154,9 @@ export default ({ mode }: ConfigEnv) => {
             }
           ]
         })
-      }
+      },
+      // 发布产物清理：删除 public/ 复制进来的调试/源码副本（必须在 copyPlugin 之后注册）
+      cleanDistPlugin()
     ]
   })
 }
