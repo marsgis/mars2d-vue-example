@@ -11,7 +11,7 @@ Apache ECharts 商业级数据可视化图表库
 - 水球插件地址：https://github.com/ecomfe/echarts-liquidfill
 
 ## 本地版本信息
-echarts-5.2.1（内嵌组件版本标识为 5.2.2）
+echarts-6.1.0（取自 npm `echarts@6.1.0` 的官方 dist 构建，2026-11-03 替换 5.2.1 静态副本）
 
 ## 本地文件说明
 同目录 `dark.js` 为 ECharts 官方主题（dark theme），随 ECharts 按 Apache-2.0 分发。
@@ -22,11 +22,11 @@ echarts-5.2.1（内嵌组件版本标识为 5.2.2）
 > 著作权归上游权利人所有。请在复制、再分发时保留本声明及同目录许可证文件。
 
 - **组件名称**：Apache ECharts（dark.js 为官方 ECharts 主题）
-- **本地版本**：5.2.1（本地 echarts.js / echarts.min.js 内版本标识均为 5.2.1；文件中出现的 5.2.2 为内嵌组件版本）
+- **本地版本**：6.1.0（本地 echarts.js / echarts.min.js 均为 npm `echarts@6.1.0` 官方 dist 构建）
 - **上游地址**：https://echarts.apache.org / https://github.com/apache/echarts
 - **版权归属**：Copyright Apache Software Foundation / 百度等 ECharts 贡献者
 - **许可证**：Apache-2.0（许可证全文见同目录 LICENSE、NOTICE-echarts）
 
-已在 `echarts.min.js`、`dark.js` 文件首行补版权 banner 注释。
+`dark.js` 文件首行保留版权 banner 注释；`echarts.js` / `echarts.min.js` 使用上游官方构建原文。
 
 同目录 `dark.js` 为 ECharts 官方主题（dark theme），随 ECharts 按 Apache-2.0 分发。上游 Apache NOTICE 文件见同目录 `NOTICE-echarts`。

@@ -65,8 +65,6 @@
  */
 import { computed, onMounted, onUnmounted, ref, useSlots, nextTick } from "vue"
 
-const globalConfig: Record<string, any> = {}
-
 interface Position {
   left?: number | string // 定位 left值
   right?: number | string // 定位right值
@@ -144,18 +142,10 @@ const emits = defineEmits(["update:visible", "resize", "move", "closed"])
 const slots = useSlots()
 
 const mergeProps = computed(() => {
-  const newProps: Record<string, any> = {}
-
-  for (const k in props) {
-    if (props[k] === undefined) {
-      newProps[k] = globalConfig[k]
-    } else {
-      newProps[k] = props[k]
-    }
-  }
+  const newProps: Record<string, any> = { ...props }
 
   if (!props.warpper) {
-    newProps.warpper = globalConfig.warpper || "#mars-main-view"
+    newProps.warpper = "#mars-main-view"
   }
 
   if (newProps.position) {
@@ -224,7 +214,7 @@ const getContentStyle = () => {
 
 const dialogRef = ref()
 const thumbnailRef = ref()
-let warpperEle = null
+let warpperEle: HTMLElement | null = null
 
 let observeDialog = false // 控制是否自动监听
 let hasUserSet = false // 控制是否自动监听
@@ -244,7 +234,7 @@ defineExpose({
   }
 })
 
-function toogleFold(status) {
+function toogleFold(status: boolean) {
   isFold.value = status
   nextTick(() => {
     if (status) {
@@ -279,7 +269,7 @@ function initDialog() {
 }
 onMounted(() => {
   // 容器不存在时退回 body，否则后续 initSize/initPosition 读取 offsetWidth 会直接报错
-  warpperEle = document.querySelector(mergeProps.value.warpper) || document.body
+  warpperEle = document.querySelector<HTMLElement>(mergeProps.value.warpper) || document.body
   if (isFold.value) {
     initThumbnail()
   } else {
@@ -308,6 +298,9 @@ function initPosition() {
 
 // 初始化大小
 function initSize() {
+  if (!warpperEle) {
+    return
+  }
   let w = null
   let h = null
 
@@ -378,7 +371,10 @@ function resizeStart(handle: string, event: any) {
 
   bindMouseDrag(handleMove)
 
-  function handleMove(e: any) {
+  function handleMove(e: MouseEvent) {
+    if (!warpperEle) {
+      return
+    }
     if (handleName.indexOf("l") !== -1) {
       const L = x - e.clientX
       if (e.clientX > 0 && e.clientX < warpperEle.offsetWidth) {
@@ -408,7 +404,10 @@ function resizeStart(handle: string, event: any) {
   }
 }
 
-function setSize(attr: "width" | "height", v) {
+function setSize(attr: "width" | "height", v: any) {
+  if (!warpperEle) {
+    return
+  }
   if (isAllowValue(v)) {
     let value = v
     switch (attr) {
@@ -431,7 +430,10 @@ function setSize(attr: "width" | "height", v) {
   }
 }
 
-function setPosition(attr: "left" | "top", v) {
+function setPosition(attr: "left" | "top", v: any) {
+  if (!warpperEle) {
+    return
+  }
   if (isAllowValue(v)) {
     let value = v
     const pb = dialogRef.value
@@ -452,7 +454,7 @@ function setPosition(attr: "left" | "top", v) {
   }
 }
 
-let domObserver
+let domObserver: MutationObserver | null = null
 onMounted(() => {
   addEvent(window, "resize", resize)
 
@@ -469,12 +471,12 @@ onMounted(() => {
 })
 onUnmounted(() => {
   removeEvent(window, "resize", resize)
-  domObserver.disconnect()
+  domObserver?.disconnect()
 })
 
 // 处理高度超出的情况
 function autoNiceHeight() {
-  if (observeDialog) {
+  if (observeDialog && warpperEle) {
     const isExceed = warpperEle.offsetHeight < dialogRef.value.offsetHeight + dialogRef.value.offsetTop
     if (isExceed) {
       const niceHeight = warpperEle.offsetHeight - dialogRef.value.offsetTop
@@ -499,7 +501,7 @@ function resize() {
 }
 
 // 处理百分比
-function isPercentage(value) {
+function isPercentage(value: any) {
   if (typeof value === "string") {
     return value.search("%") !== -1
   } else {
@@ -539,7 +541,8 @@ const animationClass = computed(() => {
       return "fadein-right"
     }
     const left = mergeProps.value.left
-    if (isAllowValue(left)) {
+    // NaN 视为无效值，回退到 fadein-center 兜底
+    if (isAllowValue(left) && !Number.isNaN(left as number)) {
       return "fadein-left"
     }
     const top = mergeProps.value.top
@@ -567,16 +570,16 @@ function autoUnit(value: number | string) {
   }
 }
 
-function isAllowValue(value) {
+function isAllowValue(value: any) {
   return value !== null && value !== undefined
 }
 
 // 事件绑定处理
-function bindMouseDrag(callback) {
+function bindMouseDrag(callback: (e: MouseEvent) => void) {
   addEvent(document.documentElement, "mousemove", handleMove)
   addEvent(document.documentElement, "mouseup", handleUp)
 
-  function handleMove(e) {
+  function handleMove(e: MouseEvent) {
     // 拖拽过程中组件若被卸载，dialogRef 已置空，残留监听器继续回调会抛 TypeError，此处自清理
     if (!dialogRef.value) {
       handleUp(e)

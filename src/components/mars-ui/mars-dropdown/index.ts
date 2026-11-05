@@ -18,7 +18,7 @@ const MarsDropdown = defineComponent({
 })
 
 export function install(app: App): App {
-  app.component(MarsDropdown.name, MarsDropdown)
+  app.component(MarsDropdown.name!, MarsDropdown)
   return app
 }
 export default MarsDropdown

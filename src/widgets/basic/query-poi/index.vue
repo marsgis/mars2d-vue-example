@@ -40,7 +40,7 @@
           </ul>
           <div class="query-site__page">
             <p class="query-site-allcount">共{{ allCount }}条结果</p>
-            <a-pagination @change="(page) => querySiteList(searchTxt, page)" size="small" :total="allCount" pageSize="6"
+            <a-pagination @change="(page: number) => querySiteList(searchTxt, page)" size="small" :total="allCount" pageSize="6"
                           :simple="true" />
           </div>
         </template>
@@ -74,12 +74,14 @@ const siteSource = ref<any[]>([])
 const allCount = ref(0)
 const url = "//www.amap.com/detail/"
 
-let timer
+let timer: ReturnType<typeof setTimeout> | null = null
 
 const startCloseSearch = () => {
   timer = setTimeout(() => {
     searchListShow.value = false
-    clearTimeout(timer)
+    if (timer) {
+      clearTimeout(timer)
+    }
     timer = null
   }, 500) // 时间太短会导致点击失败
 }
@@ -165,7 +167,7 @@ const selectPoint = async (value: any) => {
 //   simple: true
 // }
 
-function clickVoid(e) {
+function clickVoid(e: any) {
   if (e.target.dataset?.event !== "prevent" && e.target.tagName !== "INPUT") {
     e.preventDefault()
   }

@@ -11,7 +11,8 @@
             <button type="button" class="side1-item" :class="{ active: activeFirstId === item.id }"
               :aria-expanded="expandedFirstId === item.id" :aria-controls="'sidebar-' + item.id"
               @click="toggleFirst(item)">
-              <i class="fa" :class="item.icon" aria-hidden="true"></i>
+              <mars-icon class="cat-icon" :icon="categoryIcon(item.icon)" width="15" color="currentColor"
+                aria-hidden="true"></mars-icon>
               <span class="name">{{ item.name }}</span>
               <span class="count">{{ item.count }}</span>
               <mars-icon class="chevron" :icon="expandedFirstId === item.id ? 'down' : 'right'" width="16"></mars-icon>
@@ -76,6 +77,13 @@
             </div> -->
 
             <div class="head-actions">
+              <!-- 打开方式开关：开启时点击卡片进 editor-vue（编辑），关闭时进 read-vue（预览） -->
+              <label class="mode-switch" title="开启时点击示例卡片打开编辑器，关闭时打开预览页">
+                <input v-model="editorMode" type="checkbox" class="mode-switch-input" aria-label="切换示例打开方式：编辑或预览" />
+                <span class="mode-switch-track" aria-hidden="true"></span>
+                <span class="mode-switch-label">编辑</span>
+              </label>
+
               <button ref="filterBtn" type="button" class="mobile-filter-btn" :class="{ 'is-open': mobileFilterOpen }"
                 :aria-expanded="mobileFilterOpen" aria-controls="category-panel" @click="toggleMobileFilter">
                 <span class="label">分类</span>
@@ -135,7 +143,8 @@
             <section v-for="item in renderList" :id="item.id" :key="item.id" class="category">
               <header class="category-title">
                 <span class="title-box">
-                  <i class="fa" :class="item.icon" aria-hidden="true"></i>
+                  <mars-icon class="cat-icon" :icon="categoryIcon(item.icon)" width="16" color="currentColor"
+                    aria-hidden="true"></mars-icon>
                   <span class="title">{{ item.name }}（{{ item.count }}）</span>
                 </span>
                 <span class="line" aria-hidden="true"></span>
@@ -187,6 +196,7 @@
 
 <script>
 import MarsIcon from "@mars/components/mars-ui/mars-icon/index.vue"
+import { resolveCategoryIcon } from "./category-icon"
 
 export default {
   components: {
@@ -262,6 +272,10 @@ export default {
     this.mobileQuery?.removeEventListener("change", this.onViewportChange)
   },
   methods: {
+    // 分类图标：配置里的 icon（兼容 fa-* 写法）→ mars-icon 图标名
+    categoryIcon (icon) {
+      return resolveCategoryIcon(icon)
+    },
     // 动态引入 @marsgis/editor，首页首屏不再预加载编辑器与 monaco。
     // 编辑器实例仅用于初始化 Util 的静态配置（configSourceUrl 等），Util.getExampleList() 依赖该配置。
     async initExampleList () {
@@ -307,9 +321,9 @@ export default {
     clearBoth () {
       this.clearAll()
     },
-    // 点击一级分类：展开并高亮，再次点击收起
+    // 点击一级分类：展开并高亮，再次点击收起（移动端抽屉中再次点击当前分类也应关闭抽屉并定位）
     toggleFirst (item) {
-      if (this.activeFirstId === item.id && this.expandedFirstId === item.id) {
+      if (this.activeFirstId === item.id && this.expandedFirstId === item.id && !this.isMobile) {
         this.expandedFirstId = null
         return
       }
@@ -401,7 +415,7 @@ export default {
       return title
     },
     jumpurl (item) {
-      this.$emit("jump", item)
+      this.$emit("jump", item, this.editorMode)
     },
     imgOnError (event) {
       const img = event.target || event.srcElement
@@ -719,6 +733,8 @@ export default {
 }
 
 .mobile-filter-btn .label {
+  flex: none;
+  white-space: nowrap;
   color: #8ba0b8;
 }
 
@@ -770,6 +786,72 @@ export default {
   border-color: #9fc0ef;
   background: #f7faff;
   color: #2468f2;
+}
+
+/* 编辑/预览开关：原生 checkbox + 轨道滑块，视觉与工具条按钮一致 */
+.mode-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #d8e2ee;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+  color: #33475f;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mode-switch:hover {
+  border-color: #9fc0ef;
+  background: #f7faff;
+}
+
+.mode-switch-input {
+  display: none;
+}
+
+.mode-switch-track {
+  position: relative;
+  flex: none;
+  width: 30px;
+  height: 16px;
+  border-radius: 8px;
+  background: #c3cfdd;
+  transition: background 0.2s;
+}
+
+.mode-switch-track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px #0b1c3240;
+  transition: transform 0.2s;
+}
+
+.mode-switch-input:checked + .mode-switch-track {
+  background: #2468f2;
+}
+
+.mode-switch-input:checked + .mode-switch-track::after {
+  transform: translateX(14px);
+}
+
+.mode-switch-input:focus-visible + .mode-switch-track {
+  outline: 2px solid #9fc0ef;
+  outline-offset: 1px;
+}
+
+.mode-switch-label {
+  line-height: 1;
 }
 
 /* ---------- 主体两栏 ---------- */
@@ -844,11 +926,12 @@ export default {
   background: #e6f0ff;
 }
 
-.side1-item .fa {
+.side1-item .cat-icon {
+  display: inline-flex;
+  flex: none;
+  justify-content: center;
   width: 18px;
-  font-size: 15px;
   color: #7aa6ff;
-  text-align: center;
 }
 
 .side1-item .name {
@@ -1014,10 +1097,11 @@ export default {
   color: #038bfe;
 }
 
-.title-box .fa {
+.title-box .cat-icon {
+  display: inline-flex;
+  flex: none;
+  justify-content: center;
   width: 18px;
-  font-size: 16px;
-  text-align: center;
 }
 
 .title-box .title {
@@ -1230,6 +1314,55 @@ export default {
 }
 
 /* ---------- 响应式 ---------- */
+/* 桌面端改为应用式布局：整页不滚动，左栏固定，仅右侧列表面板内部滚动（同时消除页面级横向滚动条） */
+@media (min-width: 1101px) {
+  .example-page {
+    height: calc(100vh - var(--mh-header-height, 76px));
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* 工具条成为页面内的固定行，不再依赖吸顶 */
+  .page-head {
+    position: static;
+  }
+
+  .page-body {
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+    overflow: hidden;
+    /* 旧滚动模式的底部留白改由滚动容器内的 .content 提供，避免固定高度下出现空白条 */
+    padding-bottom: 0;
+  }
+
+  /* 左栏占满容器高度，内部导航自行滚动 */
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+
+  /* 右栏为唯一滚动容器 */
+  .content-col {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+  }
+
+  /* 滚动到底时卡片与底边留出间距（替代原 .page-body 的 padding-bottom） */
+  .content {
+    padding: 20px 16px 24px 0;
+  }
+
+  /* 锚点定位改为相对滚动容器，无需再让出吸顶工具条高度 */
+  .category,
+  .sub-group {
+    scroll-margin-top: 8px;
+  }
+}
+
 @media (max-width: 1100px) {
   .page-body {
     grid-template-columns: minmax(0, 1fr);
@@ -1464,22 +1597,15 @@ export default {
   line-height: 1.7;
   text-align: left;
   box-shadow: 0 10px 24px #0b1c3255;
-  visibility: hidden;
-  opacity: 0;
+  /* 隐藏时不参与布局：绝对定位的 max-content 宽 tooltip 会撑宽移动端视口 */
+  display: none;
   pointer-events: none;
-  transform: translateY(-2px);
-  transition:
-    opacity 0.15s ease,
-    transform 0.15s ease,
-    visibility 0.15s;
 }
 
 /* 鼠标移入（或键盘聚焦）时显示说明；触屏由 .is-open 兜底 */
 .help-wrap:hover .detail-tip,
 .help-wrap:focus-within .detail-tip,
 .help-wrap.is-open .detail-tip {
-  visibility: visible;
-  opacity: 1;
-  transform: none;
+  display: block;
 }
 </style>

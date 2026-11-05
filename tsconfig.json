@@ -2,12 +2,12 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": true,
     "useDefineForClassFields": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "strictFunctionTypes": false,
+    "strictFunctionTypes": true,
     "strictNullChecks": false,
     "jsx": "preserve",
     "allowJs": true,
@@ -21,9 +21,8 @@
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "isolatedModules": false,
     "types": ["node"],
-    "baseUrl": ".",
     "paths": {
-      "@mars/*": ["src/*"]
+      "@mars/*": ["./src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],

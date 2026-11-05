@@ -6,7 +6,7 @@
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
-let map: mars2d.Map // 地图对象
+let map: mars2d.Map | null = null // 地图对象
 
 export const eventTarget = new mars2d.BaseClass()
 
@@ -38,29 +38,35 @@ export function onUnmounted(): void {
 }
 
 export function addLayer(layer: any) {
+  if (!map) {
+    return
+  }
   map.addLayer(layer)
   layer.show = true
 }
 
 export function getLayers() {
-  return map.getLayers({
+  return map!.getLayers({
     basemaps: true, // 是否取config.json中的basempas
     layers: true // 是否取config.json中的layers
   })
 }
 
 export function removeLayer(layer: any) {
+  if (!map) {
+    return
+  }
   layer.show = false
   map.removeLayer(layer)
 }
 
-export function flyToLayer(layer) {
+export function flyToLayer(layer: any) {
   if (layer.flyTo) {
     layer.flyTo()
   } else if (layer.getBounds) {
     const bounds = layer.getBounds()
     if (bounds) {
-      map.flyToBounds(bounds)
+      map?.flyToBounds(bounds)
     }
   }
 }

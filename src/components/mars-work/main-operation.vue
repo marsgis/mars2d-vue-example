@@ -7,10 +7,10 @@
  * @copyright mars2d.cn
  * @author 木遥 2022-01-01
  */
-import { defineAsyncComponent, h, ref, provide } from "vue"
+import { defineAsyncComponent, h, ref, provide, type Component } from "vue"
 import { getExampleId } from "@mars/utils/mars-util"
 
-const modules = import.meta.glob("../../example/**/index.vue")
+const modules = import.meta.glob<{ default: Component }>("../../example/**/index.vue")
 
 let componentName: string | null = ""
 

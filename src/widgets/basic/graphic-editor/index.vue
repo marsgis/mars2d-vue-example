@@ -27,7 +27,7 @@ const layerName = ref("")
 const customType = ref("")
 const graphicType = ref("")
 const style = ref(null)
-let graphic
+let graphic: any
 
 // 启用map.ts生命周期
 useLifecycle(mapWork)
@@ -38,7 +38,7 @@ onMounted(() => {
 })
 
 if (currentWidget) {
-  currentWidget.onUpdate((e) => {
+  currentWidget.onUpdate((e: any) => {
     graphic = e.data?.graphic
     updataLayer()
   })
@@ -69,7 +69,7 @@ function styleChange(style: any) {
   graphic.setStyle(style)
 }
 
-function getOpacity(str) {
+function getOpacity(str: string): any {
   if (str) {
     const regex = /\(([^)]+)\)/
     const match = str.match(regex)

@@ -97,14 +97,7 @@ const components = [
   MarsColor
 ]
 
-let marsUIConfig: Record<string, any>
-
-export const getConfig = () => {
-  return marsUIConfig
-}
-
-export default function (app: App, config: Record<string, any> = {}): App {
-  marsUIConfig = config
+export default function (app: App): App {
   // app.use(AutoComplete)
   app.use(Row)
   app.use(Cascader)
@@ -142,7 +135,7 @@ export default function (app: App, config: Record<string, any> = {}): App {
   app.use(Empty)
 
   components.forEach((comp) => {
-    app.component(comp.name, comp)
+    app.component(comp.name!, comp)
   })
   MarsMessage(app)
   MarsAlert(app)

@@ -2,12 +2,16 @@ import path from "path"
 import type { ConfigEnv } from "vite"
 import { defineConfig, loadEnv } from "vite" // 帮手函数，这样不用 jsdoc 注解也可以获取类型提示
 import vue from "@vitejs/plugin-vue"
-import examplePlugin from "./build/vite-example-plugin"
-import cleanDistPlugin from "./build/vite-clean-dist-plugin"
+import examplePlugin from "./build/vite-example-plugin.mts"
+import cleanDistPlugin from "./build/vite-clean-dist-plugin.mts"
 import copyPlugin from "rollup-plugin-copy"
-import monacoEditorPlugin from "vite-plugin-monaco-editor"
+import monacoEditorPluginCjs from "vite-plugin-monaco-editor"
 import eslintPlugin from "vite-plugin-eslint"
 import { createStyleImportPlugin, AndDesignVueResolve } from "vite-plugin-style-import"
+
+// vite-plugin-monaco-editor 只提供 CJS 入口且以 `exports.default` 导出，
+// Vite 8 的配置加载器（原生 / rolldown）不再做 __esModule 兼容，需手动取 default
+const monacoEditorPlugin = (monacoEditorPluginCjs as any).default ?? monacoEditorPluginCjs
 
 export default ({ mode }: ConfigEnv) => {
   const root = process.cwd()
@@ -28,29 +32,29 @@ export default ({ mode }: ConfigEnv) => {
         mode,
         BASE_URL: ENV.VITE_BASE_URL,
         EXAMPLE_SOURCE_PATH: ENV.VITE_EXAMPLE_SOURCE_PATH,
-        EDITOR_MODE: ENV.VITE_EDITOR_MODE !== "0"
+        EDITOR_MODE: ENV.VITE_EDITOR_MODE !== "0",
+        MARS2D_HOST: ENV.VITE_MARS2D_HOST
       }
     },
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "src"),
-        "@mars": path.join(__dirname, "src")
+        "@": path.resolve(root, "src"),
+        "@mars": path.join(root, "src")
       },
       extensions: [".js", ".ts", ".jsx", ".tsx", ".json"]
     },
-    // optimizeDeps: {
-    //   exclude: ["leaflet"]
-    // },
     json: {
       // 支持从 .json 文件中进行按名导入
       namedExports: true,
       stringify: false
     },
     css: {
+      // 限并发：大量 .vue 内联 less 与全量注入 base.less 时，worker 池并发过高会触发 [vite:css] [less] timed-out
+      preprocessorMaxWorkers: 4,
       preprocessorOptions: {
         less: {
           javascriptEnabled: true,
-          additionalData: `@import "${path.resolve(__dirname, "src/components/mars-ui/base.less")}";`
+          additionalData: `@import "${path.resolve(root, "src/components/mars-ui/base.less")}";`
         }
       }
     },
@@ -74,9 +78,9 @@ export default ({ mode }: ConfigEnv) => {
       // 自定义底层的 Rollup 打包配置
       rollupOptions: {
         input: {
-          index: path.resolve(__dirname, "index.html"),
-          editor: path.resolve(__dirname, "editor-vue.html"),
-          read: path.resolve(__dirname, "read-vue.html")
+          index: path.resolve(root, "index.html"),
+          editor: path.resolve(root, "editor-vue.html"),
+          read: path.resolve(root, "read-vue.html")
         },
         output: {
           chunkFileNames: "example/assets-vue/js/[name]-[hash].js",
@@ -133,7 +137,8 @@ export default ({ mode }: ConfigEnv) => {
         ]
       }),
       examplePlugin(mode),
-      monacoEditorPlugin({ publicPath: "example/assets-monaco" }),
+      // 仅打包实际会用到的语言 worker（css/html/json 从未被请求），裁剪发布体积
+      monacoEditorPlugin({ publicPath: "example/assets-monaco", languageWorkers: ["editorWorkerService", "typescript"] }),
       {
         ...copyPlugin({
           hook: "closeBundle",

@@ -16,19 +16,22 @@ import Head from "@/components/mars-work/mars-head.vue"
 const iframeSrc = ref("")
 const showIframe = ref(false)
 
-const jumpUrl = (item: any) => {
+// 打开示例：列表工具条上的开关决定打开编辑器（editor-vue）还是预览页（read-vue），未传时跟随构建的编辑器模式
+const jumpUrl = (item: any, editorMode = !!process.env.EDITOR_MODE) => {
   let url = process.env.BASE_URL
-  if (process.env.EDITOR_MODE) {
+  if (editorMode) {
     url += "editor-vue.html"
   } else {
     url += "read-vue.html"
   }
 
   // 处理参数
-  url += `?key=${item.id}&id=` + encodeURI(item.main)
+  url += `?id=${encodeURI(item.main)}`
   if (item.params) {
     url += `&${item.params}`
   }
+  // url += `&key=${item.id}`
+
   window.open(url, "_blank")
 }
 

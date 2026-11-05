@@ -7,6 +7,12 @@
     .ant-tree-treenode {
       width: 100%;
 
+      // ant-design-vue 的隐藏测量节点（aria-hidden="true"）也会命中 width:100%，
+      // 它的包含块比树容器更宽，绝对定位后会溢出面板、在页面底部产生横向滚动条
+      &[aria-hidden="true"] {
+        width: auto;
+      }
+
       .ant-tree-node-content-wrapper {
         color: var(--mars-tree-text);
         .ant-tree-title {

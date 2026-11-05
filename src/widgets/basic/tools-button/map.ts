@@ -7,10 +7,10 @@
 import * as mars2d from "mars2d"
 export const eventTarget = new mars2d.BaseClass()
 
-let map: mars2d.Map // mars2d.Map二维地图对象
+let map: mars2d.Map | null = null // mars2d.Map二维地图对象
 
-let layersTool: mars2d.control.ToolButton
-let basemapsTool: mars2d.control.ToolButton
+let layersTool: mars2d.control.ToolButton | null = null
+let basemapsTool: mars2d.control.ToolButton | null = null
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance: mars2d.Map): void {
@@ -52,12 +52,12 @@ export function onUnmounted() {
   console.log("tools-button onUnmounted 卸载了")
 
   if (layersTool) {
-    map.removeControl(layersTool)
+    map?.removeControl(layersTool)
     layersTool = null
   }
 
   if (basemapsTool) {
-    map.removeControl(basemapsTool)
+    map?.removeControl(basemapsTool)
     basemapsTool = null
   }
 

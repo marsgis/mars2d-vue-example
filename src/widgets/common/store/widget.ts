@@ -4,7 +4,7 @@
  * @author 火星渣渣灰 2022-02-19
  */
 import { Store, StoreOptions, createStore, useStore } from "vuex"
-import { InjectionKey, nextTick, onUnmounted, inject } from "vue"
+import { InjectionKey, computed, nextTick, onUnmounted, inject } from "vue"
 import { v4 as uuidV4 } from "uuid"
 
 // 为 store state 声明类型
@@ -34,6 +34,18 @@ export interface WidgetState {
 }
 
 export let key: InjectionKey<Store<WidgetState>> = Symbol("widget")
+
+// widget 级激活版本号（I017）：activate 自增并在 nextTick 延迟写入前校验；
+// 任何同步关闭路径（disable / disableAll / 同组互斥 / disableOther / setVisible(false)）都递增版本，
+// 作废尚未执行的延迟写入，覆盖 activate 与关闭动作的全部顺序组合。
+// 用 WeakMap 按 widget 对象登记，不污染 store 数据模型，旧 store 的 widget 对象可被正常回收
+const activateVersions = new WeakMap<Widget, number>()
+const bumpActivateVersion = (item: Widget): number => {
+  const version = (activateVersions.get(item) || 0) + 1
+  activateVersions.set(item, version)
+  return version
+}
+const getActivateVersion = (item: Widget): number => activateVersions.get(item) || 0
 
 /**
  * 初始化状态
@@ -78,8 +90,6 @@ export const injectState = (options: StoreOptions<WidgetState>): Store<WidgetSta
   }
   return createStore<WidgetState>({
     state: {
-      widgets: [],
-      openAtStart: [],
       ...options.state,
       defaultOption
     },
@@ -118,29 +128,37 @@ export const injectState = (options: StoreOptions<WidgetState>): Store<WidgetSta
           pannel.key = uuidV4()
         }
 
+        const version = bumpActivateVersion(pannel)
         nextTick(() => {
+          // 延迟写入执行前若发生了同步关闭或再次 activate，版本号已变，本次写入作废
+          if (getActivateVersion(pannel) !== version) {
+            return
+          }
           if (typeof widget === "object" && widget !== null && widget.data) {
             pannel.data = widget.data
           }
           pannel.visible = true
         })
 
-        // 先处理显式互斥列表，再统一关闭同组面板
+        // 指定关闭的面板只处理一次，避免跟着面板数量重复 dispatch
         if (Array.isArray(pannel.disableOther)) {
           pannel.disableOther.forEach((name: string) => {
             dispatch("disable", name)
           })
         }
+
+        // 处理其他面板的显示隐藏
         state.widgets.forEach((item) => {
           if (pannel.name === item.name) {
             return
           }
           // 默认关闭同组
           if (pannel.group && item.group === pannel.group) {
+            bumpActivateVersion(item)
             item.visible = false
-          }
-          // 关闭需要互斥的面板
-          if (!Array.isArray(pannel.disableOther) && pannel.disableOther && item.autoDisable) {
+          } else if (pannel.disableOther === true && item.autoDisable) {
+            // 关闭需要互斥的面板
+            bumpActivateVersion(item)
             item.visible = false
           }
         })
@@ -156,11 +174,15 @@ export const injectState = (options: StoreOptions<WidgetState>): Store<WidgetSta
         }
         // 关闭时清空一次性传参，meta 保留
         delete pannel.data
+        // 递增版本，作废同 tick 内尚未执行的 activate 延迟写入
+        bumpActivateVersion(pannel)
         pannel.visible = false
       },
       disableAll({ state }, hasAll: boolean) {
         state.widgets.forEach((item: Widget) => {
-          if (item.visible && (hasAll || item.autoDisable)) {
+          if (hasAll || item.autoDisable) {
+            // 无论当前 visible 取值都递增版本：visible=false 时可能正挂着同 tick 的 activate 延迟写入
+            bumpActivateVersion(item)
             item.visible = false
           }
         })
@@ -219,20 +241,50 @@ export function useWidget() {
   const store = useStore(key)
 
   const getCurrentWidget = inject<() => string>("getCurrentWidget")
+  // 当前 widget 在 store 中的实时引用（activate 写 data、updateWidget 回写 data 后都会变化）
+  const currentWidgetItem = computed(() => {
+    const widgetName = getCurrentWidget ? getCurrentWidget() : ""
+    return store.state.widgets.find((item: any) => item.name === widgetName)
+  })
+  // currentWidget 是只读视图：属性按需从 store 读取，消费者写法不变但不再持有激活时的快照
   let currentWidget: any
   if (getCurrentWidget) {
-    const widegtName = getCurrentWidget()
-
     currentWidget = {
-      ...store.state.widgets.find((item: any) => item.name === widegtName),
+      get name() {
+        return currentWidgetItem.value?.name
+      },
+      get key() {
+        return currentWidgetItem.value?.key
+      },
+      get component() {
+        return currentWidgetItem.value?.component
+      },
+      get autoDisable() {
+        return currentWidgetItem.value?.autoDisable
+      },
+      get disableOther() {
+        return currentWidgetItem.value?.disableOther
+      },
+      get group() {
+        return currentWidgetItem.value?.group
+      },
+      get visible() {
+        return currentWidgetItem.value?.visible
+      },
+      get data() {
+        return currentWidgetItem.value?.data
+      },
+      get meta() {
+        return currentWidgetItem.value?.meta
+      },
       onUpdate(callback: EventCb) {
-        if (currentWidget) {
-          widgetEvent.on(currentWidget.name, callback)
+        const name = currentWidgetItem.value?.name
+        if (!name) {
+          return
         }
+        widgetEvent.on(name, callback)
         onUnmounted(() => {
-          if (currentWidget) {
-            widgetEvent.off(currentWidget.name, callback)
-          }
+          widgetEvent.off(name, callback)
         })
       }
     }
@@ -264,10 +316,20 @@ export function useWidget() {
         console.warn("widget不存在", name)
         return
       }
+      if (!visible) {
+        // 同步关闭同样作废待执行的 activate 延迟写入
+        bumpActivateVersion(widget)
+      }
       widget.visible = visible
     },
-    // 出发对应widget的onUpdate
+    // 触发对应widget的onUpdate，并把对象参数合并回写 store 中该 widget 的 data
     updateWidget(name: string, ...args: any[]) {
+      const widget = store.state.widgets.find((item: any) => item.name === name)
+      const payload = args[0]
+      // 仅普通对象视为「数据补丁」；字符串、数组等命令型参数只派发事件，不写入 store
+      if (widget && payload && typeof payload === "object" && !Array.isArray(payload)) {
+        widget.data = { ...(widget.data || {}), ...payload }
+      }
       widgetEvent.emit(name, ...args)
     },
     // 获取widget的当前激活状态

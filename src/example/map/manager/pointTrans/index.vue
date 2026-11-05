@@ -112,7 +112,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  offMapWorkReady && offMapWorkReady()
+  offMapWorkReady?.()
   mapWork.eventTarget.off("loadOK", onLoadOK)
   mapWork.eventTarget.off("clickMap", onMapClick)
 })

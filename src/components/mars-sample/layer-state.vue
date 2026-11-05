@@ -125,7 +125,7 @@ const onChangeTooltip = () => {
   const layer = getManagerLayer()
   if (formState.enabledTooltip) {
     // layer.bindTooltip("我是layer上绑定的Tooltip")
-    layer.bindTooltip(function (event) {
+    layer.bindTooltip(function (event: any) {
       const attr = getAttrForEvent(event)
       attr["类型"] = event.type
       attr["来源"] = "我是layer上绑定的Toolip"
@@ -154,7 +154,7 @@ const onChangeRightMenu = () => {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   const graphicLayer = getManagerLayer()
-  graphicLayer.bindPopup(function (event) {
+  graphicLayer.bindPopup(function (event: any) {
     const attr = getAttrForEvent(event)
     attr["类型"] = event.type
     attr["来源"] = "我是layer上绑定的Popup"
@@ -164,7 +164,7 @@ function bindLayerPopup() {
   })
 }
 
-function getAttrForEvent(event) {
+function getAttrForEvent(event: any) {
   if (event?.graphic?.attr) {
     return event.graphic.attr
   }
@@ -188,14 +188,14 @@ function bindLayerContextMenu() {
     {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
-      show: function (e) {
+      show: function (e: any) {
         const graphic = e.graphic
         if (!graphic || !graphic.editing) {
           return false
         }
         return !graphic.editing.enabled()
       },
-      callback: function (e) {
+      callback: function (e: any) {
         const graphic = e.graphic
         graphicLayer.startEditing(graphic)
       }
@@ -203,14 +203,14 @@ function bindLayerContextMenu() {
     {
       text: "停止编辑对象",
       iconCls: "fa fa-edit",
-      show: function (e) {
+      show: function (e: any) {
         const graphic = e.graphic
         if (!graphic || !graphic.editing) {
           return false
         }
         return graphic.editing.enabled()
       },
-      callback: function (e) {
+      callback: function (e: any) {
         const graphic = e.graphic
         graphicLayer.stopEditing()
       }
@@ -218,7 +218,7 @@ function bindLayerContextMenu() {
     {
       text: "复制",
       iconCls: "fa fa-copy",
-      callback: (e) => {
+      callback: (e: any) => {
         const graphic = e.graphic
         if (!graphic) {
           return false
@@ -232,7 +232,7 @@ function bindLayerContextMenu() {
     {
       text: "剪切",
       iconCls: "fa fa-scissors",
-      callback: (e) => {
+      callback: (e: any) => {
         const graphic = e.graphic
         if (!graphic) {
           return false
@@ -248,7 +248,7 @@ function bindLayerContextMenu() {
     {
       text: "删除对象",
       iconCls: "fa fa-trash-o",
-      show: (event) => {
+      show: (event: any) => {
         const graphic = event.graphic
         if (!graphic) {
           return false
@@ -256,7 +256,7 @@ function bindLayerContextMenu() {
           return true
         }
       },
-      callback: function (e) {
+      callback: function (e: any) {
         const graphic = e.graphic
         if (!graphic) {
           return
@@ -267,14 +267,14 @@ function bindLayerContextMenu() {
     {
       text: "计算长度",
       iconCls: "fa fa-medium",
-      show: function (e) {
+      show: function (e: any) {
         const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.type === "polyline" || graphic.type === "brushLine"
       },
-      callback: function (e) {
+      callback: function (e: any) {
         const graphic = e.graphic
         const strDis = mars2d.MeasureUtil.formatDistance(graphic.distance)
         $alert("该对象的长度为:" + strDis)
@@ -283,14 +283,14 @@ function bindLayerContextMenu() {
     {
       text: "计算周长",
       iconCls: "fa fa-medium",
-      show: function (e) {
+      show: function (e: any) {
         const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon"
       },
-      callback: function (e) {
+      callback: function (e: any) {
         const graphic = e.graphic
         const strDis = mars2d.MeasureUtil.formatDistance(graphic.distance)
         $alert("该对象的周长为:" + strDis)
@@ -299,14 +299,14 @@ function bindLayerContextMenu() {
     {
       text: "计算面积",
       iconCls: "fa fa-reorder",
-      show: function (e) {
+      show: function (e: any) {
         const graphic = e.graphic
         if (!graphic) {
           return false
         }
         return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon"
       },
-      callback: function (e) {
+      callback: function (e: any) {
         const graphic = e.graphic
         const strArea = mars2d.MeasureUtil.formatArea(graphic.area)
         $alert("该对象的面积为:" + strArea)

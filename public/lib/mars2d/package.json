@@ -1,6 +1,5 @@
 {
 	"name": "mars2d",
-	"version": "3.5.0",
 	"description": "Mars2D地理信息平台",
 	"main": "./mars2d.js",
 	"types": "./mars2d.d.ts",
@@ -29,12 +28,5 @@
 	"author": "mars2d",
 	"license": "Apache-2.0",
 	"homepage": "http://mars2d.cn",
-	"build": {
-		"plugin": false,
-		"globals": {
-			"leaflet": "L"
-		},
-		"minify": "obfuscator"
-	},
-	"_fp": "HX"
+	"version": "3.5.1"
 }

@@ -276,7 +276,7 @@ function initLayerState(layer: any) {
 }
 
 // 分页查询每页条数
-const pageSizeChange = (pagination) => {
+const pageSizeChange = (pagination: any) => {
   currentPage.value = pagination.pageSize
 }
 
@@ -363,7 +363,7 @@ const onChangePopup = () => {
 const onChangeTooltip = () => {
   const layer = getManagerLayer()
   if (formState.enabledTooltip) {
-    layer.bindTooltip(function (event) {
+    layer.bindTooltip(function (event: any) {
       const attr = getAttrForEvent(event)
       attr["类型"] = event.graphic?.type
       attr["来源"] = "我是layer上绑定的Toolip"
@@ -393,7 +393,7 @@ const onChangeRightMenu = () => {
 function bindLayerPopup() {
   const graphicLayer = getManagerLayer()
   graphicLayer.bindPopup(
-    function (event) {
+    function (event: any) {
       const attr = getAttrForEvent(event)
       attr["类型"] = event.graphic?.type
       attr["来源"] = "我是layer上绑定的Popup"
@@ -412,7 +412,7 @@ function bindLayerPopup() {
   )
 }
 
-function getAttrForEvent(event) {
+function getAttrForEvent(event: any) {
   if (event?.graphic?.attr) {
     return event.graphic.attr
   }
@@ -436,14 +436,14 @@ function bindLayerContextMenu() {
     {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
-      show: function (e) {
+      show: function (e: any) {
         const graphic = e.graphic
         if (!graphic || !graphic.editing) {
           return false
         }
         return !graphic.editing.enabled()
       },
-      callback: function (e) {
+      callback: function (e: any) {
         const graphic = e.graphic
         graphicLayer.startEditing(graphic)
       }
@@ -451,14 +451,14 @@ function bindLayerContextMenu() {
     {
       text: "停止编辑对象",
       iconCls: "fa fa-edit",
-      show: function (e) {
+      show: function (e: any) {
         const graphic = e.graphic
         if (!graphic || !graphic.editing) {
           return false
         }
         return graphic.editing.enabled()
       },
-      callback: function (e) {
+      callback: function (e: any) {
         const graphic = e.graphic
         graphicLayer.stopEditing()
       }
@@ -466,7 +466,7 @@ function bindLayerContextMenu() {
     {
       text: "复制",
       iconCls: "fa fa-copy",
-      callback: (e) => {
+      callback: (e: any) => {
         const graphic = e.graphic
         if (!graphic) {
           return false
@@ -480,7 +480,7 @@ function bindLayerContextMenu() {
     {
       text: "剪切",
       iconCls: "fa fa-scissors",
-      callback: (e) => {
+      callback: (e: any) => {
         const graphic = e.graphic
         if (!graphic) {
           return false
@@ -496,7 +496,7 @@ function bindLayerContextMenu() {
     {
       text: "删除对象",
       icon: "fa fa-trash-o",
-      show: (event) => {
+      show: (event: any) => {
         const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
           return false
@@ -504,7 +504,7 @@ function bindLayerContextMenu() {
           return true
         }
       },
-      callback: (e) => {
+      callback: (e: any) => {
         const graphic = e.graphic
         if (!graphic) {
           return
@@ -519,7 +519,7 @@ function bindLayerContextMenu() {
     {
       text: "计算长度",
       icon: "fa fa-medium",
-      show: function (e) {
+      show: function (e: any) {
         const graphic = e.graphic
         if (!graphic) {
           return false
@@ -537,7 +537,7 @@ function bindLayerContextMenu() {
           graphic.type === "wallP"
         )
       },
-      callback: (e) => {
+      callback: (e: any) => {
         const graphic = e.graphic
         const strDis = mars2d.MeasureUtil.formatDistance(graphic.distance)
         $alert("该对象的长度为:" + strDis)
@@ -546,7 +546,7 @@ function bindLayerContextMenu() {
     {
       text: "计算周长",
       icon: "fa fa-medium",
-      show: function (e) {
+      show: function (e: any) {
         const graphic = e.graphic
         if (!graphic) {
           return false
@@ -560,7 +560,7 @@ function bindLayerContextMenu() {
           graphic.type === "polygonP"
         )
       },
-      callback: (e) => {
+      callback: (e: any) => {
         const graphic = e.graphic
         const strDis = mars2d.MeasureUtil.formatDistance(graphic.distance)
         $alert("该对象的周长为:" + strDis)
@@ -569,7 +569,7 @@ function bindLayerContextMenu() {
     {
       text: "计算面积",
       icon: "fa fa-reorder",
-      show: function (e) {
+      show: function (e: any) {
         const graphic = e.graphic
         if (!graphic) {
           return false
@@ -587,7 +587,7 @@ function bindLayerContextMenu() {
             graphic.positionsShow?.length > 2)
         )
       },
-      callback: (e) => {
+      callback: (e: any) => {
         const graphic = e.graphic
         const strArea = mars2d.MeasureUtil.formatArea(graphic.area)
         $alert("该对象的面积为:" + strArea)
@@ -664,7 +664,7 @@ const onClickImpFile = (info: any) => {
     reader.onloadend = function (e) {
       const strkml = this.result
 
-      mapWork.kgUtil.toGeoJSON(strkml).then((geojson) => {
+      mapWork.kgUtil.toGeoJSON(strkml).then((geojson: any) => {
         console.log("kml2geojson转换结果为", geojson)
 
         graphicLayer.loadGeoJSON(geojson, {
@@ -675,7 +675,7 @@ const onClickImpFile = (info: any) => {
   } else if (fileType === "kmz") {
     // 加载input文件控件的二进制流
 
-    mapWork.kgUtil.toGeoJSON(item).then((geojson) => {
+    mapWork.kgUtil.toGeoJSON(item).then((geojson: any) => {
       console.log("kmz2geojson", geojson)
 
       graphicLayer.loadGeoJSON(geojson, {
@@ -695,13 +695,13 @@ const { activate, disable, isActivate, updateWidget } = useWidget()
 // 绑定图层编辑相关事件（图层对象就绪后调用）
 function bindEditorEvent(graphicLayer: any) {
   // 矢量数据创建完成
-  graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
+  graphicLayer.on(mars2d.EventType.drawCreated, function (e: any) {
     if (formState.hasEdit || props.customEditor) {
       showEditor(e.graphic)
     }
   })
   // 修改了矢量数据
-  graphicLayer.on("editStart editMovePoint editStyle editRemovePoint", function (e) {
+  graphicLayer.on("editStart editMovePoint editStyle editRemovePoint", function (e: any) {
     showEditor(e.graphic)
   })
   // 停止编辑
@@ -770,7 +770,7 @@ const graphicColumns = [
 function initGraphicTable(graphicLayer: any) {
   initGraphicableData(graphicLayer)
 
-  graphicLayer.on(mars2d.EventType.drawCreated, function (event) {
+  graphicLayer.on(mars2d.EventType.drawCreated, function (event: any) {
     const graphic = event.graphic
     if (graphic.isPrivate) {
       return
@@ -782,7 +782,7 @@ function initGraphicTable(graphicLayer: any) {
     })
   })
 
-  graphicLayer.on(mars2d.EventType.removeGraphic, function (event) {
+  graphicLayer.on(mars2d.EventType.removeGraphic, function (event: any) {
     const graphicId = event.graphic.id
     const idx = graphicDataList.value.findIndex((item) => item.key === graphicId)
     if (idx !== -1) {
@@ -791,7 +791,7 @@ function initGraphicTable(graphicLayer: any) {
   })
 }
 
-function initGraphicableData(graphicLayer) {
+function initGraphicableData(graphicLayer: any) {
   const list = graphicLayer.graphics
   for (let i = list.length - 1; i >= 0; i--) {
     const graphic = list[i]
@@ -807,7 +807,7 @@ function initGraphicableData(graphicLayer) {
 }
 
 let graphicIndex = 0
-function getGraphicName(graphic) {
+function getGraphicName(graphic: any) {
   if (graphic?.style?.label?.text) {
     return `${graphic.type} - ${graphic.style.label.text}`
   }
@@ -849,7 +849,9 @@ const deleteGraphic = (record: GraphicTableItem) => {
   const graphicLayer = getManagerLayer()
   const graphic = graphicLayer.getGraphicById(record.key)
   // graphic && graphic.remove()
-  graphic && graphicLayer.removeGraphic(graphic)
+  if (graphic) {
+    graphicLayer.removeGraphic(graphic)
+  }
 }
 </script>
 

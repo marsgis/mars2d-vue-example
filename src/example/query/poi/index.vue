@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import { onBeforeMount, ref, toRaw } from "vue"
-import axios from "axios"
+import { fetchJson } from "@mars/utils/mars-util"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
 import { Cascader } from "ant-design-vue"
@@ -175,16 +175,15 @@ const options = ref<Option[]>([])
 
 // 读取JSON数据
 function fetchAttrJson() {
-  return axios.get(`//data.mars3d.cn/file/geojson/areas/config.json`)
+  return fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/config.json" })
 }
 
 onBeforeMount(async () => {
-  const { data }: any = await fetchAttrJson()
-  options.value = data
+  options.value = await fetchAttrJson()
 })
 
 // 改变选择的城市
-const onChange = (_value: any, selectedOptions: Option[]) => {
+const onChange = (_value: any, selectedOptions: any[]) => {
   const sel = selectedOptions[selectedOptions.length - 1]
   cityShi = sel.label
   cityShiKey = sel.value

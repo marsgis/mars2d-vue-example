@@ -5,7 +5,7 @@
         <mars-dropdown-menu :trigger="['contextmenu']">
           <span @dblclick="flyTo(node)">{{ node.title }}</span>
           <template #overlay v-if="node.hasZIndex">
-            <a-menu @click="(menu) => onContextMenuClick(node, menu.key)">
+            <a-menu @click="(menu: any) => onContextMenuClick(node, menu.key)">
               <a-menu-item key="1">图层置为顶层</a-menu-item>
               <a-menu-item key="2">图层上移一层</a-menu-item>
               <a-menu-item key="3">图层下移一层</a-menu-item>

@@ -60,8 +60,8 @@ export default {
   },
   emits: ["clickNav"],
   data () {
-    // 文档与 API 域名，与站点其它页面保持一致
-    const host = "//mars2d.cn"
+    // 去掉末尾斜杠，兼容 "/"(本地同域) 与 "//mars3d.cn"(线上) 两种配置
+    const host = (process.env.MARS2D_HOST || "").replace(/\/+$/, "")
     return {
       scrolled: false,
       mobileOpen: false,

@@ -6,9 +6,9 @@
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
-let map: mars2d.Map // 地图对象
-let graphicLayer: mars2d.layer.GraphicLayer
-let queryPoi: mars2d.query.QueryPOI // POI查询
+let map: mars2d.Map | null = null // 地图对象
+let graphicLayer: mars2d.layer.GraphicLayer | null = null
+let queryPoi: mars2d.query.QueryPOI | null = null // POI查询
 let address: any = null
 
 export const eventTarget = new mars2d.BaseClass()
@@ -56,6 +56,9 @@ export function onMounted(mapInstance: mars2d.Map): void {
 }
 
 function cameraChanged() {
+  if (!map || !queryPoi) {
+    return
+  }
   queryPoi.getAddress({
     location: map.getCenter(),
     success: (result: any) => {
@@ -66,9 +69,12 @@ function cameraChanged() {
 
 // 释放当前业务
 export function onUnmounted(): void {
-  map.removeLayer(graphicLayer)
+  if (!map) {
+    return
+  }
+  map.removeLayer(graphicLayer!)
   map.off(mars2d.EventType.moveend, cameraChanged)
-  graphicLayer.remove()
+  graphicLayer?.remove()
   queryPoi = null
   address = null
   map = null
@@ -76,11 +82,16 @@ export function onUnmounted(): void {
 
 // 查询数据
 export function queryData(val: string): Promise<any> {
+  if (!map || !queryPoi) {
+    return Promise.resolve(null)
+  }
+  const mapInstance = map
+  const poi = queryPoi
   return new Promise((resolve) => {
-    queryPoi.autoTip({
+    poi.autoTip({
       text: val,
       city: address?.city,
-      location: map.getCenter(),
+      location: mapInstance.getCenter(),
       success: (result: any) => {
         resolve(result)
       }
@@ -89,8 +100,12 @@ export function queryData(val: string): Promise<any> {
 }
 
 export function querySiteList(text: string, page: number): Promise<any> {
+  if (!map || !queryPoi) {
+    return Promise.resolve(null)
+  }
+  const poi = queryPoi
   return new Promise((resolve) => {
-    queryPoi.queryText({
+    poi.queryText({
       text,
       count: 6,
       page: page - 1,
@@ -108,6 +123,9 @@ export function querySiteList(text: string, page: number): Promise<any> {
  * @returns {void} 无
  */
 export function showPOIArr(arr: any): void {
+  if (!graphicLayer) {
+    return
+  }
   clearLayers()
   arr.forEach((item: any) => {
     const jd = Number(item.lng)
@@ -139,7 +157,7 @@ export function showPOIArr(arr: any): void {
       },
       attr: item
     })
-    graphicLayer.addGraphic(graphic)
+    graphicLayer!.addGraphic(graphic)
     item._graphic = graphic
   })
 
@@ -156,6 +174,9 @@ export function showPOIArr(arr: any): void {
  * @returns {void} 无
  */
 export function centerAtLonLat(text: string): void {
+  if (!map || !graphicLayer) {
+    return
+  }
   const arr = text.split(",")
   if (arr.length !== 2) {
     return
@@ -191,11 +212,17 @@ export function centerAtLonLat(text: string): void {
 }
 
 export function flyToGraphic(graphic: any, option: any): void {
+  if (!map || !graphicLayer) {
+    return
+  }
   graphicLayer.openPopup(graphic)
   map.flyToGraphic(graphic, option)
 }
 
 export function clearLayers(): void {
-    graphicLayer.closePopup()
-    graphicLayer.clear()
+  if (!graphicLayer) {
+    return
+  }
+  graphicLayer.closePopup()
+  graphicLayer.clear()
 }

@@ -1,8 +1,8 @@
-import { createApp, defineComponent } from "vue"
+import { createApp, defineComponent, type App } from "vue"
 import Application from "./App.vue"
 import MarsUIInstall from "@mars/components/mars-ui"
 import { injectState, key } from "@mars/widgets/common/store/widget"
-import { getExampleId, getQueryString } from "@mars/utils/mars-util"
+import { getQueryString, normalizeExampleId, renderExampleEmptyState } from "@mars/utils/mars-util"
 import store from "@mars/widgets/widget-store"
 import { Editor as MarsgisEditor } from "@marsgis/editor"
 import "@marsgis/editor/dist/editor.css"
@@ -39,7 +39,7 @@ marsEditor.on("loaded", (exampleConfig) => {
   inited = true
 })
 
-let vueApp
+let vueApp: App | null = null
 
 function initUI(simple: boolean) {
   if (simple) {
@@ -53,26 +53,35 @@ function initUI(simple: boolean) {
     vueApp.use(injectState(store), key)
   }
 
-  MarsUIInstall(vueApp, {
-    dialog: {
-      position: {
-        left: 50,
-        bottom: 50
-      },
-      warpper: "#mars-main-view"
-    }
-  })
+  MarsUIInstall(vueApp)
 
   vueApp.mount("#mars-ui-root")
 }
 
 function destoryUI() {
-  vueApp.unmount()
+  vueApp?.unmount()
   vueApp = null
 }
 
-marsEditor.render({
-  container: document.getElementById("root"),
-  exampleId: getExampleId(),
-  exampleKey: getQueryString("key")
-})
+// 非法/缺失 ?id= 时渲染空态提示并中止，避免面板空白无任何用户可读信息
+function bootstrap() {
+  const rawId = getQueryString("id")
+  if (!rawId) {
+    renderExampleEmptyState(null)
+    return
+  }
+  const exampleId = normalizeExampleId(rawId)
+  const exampleKey = getQueryString("key") || undefined
+
+  const container = document.getElementById("root")
+  if (!container) {
+    return
+  }
+
+  marsEditor.render({
+    container,
+    exampleId,
+    exampleKey
+  })
+}
+bootstrap()

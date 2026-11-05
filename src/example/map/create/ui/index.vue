@@ -135,7 +135,7 @@
 import { onBeforeUnmount, onMounted, nextTick, reactive, ref } from "vue"
 import * as mapWork from "./map.js"
 import { TableColumnType, TableProps } from "ant-design-vue"
-import axios from "axios"
+import { fetchJson } from "@mars/utils/mars-util"
 import type { Dayjs } from "dayjs"
 import { $message, $notify, $alert } from "@mars/components/mars-ui/index"
 
@@ -330,10 +330,8 @@ const typhoonList = ref<typhoon[]>([]) // 列表数据
 onMounted(() => {
   // 访问后端接口，取台风列表数据
   const url = "//data.mars2d.cn/file/apidemo/typhoon/list_2020.json"
-  axios
-    .get(url)
-    .then(function (res: any) {
-      const data = res.data
+  fetchJson({ url })
+    .then(function (data: any) {
       typhoonList.value = data.typhoonList.map((item: any) => ({
         id: item[0],
         name_en: item[1],

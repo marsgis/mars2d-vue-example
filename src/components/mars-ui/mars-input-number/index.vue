@@ -1,9 +1,10 @@
 <template>
-  <a-input-number class="mars-input-number" :class='{"unit-class": attrs["addon-after"]}' v-bind="attrs" :precision="attrs.tofixed">
+  <a-input-number class="mars-input-number" :class='{ "addon-after-class": attrs["addon-after"], "unit-class": attrs.unit }' v-bind="attrs" :precision="attrs.tofixed">
     <template v-for="(comp, name) in slots" :key="name" v-slot:[name]>
       <component :is="comp" />
     </template>
   </a-input-number>
+  <span v-if="attrs.unit" class="mars-unit">{{ attrs.unit }}</span>
 </template>
 <script lang="ts">
 import { useAttrs, useSlots, defineComponent } from "vue"
@@ -49,6 +50,17 @@ export default defineComponent({
     border-color: var(--mars-hover-color);
   }
 }
+
+.unit-class {
+  width: calc(100% - 25px);
+}
+
+.mars-unit {
+  height: 32px;
+  line-height: 32px;
+  padding: 0 4px;
+  color: var(--mars-control-text);
+}
 :deep(.ant-input-number-handler-wrap) {
   background: none;
   .anticon {
@@ -66,7 +78,7 @@ export default defineComponent({
     }
   }
 }
-:deep(.unit-class) {
+:deep(.addon-after-class) {
   border-radius: 0px !important;
   background-color: var(--mars-control-bg);
 }

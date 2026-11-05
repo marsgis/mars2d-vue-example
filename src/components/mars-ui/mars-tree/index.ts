@@ -46,7 +46,7 @@ const MarsTree = defineComponent({
 })
 
 export function install(app: App): App {
-  app.component(MarsTree.name, MarsTree)
+  app.component(MarsTree.name!, MarsTree)
   return app
 }
 export default MarsTree

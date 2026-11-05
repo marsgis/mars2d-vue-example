@@ -87,13 +87,13 @@ mars2d-vue-example
 │   ├── pages           页面入口（index 列表页 / editor 编辑器页 / read 阅读页）
 │   ├── utils           工具方法（mars-util、map-work）
 │   └── widgets         公共 widget 与状态管理（示例页内置面板：POI查询、底图管理、图层管理等）
-├── .eslintrc.json      eslint配置文件
+├── eslint.config.mjs   eslint配置文件（flat config）
 ├── index.html          列表页入口
 ├── editor-vue.html     编辑器页面入口
 ├── read-vue.html       阅读页入口
 ├── package.json        项目配置信息
 ├── tsconfig.json       TypeScript 配置
-└── vite.config.ts      vite 配置文件
+└── vite.config.mts     vite 配置文件
 ```
 
 与示例相关的3个主要目录是：`src\example`、`public`、`src\components`(部分功能依赖)。
@@ -103,7 +103,7 @@ mars2d-vue-example
 - `src/example/**/map.js`：文件名固定，是示例框架的约定入口，不可改名
 - `public/temp/`：示例 iframe 的公共基础代码（模板、common.js），所有示例共用
 - `public/lib/includeLibs.js`：第三方库加载清单，示例依赖按此配置加载
-- `build/vite-example-plugin.ts`：负责示例代码的编译期转换（map.js 与面板的桥接），改动会影响全部示例的运行
+- `build/vite-example-plugin.mts`：负责示例代码的编译期转换（map.js 与面板的桥接），改动会影响全部示例的运行
 
 ### 示例主目录
 
@@ -210,14 +210,17 @@ git clone git@gitee.com:marsgis/mars2d-vue-example.git
 | `npm run build2` | 大内存模式构建（node --max_old_space_size） |
 | `npm run preview` | 预览构建产物（vite preview） |
 | `npm run serve:dist` | 用 http-server 伺服 dist 目录 |
-| `npm run lint` | 类型检查（vue-tsc）+ eslint 检查 |
-| `npm run eslint` | 仅 eslint（带 --fix） |
+| `npm run lint` | 类型检查（vue-tsc）+ 公共层严格类型检查 + ESLint |
+| `npm run lint:strict` | 仅公共层（`components`/`widgets`/`utils`/`misc`/`pages`）的 `strict` 类型检查 |
+| `npm run lint:fix` | 类型检查 + ESLint 自动修复 |
+| `npm run eslint` | 仅 ESLint 检查（不带 --fix） |
+| `npm run test:unit` | 运行 `tests/unit` 单元测试（Vitest） |
+| `npm run test:watch` | 监听模式运行单元测试 |
+| `npm run test:coverage` | 运行单元测试并输出覆盖率报告（`coverage/`） |
 | `npm run clean-cache` | 清理 node_modules 缓存 |
 | `npm run clean-lib` | 删除 node_modules |
 
-测试：无该脚本。
-
-开发服务地址：`http://localhost:2001`（vite.config.ts 中 server.host=localhost、port=2001）。
+开发服务地址：`http://localhost:2001`（vite.config.mts 中 server.host=localhost、port=2001）。
 
 #### 首次运行前安装依赖
 ```
@@ -248,7 +251,7 @@ npm run build
 | VITE_EXAMPLE_SOURCE_PATH | 示例源码目录位置（编辑器定位源码用） | 空 | src/example | example | 必填 |
 | VITE_EDITOR_MODE | 示例列表页跳转目标：1 跳编辑器页，0 跳阅读页 | 1 | 0 | 1 | 必填 |
 
-代理配置：无（vite.config.ts 未配置 server.proxy）。
+代理配置：无（vite.config.mts 未配置 server.proxy）。
 
 
 ### 运行效果

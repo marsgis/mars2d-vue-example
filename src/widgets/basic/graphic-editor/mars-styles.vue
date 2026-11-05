@@ -83,7 +83,10 @@ const styleValue = ref<any>({})
 const viewStyles = ref<any[]>([])
 const styleType = ref("")
 
-let originStyles = [] // 原始的完整style配置
+let originStyles: any[] = [] // 原始的完整style配置
+// label 相关变量必须先于 immediate watch 初始化，否则 styleData 带 label 时 setLabelDefault 会触发 TDZ
+let originLabels: any[] = []
+const viewLabels = ref<any[]>([])
 const globalKey = ref(0)
 watch(
   props,
@@ -134,14 +137,14 @@ function updateViewStyles() {
   })
 }
 
-function getViewShow(config, styleOptions) {
+function getViewShow(config: any, styleOptions: any) {
   if (typeof config.show === "function") {
     return config.show(styleOptions, styleValue.value, props.graphicType)
   }
   return true
 }
 
-function getViewDefval(config, styleOptions) {
+function getViewDefval(config: any, styleOptions: any) {
   if (typeof config.defval === "function") {
     return config.defval(styleOptions, styleValue.value, props.graphicType)
   } else {
@@ -155,7 +158,8 @@ function setDefault() {
 
   styleValue.value.opacity = 1
 
-  const styleConfig = styleConfigAll[props.customType] || styleConfigAll[props.graphicType]
+  const configKey = props.customType || props.graphicType
+  const styleConfig: any = styleConfigAll[configKey as keyof typeof styleConfigAll]
   if (!styleConfig) {
     return
   }
@@ -163,7 +167,7 @@ function setDefault() {
   styleType.value = styleConfig.type
   originStyles = _.cloneDeep(styleConfig.style)
 
-  originStyles.forEach((item) => {
+  originStyles.forEach((item: any) => {
     styleValue.value[item.name] = styleValue.value[item.name] ?? getViewDefval(item, styleValue.value) // 数据中没有的地方使用默认值
   })
 }
@@ -178,9 +182,6 @@ function updateStyle(item: any) {
 }
 
 // label相关处理
-let originLabels
-const viewLabels = ref<any[]>([])
-
 function setLabelDefault() {
   originLabels = _.cloneDeep(styleConfigAll.label.style)
   if (originLabels) {
@@ -191,7 +192,7 @@ function setLabelDefault() {
 }
 // 更新属性的显示隐藏，通过配置中的show属性来控制
 function updateViewLabels() {
-  viewLabels.value = originLabels.filter((item) => {
+  viewLabels.value = originLabels.filter((item: any) => {
     return getViewShow(item, styleValue.value.label)
   })
 }
@@ -204,7 +205,7 @@ function labelChange(item: any) {
   updateLabel(item.name)
 }
 
-function updateLabel(name) {
+function updateLabel(name: string) {
   const label: Record<string, any> = {
     [name]: styleValue.value.label[name]
   }

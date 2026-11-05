@@ -1,0 +1,26 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    // vuex 4 的 package.json exports 未声明 types，bundler 解析会回退为 any；关闭后按 types 字段解析
+    "resolvePackageJsonExports": false
+  },
+  "include": [
+    "src/components/**/*.ts",
+    "src/components/**/*.tsx",
+    "src/components/**/*.vue",
+    "src/widgets/**/*.ts",
+    "src/widgets/**/*.tsx",
+    "src/widgets/**/*.vue",
+    "src/utils/**/*.ts",
+    "src/utils/**/*.tsx",
+    "src/utils/**/*.vue",
+    "src/misc/**/*.ts",
+    "src/misc/**/*.d.ts",
+    "src/pages/**/*.ts",
+    "src/pages/**/*.tsx",
+    "src/pages/**/*.vue"
+  ],
+  "exclude": ["node_modules", "dist", "src/example/**"]
+}

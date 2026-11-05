@@ -97,7 +97,7 @@ const onClickImpFile = (info: any) => {
     reader.onloadend = function (e) {
       const strkml = this.result
 
-      mapWork.kgUtil.toGeoJSON(strkml).then((geojson) => {
+      mapWork.kgUtil.toGeoJSON(strkml).then((geojson: any) => {
         console.log("kml2geojson转换结果为", geojson)
 
         graphicLayer.loadGeoJSON(geojson, {
@@ -108,7 +108,7 @@ const onClickImpFile = (info: any) => {
   } else if (fileType === "kmz") {
     // 加载input文件控件的二进制流
 
-    mapWork.kgUtil.toGeoJSON(item).then((geojson) => {
+    mapWork.kgUtil.toGeoJSON(item).then((geojson: any) => {
       console.log("kmz2geojson", geojson)
 
       graphicLayer.loadGeoJSON(geojson, {

@@ -58,7 +58,7 @@ watchEffect(() => {
 defineExpose({
   // 删除指定 field 或 索引的 元素
   delete: (key: string | number) => {
-    let index: number
+    let index: number | undefined
     if (typeof key === "string") {
       renderOptions.value.forEach((item, i) => {
         if (item.field === key) {
@@ -79,14 +79,14 @@ defineExpose({
       renderOptions.value.splice(index, 0, mergeItemOption(item))
     })
   },
-  updateField(field: string, value) {
+  updateField(field: string, value: any) {
     renderOptions.value.forEach((item) => {
       if (item.field === field) {
         item.value = value
       }
     })
   },
-  updateExtra(field: string, value) {
+  updateExtra(field: string, value: any) {
     renderOptions.value.forEach((item) => {
       if (item.field === field) {
         item.extra = mergeExtra(value)
@@ -134,7 +134,7 @@ function getComponent(type: keyof typeof components) {
   return components[type]
 }
 
-function mergeItemOption(item) {
+function mergeItemOption(item: GuiItem) {
   // 浅拷贝后再规范化，避免直接改写调用方传入的 props.options 元素
   const option = { ...item }
   // show字段转为function
@@ -148,7 +148,7 @@ function mergeItemOption(item) {
   return option
 }
 
-function mergeExtra(extra) {
+function mergeExtra(extra: any) {
   let extraNew = extra
   if (extraNew === undefined || extraNew === null) {
     return undefined

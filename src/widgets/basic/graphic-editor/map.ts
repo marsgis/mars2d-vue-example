@@ -1,6 +1,6 @@
 import * as mars2d from "mars2d"
 
-let map: mars2d.Map // 地图对象
+let map: mars2d.Map | null = null // 地图对象
 
 // 初始化当前业务
 export function onMounted(mapInstance: mars2d.Map): void {
@@ -21,5 +21,5 @@ export function pointTrans(points: any) {
 
 // 定位至矢量数据
 export function flyToGrapgic(graphic: any) {
-  map.flyToGraphic(graphic, { scale: 1.0 })
+  map!.flyToGraphic(graphic, { scale: 1.0 })
 }

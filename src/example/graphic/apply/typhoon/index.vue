@@ -29,8 +29,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
-import axios from "axios"
-import { setAutoHeight } from "@mars/utils/mars-util"
+import { fetchJson, setAutoHeight } from "@mars/utils/mars-util"
 import * as mapWork from "./map.js"
 
 interface typhoon {
@@ -77,10 +76,8 @@ function selectDefaultTyphoon() {
 onMounted(() => {
   // 访问后端接口，取台风列表数据
   const url = "//data.mars2d.cn/file/apidemo/typhoon/list_2020.json"
-  axios
-    .get(url)
-    .then(function (res: any) {
-      const data = res.data
+  fetchJson({ url })
+    .then(function (data: any) {
       typhoonList.value = (data?.typhoonList || []).map((item: any) => ({
         id: item[0],
         name_en: item[1],
@@ -145,7 +142,7 @@ const rowSelection: TableProps["rowSelection"] = {
   hideSelectAll: true,
   // @ts-ignore
   selectedRowKeys: rowKeys,
-  onChange: (selectedRowKeys: string[]) => {
+  onChange: (selectedRowKeys: (string | number)[]) => {
     // 使得点击之后选项改变
     rowKeys.value = selectedRowKeys
   },
@@ -190,8 +187,8 @@ function selectOneTyphoon(item: typhoon) {
 function getPath(id) {
   // url: "http://typhoon.nmc.cn/weatherservice/typhoon/jsons/view_" + id, //在线实时接口
   const url = "https://data.mars3d.cn/file/apidemo/typhoon/view_" + id + ".json"
-  return axios.get(url).then(function (res: any) {
-    const newData = conversionPathData(res.data.typhoon) // 在Typhoon.js中
+  return fetchJson({ url }).then(function (data: any) {
+    const newData = conversionPathData(data.typhoon) // 在Typhoon.js中
     return newData
   })
 }
