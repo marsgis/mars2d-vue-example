@@ -76,6 +76,7 @@ export async function drawPoint() {
       color: "#000dfc"
     }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
@@ -90,6 +91,7 @@ export async function drawMarker() {
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
     }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
@@ -103,6 +105,7 @@ export async function drawLabel() {
       font_family: "楷体"
     }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
@@ -158,6 +161,7 @@ export async function drawDivMarker() {
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
     }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
@@ -169,6 +173,7 @@ export async function drawPolyline() {
       color: "#000dfc"
     }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
@@ -180,6 +185,7 @@ export async function drawCurveLine() {
       color: "#000dfc"
     }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
@@ -196,6 +202,7 @@ export async function drawPolygon() {
       outlineOpacity: 1
     }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
@@ -212,6 +219,7 @@ export async function drawRectangle() {
       outlineOpacity: 1
     }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
@@ -223,6 +231,7 @@ export async function drawImage() {
       opacity: 1
     }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
@@ -239,6 +248,7 @@ export async function drawCircle() {
       outlineOpacity: 1
     }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("graphic绘制完成", graphic.toJSON())
 }
 

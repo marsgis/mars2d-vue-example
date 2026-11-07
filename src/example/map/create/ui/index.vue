@@ -265,8 +265,13 @@ const onClickNotify = async () => {
 
 // 显示遮罩提示窗，需要手动关闭
 const onClickAlert = async () => {
-  // $alert 返回一个Promise
-  await $alert(`该窗口需要单击确定按钮进行关闭，会影响地图交互操作。`, "Alert提示窗")
+  // $alert 返回一个Promise；用户取消（Esc 或遮罩）时会 reject
+  try {
+    await $alert(`该窗口需要单击确定按钮进行关闭，会影响地图交互操作。`, "Alert提示窗")
+  } catch (e) {
+    // 用户主动关闭，正常取消，忽略
+    return
+  }
 
   // 两者不能同时创建和销毁，稍微错开下
   setTimeout(() => {

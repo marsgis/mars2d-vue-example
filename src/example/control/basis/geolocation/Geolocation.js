@@ -37,7 +37,7 @@ class Geolocation extends mars2d.control.ToolButton {
         })
       }
 
-      // eslint-disable-next-line
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
       const that = this
       this.geolocation.getCurrentPosition()
 

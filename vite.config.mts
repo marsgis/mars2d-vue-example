@@ -5,13 +5,6 @@ import vue from "@vitejs/plugin-vue"
 import examplePlugin from "./build/vite-example-plugin.mts"
 import cleanDistPlugin from "./build/vite-clean-dist-plugin.mts"
 import copyPlugin from "rollup-plugin-copy"
-import monacoEditorPluginCjs from "vite-plugin-monaco-editor"
-import eslintPlugin from "vite-plugin-eslint"
-import { createStyleImportPlugin, AndDesignVueResolve } from "vite-plugin-style-import"
-
-// vite-plugin-monaco-editor 只提供 CJS 入口且以 `exports.default` 导出，
-// Vite 8 的配置加载器（原生 / rolldown）不再做 __esModule 兼容，需手动取 default
-const monacoEditorPlugin = (monacoEditorPluginCjs as any).default ?? monacoEditorPluginCjs
 
 export default ({ mode }: ConfigEnv) => {
   const root = process.cwd()
@@ -120,25 +113,7 @@ export default ({ mode }: ConfigEnv) => {
     },
     plugins: [
       vue(),
-      eslintPlugin({ cache: false }),
-      createStyleImportPlugin({
-        resolves: [AndDesignVueResolve()],
-        libs: [
-          {
-            libraryName: "ant-design-vue",
-            esModule: true,
-            resolveStyle: (name) => {
-              if (name === "auto-complete") {
-                return `ant-design-vue/es/${name}/index`
-              }
-              return `ant-design-vue/es/${name}/style/index`
-            }
-          }
-        ]
-      }),
       examplePlugin(mode),
-      // 仅打包实际会用到的语言 worker（css/html/json 从未被请求），裁剪发布体积
-      monacoEditorPlugin({ publicPath: "example/assets-monaco", languageWorkers: ["editorWorkerService", "typescript"] }),
       {
         ...copyPlugin({
           hook: "closeBundle",

@@ -797,7 +797,6 @@ declare class AntPath extends L.FeatureGroup {
         tooltipOptions?: Map.TooltipOptions;
         id?: string | number;
       });
-    map(): void | any;
     onAdd(): void | any;
     onRemove(): void | any;
     pause(): void | any;
@@ -811,7 +810,6 @@ declare class AntPath extends L.FeatureGroup {
     addLatLng(): void | any;
     setLatLngs(): void | any;
     getLatLngs(): void | any;
-    spliceLatLngs(): void | any;
     getBounds(): void | any;
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
@@ -1955,6 +1953,11 @@ declare class CanvasImage extends L.Path {
      * @returns {CanvasImage} 当前对象本身，可以链式调用
      */
     setBounds(bounds: L.LatLngBounds | any, updateEditeMarkers?: boolean | any): CanvasImage | any;
+    /**
+     * 获取矩形四个角点的经纬度数组（本类继承 L.Path，无 L.Polygon 的 getLatLngs，需自行提供）
+     * @returns {L.LatLng[]} 经纬度数组
+     */
+    getLatLngs(): L.LatLng[] | any;
     /**
      * 获取图片的矩形边界
      * @returns {L.LatLngBounds} 矩形边界
@@ -3378,6 +3381,11 @@ declare class FeatureGroup extends L.FeatureGroup {
     readonly isAdded: boolean | any;
     setStyle(): void | any;
     setLatLngs(): void | any;
+    /**
+     * 获取成员矢量对象的坐标数组（与 getBounds 一致，按成员聚合）
+     * @returns {L.LatLng[]} 经纬度数组
+     */
+    getLatLngs(): L.LatLng[] | any;
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param {any} [options] 参数对象:
@@ -5062,7 +5070,6 @@ declare class PolyDecorator extends FeatureGroup {
     onRemove(): void | any;
     newLatLngIntersects(): void | any;
     addLatLng(): void | any;
-    getLatLngs(): void | any;
     getJsonStyle(): void | any;
     toJSON(): void | any;
     getReverseLatlngs(): void | any;
@@ -5107,6 +5114,17 @@ declare class Rain extends Polygon {
     superInitialize(): void | any;
     onAdd(): void | any;
     onRemove(): void | any;
+    /**
+     * 蛇形动画基于 SVG/canvas 路径，不适用于 WebGL 粒子渲染，保持空实现以兼容通用调用
+     * @returns {Rain} 当前对象本身，可以链式调用
+     */
+    snakeIn(): Rain | any;
+    /**
+     * 获取线上距离指定图层点最近的点（不依赖渲染器维护的 _parts，按当前坐标投影计算）
+     * @param {L.Point} p 图层像素坐标
+     * @returns {L.Point | null} 最近点，未挂图时返回 null
+     */
+    closestLayerPoint(p: L.Point): L.Point | null | any;
     drawScene(): void | any;
     render(): void | any;
     superSetStyle(): void | any;
@@ -5949,6 +5967,11 @@ declare class CanvasMarkerLayer extends L.Layer {
     initialize(): void | any;
     setOptions(): void | any;
     redraw(): void | any;
+    /**
+     * 获取本图层的 Canvas 2D 绘图上下文（customDraw 回调中绘制个性点时使用）
+     * @returns {CanvasRenderingContext2D | null} 2D 上下文，图层尚未初始化 Canvas 时返回 null
+     */
+    getContext(): CanvasRenderingContext2D | null | any;
     /**
      * 添加 图标点矢量对象 到本图层
      * @param {Marker} marker 图标点矢量对象

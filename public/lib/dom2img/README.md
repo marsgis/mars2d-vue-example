@@ -14,7 +14,7 @@ DOM 截图 / 图片处理组件合集
 见署名声明
 
 ## 本地文件说明
-目录内文件：`dom-to-image.js`、`gifler.min.js`、`html2canvas.js`、`LICENSE.dom-to-image-more`、`LICENSE.gifler`、`LICENSE.html2canvas`、`LICENSE.screenShotPlugin`、`screenShotPlugin.umd.js`
+目录内文件：`modern-screenshot.js`、`gifler.min.js`、`html2canvas.js`、`LICENSE.dom-to-image-more`、`LICENSE.gifler`、`LICENSE.html2canvas`、`LICENSE.screenShotPlugin`、`screenShotPlugin.umd.js`
 
 ## 第三方组件署名声明
 

@@ -43,6 +43,7 @@ export async function drawPolygon(type) {
       outlineOpacity: 1
     }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("graphic绘制完成", graphic.toJSON())
 }
 

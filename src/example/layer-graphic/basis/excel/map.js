@@ -209,5 +209,6 @@ export async function startDrawGraphic() {
     },
     attr: { 名称: name, 创建时间: mars2d.Util.formatDate(new Date()) }
   })
+  if (!graphic) { return } // 用户取消绘制时 startDraw 返回 null，此处跳过
   console.log("标绘完成", graphic.toJSON())
 }

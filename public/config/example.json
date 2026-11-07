@@ -145,7 +145,7 @@
             "main": "thing/expImg",
             "hasPannel": true,
             "resources": [
-              "/lib/dom2img/dom-to-image.js",
+              "/lib/dom2img/modern-screenshot.js",
               "/lib/dom2img/screenShotPlugin.umd.js"
             ]
           },
@@ -155,7 +155,7 @@
             "main": "thing/bookmark",
             "hasPannel": true,
             "resources": [
-              "/lib/dom2img/dom-to-image.js"
+              "/lib/dom2img/modern-screenshot.js"
             ]
           },
           {
