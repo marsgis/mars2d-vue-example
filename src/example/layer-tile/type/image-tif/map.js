@@ -1,15 +1,24 @@
+/**
+ * 示例：TIF影像文件加载
+ * 演示：浏览器端用 geotiff 解析 TIF，再用 plotty 按色带渲染成图片，最后用 ImageLayer 按 TIF 自带的坐标范围叠加到地图
+ * API：mars2d.layer.ImageLayer、mars2d.PointTrans.proj4Trans、GeoTIFF.fromUrl
+ * 要点：浏览器端直接加载 TIF 只适合小数据，大数据请发布 WMS/WMTS 等服务方式；TIF 的 GeoKey 决定坐标系，不是 4326/4490 时要用 proj4Trans 把 boundingBox 转成经纬度；geotiff 与 plotty 由 example.json 的 libs 引入（geotiff 键同时含两个文件）
+ */
 import * as mars2d from "mars2d"
 import * as GeoTIFF from "geotiff"
 const L = mars2d.L
 
 export let map // mars2d.Map二维地图对象
+let tileLayer // 叠加的图层
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 15,
   center: { lng: 117.14005, lat: 31.840196 }
 }
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -19,18 +28,7 @@ export function onMounted(mapInstance) {
   addTileLayer()
 }
 
-// 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
-  if (map && tileLayer) {
-    map.removeLayer(tileLayer, true)
-    tileLayer = null
-  }
-  map = null
-}
-
-// 叠加的图层
-let tileLayer
-
+// ========== 3. TIF 转图片并添加图层 ==========
 export async function addTileLayer() {
   removeTileLayer()
 
@@ -60,7 +58,7 @@ export async function addTileLayer() {
 
 // 移除图层
 export function removeTileLayer() {
-  if (tileLayer) {
+  if (map && tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null
   }
@@ -96,6 +94,7 @@ async function tif2img2(url) {
   const code = image.geoKeys.ProjectedCSTypeGeoKey || image.geoKeys.GeographicTypeGeoKey // 坐标系
   const crs = "EPSG:" + code
   if (crs && crs !== mars2d.CRS.EPSG4326 && crs !== mars2d.CRS.EPSG4490) {
+    // 非经纬度坐标系：把 TIF 的投影范围转成经纬度，ImageLayer 才能按经纬度贴图
     const ptMin = mars2d.PointTrans.proj4Trans([extent.xmin, extent.ymin], crs)
     const ptMax = mars2d.PointTrans.proj4Trans([extent.xmax, extent.ymax], crs)
     extent = { xmin: ptMin[0], ymin: ptMin[1], xmax: ptMax[0], ymax: ptMax[1] }
@@ -108,7 +107,8 @@ async function tif2img2(url) {
   }
 }
 
-// tif转换为图片
+// ========== 4. 备用转换实现：手工写 canvas（不依赖 plotty 色带）==========
+// 当前示例走上面的 tif2img2（plotty 色带渲染）；若不引入 plotty，可把 addTileLayer 中的调用改成 tif2img
 async function tif2img(url) {
   const tif = await GeoTIFF.fromUrl(url)
   const image = await tif.getImage()
@@ -146,5 +146,18 @@ async function tif2img(url) {
   }
 }
 
-// 在线转换坐标的方式，任意坐标系
-// const { x: xmin, y: ymax } = await mars2d.Util.sendAjax({ url: `//epsg.io/trans?x=${west}&y=${north}&s_srs=${code}&t_srs=4326` })
+// 另一种做法：调用在线坐标转换服务（任意坐标系），把 TIF 范围换算成经纬度后再给 ImageLayer，
+// 如 //epsg.io/trans?x=${west}&y=${north}&s_srs=${code}&t_srs=4326 ；依赖外网服务，示例未启用
+
+// ========== 5. 清理（与 onMounted 对称）==========
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  if (map && tileLayer) {
+    map.removeLayer(tileLayer, true)
+    tileLayer = null
+  }
+  map = null
+}

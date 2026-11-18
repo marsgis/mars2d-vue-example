@@ -1,8 +1,16 @@
+/**
+ * 示例：pbf矢量瓦片服务
+ * 演示：用 mars2d.layer.PbfLayer 加载 GeoServer 发布的 pbf 矢量瓦片，按要素的"用地编号"属性逐块配色，并监听单击弹出用地信息
+ * API：mars2d.layer.PbfLayer（url/style/interactive/addTo）、L.popup
+ * 要点：url 模板是 TMS 规则 {z}/{x}/{-y}.pbf（{-y} 为自下而上的行号，与 XYZ 的 y 相反）；interactive:true 才会触发 click 事件；style 回调参数是 (要素属性, 瓦片层级)，返回该要素样式
+ */
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
 let map // mars2d.Map二维地图对象
+let pbfLayer // pbf 矢量瓦片图层（onUnmounted 需移除）
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -10,16 +18,27 @@ export function onMounted(mapInstance) {
   addTileLayer()
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (pbfLayer) {
+    // onUnmounted 里 map 可能已被置空，移除图层前需判空
+    if (map) {
+      map.removeLayer(pbfLayer)
+    }
+    pbfLayer = null
+  }
   map = null
 }
 
+// ========== 3. 图层与交互 ==========
 function addTileLayer() {
-  const mapboxPbfLayer = new mars2d.layer.PbfLayer({
+  pbfLayer = new mars2d.layer.PbfLayer({
+    // {z}/{x}/{-y} 是 TMS 行列号规则，GeoServer GWC 的 tms 服务即此规则
     url: "http://server.mars2d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf",
     interactive: true, // 是否允许鼠标交互，比如触发单击事件
     // style: { // 固定的样式
@@ -30,6 +49,7 @@ function addTileLayer() {
     //   fillColor: "#0000ff", // 填充颜色
     //   fillOpacity: 0.2
     // },
+    // style 传函数时按要素逐块返回样式：properties 是该要素属性，level 是当前瓦片层级
     style: function (properties, level) {
       const styleDef = {
         color: "rgba(110, 110, 110, 255)", // 线颜色
@@ -47,9 +67,9 @@ function addTileLayer() {
     },
     zIndex: 999
   })
-  mapboxPbfLayer.addTo(map)
+  pbfLayer.addTo(map)
 
-  mapboxPbfLayer.on("click", function (e) {
+  pbfLayer.on("click", function (e) {
     const attr = e.layer.properties
     const latlng = e.latlng
 
@@ -60,7 +80,8 @@ function addTileLayer() {
   })
 }
 
-// 规划 配色
+// ========== 4. 规划用地配色表 ==========
+// 用地编号 → 填充色，纯数据，放文件末尾避免打断上面的图层主流程
 const styleForType = {
   A1: {
     // 行政办公用地

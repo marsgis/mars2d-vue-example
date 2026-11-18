@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { onBeforeUnmount, onMounted, ref } from "vue"
 import { setAutoHeight } from "@mars/utils/mars-util"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
@@ -58,7 +58,7 @@ const activeKey = ref("1")
 // 表格数据
 const dataSource = ref([])
 // 取到js中的数据
-mapWork.eventTarget.on("loadOk", function (event: any) {
+const onLoadOk = (event: any) => {
   const arrPie = [] // 饼状图:名称+面积
   const arrTable = [] // 表格: 名称+面积+数量
   const arrType = [] // 柱状图:名称
@@ -184,7 +184,10 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
   } else {
     show.value = false
   }
-})
+}
+
+// 事件订阅：切换示例时面板会重建，必须用同一引用在 onBeforeUnmount 里 off，否则旧回调仍在操作已销毁的 DOM/图表
+mapWork.eventTarget.on("loadOk", onLoadOk)
 
 const columns = ref([
   {
@@ -232,10 +235,28 @@ const removeAll = () => {
 
 const tableScrollHeight = ref(0)
 
+let offAutoHeight: (() => void) | null = null
+
 onMounted(() => {
-  setAutoHeight((height: number) => {
+  // 表格滚动高度跟随容器高度变化；setAutoHeight 返回解绑函数，卸载时必须调用，避免 window resize 监听泄漏
+  offAutoHeight = setAutoHeight((height: number) => {
     tableScrollHeight.value = height
   }, 400)
+})
+
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("loadOk", onLoadOk)
+  if (offAutoHeight) {
+    offAutoHeight()
+    offAutoHeight = null
+  }
+  // 销毁 echarts 实例：释放其内部的 window resize 监听与 canvas
+  for (const chartId of ["pieChart", "histogram"]) {
+    const dom = document.getElementById(chartId)
+    if (dom) {
+      echarts.getInstanceByDom(dom)?.dispose()
+    }
+  }
 })
 </script>
 

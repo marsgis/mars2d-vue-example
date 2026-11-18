@@ -1,9 +1,16 @@
+/**
+ * 示例：graphic 矢量数据图层
+ * 演示：向 GraphicLayer 添加 12 种矢量对象（图标点/运动点/像素点/文字/圆/椭圆/线/平行线/矩形/图片/水面等），并在图层上统一绑定 click/popup/右键菜单
+ * API：mars2d.layer.GraphicLayer、mars2d.graphic.Marker/Polyline/Polygon/Circle 等、GraphicLayer#bindPopup/bindContextMenu
+ * 要点：图层级 popup/右键菜单对图层内所有矢量对象生效；preferCanvas 让线面走 Canvas 渲染，要素多时更快；MovingMarker 的 durations 单位是毫秒，逐段对应 latlngs
+ */
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 const L = mars2d.L
 export let graphicLayer
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 13,
@@ -15,6 +22,7 @@ export const mapOptions = {
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -42,11 +50,14 @@ export function onMounted(mapInstance) {
   addDemoGraphic12()
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 解绑面板通过 eventTarget 注册的监听，避免旧面板回调残留
+  eventTarget.off()
   if (map && graphicLayer) {
     // 图层上的 click、popup、右键菜单都挂在图层上，移除图层即可一并释放
     map.removeLayer(graphicLayer)
@@ -55,6 +66,7 @@ export function onUnmounted() {
   map = null
 }
 
+// ========== 4. 矢量对象（演示数据）==========
 // 图标点
 function addDemoGraphic1() {
   const graphic = new mars2d.graphic.Marker({
@@ -88,7 +100,7 @@ function addDemoGraphic2() {
   ]
   const movingMarker = new mars2d.graphic.MovingMarker({
     latlngs,
-    durations: [3000, 9000, 9000, 4000, 4000, 4000, 4000, 4000, 4000, 4000],
+    durations: [3000, 9000, 9000, 4000, 4000, 4000, 4000, 4000, 4000, 4000], // 每段轨迹的运动时长（毫秒）
     style: {
       image: "img/marker/bike.png",
       iconSize: [25, 39],
@@ -339,6 +351,7 @@ function addDemoGraphic12() {
   graphicLayer.addGraphic(graphic)
 }
 
+// ========== 5. 图层级交互（事件/popup/右键菜单）==========
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件
@@ -352,6 +365,7 @@ function initLayerManager() {
   // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
   bindLayerPopup()
 
+  // 通知面板 reset 图层状态勾选（layer-state 组件监听 defuatData）
   eventTarget.fire("defuatData", {
     enabledShowHide: true,
     enabledPopup: true,

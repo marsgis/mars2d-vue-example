@@ -1356,6 +1356,9 @@
 
         var CanvasFeature = require('./CanvasFeature');
 
+        // 模块级自增种子，保证跨实例、跨批次生成的 id 唯一
+        var autoFeatureId = 0;
+
         function CanvasFeatures(geojson) {
             // quick type flag
             this.isCanvasFeatures = true;
@@ -1379,7 +1382,7 @@
                 for (var i = 0; i < this.geojson.features.length; i++) {
 
                     if (!this.geojson.features[i].hasOwnProperty('id') || this.geojson.features[i].id === null) {
-                        this.geojson.features[i].id = i;
+                        this.geojson.features[i].id = 'canvasfeature_' + (autoFeatureId++);
                     }
 
                     this.canvasFeatures.push(new CanvasFeature(this.geojson.features[i]));
@@ -1699,11 +1702,13 @@
                 var index = this.features.indexOf(feature);
                 if (index == -1) return;
 
-                this.splice(index, 1);
+                this.features.splice(index, 1);
+
+                delete this.featureIndex[feature.id];
 
                 this.rebuildIndex(this.features);
 
-                if (this.feature.visible) return true;
+                if (feature.visible) return true;
                 return false;
             };
 

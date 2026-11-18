@@ -34,7 +34,7 @@
               @change=";(data[3] as any).change(3)"
               v-if="data[3].operation === 'checked'"
               v-model:value="data[3].value"
-              :name="'radioGroup' + 1"
+              :name="'radioGroup' + 3"
             >
               <a-radio value="1">是</a-radio>
               <a-radio value="2">否</a-radio>
@@ -56,9 +56,9 @@ const data = ref([
     describe: "当前层级",
     operation: "range",
     min: 1,
-    max: 18,
+    max: 13, // 与 map.js 的 maxZoom=13 保持一致，超过会被 SDK 钳制
     step: 1,
-    value: 18,
+    value: 13,
     change(index: number) {
       mapWork.setMapOptions("zoom", data.value[index].value)
     }
@@ -78,7 +78,7 @@ const data = ref([
   },
   {
     key: "3",
-    describe: "地球背景色",
+    describe: "地图背景色",
     operation: "color",
     value: "#dddddd",
     change(index: number) {
@@ -87,7 +87,6 @@ const data = ref([
   },
   {
     key: "4",
-    name: "场景Scene",
     describe: "是否右键菜单",
     operation: "checked",
     value: "1",

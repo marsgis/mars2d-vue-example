@@ -40,8 +40,6 @@ const radiusChange = () => {
   mapWork.radiusChange(radiusVal.value)
 }
 
-radiusChange()
-
 const deleteAll = () => {
   mapWork.deleteAll()
 }

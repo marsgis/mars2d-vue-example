@@ -12,7 +12,7 @@ Jan Marsch（OSM Buildings）开发的轻量三维建筑渲染引擎，按 BSD-2
 2017 版
 
 ## 本地文件说明
-目录内文件：`LICENSE`、`OSMBuildings-Leaflet.debug.js`、`OSMBuildings-Leaflet.js`
+目录内文件：`LICENSE`、`OSMBuildings-Leaflet.js`（调试构建与压缩构建同时加载无意义，已移除 debug 副本）
 
 ## 第三方组件署名声明
 

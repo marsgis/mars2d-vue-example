@@ -23,7 +23,6 @@
 
       <div class="f-tac">
         <div class="footer">
-          <!-- <mars-button @click="btnAnalyse">开始分析</mars-button> -->
           <mars-button @click="saveGeoJSON">保存GeoJSON</mars-button>
           <mars-button @click="removeAll" danger>清除</mars-button>
         </div>
@@ -40,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { onBeforeUnmount, ref } from "vue"
 import * as mapWork from "./map.js"
 
 const strat = ref("")
@@ -50,7 +49,6 @@ const wayShow = ref(false)
 const allDiatance = ref("")
 const useTime = ref("")
 const dh = ref("")
-
 
 const selectService = ref("gaode")
 const serviceOptions = ref([
@@ -89,31 +87,42 @@ const selectWayOptions = ref([
   }
 ])
 
-mapWork.eventTarget.on("analyse", function (event: any) {
+const onAnalyse = (event: any) => {
   wayShow.value = true
 
   useTime.value = event.allTime
   allDiatance.value = event.allDistance
   dh.value = event.dhHtml
-})
+}
 
 // 起点
 const startPoint = () => {
   mapWork.startPoint()
 }
-mapWork.eventTarget.on("start", function (event: any) {
+const onStart = (event: any) => {
   strat.value = getData(event.point.lng) + "," + getData(event.point.lat)
   wayShow.value = false
   btnAnalyse()
-})
+}
 // 终点
 const endPoint = () => {
   mapWork.endPoint()
 }
-mapWork.eventTarget.on("end", function (event: any) {
+const onEnd = (event: any) => {
   end.value = getData(event.point.lng) + "," + getData(event.point.lat)
   wayShow.value = false
   btnAnalyse()
+}
+
+// 事件订阅：切换示例时面板会重建，必须用同一引用在 onBeforeUnmount 里 off，否则旧回调仍在操作已销毁的对象
+mapWork.eventTarget.on("analyse", onAnalyse)
+mapWork.eventTarget.on("start", onStart)
+mapWork.eventTarget.on("end", onEnd)
+
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("analyse", onAnalyse)
+  mapWork.eventTarget.off("start", onStart)
+  mapWork.eventTarget.off("end", onEnd)
 })
 
 function getData(num) {
@@ -145,7 +154,8 @@ const saveGeoJSON = () => {
 .gaodeRoutePannel {
   right: 10px !important;
   top: 10px !important;
-  max-height: calc(100% - 51px) !important;
+  // 面板上下各留 10px：用视口高度计算，避免父元素高度为 auto 时 calc(100% - X) 失效；超出后由面板内部滚动
+  max-height: calc(100vh - 20px) !important;
   overflow: auto !important;
 }
 </style>

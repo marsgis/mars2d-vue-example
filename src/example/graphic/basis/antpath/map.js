@@ -1,3 +1,9 @@
+/**
+ * 示例：动画效果线(铁路)
+ * 演示：用 AntPath 绘制带流动动画的轨迹线（也支持圆、面等形态），并演示标绘与批量生成
+ * API：mars2d.graphic.AntPath、mars2d.layer.GraphicLayer、mars2d.PointTrans.coords2latlngs
+ * 要点：latlngs 用 [纬度, 经度]；数据为 [经度, 纬度, 高度] 时先用 coords2latlngs 转换；style.graphicType 可把动画线画成 circle/polygon；reverse:true 反向流动
+ */
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
@@ -7,6 +13,7 @@ export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -25,14 +32,26 @@ export function onMounted(mapInstance) {
   addDemoGraphic4()
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 解绑面板通过 eventTarget 注册的事件，避免旧面板回调残留
+  eventTarget.off()
+  if (graphicLayer) {
+    // 从地图移除矢量图层：矢量对象及其上的 popup/右键菜单随之释放，动画也会停止
+    if (map) {
+      map.removeLayer(graphicLayer, true)
+    }
+    graphicLayer = null
+  }
   map = null
 }
 
+// ========== 3. 矢量对象（演示数据）==========
 function addDemoGraphic1() {
   // 经纬度 转为leafelt的纬度、经度标准
   const latlngs = mars2d.PointTrans.coords2latlngs([
@@ -123,6 +142,7 @@ function addDemoGraphic4() {
   graphicLayer.addGraphic(graphic)
 }
 
+// ========== 4. 面板交互方法 ==========
 export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "antPath",
@@ -142,7 +162,6 @@ export function addRandomGraphicByCount(count) {
 
   const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
   const result = mars2d.PolyUtil.getGridPoints(bbox, count, 30)
-  console.log("生成的测试网格坐标", result)
 
   for (let j = 0; j < result.points.length; ++j) {
     const latlng = result.points[j]
@@ -159,9 +178,10 @@ export function addRandomGraphicByCount(count) {
     graphicLayer.addGraphic(graphic)
   }
 
-  return count.length
+  return result.points.length // 实际生成的个数（网格按 count 取整，可能少于入参）
 }
 
+// ========== 5. 事件与交互 ==========
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件

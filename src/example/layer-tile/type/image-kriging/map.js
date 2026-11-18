@@ -1,14 +1,23 @@
+/**
+ * 示例：全国温度图
+ * 演示：用 kriging（克里金）插值把江西省降水站点数据渲染成 canvas 色斑图，再用 ImageLayer 按数据范围叠加到地图
+ * API：mars2d.layer.ImageLayer、mars2d.Util.fetchJson、kriging.train/grid
+ * 要点：kriging 适合少量点，数据量大时浏览器会卡死；色斑图先画在 canvas 上再 toDataURL 成图片，ImageLayer 的 rectangle 用数据经纬度范围定位；请求/插值期间用户可能切换示例，异步回调必须判空 map
+ */
 import * as mars2d from "mars2d"
 import kriging from "kriging"
 
-let map
+let map // mars2d.Map二维地图对象
+let tileLayer // 叠加的降水色斑图图层
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 7,
   center: { lng: 116.883545, lat: 27.76133 }
 }
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -16,18 +25,7 @@ export function onMounted(mapInstance) {
   addTileLayer()
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-
-export function onUnmounted() {
-  removeTileLayer()
-  map = null
-}
-
-// 叠加的图层
-let tileLayer
+// ========== 3. 插值渲染并添加色斑图图层 ==========
 export async function addTileLayer() {
   removeTileLayer()
 
@@ -83,6 +81,7 @@ export async function addTileLayer() {
       [xmin, ymax]
     ]
   ]
+  // 第三个参数是格网步长：(xmax-xmin)/500 表示经度方向约 500 格，数值越大色斑越细腻也越慢
   const grid = kriging.grid(extent, variogram, (xmax - xmin) / 500)
 
   // 进行绘图
@@ -101,13 +100,15 @@ export async function addTileLayer() {
   })
   map.addLayer(tileLayer)
 }
+
 export function removeTileLayer() {
-  if (tileLayer) {
+  if (map && tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null
   }
 }
 
+// ========== 4. 色斑图绘制（canvas 逐格填色）==========
 // 平均年降水量，单位mm
 const jxPrecipitationColors = [
   { min: 0, max: 1000, color: "#7fffff" },
@@ -163,4 +164,14 @@ function newPlot(canvas, grid, xlim, ylim, colors) {
       ctx.fillRect(Math.round(x - wx / 2), Math.round(y - wy / 2), wx, wy)
     }
   }
+}
+
+// ========== 5. 清理（与 onMounted 对称）==========
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  removeTileLayer()
+  map = null
 }

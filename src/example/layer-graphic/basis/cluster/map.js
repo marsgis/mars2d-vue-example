@@ -1,3 +1,9 @@
+/**
+ * 示例：聚合点 图层
+ * 演示：用 mars2d.layer.ClusterLayer 把 1000 个矢量点按距离聚合，演示默认样式、自定义样式、照片点三种效果
+ * API：mars2d.layer.ClusterLayer、ClusterLayer#addGraphic、ClusterLayer#getChildCount、ClusterLayer#bindPopup
+ * 要点：chunkedLoading 分批添加数据，避免一次添加大量点冻结页面；disableClusteringAtZoom 控制到达该级别后不再聚合；聚合点数量用公开方法 clusterLayer.getChildCount(marker) 获取（普通点返回 1）
+ */
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
@@ -7,6 +13,7 @@ let clusterLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -14,14 +21,18 @@ export function onMounted(mapInstance) {
   addLayer()
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 聚合图层的点较多，卸载时从地图移除，避免重新运行示例后残留
+  removeLayer()
   map = null
 }
 
+// ========== 3. 图层操作（面板交互） ==========
 export function showClusteringFn(val) {
   if (clusterLayer) {
     clusterLayer.clusterEnabled = val
@@ -38,12 +49,15 @@ export function removeLayer() {
 }
 
 export function addLayer() {
+  if (!map) {
+    return // 地图未初始化（示例尚未就绪）时忽略
+  }
   removeLayer()
 
   clusterLayer = new mars2d.layer.ClusterLayer({
     chunkedLoading: true, // 间隔添加数据，以便页面不冻结。
     showCoverageOnHover: false, // 是否显示聚合标记的边界。
-    disableClusteringAtZoom: 18 // 此级别下不聚合
+    disableClusteringAtZoom: 18 // 到达 18 级后不再聚合，直接显示每个点
   })
   map.addLayer(clusterLayer)
 
@@ -62,9 +76,10 @@ export function addLayer() {
       iconCls: "fa fa-medium",
       callback: function (e) {
         const graphic = e.sourceTarget
+        const childCount = clusterLayer.getChildCount(graphic)
 
-        if (graphic._childCount) {
-          globalMsg("单击了聚合点,数量：" + graphic._childCount)
+        if (childCount > 0) {
+          globalMsg("单击了聚合点,数量：" + childCount)
         } else {
           globalMsg("单击了矢量点,ID：" + graphic.attr?.id)
         }
@@ -102,8 +117,9 @@ export function addLayer() {
   }
 
   clusterLayer.bindPopup(function (event) {
-    if (event._childCount > 0) {
-      return "单击了聚合点,数量：" + event._childCount
+    const childCount = clusterLayer.getChildCount(event)
+    if (childCount > 0) {
+      return "单击了聚合点,数量：" + childCount
     }
 
     const attr = event.attr
@@ -118,13 +134,16 @@ export function addLayer() {
 }
 
 export function addCustomLayer() {
+  if (!map) {
+    return // 地图未初始化（示例尚未就绪）时忽略
+  }
   removeLayer()
 
   clusterLayer = new mars2d.layer.ClusterLayer({
-    maxClusterRadius: 120,
+    maxClusterRadius: 120, // 聚合半径（像素），半径越大聚合得越厉害
     spiderfyOnMaxZoom: false,
     showCoverageOnHover: false,
-    zoomToBoundsOnClick: true,
+    zoomToBoundsOnClick: true, // 单击聚合点缩放到其覆盖范围
     iconCreateFunction: function (cluster) {
       const markers = cluster.getAllChildMarkers()
       // 显示个数
@@ -140,8 +159,9 @@ export function addCustomLayer() {
   map.addLayer(clusterLayer)
 
   clusterLayer.bindPopup(function (event) {
-    if (event._childCount > 0) {
-      return "单击了聚合点,数量：" + event._childCount
+    const childCount = clusterLayer.getChildCount(event)
+    if (childCount > 0) {
+      return "单击了聚合点,数量：" + childCount
     }
     const attr = event.attr
     const innerHtml = `<div class="mars2d-template-titile">第${attr.id}个</div>
@@ -172,6 +192,9 @@ export function addCustomLayer() {
 
 // 照片点示例
 export function addCustomPhotoLayer() {
+  if (!map) {
+    return // 地图未初始化（示例尚未就绪）时忽略
+  }
   removeLayer()
 
   clusterLayer = new mars2d.layer.ClusterLayer({
@@ -208,6 +231,9 @@ export function addCustomPhotoLayer() {
     graphic.bindPopup(inhtml)
   }
 }
+
+// ========== 4. 内部工具函数 ==========
+
 
 function getRandomLatLng() {
   const bounds = map.getBounds()

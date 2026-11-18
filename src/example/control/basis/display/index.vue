@@ -8,8 +8,7 @@
           <a-checkbox v-model:checked="formState.enabledFullScreen" @change="onBindFullScreen">全屏</a-checkbox>
           <a-checkbox v-model:checked="formState.enabledZoomIn" @change="onBindZoomIn">地图放大</a-checkbox>
           <a-checkbox v-model:checked="formState.enabledZoomOut" @change="onBindZoomOut">地图缩小</a-checkbox>
-          <a-checkbox v-model:checked="formState.enabledLayerPicker" @change="onBindBaseLayerPicker">底图切换</a-checkbox>
-          <a-checkbox v-model:checked="formState.enabledLayersTool" @change="onBindLayersTool">图层控制</a-checkbox>
+          <a-checkbox v-model:checked="formState.enabledLayersTool" @change="onBindLayersTool">图层控制(含底图切换)</a-checkbox>
         </a-form-item>
         <a-form-item label="面板">
           <a-checkbox v-model:checked="formState.enabledLegend" @change="onBindLegend">比例尺</a-checkbox>
@@ -25,44 +24,26 @@ import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
-  enabledPOI: boolean
   enabledView: boolean
   enabledBtnLocation: boolean
-  enabledSceneModePicker: boolean
-  enabledBaseLayerPicker: boolean
   enabledFullScreen: boolean
-  enabledVR: boolean
-  enabledHelpButton: boolean
-
-  enabledLocation: boolean
-  enabledClock: boolean
-  enabledTimeLine: boolean
-  enabledNav: boolean
-  enabledLegend: boolean
   enabledZoomIn: boolean
   enabledZoomOut: boolean
-  enabledLayerPicker: boolean
   enabledLayersTool: boolean
+
+  enabledLocation: boolean
+  enabledLegend: boolean
 }
 
 const formState: UnwrapRef<FormState> = reactive({
-  enabledPOI: true,
   enabledView: true,
   enabledBtnLocation: true,
-  enabledSceneModePicker: true,
-  enabledBaseLayerPicker: true,
   enabledFullScreen: true,
-  enabledVR: true,
-  enabledHelpButton: true,
   enabledZoomIn: true,
   enabledZoomOut: true,
 
   enabledLocation: true,
-  enabledClock: true,
-  enabledTimeLine: true,
-  enabledNav: true,
   enabledLegend: true,
-  enabledLayerPicker: true,
   enabledLayersTool: true
 })
 
@@ -83,9 +64,6 @@ const onBindZoomIn = () => {
 }
 const onBindZoomOut = () => {
   mapWork.bindZoomOut(formState.enabledZoomOut)
-}
-const onBindBaseLayerPicker = () => {
-  mapWork.bindBaseLayerPicker(formState.enabledLayerPicker)
 }
 const onBindLayersTool = () => {
   mapWork.bindBindLayersTool(formState.enabledLayersTool)

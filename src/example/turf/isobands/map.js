@@ -1,21 +1,33 @@
+/**
+ * 示例：等值线面(离散点生成)
+ * 演示：取在线风场离散点数据（windpoint.json），用 turf.isobands 生成等值面、turf.isolines 生成等值线，按 speed 值分段配色后叠加到地图
+ * API：turf.isobands、turf.isolines、mars2d.layer.GeoJsonLayer
+ * 要点：breaks 是等值面分级数组，需与 colors 一一对应；GeoJsonLayer 的 symbol.callback 里按要素属性返回 fillColor 实现分段配色；数据依赖 data.mars2d.cn 在线接口，不可用时用 globalMsg 提示
+ */
 import * as mars2d from "mars2d"
 let map
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 7,
   center: { lng: 116.378174, lat: 30.537774 }
 }
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载气象
   mars2d.Util.fetchJson({
-    url: "http://data.mars2d.cn/file/apidemo/windpoint.json"
+    url: "//data.mars2d.cn/file/apidemo/windpoint.json"
   })
     .then((res) => {
+      // 示例切换后异步请求可能才返回，此时地图已销毁，直接丢弃
+      if (!map) {
+        return
+      }
       showWindLine(res.data)
     })
     .catch((error) => {
@@ -24,15 +36,19 @@ export function onMounted(mapInstance) {
     })
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-
 export function onUnmounted() {
-  map = null
+  if (map) {
+    map.destroy() // 一并释放等值面/等值线两个 GeoJsonLayer
+    map = null
+  }
 }
 
+// ========== 4. 等值面/等值线生成 ==========
 const colors = ["#006837", "#1a9850", "#66bd63", "#a6d96a", "#d9ef8b", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#a50026"]
 const breaks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 99] // 等值面的级数
 

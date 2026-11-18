@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
 import * as mapWork from "./map.js"
 
 const drawRectangle = () => {
@@ -27,7 +26,6 @@ const drawCircle = () => {
 const removeAll = () => {
   mapWork.removeAll()
 }
-
 </script>
 
 <style scoped lang="less">

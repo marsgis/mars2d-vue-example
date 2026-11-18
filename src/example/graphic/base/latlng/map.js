@@ -1,16 +1,22 @@
+/**
+ * 示例：latlng坐标
+ * 演示：点状对象用 latlng、线/面状对象用 latlngs 传坐标，并在图层上绑定 Popup 与右键菜单（编辑、删除、量算）
+ * API：mars2d.graphic.Marker/Polyline、mars2d.PointTrans.coords2latlngs、graphicLayer.bindPopup/bindContextMenu
+ * 要点：坐标数组顺序是 [纬度, 经度, 高度]，与 GeoJSON、PointTrans 的 [经度, 纬度] 相反；在图层上绑定一次 popup/右键菜单即对该图层的所有矢量对象生效
+ */
 import * as mars2d from "mars2d"
-
-const L = mars2d.L
 
 export let map // mars2d.Map二维地图对象
 export let graphicLayer // 矢量图层对象
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 13,
   center: { lng: 117.268238, lat: 31.898838 }
 }
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -31,13 +37,19 @@ export function onMounted(mapInstance) {
   addDemoGraphic2(graphicLayer)
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 // 释放当前地图业务的生命周期函数
 export function onUnmounted() {
-  map = null
+  if (map) {
+    map.destroy() // 一并释放图层、矢量对象与图层上绑定的交互
+    map = null
+  }
+  graphicLayer = null
 }
 
+// ========== 4. 矢量对象 ==========
 function addDemoGraphic1(graphicLayer) {
-  // 点状数据的坐标是传 latlng 参数
+  // 点状数据的坐标是传 latlng 参数，数组顺序为 [纬度, 经度, 高度(可选)]
   const graphic = new mars2d.graphic.Marker({
     // latlng: new L.LatLng(31.85256, 117.273005), // 支持多种类型坐标格式
     // latlng: mars2d.PointTrans.coord2latlng([117.273005, 31.85256]),
@@ -78,6 +90,7 @@ function addDemoGraphic2(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
+// ========== 5. 图层交互：Popup 与右键菜单 ==========
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {

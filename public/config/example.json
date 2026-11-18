@@ -185,16 +185,6 @@
             "thumbnail": "map-manager-keyboardRoam.jpg",
             "main": "map/manager/keyboardRoam",
             "hasPannel": true
-          },
-          {
-            "name": "旋转地图",
-            "thumbnail": "map-manager-rotate.jpg",
-            "main": "map/manager/rotate",
-            "hasPannel": true,
-            "libs": [
-              "mars2d",
-              "leaflet-rotate"
-            ]
           }
         ]
       }
@@ -297,15 +287,6 @@
             "name": "鹰眼地图",
             "thumbnail": "control-basis-overviewMap.jpg",
             "main": "control/basis/overviewMap"
-          },
-          {
-            "name": "时间播放",
-            "thumbnail": "control-basis-timeDimension.gif",
-            "main": "control/basis/timeDimension",
-            "libs": [
-              "mars2d",
-              "timeDimension"
-            ]
           },
           {
             "name": "卷帘对比",
@@ -537,15 +518,6 @@
             "main": "layer-tile/type/sm-tile"
           },
           {
-            "name": "Mapbox GL图层",
-            "thumbnail": "layer-tile-type-mapboxgl.jpg",
-            "main": "layer-tile/type/mapboxgl",
-            "libs": [
-              "mars2d",
-              "mapbox-gl"
-            ]
-          },
-          {
             "name": "TIF影像文件加载",
             "thumbnail": "layer-tile-type-image-tif.jpg",
             "main": "layer-tile/type/image-tif",
@@ -610,6 +582,12 @@
             "hasPannel": true
           },
           {
+            "name": "LabelLayer 大批量标注",
+            "thumbnail": "layer-graphic-basis-label-layer.jpg",
+            "main": "layer-graphic/basis/label-layer",
+            "hasPannel": true
+          },
+          {
             "name": "Excel、CSV格式加载",
             "thumbnail": "layer-graphic-basis-excel.jpg",
             "main": "layer-graphic/basis/excel",
@@ -664,24 +642,6 @@
             "resources": [
               "polygon-legend.css"
             ]
-          },
-          {
-            "name": "GeoJson大数据面(Canvas合并渲染)",
-            "thumbnail": "layer-graphic-file-geojson-canvas.jpg",
-            "main": "layer-graphic/file/geojson-canvas",
-            "libs": [
-              "mars2d",
-              "CanvasGeojsonLayer"
-            ]
-          },
-          {
-            "name": "建筑物3D立体",
-            "thumbnail": "layer-graphic-other-osmbuildings.jpg",
-            "main": "layer-graphic/other/osmbuildings",
-            "libs": [
-              "mars2d",
-              "OSMBuildings"
-            ]
           }
         ]
       },
@@ -730,16 +690,6 @@
             "name": "经纬网",
             "thumbnail": "layer-graphic-other-graticule.jpg",
             "main": "layer-graphic/other/graticule"
-          },
-          {
-            "name": "迁徙效果",
-            "thumbnail": "graphic-basis-polyline-migration.gif",
-            "main": "graphic/basis/polyline-migration",
-            "hasPannel": true,
-            "libs": [
-              "mars2d",
-              "leaflet-migration"
-            ]
           }
         ]
       },
@@ -915,16 +865,6 @@
             "hasPannel": true
           },
           {
-            "name": "Canvas文字",
-            "thumbnail": "layer-graphic-other-textCollision.jpg",
-            "main": "layer-graphic/other/canvaslabel",
-            "hasPannel": true,
-            "libs": [
-              "mars2d",
-              "canvaslabel"
-            ]
-          },
-          {
             "name": "聚合点 图层",
             "thumbnail": "layer-graphic-basis-cluster.jpg",
             "main": "layer-graphic/basis/cluster",
@@ -983,6 +923,12 @@
             "name": "动画效果线(铁路)",
             "thumbnail": "graphic-basis-antpath.gif",
             "main": "graphic/basis/antpath",
+            "hasPannel": true
+          },
+          {
+            "name": "弧线动画(ArcPolyline)",
+            "thumbnail": "graphic-basis-arc-polyline.jpg",
+            "main": "graphic/basis/arc-polyline",
             "hasPannel": true
           },
           {
@@ -1131,16 +1077,6 @@
             "thumbnail": "graphic-fun-isInPoly.jpg",
             "main": "graphic/fun/isInPoly",
             "hasPannel": true
-          },
-          {
-            "name": "时序轨迹路线",
-            "thumbnail": "layer-graphic-other-trackplayback.jpg",
-            "main": "layer-graphic/other/trackplayback",
-            "hasPannel": true,
-            "libs": [
-              "mars2d",
-              "leaflet-trackplayback"
-            ]
           }
         ]
       }
@@ -1308,20 +1244,6 @@
             "name": "热力图",
             "thumbnail": "layer-other-heatLayer.jpg",
             "main": "layer-other/heatLayer"
-          }
-        ]
-      },
-      {
-        "name": "气象图层",
-        "children": [
-          {
-            "name": "风向图",
-            "thumbnail": "layer-other-wind.jpg",
-            "main": "layer-other/wind",
-            "libs": [
-              "mars2d",
-              "leaflet-wind"
-            ]
           }
         ]
       },
@@ -1563,6 +1485,77 @@
               "mars2d",
               "mars2d-esri",
               "mars2d-echarts"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "第三方Leaflet插件",
+        "details": "基于Leaflet的第三方插件，与Mars2D库无关，但可以兼容使用，如有问题自行修改对应插件源码",
+        "children": [
+          {
+            "name": "旋转地图",
+            "thumbnail": "map-manager-rotate.jpg",
+            "main": "thirdParty/rotate",
+            "hasPannel": true,
+            "libs": [
+              "mars2d",
+              "leaflet-rotate"
+            ]
+          },
+          {
+            "name": "建筑物3D立体",
+            "thumbnail": "layer-graphic-other-osmbuildings.jpg",
+            "main": "thirdParty/osmbuildings",
+            "libs": [
+              "mars2d",
+              "OSMBuildings"
+            ]
+          },
+          {
+            "name": "Mapbox GL图层",
+            "thumbnail": "layer-tile-type-mapboxgl.jpg",
+            "main": "thirdParty/mapboxgl",
+            "libs": [
+              "mars2d",
+              "mapbox-gl"
+            ]
+          },
+          {
+            "name": "风向图",
+            "thumbnail": "layer-other-wind.jpg",
+            "main": "thirdParty/wind",
+            "libs": [
+              "mars2d",
+              "leaflet-wind"
+            ]
+          },
+          {
+            "name": "时间播放",
+            "thumbnail": "control-basis-timeDimension.gif",
+            "main": "thirdParty/timeDimension",
+            "libs": [
+              "mars2d",
+              "timeDimension"
+            ]
+          },
+          {
+            "name": "时序轨迹路线",
+            "thumbnail": "layer-graphic-other-trackplayback.jpg",
+            "main": "thirdParty/trackplayback",
+            "hasPannel": true,
+            "libs": [
+              "mars2d",
+              "leaflet-trackplayback"
+            ]
+          },
+          {
+            "name": "GeoJson大数据面(Canvas合并渲染)",
+            "thumbnail": "layer-graphic-file-geojson-canvas.jpg",
+            "main": "thirdParty/geojson-canvas",
+            "libs": [
+              "mars2d",
+              "CanvasGeojsonLayer"
             ]
           }
         ]

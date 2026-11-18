@@ -1,14 +1,22 @@
+/**
+ * 示例：style样式
+ * 演示：Label、Polyline、Polygon 的 style 配置（字体与边框背景、线宽颜色、填充色与贴图填充），并绑定图层级 Popup 与右键菜单
+ * API：mars2d.graphic.Label/Polyline/Polygon、graphicLayer.bindPopup/bindContextMenu
+ * 要点：不同 graphic 的 style 字段不同且多为下划线命名（font_size、border_color、outlineWidth 等），要按类型查 API；Polygon 的 image 可做纹理填充，imageOpacity 控制纹理透明度；在图层上绑定一次 popup 即对该图层所有对象生效
+ */
 import * as mars2d from "mars2d"
 
 export let map // mars2d.Map二维地图对象
 export let graphicLayer // 矢量图层对象
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 12,
   center: { lng: 117.294159, lat: 31.845774 }
 }
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -30,11 +38,17 @@ export function onMounted(mapInstance) {
   addDemoGraphic3(graphicLayer)
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 // 释放当前地图业务的生命周期函数
 export function onUnmounted() {
-  map = null
+  if (map) {
+    map.destroy() // 一并释放图层、矢量对象与图层上绑定的交互
+    map = null
+  }
+  graphicLayer = null
 }
 
+// ========== 4. 矢量对象与样式 ==========
 function addDemoGraphic1(graphicLayer) {
   // style是控制外观的，决定对象长什么样
   // 每个type类型的矢量对象style都不一样，具体参考各类型对象的API文档
@@ -103,6 +117,7 @@ function addDemoGraphic3(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
+// ========== 5. 图层交互：Popup 与右键菜单 ==========
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {

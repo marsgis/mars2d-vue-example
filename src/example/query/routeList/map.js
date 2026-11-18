@@ -1,17 +1,25 @@
+/**
+ * 示例：路径规划查询(多条)
+ * 演示：先绘制起点、查询当前视域内的企业 POI 作为多个终点，再用 mars2d.query.QueryRoute#queryArr 批量查询起点到各终点的路径，结果列表可定位到对应路线
+ * API：mars2d.query.QueryRoute#queryArr、mars2d.query.QueryPOI#queryPolygon、mars2d.graphic.Polyline
+ * 要点：依赖外网高德 POI/路径规划服务（示例 token 不保证长期有效）；多条路径是逐个串行请求（queryArr 内部递归），POI 点数越多耗时越长；showRouteResult 用 endPointArr[i] 与返回数组下标对齐，二者顺序必须一致
+ */
 import * as mars2d from "mars2d"
-const L = mars2d.L
 
 let map // mars2d.Map二维地图对象
-let queryRoute
-let queryPOI
+let queryRoute // 路径规划查询服务（QueryRoute 实例）
+let queryPOI // 终点 POI 查询服务（QueryPOI 实例）
 
-let routeLayer
-let poiLayer
-let startGraphic
-let endPointArr
+let routeLayer // 路径线图层
+let poiLayer // 终点 POI 点图层
+let startGraphic // 起点标绘对象（画在 map.graphicLayer 上）
+let endPointArr // 当前视域内查询到的终点 POI 数据
+let lastRoute // 最近一次从表格定位的路径矢量（预留：后续可做高亮）
+
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -32,8 +40,9 @@ export function onMounted(mapInstance) {
   poiLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(poiLayer)
 
-  poiLayer.bindPopup(function (event) {
-    const item = event.marsOptions.attr
+  // bindPopup 的回调参数是矢量对象本身，marsOptions.attr 为 addGraphic 时传入的 POI 数据
+  poiLayer.bindPopup(function (graphic) {
+    const item = graphic.marsOptions.attr
 
     let inHtml = '<div class="mars2d-template-titile">' + item.name + '</div><div class="mars2d-template-content" >'
 
@@ -61,15 +70,37 @@ export function onMounted(mapInstance) {
   })
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (!map) {
+    return
+  }
+  // 起点画在 map.graphicLayer 上，显式移除；路径线与终点 POI 在自建图层里，整体移除
+  if (startGraphic) {
+    startGraphic.remove()
+    startGraphic = null
+  }
+  if (routeLayer) {
+    map.removeLayer(routeLayer)
+    routeLayer = null
+  }
+  if (poiLayer) {
+    map.removeLayer(poiLayer)
+    poiLayer = null
+  }
+  // 查询服务只保存服务地址与 token，无 DOM/定时器
+  queryRoute = null
+  queryPOI = null
+  endPointArr = null
+  lastRoute = null
   map = null
 }
 
-let lastRoute
+// ========== 3. 面板交互方法：选点与终点查询 ==========
 export function centerAtRoute(id) {
   const graphic = routeLayer.getGraphicById(id)
   map.flyToGraphic(graphic, { scale: 1.0 })
@@ -106,6 +137,7 @@ export function endPoint() {
 
   const extent = map.getExtent() // 当前视域内
 
+  // 用当前视域的矩形范围查企业 POI 作为候选终点（矩形用左上、右下两点表示）
   queryPOI.queryPolygon({
     text: "企业",
     polygon: mars2d.PointTrans.coords2latlngs([
@@ -137,6 +169,7 @@ export function changeService(type) {
   queryPOI.setOptions({ service: type })
 }
 
+// ========== 4. 面板交互方法：开始分析与清除 ==========
 export function btnAnalyse(type) {
   if (!startGraphic || !endPointArr || endPointArr.length === 0) {
     globalMsg("请设置起点和查询目的地")
@@ -181,6 +214,7 @@ export function removeAll() {
   endPointArr = null
 }
 
+// ========== 5. 查询结果上图 ==========
 // 终点的POI查询
 function addEndPointEntity(arr) {
   console.log("查询数据结果", arr)

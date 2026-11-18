@@ -1,3 +1,9 @@
+/**
+ * 示例：CanvesMarker大数据点图层
+ * 演示：用 mars2d.layer.CanvasMarkerLayer 以 Canvas 渲染上万图标点，并演示 customDraw 自定义绘制
+ * API：mars2d.layer.CanvasMarkerLayer、CanvasMarkerLayer#addGraphic、CanvasMarkerLayer#getContext
+ * 要点：CanvasMarkerLayer 适合大数据量点（比 SVG Marker 快）；customDraw 回调里 event.point 是屏幕像素坐标，绘图上下文用 event.layer.getContext() 取；面板按"万条"生成数据
+ */
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
@@ -7,12 +13,13 @@ let canvasMarkerLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  // 添加图层
-  canvasMarkerLayer = new mars2d.layer.CanvasMarkerLayer()
+  // 添加图层（碰撞默认关闭，面板可切换；开启后同屏重叠点只保留高优先级）
+  canvasMarkerLayer = new mars2d.layer.CanvasMarkerLayer({ collision: false })
   map.addLayer(canvasMarkerLayer)
 
   canvasMarkerLayer.on("click", (e) => {
@@ -20,7 +27,8 @@ export function onMounted(mapInstance) {
   })
 
   canvasMarkerLayer.bindPopup(function (event) {
-    const attr = event?.attr || {}
+    // 拷贝一份属性再追加展示字段，避免把弹窗文案写回 graphic.attr 污染业务数据
+    const attr = { ...(event?.attr || {}) }
     attr["类型"] = event.type
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
@@ -34,20 +42,46 @@ export function onMounted(mapInstance) {
   }
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // Canvas 图层（含 canvas 元素）挂在地图上，卸载时移除并摘掉图层控制里的项
+  if (map && canvasMarkerLayer) {
+    map.removeLayer(canvasMarkerLayer, true)
+    canvasMarkerLayer = null
+  }
   map = null
 }
 
+// ========== 3. 面板交互方法 ==========
+/**
+ * 开关点碰撞
+ * @param {Boolean} enabled 是否开启
+ * @return {void} 无
+ */
+export function setCollision(enabled) {
+  if (!canvasMarkerLayer) {
+    return
+  }
+  canvasMarkerLayer.setOptions({ collision: enabled, collisionPadding: 2 })
+  canvasMarkerLayer.redraw()
+}
+
 export function clearData() {
+  if (!canvasMarkerLayer) {
+    return
+  }
   canvasMarkerLayer.clear()
 }
 
 // 添加随机图标点
 export function addMarkers(numPoints) {
+  if (!canvasMarkerLayer) {
+    return
+  }
   canvasMarkerLayer.clear()
 
   for (let i = 0; i < numPoints; i++) {
@@ -69,8 +103,11 @@ export function addMarkers(numPoints) {
   }
 }
 
-// 添加随机图标点
+// 添加随机图标点（customDraw 个性绘制）
 export function addCustomDrawMarkers(numPoints) {
+  if (!canvasMarkerLayer) {
+    return
+  }
   canvasMarkerLayer.clear()
 
   // if (map.dragging.moving()) {
@@ -86,7 +123,11 @@ export function addCustomDrawMarkers(numPoints) {
         width: 40,
         height: 20,
         customDraw: function (event) {
-          const ctx = event.layer._context
+          // getContext 是 CanvasMarkerLayer 的公开方法（替代 Leaflet 私有属性 _context）
+          const ctx = event.layer.getContext()
+          if (!ctx) {
+            return // Canvas 尚未初始化时理论上不会进 customDraw，判空防边界
+          }
           const pointPos = event.point
           const attr = event.graphic.attr
           const sizeWidth = event.graphic.style.width
@@ -115,7 +156,9 @@ export function addCustomDrawMarkers(numPoints) {
   }
 }
 
+// ========== 4. 内部工具函数 ==========
 function getRandomLatLng() {
+  // pad(0.5) 把范围向外扩一半，避免随机点全落在当前视野边缘
   const bounds = map.getBounds().pad(0.5)
   const southWest = bounds.getSouthWest()
   const northEast = bounds.getNorthEast()

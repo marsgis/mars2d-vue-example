@@ -1,13 +1,23 @@
+/**
+ * 示例：面的切割(线分割面)
+ * 演示：内置 4 个面，画一条穿过面的线后用 turf 的线分割面算法把面切成两块，切割结果用绿色面显示
+ * API：turf.polygonToLine、turf.lineIntersect、turf.lineSlice、turf.lineToPolygon、mars2d.PointTrans.coords2latlngs
+ * 要点：线与面必须恰好有 2 个交点且线的端点不能落在面内；环与多面（MultiPolygon）的切分走不同分支；示例内置面的坐标是 [经度, 纬度]，需 coords2latlngs 转成 [纬度, 经度]
+ */
+// 说明：本文件是 turf 线分割面的算法演示，按规范只补充文件头/分区/关键逻辑注释，不改动数据与计算逻辑
 import * as mars2d from "mars2d"
 let map
 let drawLayer
 let polygonLayer
+
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 11,
   center: { lng: 117.29501, lat: 31.841349 }
 }
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -19,15 +29,22 @@ export function onMounted(mapInstance) {
   map.addLayer(drawLayer)
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 
 export function onUnmounted() {
-  map = null
+  if (map) {
+    map.destroy() // 一并释放 drawLayer / polygonLayer 与切割结果
+    map = null
+  }
+  drawLayer = null
+  polygonLayer = null
 }
 
+// ========== 4. 面板交互方法：画切割线 ==========
 export function drawLine() {
   drawLayer.clear()
   drawLayer.startDraw({
@@ -46,11 +63,13 @@ export function drawLine() {
   })
 }
 
+// ========== 5. 面数据与切割逻辑 ==========
 // 加载面数据
 function loadPolygon() {
   polygonLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(polygonLayer)
 
+  // 内置 4 个面的坐标，顺序为 [经度, 纬度]
   const postionArr = [
     {
       postions: [
@@ -118,6 +137,7 @@ export function clear() {
 function clipAllPolygon(clipLine) {
   polygonLayer.eachGraphic(function (graphic) {
     try {
+      // 与切割线相交的面返回 FeatureCollection（切成两块），不相交的返回 undefined
       const clippedPolygon = geoUtil.polygonClipByLine(graphic.toGeoJSON(), clipLine)
       if (clippedPolygon) {
         drawLayer.loadGeoJSON(clippedPolygon, {
@@ -143,6 +163,7 @@ function clipAllPolygon(clipLine) {
  * geoJson数据处理模块(需要引入turf.js)
  * 输入输出数据均为标准geoJson格式
  */
+// ========== 6. geoUtil：线分割面工具 ==========
 const geoUtil = {
   // 合并多边形
   unionPolygon: function (polygons) {

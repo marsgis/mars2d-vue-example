@@ -1093,4 +1093,3 @@
   Object.defineProperty(exports, '__esModule', { value: true });
 
 }));
-//# sourceMappingURL=leaflet-wind.js.map

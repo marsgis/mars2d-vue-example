@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue"
+import { ref, onMounted, onBeforeUnmount } from "vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
 import { fetchJson, setAutoHeight } from "@mars/utils/mars-util"
 import * as mapWork from "./map.js"
@@ -51,18 +51,23 @@ const typhoonName = ref<string>() // 当前展示的台风名称
 const typhoonList = ref<typhoon[]>([]) // 列表数据
 const pathData = ref<any[]>([])
 
+// 组件是否已卸载：接口/路径请求是异步的，返回时示例可能已切走，回调里不能再操作 mapWork
+let disposed = false
+// setAutoHeight 返回的自动高度清理函数（内部注册了 window resize 监听）
+let autoHeightOff: (() => void) | null = null
+
 // 默认选中第一个台风：等列表接口真正返回后再执行。
 // 原实现用固定 500ms 定时器，接口慢时 typhoonList[0] 还是空，会直接抛 TypeError
 function selectDefaultTyphoon() {
   const first = typhoonList.value[0]
-  if (!first) {
+  if (!first || disposed) {
     return
   }
   // selectedRowKeys 必须是 rowKey 值（台风id），放对象无法匹配
   rowKeys.value = [first.id]
   getPath(first.id)
     .then(function (res: any) {
-      if (!res || !res.path) {
+      if (!res || !res.path || disposed) {
         return
       }
       first.path = res.path
@@ -78,6 +83,9 @@ onMounted(() => {
   const url = "//data.mars2d.cn/file/apidemo/typhoon/list_2020.json"
   fetchJson({ url })
     .then(function (data: any) {
+      if (disposed) {
+        return
+      }
       typhoonList.value = (data?.typhoonList || []).map((item: any) => ({
         id: item[0],
         name_en: item[1],
@@ -92,9 +100,18 @@ onMounted(() => {
       console.log("获取台风列表失败", err)
     })
 
-  setAutoHeight((height) => {
+  // 第二张表格的滚动高度随窗口变化，必须保存清理函数，卸载时解绑 resize 监听
+  autoHeightOff = setAutoHeight((height) => {
     tableScrollHeight.value = height
   }, 500)
+})
+
+onBeforeUnmount(() => {
+  disposed = true
+  if (autoHeightOff) {
+    autoHeightOff()
+    autoHeightOff = null
+  }
 })
 
 // 表格列头
@@ -147,14 +164,24 @@ const rowSelection: TableProps["rowSelection"] = {
     rowKeys.value = selectedRowKeys
   },
   onSelect: (selectedRowKeys: typhoon, selected: boolean) => {
+    if (disposed) {
+      return
+    }
     selectedRowKeys.show = selected
 
     if (selected) {
       if (!selectedRowKeys.path) {
-        getPath(selectedRowKeys.id).then(function (res: any) {
-          selectedRowKeys.path = res.path
-          selectOneTyphoon(selectedRowKeys)
-        })
+        getPath(selectedRowKeys.id)
+          .then(function (res: any) {
+            if (disposed) {
+              return
+            }
+            selectedRowKeys.path = res.path
+            selectOneTyphoon(selectedRowKeys)
+          })
+          .catch(function (err: any) {
+            console.log("获取台风路径失败", err)
+          })
       } else {
         selectOneTyphoon(selectedRowKeys)
       }

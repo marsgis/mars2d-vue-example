@@ -1,6 +1,13 @@
+/**
+ * 示例：图标点+文字(含聚合)
+ * 演示：给 Marker 配置 label 文字，用 ClusterLayer 聚合展示大量点（数据来自接口）
+ * API：mars2d.layer.ClusterLayer、mars2d.graphic.Marker、graphic.bindPopup
+ * 要点：label.merge:true 才能把文字合进 Marker 的同一个 div，聚合才有效果；chunkedLoading 分片加载避免大数据卡顿；接口返回后示例可能已切换，异步回调需判空
+ */
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let clusterLayer // 聚合图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -11,12 +18,13 @@ export const mapOptions = {
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
-  const clusterLayer = new mars2d.layer.ClusterLayer({
+  clusterLayer = new mars2d.layer.ClusterLayer({
     chunkedLoading: true, // 间隔添加数据，以便页面不冻结。
     showCoverageOnHover: false, // 是否显示聚合标记的边界。
     disableClusteringAtZoom: 18 // 此级别下不聚合
@@ -26,6 +34,10 @@ export function onMounted(mapInstance) {
     url: "//data.mars2d.cn/file/apidemo/mudi.json"
   })
     .then((res) => {
+      // 请求返回时示例可能已经切换/卸载，此时 map 与图层都已置空，直接丢弃本次数据
+      if (!map || !clusterLayer) {
+        return
+      }
       const arrData = res.data
       addFeature(clusterLayer, arrData)
     })
@@ -34,14 +46,26 @@ export function onMounted(mapInstance) {
     })
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 解绑面板通过 eventTarget 注册的事件，避免旧面板回调残留
+  eventTarget.off()
+  if (clusterLayer) {
+    // 从地图移除聚合图层：图层内 Marker 及其 popup 一并释放
+    if (map) {
+      map.removeLayer(clusterLayer, true)
+    }
+    clusterLayer = null
+  }
   map = null
 }
 
+// ========== 3. 矢量对象（演示数据）==========
 function addFeature(graphicLayer, arr) {
   for (let i = 0, len = arr.length; i < len; i++) {
     const item = arr[i]

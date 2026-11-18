@@ -1,7 +1,13 @@
+/**
+ * 示例：中国各省市面
+ * 演示：GeoJsonLayer 加载全国省界面，在 load 事件里把"港口数量"业务数据按省名匹配到每个面上做分级配色，并通过 eventTarget 把图例 HTML 推给面板
+ * API：mars2d.layer.GeoJsonLayer、graphic.setStyle、eventTarget.fire
+ * 要点：业务数据必须等图层 load 之后才能按 event.graphics 绑定；preferCanvas:true 让面要素走 Canvas 渲染（大数据量时更快）；图例在 map.js onMounted 里同步 fire，面板可能晚于地图就绪挂载，面板侧要用 onMapWorkReady 补调 addLegend
+ */
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
-let geoJsonLayer
+let geoJsonLayer // 全国省界 GeoJson 图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -14,10 +20,12 @@ export const mapOptions = {
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
+  // 先把图例推给面板（面板尚未挂载时由面板侧 onMapWorkReady 补调，见 index.vue）
   addLegend()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -35,7 +43,9 @@ export function onMounted(mapInstance) {
         outlineColor: "white"
       }
     },
+    // 提示框模板里的 {name}/{num} 占位符取自要素属性；num 由下面 load 回调里的 bindYewuData 写入
     tooltip: "{name}<br/>港口数量:{num}个",
+    // 数据加载后自动缩放到全国范围
     flyTo: true
   })
   map.addLayer(geoJsonLayer)
@@ -65,17 +75,20 @@ export function onMounted(mapInstance) {
       { name: "安徽省", Y: 31.825459619, X: 117.226379045, value: 7, id: 17 },
       { name: "黑龙江省", Y: 46.951327674, X: 128.132064887, value: 2, id: 18 }
     ]
+    // event.graphics 与 GeoJSON 的 features 顺序一一对应，可据此把业务值写到面对象上
     bindYewuData(event.graphics, arrdata)
   })
 
   // 绑定事件
   geoJsonLayer.on(mars2d.EventType.click, function (event) {
     const graphic = event.layer
+    // 单击某个省后定位到该省范围
     map.fitBounds(graphic.getBounds())
   })
 
   geoJsonLayer.on(mars2d.EventType.mouseover, function (event) {
     const graphic = event.layer
+    // 鼠标移入高亮：加粗深色描边、提高填充不透明度，并置顶避免被相邻面遮挡
     graphic.setStyle({
       outlineColor: "#666",
       outlineWidth: 3,
@@ -94,25 +107,34 @@ export function onMounted(mapInstance) {
   })
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 解绑面板通过 eventTarget 注册的事件，避免旧面板回调残留
+  eventTarget.off()
   if (geoJsonLayer) {
-    map.removeLayer(geoJsonLayer, true)
+    // 从地图移除图层；onUnmounted 里 map 可能已被置空，需判空
+    if (map) {
+      map.removeLayer(geoJsonLayer, true)
+    }
     geoJsonLayer = null
   }
   map = null
 }
 
-// 绑定业务数据
+// ========== 3. 业务数据绑定 ==========
+// 把港口数量按省名匹配写入每个面的 attr.num，并按数量分级设置填充色
 function bindYewuData(graphics, arrdata) {
   for (let i = 0; i < graphics.length; i++) {
     const graphic = graphics[i]
     graphic.attr.num = 0
     for (let j = 0; j < arrdata.length; j++) {
       const fname = graphic.attr.name
+      // 面数据里省名可能是"广西壮族自治区"这类全称，业务数据是简称/全称混合，用包含关系匹配
       if (arrdata[j].name.indexOf(fname) !== -1) {
         graphic.attr.num = arrdata[j].value
         break
@@ -122,6 +144,8 @@ function bindYewuData(graphics, arrdata) {
   }
 }
 
+// ========== 4. 图例与配色（面板交互）==========
+// 分级边界：少于 1、1-5、5-10、10-15、15-20、大于 20，共 6 段
 const arrSpan = [1, 5, 10, 15, 20]
 const arrColor = ["#FFEDA0", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"]
 function getColor(num) {
@@ -138,6 +162,7 @@ function getColor(num) {
   return arrColor[length - 1]
 }
 
+// 生成图例 HTML 并发给面板；分段规则必须与 getColor 保持一致
 export function addLegend() {
   let strHtml = "<div class='legend-title'>港口数量(个)</div>"
 
@@ -158,11 +183,11 @@ export function addLegend() {
     }
 
     strHtml +=
-      "<div class='legend-item'><arrSpan class='legend-color' style='background:" +
+      "<div class='legend-item'><span class='legend-color' style='background:" +
       arrColor[i] +
-      "'></arrSpan><arrSpan class='legend-des'>" +
+      "'></span><span class='legend-des'>" +
       label +
-      "</arrSpan></div>"
+      "</span></div>"
   }
   eventTarget.fire("initHtml", {
     html: strHtml

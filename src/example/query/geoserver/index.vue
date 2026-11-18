@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, toRaw } from "vue"
+import { onBeforeUnmount, ref, toRaw } from "vue"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
 
@@ -54,11 +54,19 @@ const show = ref(false)
 const dataSource = ref([])
 const columns = ref([])
 
-mapWork.eventTarget.on("befortUI", function (event: any) {
+// map.js 查询结果图层加载完成后抛出要素列表，这里按当前服务生成表格列与数据
+const onBefortUI = (event: any) => {
   dataSource.value = []
   getServeColumnsAndData(event.list)
 
   show.value = true
+}
+
+// 事件订阅：切换示例时面板会重建，必须用同一引用在 onBeforeUnmount 里 off，否则旧回调仍在操作已销毁的对象
+mapWork.eventTarget.on("befortUI", onBefortUI)
+
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("befortUI", onBefortUI)
 })
 
 // 服务
@@ -147,7 +155,6 @@ function getServeColumnsAndData(list) {
       ]
 
       dataSource.value = list.map((item: any, index: number) => {
-        // return { key: index, name: item.NAME, address: item.address, graphic: item.graphic }
         return { key: index, name: item["项目名称"], address: item["具体位置"], graphic: item.graphic }
       })
       break
@@ -161,7 +168,6 @@ function getServeColumnsAndData(list) {
       ]
 
       dataSource.value = list.map((item: any, index: number) => {
-        // return { key: index, name: item["用地名称"], guihua: item["规划用地"], order: item["规划用地"], area: item.Shape_Area, graphic: item.graphic }
         return { key: index, name: item["项目名称"], guihua: item.OBJECTID, order: item.OBJECTID, area: item["用地面积"], graphic: item.graphic }
       })
       break

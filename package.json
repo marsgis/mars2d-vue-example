@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@icon-park/svg": "^1.4.2",
-    "@marsgis/editor": "^1.5.2",
+    "@marsgis/editor": "^1.6.3",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.20.0",
     "core-js": "^3.50.0",

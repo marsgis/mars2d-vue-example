@@ -1,3 +1,9 @@
+/**
+ * 示例：Rectangle 矩形
+ * 演示：Rectangle 矩形（两个对角点 latlngs、图片纹理填充、虚线流动）与图层交互、右键菜单、批量生成
+ * API：mars2d.graphic.Rectangle、mars2d.layer.GraphicLayer、mars2d.PointTrans.coords2latlngs
+ * 要点：latlngs 传 [左下, 右上] 两个对角点即可确定范围；dashArray + dashSpeed 做虚线流动；批量生成时 count 是网格点数量
+ */
 import * as mars2d from "mars2d"
 
 export let map // mars2d.Map二维地图对象
@@ -6,6 +12,7 @@ export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -25,14 +32,26 @@ export function onMounted(mapInstance) {
   addDemoGraphic5()
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 解绑面板通过 eventTarget 注册的事件，避免旧面板回调残留
+  eventTarget.off()
+  if (graphicLayer) {
+    // 从地图移除矢量图层：矩形及 popup/右键菜单随图层一起释放
+    if (map) {
+      map.removeLayer(graphicLayer, true)
+    }
+    graphicLayer = null
+  }
   map = null
 }
 
+// ========== 3. 事件与交互 ==========
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件
@@ -171,10 +190,7 @@ function bindLayerContextMenu() {
 
 // 也可以在单个Graphic上做个性化管理及绑定操作
 function initGraphicManager(graphic) {
-  // 3.在graphic上绑定监听事件
-  // graphic.on(mars2d.EventType.click, function(event) {
-  //   console.log('监听graphic，单击了矢量对象', event)
-  // })
+  // 3.在graphic上绑定监听事件：graphic.on(mars2d.EventType.click, function (event) { ... })
 
   // 绑定Tooltip
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
@@ -206,6 +222,7 @@ function initGraphicManager(graphic) {
   ])
 }
 
+// ========== 4. 面板交互方法 ==========
 export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "rectangle",
@@ -235,7 +252,6 @@ export function addRandomGraphicByCount(count) {
 
   const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
   const result = mars2d.PolyUtil.getGridPoints(bbox, count)
-  console.log("生成的测试网格坐标", result)
 
   for (let j = 0; j < result.points.length; ++j) {
     const latlng = result.points[j]
@@ -260,10 +276,12 @@ export function addRandomGraphicByCount(count) {
     graphicLayer.addGraphic(graphic)
   }
 
-  return count.length
+  return result.points.length // 实际生成的个数（网格按 count 取整，可能少于入参）
 }
 
+// ========== 5. 矢量对象（演示数据）==========
 function addDemoGraphic1() {
+  // 矩形只需两个对角点：[纬度, 经度]
   const latlngs = [
     [31.870639, 117.271662],
     [31.8491, 117.247705]

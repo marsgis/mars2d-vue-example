@@ -18,8 +18,6 @@
 
 <script setup lang="ts">
 import * as mapWork from "./map.js"
-import { ref } from "vue"
-
 
 // 随机点
 const randomPoints = () => {

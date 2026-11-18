@@ -1,13 +1,20 @@
+/**
+ * 示例：DivGraphic DIV点
+ * 演示：用 HTML/CSS 画点的 DivGraphic 及内置扩展（DivLightPoint、DivBoderLabel、DivUpLabel），共 12 种面板/动画/图标样式，并演示局部 DOM 定时刷新与大数据量生成
+ * API：mars2d.graphic.DivGraphic/DivLightPoint/DivBoderLabel/DivUpLabel、graphicLayer.startDraw、mars2d.PolyUtil.getGridPoints
+ * 要点：html 字符串里的内联 onclick 在 iframe 的 window 上查找回调（示例里显式挂 window.onClickDiv）；定时刷新只改面板局部 DOM，切走示例时必须 clearInterval；气泡/面板位置用 offsetX/offsetY 配合 horizontalOrigin/verticalOrigin 调整
+ */
 import * as mars2d from "mars2d"
 
 export let map // mars2d.Map二维地图对象
 const L = mars2d.L
 export let graphicLayer
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 10,
-  center: { lng: "117.228241", lat: "31.448231" }
+  center: { lng: 117.228241, lat: 31.448231 }
 }
 
 // 事件对象，用于抛出事件给vue
@@ -15,6 +22,7 @@ export const eventTarget = new mars2d.BaseClass()
 
 let refreshTimer = null // 面板数据刷新定时器
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -23,8 +31,9 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  // 图层管理的相关处理，
+  // 图层管理的相关处理（绑定右键菜单、Popup，并把初始状态通知面板）
   initLayerManager(graphicLayer)
+  // 本示例默认不显示 Popup：解绑上面刚绑定的 Popup，让面板“单击Popup”复选框初始为关闭，由面板按需再绑定
   graphicLayer.unbindPopup()
 
   // 加一些演示数据
@@ -42,6 +51,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic12()
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
@@ -51,9 +61,19 @@ export function onUnmounted() {
     clearInterval(refreshTimer)
     refreshTimer = null
   }
-  map = null
+  // 清空面板通过 eventTarget 注册的监听，避免旧面板回调残留
+  eventTarget.off()
+  // 内联 onclick 用到的全局回调，示例切走后移除，避免残留
+  delete window.onClickDiv
+
+  if (map) {
+    map.destroy() // 一并释放图层与所有 DivGraphic 的 DOM
+    map = null
+  }
+  graphicLayer = null
 }
 
+// ========== 4. 图层管理：Popup 与右键菜单 ==========
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件
@@ -220,6 +240,7 @@ function bindLayerContextMenu() {
   ])
 }
 
+// ========== 5. 矢量对象：12 种 DivGraphic 演示 ==========
 // 一个黑色面板，指向左下角黄色连线
 function addDemoGraphic1() {
   const graphic = new mars2d.graphic.DivGraphic({
@@ -232,8 +253,6 @@ function addDemoGraphic1() {
     attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
-
-  // graphic.testPoint = true; //打开测试点，与DIV点进行对比位置调整css
 }
 
 // 一个渐变的文本面板,中间竖直连线
@@ -425,24 +444,29 @@ function addDemoGraphic11() {
     console.log("更新了div的位置")
   })
 
+  // html 里的内联 onclick 是在 iframe 的 window 作用域查找回调，示例把提示函数挂到 window 上
+  window.onClickDiv = function (text) {
+    globalMsg(text)
+  }
+
   // 刷新局部DOM,不影响面板的其他控件操作
   if (refreshTimer) {
     clearInterval(refreshTimer)
   }
   refreshTimer = setInterval(() => {
-    const container = graphic?.container // popup对应的DOM
+    const container = graphic?.container // graphic.container 是 DivGraphic 的 DOM，对象加入图层后才存在
     if (!container) {
       return
     }
 
     const lablLiuliang = container.querySelector("#lablLiuliang")
     if (lablLiuliang) {
-      lablLiuliang.innerHTML = (Math.random() * 100).toFixed(0) // 测试的随机数
+      lablLiuliang.innerHTML = (Math.random() * 100).toFixed(0) // 随机数模拟实时流量
     }
 
     const lablYeWei = container.querySelector("#lablYeWei")
     if (lablYeWei) {
-      lablYeWei.innerHTML = mars2d.Util.formatDate(new Date(), "ss.S") // 测试的随机数
+      lablYeWei.innerHTML = mars2d.Util.formatDate(new Date(), "ss.S") // 用当前时间的秒值模拟液位变化
     }
   }, 500)
 }
@@ -493,10 +517,9 @@ function addDemoGraphic12() {
     attr: { remark: "示例12" }
   })
   graphicLayer.addGraphic(graphic)
-
-  // graphic.testPoint = true; //打开测试点，与DIV点进行对比位置调整css
 }
 
+// ========== 6. 面板交互方法 ==========
 export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "divGraphic",
@@ -520,7 +543,6 @@ export function addRandomGraphicByCount(count) {
 
   const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
   const result = mars2d.PolyUtil.getGridPoints(bbox, count, 30)
-  console.log("生成的测试网格坐标", result)
 
   for (let j = 0; j < result.points.length; ++j) {
     const latlng = result.points[j]
@@ -541,5 +563,6 @@ export function addRandomGraphicByCount(count) {
     graphicLayer.addGraphic(graphic)
   }
 
-  return count.length
+  // 返回实际生成的点数（面板用它提示“生成 N 条数据”；网格点数会按 sqrt(count) 取整，不一定等于入参）
+  return result.points.length
 }

@@ -1,3 +1,9 @@
+/**
+ * 示例：Image 图片
+ * 演示：用 Image 矢量对象在指定 latlngs 范围内拉伸显示图片，并演示图层交互、标绘与批量生成
+ * API：mars2d.graphic.Image、mars2d.layer.GraphicLayer、graphic.setOpacity
+ * 要点：latlngs 支持 2 个对角点或 4 个角点两种写法；图片建议用同源资源，跨域图片无法绘制；批量生成时 opacity 需逐对象设置
+ */
 import * as mars2d from "mars2d"
 
 export let map // mars2d.Map二维地图对象
@@ -6,6 +12,7 @@ export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -14,33 +21,30 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-
-  // graphicLayer.on(mars2d.EventType.click, function (event) {
-  //   console.log("监听graphic，单击了矢量对象", event)
-
-  //   graphic.setStyle({
-  //     opacity: 0.2
-  //   })
-  // })
-
-  // map.on(mars2d.EventType.click, function (event) {
-  //   graphic.setStyle({
-  //     opacity: 1
-  //   })
-  // })
-
   // 图层管理的相关处理，
   initLayerManager(graphicLayer)
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 解绑面板通过 eventTarget 注册的事件，避免旧面板回调残留
+  eventTarget.off()
+  if (graphicLayer) {
+    // 从地图移除矢量图层：图层内图片对象及其 popup/右键菜单随图层一起释放
+    if (map) {
+      map.removeLayer(graphicLayer, true)
+    }
+    graphicLayer = null
+  }
   map = null
 }
 
+// ========== 3. 矢量对象（演示数据）==========
 function addDemoGraphic1() {
   // 经纬度 转为leafelt的纬度、经度标准
   const latlngs = mars2d.PointTrans.coords2latlngs([
@@ -62,6 +66,7 @@ function addDemoGraphic1() {
 
 }
 
+// ========== 4. 事件与交互 ==========
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件
@@ -200,6 +205,7 @@ function bindLayerContextMenu() {
   ])
 }
 
+// ========== 5. 面板交互方法 ==========
 export function onChangeImageOpacity(opacity) {
   graphicLayer.eachGraphic(function (graphic) {
     if (graphic.type !== "image") {
@@ -233,7 +239,6 @@ export function addRandomGraphicByCount(count) {
 
   const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
   const result = mars2d.PolyUtil.getGridPoints(bbox, count, 30)
-  console.log("生成的测试网格坐标", result)
 
   for (let j = 0; j < result.points.length; ++j) {
     const latlng = result.points[j]
@@ -253,5 +258,5 @@ export function addRandomGraphicByCount(count) {
     graphicLayer.addGraphic(graphic)
   }
 
-  return count.length
+  return result.points.length // 实际生成的个数（网格按 count 取整，可能少于入参）
 }

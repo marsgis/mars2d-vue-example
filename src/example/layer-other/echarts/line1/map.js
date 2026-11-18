@@ -1,30 +1,48 @@
+/**
+ * 示例：物流运输图
+ * 演示：用 EchartsLayer 的 effectScatter + lines 绘制安吉物流的城市点与运输线路，线路使用渐变描边和沿路径飞行的 pin 动画
+ * API：mars2d.layer.EchartsLayer、echarts.graphic.LinearGradient、mars2d.Map#setView
+ * 要点：coordinateSystem 必须写 "mars2dMap"，coords 是 [经度, 纬度]；lineStyle.color 用 echarts.graphic.LinearGradient 做沿线渐变；effect.constantSpeed 是飞行动画速度，trailLength: 0 表示不拖尾
+ */
 import * as mars2d from "mars2d"
 
-let map
+let map // mars2d.Map二维地图对象
+let echartsLayer // 图表图层，卸载时移除（触发 onRemove，内部 echarts 实例随之 dispose）
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {}
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  // 与 config.json 中 id=2017 蓝色底图的底色一致，瓦片未加载完成时不会露白
   map.container.style.backgroundColor = "#11243C"
-  map.basemap = 2017 // 蓝色底图
+  map.basemap = 2017 // 切换为 config.json 中 id=2017 的蓝色底图
   map.setView([33.652, 107.661], 6)
 
   showEchartsLayer()
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-
 export function onUnmounted() {
-  map = null
+  if (map && echartsLayer) {
+    map.removeLayer(echartsLayer) // EchartsLayer.onRemove 会 dispose 内部的 echarts 实例并移除容器 DOM
+  }
+  echartsLayer = null
+  if (map) {
+    map.destroy() // 释放地图 DOM、底图与事件监听
+    map = null
+  }
 }
 
+// ========== 4. 图表图层 ==========
 function showEchartsLayer() {
   const allData = {
     citys: [
@@ -365,6 +383,6 @@ function showEchartsLayer() {
     ]
   }
 
-  const echartsLayer = new mars2d.layer.EchartsLayer(options)
+  echartsLayer = new mars2d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 }

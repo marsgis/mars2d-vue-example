@@ -1,3 +1,9 @@
+/**
+ * 示例：生成网格
+ * 演示：按面板输入的步长，用 turf.pointGrid/triangleGrid/squareGrid/hexGrid 生成点、三角、方格、蜂窝四种网格并叠加到地图
+ * API：turf.pointGrid、turf.triangleGrid、turf.squareGrid、turf.hexGrid、mars2d.Util.geoJsonToGraphics
+ * 要点：bbox 顺序是 [minX, minY, maxX, maxY]（经度、纬度）；cellSide 的单位由 options.units 决定（这里是公里）；每次生成前先 clear，否则网格会叠加
+ */
 import * as mars2d from "mars2d"
 
 let map
@@ -5,11 +11,13 @@ let graphicLayer
 const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 const turfOptions = { units: "kilometers" }
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 10
 }
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -19,14 +27,20 @@ export function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
-  map = null
+  if (map) {
+    map.destroy() // 一并释放图层与生成的网格
+    map = null
+  }
+  graphicLayer = null
 }
 
+// ========== 4. 面板交互方法：生成网格 ==========
 // 点
 export function pointGrid(cellSide) {
   const geojson = turf.pointGrid(bbox, cellSide, turfOptions)
@@ -51,6 +65,7 @@ export function hexGrid(cellSide) {
   drawPolyon(geojson)
 }
 
+// ========== 5. 绘制网格 ==========
 // 蜂窝网格、正方形网格、三角形网格
 export function drawPolyon(geojson) {
   graphicLayer.clear()

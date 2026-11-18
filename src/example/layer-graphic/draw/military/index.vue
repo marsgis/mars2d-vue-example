@@ -41,10 +41,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, markRaw, onMounted } from "vue"
+import { ref, markRaw, onMounted, onBeforeUnmount } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import DataManage from "@mars/components/mars-sample/data-manage.vue"
 import { useWidget } from "@mars/widgets/common/store/widget"
+import { onMapWorkReady } from "@mars/utils/map-work"
 import * as mapWork from "./map.js"
 
 const { activate, disable, isActivate, updateWidget } = useWidget()
@@ -52,21 +53,61 @@ const drawPolygon = (type: string) => {
   mapWork.drawPolygon(type)
 }
 
-onMounted(() => {
-  const mars2d = window.mapWork.mars2d
-  // 矢量数据创建完成
-  mapWork.graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
-    showEditor(e)
-  })
-  mapWork.graphicLayer.on("editStart editMovePoint editStyle editRemovePoint", function (e) {
-    showEditor(e)
-  })
+// map.js 的 onMounted 里才创建 graphicLayer，面板挂载与它没有固定先后顺序，
+// 因此等"地图业务就绪"后再绑定图层事件，避免访问 undefined
+let graphicLayerIns: any = null
+let mars2dIns: any = null
+let offMapWorkReady: (() => void) | null = null
+let closeEditorTimer: ReturnType<typeof setTimeout> | null = null
 
-  mapWork.graphicLayer.on("editStop removeGraphic ", function (e) {
-    setTimeout(() => {
-      disable("graphic-editor")
-    }, 100)
+const onDrawCreated = (e: any) => {
+  showEditor(e)
+}
+const onEditStart = (e: any) => {
+  showEditor(e)
+}
+const onEditStop = () => {
+  // 停止编辑后属性面板还要接收最后一次更新，延迟 100ms 再关闭
+  if (closeEditorTimer) {
+    clearTimeout(closeEditorTimer)
+  }
+  closeEditorTimer = setTimeout(() => {
+    closeEditorTimer = null
+    disable("graphic-editor")
+  }, 100)
+}
+
+onMounted(() => {
+  offMapWorkReady = onMapWorkReady((mapWorkIns: any) => {
+    graphicLayerIns = mapWorkIns.graphicLayer
+    mars2dIns = mapWorkIns.mars2d
+    if (!graphicLayerIns) {
+      return
+    }
+    // 矢量数据创建完成
+    graphicLayerIns.on(mars2dIns.EventType.drawCreated, onDrawCreated)
+    graphicLayerIns.on("editStart editMovePoint editStyle editRemovePoint", onEditStart)
+
+    graphicLayerIns.on("editStop removeGraphic ", onEditStop)
   })
+})
+
+onBeforeUnmount(() => {
+  if (offMapWorkReady) {
+    offMapWorkReady()
+    offMapWorkReady = null
+  }
+  if (closeEditorTimer) {
+    clearTimeout(closeEditorTimer)
+    closeEditorTimer = null
+  }
+  // 解绑面板注册的图层事件，避免切换示例后旧面板回调残留
+  if (graphicLayerIns) {
+    graphicLayerIns.off(mars2dIns.EventType.drawCreated, onDrawCreated)
+    graphicLayerIns.off("editStart editMovePoint editStyle editRemovePoint", onEditStart)
+    graphicLayerIns.off("editStop removeGraphic ", onEditStop)
+    graphicLayerIns = null
+  }
 })
 
 const isEditable = ref(true)
@@ -82,7 +123,7 @@ const onChangeShow = () => {
 }
 
 // 是否绑定Popup
-const enabledPopup = ref(false)
+const enabledPopup = ref(true)
 const onChangePopup = () => {
   if (enabledPopup.value) {
     mapWork.bindLayerPopup()

@@ -9,7 +9,7 @@
   </mars-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, nextTick, reactive } from "vue"
+import { ref, nextTick, reactive, onBeforeUnmount } from "vue"
 import * as mapWork from "./map.js"
 
 const treeData = ref<any[]>([])
@@ -21,8 +21,15 @@ const checkedKeys = ref<string[]>([])
 const layersObj: any = {}
 let layers: any
 
-mapWork.eventTarget.on("loadOK", () => {
+// loadOK 由 map.js 的 onMounted 触发：面板脚本 setup 早于 map.js onMounted（框架要等面板 beforeMount 才调用 useLifecycle），所以此处订阅不会漏事件
+function onLoadOK() {
   initTree()
+}
+mapWork.eventTarget.on("loadOK", onLoadOK)
+
+// 面板随示例切换被卸载时要解绑，否则旧面板的回调仍会操作已销毁的图层对象
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("loadOK", onLoadOK)
 })
 
 const checkedChange = (keys: string[], e: any) => {
@@ -94,20 +101,16 @@ function initTree() {
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i] // 创建图层
 
-    if (!layer._hasMapInit && layer.pid === -1) {
+    // 公开 API：判断是否为 config.json 初始化时创建的图层
+    if (!mapWork.isMapInitLayer(layer) && layer.pid === -1) {
       layer.pid = 99 // 示例中创建的图层都放到99分组下面
     }
 
     if (layer && layer.pid === -1) {
       const node: any = reactive({
-        index: i,
         title: layer.name || `未命名(${layer.type})`,
         key: layer.id,
-        id: layer.id,
-        pId: layer.pid,
-        hasZIndex: layer.hasZIndex,
-        hasOpacity: layer.hasOpacity,
-        opacity: 100 * (layer.opacity || 0)
+        id: layer.id
       })
       layersObj[layer.id] = layer
 
@@ -135,16 +138,11 @@ function findChild(parent: any, list: any[]) {
   return list
     .filter((item: any) => item.pid === parent.id)
     .reverse()
-    .map((item: any, i: number) => {
+    .map((item: any) => {
       const node: any = {
-        index: i,
         title: item.name || `未命名(${item.type})`,
         key: item.id,
         id: item.id,
-        pId: item.pid,
-        hasZIndex: item.hasZIndex,
-        hasOpacity: item.hasOpacity,
-        opacity: 100 * (item.opacity || 0),
         parent
       }
 
@@ -161,14 +159,3 @@ function findChild(parent: any, list: any[]) {
     })
 }
 </script>
-
-<style scoped lang="less">
-.manager-mars-dialog {
-  width: 220px;
-  overflow-y: auto;
-}
-
-:deep(.ant-form-item) {
-  margin-bottom: 10px;
-}
-</style>

@@ -1,32 +1,57 @@
+/**
+ * 示例：ArcGIS Server矢量服务查询
+ * 演示：用 mars2d.query.QueryArcServer 按属性查询 ArcGIS MapServer 图层，查询范围由绘制的矩形/圆/多边形限定，结果以 GeoJSON 图层上图并联动表格
+ * API：mars2d.query.QueryArcServer、mars2d.layer.GeoJsonLayer、map.graphicLayer.startDraw
+ * 要点：依赖外网 ArcGIS 服务（server.mars3d.cn），离线或服务不可用时查询失败属环境问题；必须先绘制限定范围再查询（范围通过 graphic 参数传入）；page:false 表示不服务端分页
+ */
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let queryMapserver // ArcGIS 矢量查询服务（QueryArcServer 实例）
+let geoJsonLayer // 用于展示查询结果的 GeoJSON 图层
+let drawGraphic // 查询限定的区域（矩形/圆/多边形）
 
-let queryMapserver
-let geoJsonLayer
-let drawGraphic
-
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   center: { lat: 31.79536, lng: 117.255222, alt: 16294, heading: 358, pitch: -76 }
 }
 
-export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
+// 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars2d.BaseClass()
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   showGeoJsonLayer()
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (!map) {
+    return
+  }
+  // 查询服务只保存服务地址与配置，没有 DOM/定时器，置空即可被回收
+  queryMapserver = null
+  if (geoJsonLayer) {
+    map.removeLayer(geoJsonLayer)
+    geoJsonLayer = null
+  }
+  // 限定范围画在 map.graphicLayer 上，需显式清空，避免重新运行示例后残留
+  if (map.graphicLayer) {
+    map.graphicLayer.clear()
+  }
+  drawGraphic = null
   map = null
 }
 
+// ========== 4. 查询 ==========
+// 面板「查询」按钮：按名称模糊匹配，范围取自上次绘制的图形
 export function query(text) {
   if (!drawGraphic) {
     globalMsg("请绘制区域")
@@ -38,7 +63,7 @@ export function query(text) {
     graphic: drawGraphic,
     page: false,
     success: (result) => {
-      console.log(result)
+      console.log("查询结果", result)
       if (result.count === 0) {
         globalMsg("未查询到相关记录！")
         return
@@ -54,10 +79,11 @@ export function query(text) {
   })
 }
 
+// 查询服务与结果图层（onMounted 时创建）
 function showGeoJsonLayer() {
   queryMapserver = new mars2d.query.QueryArcServer({
     url: "http://server.mars3d.cn/arcgis/rest/services/mars/hfghss/MapServer/1",
-    popup: "all"
+    popup: "all" // 单击查询结果要素时自动弹出全部属性
   })
 
   // 用于显示查询结果（geojson）的图层
@@ -80,15 +106,16 @@ function showGeoJsonLayer() {
   map.addLayer(geoJsonLayer)
 
   geoJsonLayer.on(mars2d.EventType.click, function (event) {
-   console.log("单击了图层", event)
+    console.log("单击了图层", event)
   })
 
   geoJsonLayer.on(mars2d.EventType.load, function (event) {
     const list = event.list
-    eventTarget.fire("beforUI", { list })
+    eventTarget.fire("beforUI", { list }) // 抛出列表给面板渲染表格
   })
 }
 
+// ========== 5. 面板交互方法：绘制范围 ==========
 // 框选查询 矩形
 export function drawRectangle() {
   clearAll()
@@ -143,6 +170,7 @@ export function drawPolygon() {
   })
 }
 
+// ========== 6. 面板交互方法：表格联动与清除 ==========
 export function flyToGraphic(id) {
   // 预留功能，后续支持高亮操作
   /* graphic.openHighlight() */

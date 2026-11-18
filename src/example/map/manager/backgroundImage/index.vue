@@ -18,9 +18,6 @@ const opacityChange = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 254px;
-}
 .ant-slider {
   width: 100px;
 }

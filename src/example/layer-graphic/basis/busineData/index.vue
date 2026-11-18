@@ -107,26 +107,3 @@ const flyToGraphic = (keys: any, item: any) => {
   }
 }
 </script>
-<style scoped lang="less">
-.geojson-example {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  box-sizing: border-box;
-  align-content: center;
-  flex-wrap: wrap;
-
-  .mars-button {
-    width: 94px;
-  }
-
-  .floor {
-    padding-left: 5px !important;
-  }
-}
-
-
-:deep(.ant-slider) {
-  width: 230px;
-}
-</style>

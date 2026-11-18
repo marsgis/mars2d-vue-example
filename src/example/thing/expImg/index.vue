@@ -26,8 +26,16 @@ const onLoadOk = (event: any) => {
 }
 mapWork.eventTarget.on("loadOk", onLoadOk)
 
+// 局部截图完成：与「查看场景出图」复用同一个预览弹窗
+const onShowPartImg = (event: any) => {
+  imges.value = event.base64
+  showImg.value = true
+}
+mapWork.eventTarget.on("showPartImg", onShowPartImg)
+
 onBeforeUnmount(() => {
   mapWork.eventTarget.off("loadOk", onLoadOk)
+  mapWork.eventTarget.off("showPartImg", onShowPartImg)
 })
 
 const showMapImg = () => {
@@ -49,6 +57,8 @@ const shotPartImg = () => {
 <style scoped lang="less">
 .show-img {
   width: 100%;
-  max-height: 100%;
+  // 弹窗高度是 auto，百分比 max-height 不会生效；按视口给上限，避免大图溢出
+  max-height: calc(100vh - 220px);
+  object-fit: contain;
 }
 </style>

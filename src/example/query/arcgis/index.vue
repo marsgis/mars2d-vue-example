@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, toRaw } from "vue"
+import { onBeforeUnmount, ref, toRaw } from "vue"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
 
@@ -45,20 +45,32 @@ interface DataItem {
 
 const serverName = ref("")
 const allLength = ref(0)
-const nowPage = ref(0)
-const allPage = ref(0)
 const show = ref(false)
 
 // 表格数据
 const dataSource = ref([])
-onMounted(() => {
-  mapWork.eventTarget.on("beforUI", function (event: any) {
-    show.value = true
-    dataSource.value = []
-    event.list.forEach((item: any, index: number) => {
-      dataSource.value.push({ index: index + 1, name: item["项目名称"], type: item["设施级别"], id: item.graphic.id })
-    })
+
+// map.js 查询结果图层加载完成后抛出要素列表，这里转成表格行
+const onBeforUI = (event: any) => {
+  show.value = true
+  dataSource.value = []
+  event.list.forEach((item: any, index: number) => {
+    dataSource.value.push({ index: index + 1, name: item["项目名称"], type: item["设施级别"], id: item.graphic.id })
   })
+}
+
+// 查询结果数量（表格底部的统计）
+const onResult = (e: any) => {
+  allLength.value = e.result.count
+}
+
+// 事件订阅：切换示例时面板会重建，必须用同一引用在 onBeforeUnmount 里 off，否则旧回调仍在操作已销毁的对象
+mapWork.eventTarget.on("beforUI", onBeforUI)
+mapWork.eventTarget.on("result", onResult)
+
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("beforUI", onBeforUI)
+  mapWork.eventTarget.off("result", onResult)
 })
 
 const columns = ref([
@@ -111,28 +123,11 @@ const query = () => {
   mapWork.query(serverName.value)
 }
 
-mapWork.eventTarget.on("result", (e: any) => {
-  allLength.value = e.result.count
-  allPage.value = e.result.allPage
-  nowPage.value = e.result.pageIndex
-})
-
 // 清除数据
 const removeAll = () => {
   show.value = false
   dataSource.value = []
   mapWork.removeAll()
-}
-
-// 操作查询的数据
-const showFirstPage = () => {
-  mapWork.showFirstPage()
-}
-const showPretPage = () => {
-  mapWork.showPretPage()
-}
-const showNextPage = () => {
-  mapWork.showNextPage()
 }
 </script>
 

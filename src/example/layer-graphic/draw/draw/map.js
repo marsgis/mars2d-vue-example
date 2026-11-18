@@ -1,3 +1,9 @@
+/**
+ * 示例：标绘（绘制点、线、面、圆、矩形等）
+ * 演示：用 GraphicLayer#startDraw 绘制点/图标点/文字/DIV点/线/自由线/面/圆/矩形/图片，绘制后自动进入编辑，并支持导出 KML/WKT
+ * API：mars2d.layer.GraphicLayer#startDraw/startEditing/toGeoJSON、mars2d.Util.downloadFile
+ * 要点：startDraw 返回 Promise，用户取消绘制时 resolve null（必须判空）；hasEdit+isAutoEditing 让绘制完成自动可编辑；KML/WKT 导出依赖 example.json libs 全局加载的 kgUtil/Terraformer
+ */
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
@@ -6,6 +12,7 @@ export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -60,14 +67,24 @@ export function onMounted(mapInstance) {
   })
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 解绑面板通过 eventTarget 注册的编辑事件监听，避免旧面板回调残留
+  eventTarget.off()
+  // 图层的绘制/编辑事件、popup、右键菜单都挂在图层上，移除图层即可一并释放
+  if (map && graphicLayer) {
+    map.removeLayer(graphicLayer)
+    graphicLayer = null
+  }
   map = null
 }
 
+// ========== 3. 面板交互方法：标绘 ==========
+// 标绘方法统一是 await startDraw：用户取消绘制（右键/ESC）时返回 null，判空后跳过
 export async function drawPoint() {
   const graphic = await graphicLayer.startDraw({
     type: "point",
@@ -252,6 +269,7 @@ export async function drawCircle() {
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
+// ========== 4. 面板交互方法：另存 KML/WKT ==========
 export function onClickSaveKml() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
@@ -274,6 +292,7 @@ export function onClickSaveKml() {
   mars2d.Util.downloadFile("我的标注.kml", kml)
 }
 
+// kgUtil、Terraformer 由 example.json 的 libs 全局加载，不是 npm 包
 // https://github.com/esri/terraformer-wkt-parser
 // 加载wkt用 var primitive = wkt.parse('LINESTRING (30 10, 10 30, 40 40)');
 export function onClickSaveWKT() {
@@ -307,6 +326,7 @@ export function onClickSaveWKT() {
   mars2d.Util.downloadFile("我的标注wkt.txt", JSON.stringify(arrWKT))
 }
 
+// ========== 5. 图层级右键菜单 ==========
 // 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([

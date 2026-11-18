@@ -1,3 +1,9 @@
+/**
+ * 示例：扇形
+ * 演示：用 Circle 的 startAngle/stopAngle 画扇形，并用 rotation 调整朝向、定时器做旋转开合动画
+ * API：mars2d.graphic.Circle（style.startAngle/stopAngle/rotation）、mars2d.layer.GraphicLayer
+ * 要点：radius 单位米，扇形角度单位是度；rotation 是整体朝向角度；旋转动画由 setInterval 驱动，切换示例时必须清理
+ */
 import * as mars2d from "mars2d"
 
 export let map // mars2d.Map二维地图对象
@@ -8,6 +14,7 @@ export const eventTarget = new mars2d.BaseClass()
 
 let rotateTimer = null // 扇形动画定时器
 
+// ========== 1. 地图初始化 ==========
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -35,8 +42,10 @@ export function onMounted(mapInstance) {
   addDemoGraphic6()
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
@@ -45,9 +54,19 @@ export function onUnmounted() {
     clearInterval(rotateTimer)
     rotateTimer = null
   }
+  // 解绑面板通过 eventTarget 注册的事件，避免旧面板回调残留
+  eventTarget.off()
+  if (graphicLayer) {
+    // 从地图移除矢量图层：图层内扇形及 popup/右键菜单随图层一起释放
+    if (map) {
+      map.removeLayer(graphicLayer, true)
+    }
+    graphicLayer = null
+  }
   map = null
 }
 
+// ========== 3. 事件与交互 ==========
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件
@@ -216,10 +235,7 @@ function bindLayerContextMenu() {
 
 // 也可以在单个Graphic上做个性化管理及绑定操作
 function initGraphicManager(graphic) {
-  // 3.在graphic上绑定监听事件
-  // graphic.on(mars2d.EventType.click, function(event) {
-  //   console.log('监听graphic，单击了矢量对象', event)
-  // })
+  // 3.在graphic上绑定监听事件：graphic.on(mars2d.EventType.click, function (event) { ... })
 
   // 绑定Tooltip
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
@@ -251,6 +267,7 @@ function initGraphicManager(graphic) {
   ])
 }
 
+// ========== 4. 面板交互方法 ==========
 export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "circle",
@@ -278,7 +295,6 @@ export function addRandomGraphicByCount(count) {
 
   const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
   const result = mars2d.PolyUtil.getGridPoints(bbox, count, 30)
-  console.log("生成的测试网格坐标", result)
 
   for (let j = 0; j < result.points.length; ++j) {
     const latlng = result.points[j]
@@ -305,9 +321,10 @@ export function addRandomGraphicByCount(count) {
     graphicLayer.addGraphic(graphic)
   }
 
-  return count.length
+  return result.points.length // 实际生成的个数（网格按 count 取整，可能少于入参）
 }
 
+// ========== 5. 矢量对象（演示数据）==========
 // 示例1：{startAngle: x, stopAngle: y}
 function addDemoGraphic1() {
   for (let i = 0; i <= 12; i++) {
@@ -344,7 +361,7 @@ function addDemoGraphic2() {
         radius: 4000, // 单位：米
         startAngle: 0,
         stopAngle: 60,
-        rotation: i * 30,
+        rotation: i * 30, // 整体朝向角度（度），每个扇形依次错开
 
         fill: true,
         fillColor: "#03f",
@@ -409,6 +426,7 @@ function addDemoGraphic4() {
   if (rotateTimer) {
     clearInterval(rotateTimer)
   }
+  // 定时器不断修改起止角度，让扇形像"吃豆豆"一样开合；句柄存模块级由 onUnmounted 兜底清理
   rotateTimer = setInterval(function () {
     counter += 0.5
     open = 358 - (1 + Math.sin(counter)) * 45

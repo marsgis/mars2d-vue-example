@@ -78,7 +78,7 @@ const options: GuiItem[] = [
       {
         class: "gui-btn",
         onClick: () => {
-          alert("点击了")
+          $message("点击了")
         }
       },
       // 函数式插槽，避免 Vue 对非函数默认插槽的告警
@@ -309,6 +309,8 @@ function updateAllDate() {
 
 <style lang="less">
 .example-gui {
+  // 面板内容较长：限制最大高度，内部交给 .mars-dialog__content 滚动，避免超出视口
+  max-height: calc(100vh - 20px);
 
   // 有竖线的标题
   .title-vertical_line {

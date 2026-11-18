@@ -1,11 +1,19 @@
+/**
+ * 示例：流入线
+ * 演示：以无锡为中心，用 EchartsLayer 的 lines + effectScatter 绘制各城市流入的箭头流光迁徙线，并显示城市标签
+ * API：mars2d.layer.EchartsLayer、mars2d.Map#setView
+ * 要点：coordinateSystem 必须写 "mars2dMap"，coords 是 [[经度, 纬度], [经度, 纬度]]；effect.show/symbol 控制流动箭头，period 越大动画越慢；convertData 会丢弃 geoCoordMap 里没有坐标的城市
+ */
 import * as mars2d from "mars2d"
 
-let map
-let echartsLayer
+let map // mars2d.Map二维地图对象
+let echartsLayer // 图表图层，卸载时移除（触发 onRemove，内部 echarts 实例随之 dispose）
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {}
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -14,15 +22,23 @@ export function onMounted(mapInstance) {
   showEchartsLayer()
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-
 export function onUnmounted() {
-  map = null
+  if (map && echartsLayer) {
+    map.removeLayer(echartsLayer) // EchartsLayer.onRemove 会 dispose 内部的 echarts 实例并移除容器 DOM
+  }
+  echartsLayer = null
+  if (map) {
+    map.destroy() // 释放地图 DOM、底图与事件监听
+    map = null
+  }
 }
 
+// ========== 4. 图表图层 ==========
 function showEchartsLayer() {
   const geoCoordMap = {
     上海: [121.4648, 31.2891],
@@ -266,6 +282,6 @@ function showEchartsLayer() {
     series
   }
 
-  const echartsLayer = new mars2d.layer.EchartsLayer(options)
+  echartsLayer = new mars2d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 }

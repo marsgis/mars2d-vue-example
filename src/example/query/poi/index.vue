@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref, toRaw } from "vue"
+import { onBeforeMount, onBeforeUnmount, ref, toRaw } from "vue"
 import { fetchJson } from "@mars/utils/mars-util"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
@@ -154,13 +154,12 @@ const query = () => {
   show.value = false
   mapWork.clearAll(true)
 
-
-  if (selectService.value === "TDT") {
+  // 天地图 POI 服务的 city 参数要传行政区国标码（cityShiKey），高德/百度传城市名
+  if (selectService.value === "tdt") {
     mapWork.query(radioFanwei.value, cityShiKey, serverName.value)
   } else {
     mapWork.query(radioFanwei.value, cityShi, serverName.value)
   }
-
 }
 
 // 城市的数据
@@ -192,12 +191,20 @@ const onChange = (_value: any, selectedOptions: any[]) => {
 // 表格数据
 const dataSource = ref<any>([])
 
-mapWork.eventTarget.on("tableData", (e: any) => {
+// map.js 每次查询成功都抛出当页 POI 列表，这里转成表格行
+const onTableData = (e: any) => {
   show.value = true
   dataSource.value = []
   e.data.forEach((item: any, index: number) => {
     dataSource.value.push({ key: index, name: item.name, type: item.type, address: item.address, graphic: item.graphic })
   })
+}
+
+// 事件订阅：切换示例时面板会重建，必须用同一引用在 onBeforeUnmount 里 off，否则旧回调仍在操作已销毁的对象
+mapWork.eventTarget.on("tableData", onTableData)
+
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("tableData", onTableData)
 })
 
 // 清除数据

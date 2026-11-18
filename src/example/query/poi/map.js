@@ -1,26 +1,34 @@
+/**
+ * 示例：POI点查询
+ * 演示：用 mars2d.query.QueryPOI 调用高德/天地图/百度 POI 服务，按指定城市、当前视域或绘制范围查询兴趣点，并用 Marker 上图
+ * API：mars2d.query.QueryPOI、mars2d.graphic.Marker、map.getExtent
+ * 要点：示例使用示例工程的公共 token，失效或超量需自行申请替换（见 mars2d.Token）；城市参数各服务不同——天地图要传行政区国标码，高德/百度传城市名；范围查询用 limit:true 严格限定在范围内
+ */
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 
-let poiLayer
-let queryPOI
+let poiLayer // 查询结果（POI 点）所在的图层
+let queryPOI // POI 查询服务（QueryPOI 实例）
 
-let drawGraphic // 限定区域
-let resultList = [] // 查询结果
+let drawGraphic // 限定区域（指定范围查询时使用）
+let resultList = [] // 已查询到的 POI 结果（翻页/累计用）
 let lastQueryOptions // 上一次请求参数，用于 下一页使用
-let graphic
+
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
 }
 
-export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
+// 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  globalNotify("已知问题提示", `(1) token如果访问失效或超流量了，请您自行申请替换mars3d.Token.update相关方法`)
+  globalNotify("已知问题提示", `(1) token如果访问失效或超流量了，请您自行申请替换mars2d.Token.update相关方法`)
 
   queryPOI = new mars2d.query.QueryPOI({
     service: mars2d.QueryServiceType.GAODE
@@ -30,8 +38,9 @@ export function onMounted(mapInstance) {
   poiLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(poiLayer)
 
-  poiLayer.bindPopup(function (event) {
-    const item = event.attr
+  // bindPopup 的回调参数是矢量对象本身，attr 为 addGraphic 时传入的 POI 数据
+  poiLayer.bindPopup(function (graphic) {
+    const item = graphic.attr
 
     let inHtml = '<div class="mars2d-template-titile">' + item.name + '</div><div class="mars2d-template-content" >'
 
@@ -56,14 +65,32 @@ export function onMounted(mapInstance) {
   })
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (!map) {
+    return
+  }
+  // 查询服务只保存服务地址与 token，没有 DOM/定时器，置空即可被回收
+  queryPOI = null
+  if (poiLayer) {
+    map.removeLayer(poiLayer)
+    poiLayer = null
+  }
+  // 限定范围画在 map.graphicLayer 上，需显式清空，避免重新运行示例后残留
+  if (map.graphicLayer) {
+    map.graphicLayer.clear()
+  }
+  drawGraphic = null
+  resultList = []
+  lastQueryOptions = null
   map = null
 }
 
+// ========== 3. 面板交互方法：切换服务与查询 ==========
 // 切换服务
 export function changeService(type) {
   queryPOI.setOptions({ service: type })
@@ -82,7 +109,7 @@ export function query(radioFanwei, cityShi, text) {
   resultList = []
   switch (radioFanwei) {
     case "2": {
-      // 当前视角范围
+      // 当前视角范围：把视域换成经纬度矩形（extent 的 xmin/xmax 是经度，ymin/ymax 是纬度）
       const extent = map.getExtent()
       loadData(
         {
@@ -102,7 +129,6 @@ export function query(radioFanwei, cityShi, text) {
         globalMsg("请绘制限定范围！")
         return
       }
-      console.log(drawGraphic)
       loadData(
         {
           page: 0,
@@ -127,13 +153,14 @@ export function query(radioFanwei, cityShi, text) {
   }
 }
 
+// ========== 4. 查询请求与结果处理 ==========
 function loadData(queryOptions, text) {
   if (!text) {
     globalMsg("请输入 名称 关键字筛选数据！")
     return
   }
   showLoading()
-  console.log("queryOptions", queryOptions)
+  console.log("queryOptions", queryOptions) // 演示输出：查看最终传给服务的请求参数
   lastQueryOptions = {
     ...queryOptions,
     count: 25, // count 每页数量
@@ -145,7 +172,7 @@ function loadData(queryOptions, text) {
       }
       resultList = resultList.concat(data)
 
-      console.log("查询结果", resultList)
+      console.log("查询结果", resultList) // 演示输出：查看服务返回并转换后的 POI 列表
 
       addDemoGraphics(data)
 
@@ -172,11 +199,12 @@ export function clearAll(noClearDraw) {
   }
 }
 
+// ========== 5. 查询结果上图 ==========
 function addDemoGraphics(arr) {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i]
 
-    graphic = new mars2d.graphic.Marker({
+    const graphic = new mars2d.graphic.Marker({
       id: item.id,
       latlng: [item.lat, item.lng],
       style: {
@@ -201,10 +229,11 @@ function addDemoGraphics(arr) {
   }
 }
 
+// ========== 6. 面板交互方法：绘制限定范围 ==========
 // 框选查询 矩形
 export function drawRectangle() {
   clearAll()
-   map.graphicLayer.startDraw({
+  map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
       fillColor: "#0000ff",
@@ -214,9 +243,6 @@ export function drawRectangle() {
     },
     success: function (graphic) {
       drawGraphic = graphic
-      // drawGraphic.type = "rectangle"
-      console.log(graphic)
-      // console.log("矩形：", drawGraphic.toGeoJSON({ outline: true }))
     }
   })
 }
@@ -234,8 +260,6 @@ export function drawCircle() {
     },
     success: function (graphic) {
       drawGraphic = graphic
-      // drawGraphic.type = "circle"
-      // console.log("圆：", drawGraphic.toGeoJSON({ outline: true }))
     }
   })
 }
@@ -253,13 +277,11 @@ export function drawPolygon() {
     },
     success: function (graphic) {
       drawGraphic = graphic
-      // drawGraphic.type = "polygon"
-      // console.log("多边行：", drawGraphic.toGeoJSON())
     }
   })
 }
 
+// ========== 7. 面板交互方法：结果定位 ==========
 export function flytoGraphic(graphic) {
   map.flyToGraphic(graphic)
-  console.log(graphic)
 }

@@ -1,17 +1,26 @@
+/**
+ * 示例：ArcGIS Server面的查询统计分析
+ * 演示：用 mars2d.query.QueryArcServer 查询绘制范围内的规划用地面，按绘制范围裁剪求交后统计各用地类别的面积，并在面板用表格/饼图/柱状图展示
+ * API：mars2d.query.QueryArcServer、mars2d.layer.GeoJsonLayer、turf.intersect / turf.area
+ * 要点：依赖外网 ArcGIS 服务（server.mars2d.cn）；turf 由 example.json 的 libs 引入为全局变量（turf.intersect 为 v7 的 featureCollection 用法）；turf.area 返回平方米，需乘 0.0015 换算为亩
+ */
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
-let queryMapserver
-let drawGraphic
-let geoJsonLayer
+let queryMapserver // ArcGIS 矢量查询服务（QueryArcServer 实例）
+let drawGraphic // 查询限定的区域（矩形/圆/多边形）
+let geoJsonLayer // 用于展示查询结果的 GeoJSON 图层
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   center: { lat: 31.837532, lng: 117.202653, alt: 10586, heading: 0, pitch: -90 }
 }
 
-export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
+// 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars2d.BaseClass()
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -30,6 +39,7 @@ export function onMounted(mapInstance) {
         fillColor: "rgba(205, 233, 247, 0.7)" // 填充颜色
       },
       styleField: "用地编号",
+      // 按「用地编号」匹配文件末尾的 styleFieldOptions 着色配置（定义在文件末尾，onMounted 执行时已完成初始化）
       styleFieldOptions
     },
     // popup: "all",
@@ -38,14 +48,30 @@ export function onMounted(mapInstance) {
   map.addLayer(geoJsonLayer)
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (!map) {
+    return
+  }
+  // 查询服务只保存服务地址与配置，没有 DOM/定时器，置空即可被回收
+  queryMapserver = null
+  if (geoJsonLayer) {
+    map.removeLayer(geoJsonLayer)
+    geoJsonLayer = null
+  }
+  // 限定范围画在 map.graphicLayer 上，需显式清空，避免重新运行示例后残留
+  if (map.graphicLayer) {
+    map.graphicLayer.clear()
+  }
+  drawGraphic = null
   map = null
 }
 
+// ========== 4. 面板交互方法：绘制范围、查询、清除 ==========
 // 框选查询 矩形
 export function drawRectangle() {
   clearAll()
@@ -166,6 +192,7 @@ export function queryData(queryVal) {
   })
 }
 
+// ========== 5. 查询结果统计 ==========
 // 统计面积数据并按表格图表来展示
 function calculateArea(arr) {
   console.log("计算前数据", arr)
@@ -190,6 +217,7 @@ function calculateArea(arr) {
   eventTarget.fire("loadOk", { list: arrTable })
 }
 
+// ========== 6. 规划面着色配置 ==========
 // 规划面着色配置
 const styleFieldOptions = {
   A1: {

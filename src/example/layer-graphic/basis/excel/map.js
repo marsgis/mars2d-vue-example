@@ -1,3 +1,9 @@
+/**
+ * 示例：Excel、CSV格式加载
+ * 演示：用 FileReader 读取本地 Excel/CSV 文件，解析成点数据后用 GraphicLayer 上图，并支持标绘、导出 CSV/Excel
+ * API：mars2d.layer.GraphicLayer、GraphicLayer#startDraw、GraphicLayer#toJSON、XLSX（全局）
+ * 要点：XLSX 由示例框架按 example.json 的 libs 配置全局加载（不是 npm 包）；CSV 用 split(",") 简单解析（不支持字段内带逗号/引号）；表格必须有"经度""纬度"两列
+ */
 /* global XLSX */ // 由示例框架按 libs 配置加载到 window 上，本文件直接使用全局变量
 import * as mars2d from "mars2d"
 // import * as XLSX from "xlsx"
@@ -5,12 +11,14 @@ import * as mars2d from "mars2d"
 export let map // mars2d.Map二维地图对象
 export let graphicLayer // 矢量图层对象
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 13,
   center: { lng: 117.199574, lat: 31.844607 }
 }
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -27,6 +35,7 @@ export function onMounted(mapInstance) {
   })
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
   if (map && graphicLayer) {
@@ -37,6 +46,7 @@ export function onUnmounted() {
   map = null
 }
 
+// ========== 4. 面板交互：模版下载与清除 ==========
 export function downloadCsvModel() {
   const url = window.currentPath + "data/graphic.csv" // currentPath为当前目录，内置在示例框架中
   window.open(url)
@@ -48,16 +58,20 @@ export function downloadExcelModel() {
 }
 
 export function clearData() {
+  if (!graphicLayer) {
+    return
+  }
   graphicLayer.clear()
 }
 
+// ========== 5. 文件导入（Excel/CSV → 矢量点）==========
 export function openFile(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
   if (fileType === "xls" || fileType === "xlsx") {
     const reader = new FileReader()
-    reader.readAsBinaryString(file)
+    reader.readAsBinaryString(file) // XLSX.read 需要二进制字符串格式
     reader.onloadend = function (e) {
       importExcelData(this.result)
     }
@@ -101,6 +115,7 @@ function importExcelData(result) {
   addGraphics(jsonData)
 }
 
+// ========== 6. 数据导出（CSV/Excel）==========
 export function downloadCsvData() {
   if (graphicLayer.length === 0) {
     globalAlert("当前没有标注任何数据，无需保存！")
@@ -108,7 +123,7 @@ export function downloadCsvData() {
   }
   const json = graphicLayer.toJSON().data
 
-  // 处理列头
+  // 处理列头：ID/名称/纬度/经度 固定在前，attr 里的其它字段依次追加在后面
   const heads = ["ID", "名称", "纬度", "经度"]
   for (let index = 0; index < json.length; index++) {
     const element = json[index]
@@ -126,8 +141,9 @@ export function downloadCsvData() {
   for (let index = 0; index < json.length; index++) {
     const graphic = json[index]
 
+    // 前 4 列依次是 ID、名称、纬度、经度，与 heads 的固定列对齐
     const item = [graphic.attr.ID ?? graphic.id, graphic.attr["名称"] ?? graphic.name, ...graphic.latlng]
-    for (let j = 5; j < heads.length; j++) {
+    for (let j = 4; j < heads.length; j++) {
       const head = heads[j]
       item.push(graphic.attr[head] ?? "")
     }
@@ -163,6 +179,10 @@ export function downloadExcelData() {
 }
 
 function addGraphics(points) {
+  // FileReader 回调是异步的，若示例已切换走则图层已被置空，直接丢弃数据
+  if (!graphicLayer) {
+    return
+  }
   graphicLayer.clear()
 
   for (let j = 0; j < points.length; ++j) {
@@ -192,8 +212,12 @@ function addGraphics(points) {
   }
 }
 
+// ========== 7. 手动标绘 ==========
 let indexCache = 0
 export async function startDrawGraphic() {
+  if (!graphicLayer) {
+    return
+  }
   const name = "我是手动标绘的" + ++indexCache
   const graphic = await graphicLayer.startDraw({
     type: "marker",

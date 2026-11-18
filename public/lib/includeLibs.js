@@ -28,10 +28,8 @@ window.configLibs = {
     "mars2d/plugins/echarts/mars2d-echarts.js"
   ],
   /// ///////////////////////leaflet第3方插件////////////////////////
-  "leaflet-sideBySide": ["leaflet/thirdParty/sideBySide/leaflet-side-by-side.min.js"],
   OSMBuildings: [
     // 建筑物3D立体 插件
-    "leaflet/thirdParty/OSMBuildings/OSMBuildings-Leaflet.debug.js",
     "leaflet/thirdParty/OSMBuildings/OSMBuildings-Leaflet.js"
   ],
   CanvasGeojsonLayer: [
@@ -44,12 +42,6 @@ window.configLibs = {
     "leaflet/thirdParty/timedimension/leaflet.timedimension.control.css",
     "leaflet/thirdParty/timedimension/leaflet.timedimension.js"
   ],
-  textCollision: [
-    "leaflet/thirdParty/textCollision/LabelTextCollision.js"
-  ],
-  canvaslabel: [
-    "leaflet/thirdParty/textCollision/Leaflet.canvaslabel.js"
-  ],
   "mapbox-gl": [
     "leaflet/thirdParty/mapbox/mapbox-gl.css",
     "leaflet/thirdParty/mapbox/mapbox-gl.js",
@@ -57,9 +49,6 @@ window.configLibs = {
   ],
   "leaflet-wind": [
     "leaflet/thirdParty/wind/leaflet-wind.js"
-  ],
-  "leaflet-migration": [
-    "leaflet/thirdParty/migration/leaflet-migrationLayer.js"
   ],
   "leaflet-rotate": [
     "leaflet/thirdParty/rotate/leaflet-rotate.js"
@@ -101,9 +90,6 @@ window.configLibs = {
   ],
   kriging: [
     "kriging/kriging.min.js"
-  ],
-  three: [
-    "three/three.js"
   ],
   kmlGeojson: [
     "geojson/kml-geojson.js" // 项目KML/KMZ解析加载GeoJson插件

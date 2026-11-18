@@ -1,30 +1,48 @@
+/**
+ * 示例：散点图态势
+ * 演示：在同一个 EchartsLayer 里混排地图坐标系的散点/涟漪散点与普通 grid 坐标系柱状图+类目轴，同时展示城市数值排行
+ * API：mars2d.layer.EchartsLayer、mars2d.Map#setView
+ * 要点：series 的 coordinateSystem 不写 "mars2dMap" 的（如柱状图）走 ECharts 自身 grid 坐标系，不会落在地图经纬度上；散点大小按 value/500 缩放且最小 8px；数据里 geoCoordMap 用的是 [经度, 纬度]
+ */
 import * as mars2d from "mars2d"
 
-let map
+let map // mars2d.Map二维地图对象
+let echartsLayer // 图表图层，卸载时移除（触发 onRemove，内部 echarts 实例随之 dispose）
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {}
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  // 与 config.json 中 id=2017 蓝色底图的底色一致，瓦片未加载完成时不会露白
   map.container.style.backgroundColor = "#11243C"
-  map.basemap = 2017 // 蓝色底图
+  map.basemap = 2017 // 切换为 config.json 中 id=2017 的蓝色底图
   map.setView([34.885931, 125.024414], 5)
 
   showEchartsLayer()
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-
 export function onUnmounted() {
-  map = null
+  if (map && echartsLayer) {
+    map.removeLayer(echartsLayer) // EchartsLayer.onRemove 会 dispose 内部的 echarts 实例并移除容器 DOM
+  }
+  echartsLayer = null
+  if (map) {
+    map.destroy() // 释放地图 DOM、底图与事件监听
+    map = null
+  }
 }
 
+// ========== 4. 图表图层 ==========
 function showEchartsLayer() {
   const data = [
     { name: "上海", value: 19780 },
@@ -118,6 +136,7 @@ function showEchartsLayer() {
     return res
   }
 
+  // convertedData[0] 是全量散点数据，convertedData[1] 是按数值取的前 6 名（本示例 series 只用到 [0]）
   const convertedData = [
     convertData(data),
     convertData(
@@ -128,6 +147,7 @@ function showEchartsLayer() {
         .slice(0, 6)
     )
   ]
+  // 类目轴数据按 value 升序排列，柱状图从下往上的数值递增
   data.sort(function (a, b) {
     return a.value - b.value
   })
@@ -143,8 +163,6 @@ function showEchartsLayer() {
     barData.push(data[i].value)
     sum += data[i].value
   }
-  // console.log(categoryData);
-  // console.log(sum + "   " + count)
 
   const options = {
     animation: true,
@@ -300,6 +318,6 @@ function showEchartsLayer() {
   }
 
   // 创建Echarts图层
-  const echartsLayer = new mars2d.layer.EchartsLayer(options)
+  echartsLayer = new mars2d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 }

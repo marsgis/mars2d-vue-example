@@ -1,3 +1,9 @@
+/**
+ * 示例：点的加载动画
+ * 演示：Marker 的 magic 入场动画（animate.css 动画名）与定时器逐个批量添加动画点
+ * API：mars2d.graphic.Marker（style.magic）、setInterval
+ * 要点：magic 取值来自同目录 magic.min.css 里的动画名，拼错不报错、只是没有动画；定时器必须在 onUnmounted 清理，防止切走后继续加点到已销毁的图层
+ */
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
@@ -14,6 +20,7 @@ export const eventTarget = new mars2d.BaseClass()
 
 let magicTimer = null // 逐个添加 magic 标记的定时器
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -29,6 +36,7 @@ export function onMounted(mapInstance) {
       image: "img/marker/mark3.png",
       horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
+      // magic 是 animate.css 的动画名（见同目录 magic.min.css），错写不会提示，只是无动画
       magic: "vanishIn"
     }
   })
@@ -72,7 +80,7 @@ export function onMounted(mapInstance) {
     clearInterval(magicTimer)
   }
   magicTimer = setInterval(function () {
-    if (i < 28) {
+    if (i < magicArr.length) {
       const magicType = magicArr[i]
 
       let latlng
@@ -101,14 +109,24 @@ export function onMounted(mapInstance) {
   }, 1000)
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 定时器回调里还在往图层加点，必须先停掉再移除图层
   if (magicTimer) {
     clearInterval(magicTimer)
     magicTimer = null
+  }
+  eventTarget.off()
+  if (graphicLayer) {
+    if (map) {
+      map.removeLayer(graphicLayer, true)
+    }
+    graphicLayer = null
   }
   map = null
 }

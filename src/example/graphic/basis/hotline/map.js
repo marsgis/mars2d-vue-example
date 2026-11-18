@@ -1,3 +1,9 @@
+/**
+ * 示例：热力线
+ * 演示：用同目录 Hotline.js（经典脚本，全局类）绘制按热力值配色的热力线，并按数据范围定位地图
+ * API：Hotline、mars2d.layer.GraphicLayer、map.fitBounds
+ * 要点：Hotline 不是 mars2d 内置类，不能按模块 import；latlngs 每项是 [纬度, 经度, 热力值]，style.min/max 决定热力值到配色的映射区间；本文件大部分是原始轨迹数据，只加注释、不要重排
+ */
 import * as mars2d from "mars2d"
 
 export let map // mars2d.Map二维地图对象
@@ -6,6 +12,7 @@ export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -17,14 +24,27 @@ export function onMounted(mapInstance) {
   addDemoGraphic1()
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 解绑面板通过 eventTarget 注册的事件，避免旧面板回调残留
+  eventTarget.off()
+  if (graphicLayer) {
+    // 从地图移除矢量图层：热力线及 canvas 动画随图层一起释放
+    if (map) {
+      map.removeLayer(graphicLayer, true)
+    }
+    graphicLayer = null
+  }
   map = null
 }
 
+// ========== 3. 矢量对象（演示数据）==========
+// 原始轨迹数据：[纬度, 经度, 热力值]，数据量大，仅加注释保持原顺序
 function addDemoGraphic1() {
   const coords = [
     [31.821565, 117.290039, 179.872955],
@@ -971,12 +991,13 @@ function addDemoGraphic1() {
     [31.821769, 117.293837, 157.385672]
   ]
 
+  // Hotline 由同目录 Hotline.js 以经典脚本注册到全局，不是 mars2d 内置类
   // eslint-disable-next-line no-undef
   const hotline = new Hotline({
     latlngs: coords,
     style: {
-      min: 150,
-      max: 350,
+      min: 150, // 热力值映射下限
+      max: 350, // 热力值映射上限，超出区间的值按端点配色
       palette: {
         0.0: "#008800",
         0.5: "#ffff00",
@@ -990,5 +1011,5 @@ function addDemoGraphic1() {
   graphicLayer.addGraphic(hotline)
 
   const bounds = hotline.getBounds()
-  map.fitBounds(bounds)
+  map.fitBounds(bounds) // 按热力线范围定位地图
 }

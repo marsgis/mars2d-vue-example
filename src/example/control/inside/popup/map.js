@@ -1,9 +1,16 @@
+/**
+ * 示例：Popup鼠标单击信息窗
+ * 演示：分别在地图、GeoJson图层、Graphic上绑定 Popup 弹窗（含按属性配置与局部刷新两种写法）
+ * API：map.openPopup、layer.bindPopup、graphic.bindPopup、mars2d.EventType.popupopen
+ * 要点：popup 内容支持字符串/HTML/属性模板/函数；内容里的内联 javascript 运行在全局作用域，需把入口挂到 window（本示例 window.showXQ）；局部刷新只改弹窗内部 DOM 指定的单元格，不要整块重建
+ */
 import * as mars2d from "mars2d"
 
 let map
 let graphicLayer
 let geoJsonLayer
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 12,
@@ -14,6 +21,7 @@ export const eventTarget = new mars2d.BaseClass()
 
 let timeTik = null // popup 内时间局部刷新的定时器
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance
@@ -31,8 +39,9 @@ export function onMounted(mapInstance) {
   bindLayerDemo()
 }
 
+// ========== 3. 弹窗事件（全局监听）==========
 function onPopupOpen(event) {
-  const container = event.popup._container // popup对应的DOM
+  const container = event.popup.getElement() // popup 对应的 DOM（DivOverlay#getElement 公开方法）
   if (container.querySelector(".leaflet-popup-content").childElementCount) {
     container.querySelector(".leaflet-popup-close-button").style.setProperty("color", "#6c6c6c", "important") // 关闭按钮颜色
   }
@@ -40,36 +49,23 @@ function onPopupOpen(event) {
 }
 
 function onPopupClose(event) {
-  const container = event.popup._container // popup对应的DOM
+  const container = event.popup.getElement() // popup 对应的 DOM
   console.log("关闭了popup(全局监听)", event)
 }
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  if (timeTik) {
-    clearInterval(timeTik)
-    timeTik = null
-  }
-  if (map) {
-    map.off(mars2d.EventType.popupopen, onPopupOpen)
-    map.off(mars2d.EventType.popupclose, onPopupClose)
-    map.closePopup()
-  }
-  delete window.showXQ
-  map = null
-  removeDemoLayer()
-}
-
+// ========== 4. 面板交互方法 ==========
 export function removeDemoLayer() {
-  graphicLayer.clear()
-
-  if (geoJsonLayer) {
-    geoJsonLayer.remove(true)
-    geoJsonLayer = null
+  // 清空主图层上的 Graphic，并销毁 GeoJson 图层（销毁时其上的 popup 监听一并释放）
+  // 注意：切换示例时 iframe 可能已被拆除，图层与地图的关联已断开，
+  // 此时直接 remove/clear 会因 Leaflet 内部 map 为空而抛错，故用公开的 isAdded 判断
+  if (graphicLayer && graphicLayer.isAdded) {
+    graphicLayer.clear()
   }
+
+  if (geoJsonLayer && geoJsonLayer.isAdded) {
+    geoJsonLayer.remove(true)
+  }
+  geoJsonLayer = null
 }
 
 // 1.在map地图上绑定Popup单击弹窗
@@ -86,7 +82,6 @@ export function bindMapDemo() {
 
 // 2.在layer图层上绑定Popup单击弹窗
 export function bindLayerDemo() {
-  console.log("调用了该方法")
   removeDemoLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -102,11 +97,11 @@ export function bindLayerDemo() {
   })
 
   geoJsonLayer.on(mars2d.EventType.popupopen, function (event) {
-    const container = event.popup._container // popup对应的DOM
+    const container = event.popup.getElement() // popup 对应的 DOM
     console.log("图层上打开了popup", container)
   })
   geoJsonLayer.on(mars2d.EventType.popupclose, function (event) {
-    const container = event.popup._container // popup对应的DOM
+    const container = event.popup.getElement() // popup 对应的 DOM
     console.log("图层上移除了popup", container)
   })
 }
@@ -181,11 +176,11 @@ export function bindGraphicDemo1() {
   graphic.bindPopup(getInnerHtml).openPopup()
 
   graphic.on(mars2d.EventType.popupopen, function (event) {
-    const container = event.popup._container // popup对应的DOM
+    const container = event.popup.getElement() // popup 对应的 DOM
     console.log("打开了popup", container)
   })
   graphic.on(mars2d.EventType.popupclose, function (event) {
-    const container = event.popup._container // popup对应的DOM
+    const container = event.popup.getElement() // popup 对应的 DOM
     console.log("移除了popup", container)
   })
 }
@@ -208,7 +203,7 @@ export function bindGraphicDemo2() {
 
   // 刷新局部DOM,不影响popup面板的其他控件操作
   graphic.on(mars2d.EventType.popupopen, function (event) {
-    const container = event.popup._container // popup对应的DOM
+    const container = event.popup.getElement() // popup 对应的 DOM
     console.log("打开了popup", container)
 
     const tdTime = container.querySelector("#tdTime")
@@ -223,7 +218,7 @@ export function bindGraphicDemo2() {
   })
 
   graphic.on(mars2d.EventType.popupclose, function (event) {
-    const container = event.popup._container // popup对应的DOM
+    const container = event.popup.getElement() // popup 对应的 DOM
     console.log("移除了popup", container)
 
     clearInterval(timeTik)
@@ -245,4 +240,28 @@ export function bindGraphicDemo2() {
 function showXQ() {
   const showHistoryLayer = true
   eventTarget.fire("showWebsite", { showHistoryLayer })
+}
+
+// ========== 5. 清理（与 onMounted 对称）==========
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  if (timeTik) {
+    clearInterval(timeTik)
+    timeTik = null
+  }
+  if (map) {
+    map.off(mars2d.EventType.popupopen, onPopupOpen)
+    map.off(mars2d.EventType.popupclose, onPopupClose)
+    map.closePopup()
+    // 这里不调用 map.destroy()/逐图层 remove：切换示例时框架先替换 mapWork、iframe 随后整体销毁，
+    // 此时对图层做 remove 会走进 Leaflet 内部已断开的 map（实测报 _leaflet_events 未定义），
+    // 而 iframe 销毁本身已回收全部图层与监听。只解绑事件、断开引用即可。
+  }
+  graphicLayer = null
+  geoJsonLayer = null
+  delete window.showXQ
+  map = null
 }

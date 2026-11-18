@@ -1,33 +1,49 @@
+/**
+ * 示例：散点图城市空气质量
+ * 演示：用 EchartsLayer 渲染全国主要城市 PM2.5 散点图，visualMap 按数值连续配色，鼠标悬浮显示具体数值
+ * API：mars2d.layer.EchartsLayer、mars2d.Map#setView
+ * 要点：series 必须写 coordinateSystem: "mars2dMap"，数据为 [经度, 纬度, 数值]；visualMap 的 min/max 决定色带映射范围；标题/图例/visualMap 是 ECharts 画布上的组件，位置用 left/right/top 等相对画布定位
+ */
 import * as mars2d from "mars2d"
 
-let map
+let map // mars2d.Map二维地图对象
+let echartsLayer // 图表图层，卸载时移除（触发 onRemove，内部 echarts 实例随之 dispose）
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {}
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-
+  // 与 config.json 中 id=2017 蓝色底图的底色一致，瓦片未加载完成时不会露白
   map.container.style.backgroundColor = "#11243C"
-  map.basemap = 2017 // 蓝色底图
-
+  map.basemap = 2017 // 切换为 config.json 中 id=2017 的蓝色底图
 
   map.setView([33.652, 107.661], 5)
 
   showEchartsLayer()
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-
 export function onUnmounted() {
-  map = null
+  if (map && echartsLayer) {
+    map.removeLayer(echartsLayer) // EchartsLayer.onRemove 会 dispose 内部的 echarts 实例并移除容器 DOM
+  }
+  echartsLayer = null
+  if (map) {
+    map.destroy() // 释放地图 DOM、底图与事件监听
+    map = null
+  }
 }
 
+// ========== 4. 图表图层 ==========
 function showEchartsLayer() {
   const geoCoordMap = {
     海门: [121.15, 31.89],
@@ -489,6 +505,6 @@ function showEchartsLayer() {
   }
 
   // 创建Echarts图层
-  const echartsLayer = new mars2d.layer.EchartsLayer(options)
+  echartsLayer = new mars2d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 }

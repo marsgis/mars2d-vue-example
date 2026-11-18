@@ -1,9 +1,16 @@
+/**
+ * 示例：统计柱状图
+ * 演示：GeoJsonLayer 加载淮海经济区 11 市面数据，叠加 GDP 数值 Label 与图标点，单击行政区在 Popup 中用 echarts-gl 渲染近五年 GDP 的 3D 柱状图
+ * API：mars2d.layer.GeoJsonLayer、mars2d.graphic.DivGraphic/Label、mars2d.Util.fetchJson、layer.bindPopup
+ * 要点：GeoJsonLayer 的 styleField/styleFieldOptions 按城市名分色（styleOptions.length/alphaPower 是 3D 版参数，2D 下不生效）；echarts 必须等 popupopen 后弹窗 DOM 就绪再 init，popupclose 时要 dispose 释放实例
+ */
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 let graphicLayer
 const L = mars2d.L
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 8,
@@ -13,12 +20,14 @@ export const mapOptions = {
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
+  // 与 config.json 中 id=2017 蓝色底图的 customColor 一致，瓦片未加载完成时不会露白
   map.container.style.backgroundColor = "#11243C"
-  map.basemap = 2017 // 蓝色底图
+  map.basemap = 2017 // 切换为 config.json 中 id=2017 的蓝色底图
 
   // 淮海市的区域图
   const geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -30,6 +39,7 @@ export function onMounted(mapInstance) {
       styleOptions: {
         color: "#3388cc",
         opacity: 0.7,
+        // length 与 alphaPower 是 3D 版（mars3d）的拉伸参数，2D 的 Polygon 样式不读取，保留仅为与 3D 示例保持一致
         alphaPower: 1.3,
         length: "{gdp}"
       },
@@ -60,7 +70,10 @@ export function onMounted(mapInstance) {
     url: "//data.mars2d.cn/file/apidemo/huaihai-jj.json"
   })
     .then((res) => {
-      console.log(res)
+      // 示例切换后异步请求可能才返回，此时地图已销毁，直接丢弃数据，避免操作已释放的图层
+      if (!map) {
+        return
+      }
       conventChartsData(res.data) // 单击显示的popup
       showYearZT(res.data) // 柱状图
       bindHaihuaiPopup()
@@ -74,14 +87,27 @@ export function onMounted(mapInstance) {
   })
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
-  map = null
+  // 清空面板通过 eventTarget 注册的监听，避免旧面板回调残留
+  eventTarget.off()
+  // 先释放 echarts 实例，再销毁地图，避免弹窗 DOM 被移除后实例仍持有引用
+  if (gdpCharts) {
+    gdpCharts.dispose()
+    gdpCharts = null
+  }
+  if (map) {
+    map.destroy() // 一并释放 GeoJsonLayer、GraphicLayer 及其中的矢量对象
+    map = null
+  }
+  graphicLayer = null
 }
 
+// ========== 4. 矢量对象：城市图标点与 GDP 数值 ==========
 /**
  * 展示某年的椎体
  */
@@ -102,6 +128,7 @@ function showYearZT(data) {
                         <span style="color:#FFB861">第二产业：${num2}</span><br/>
                         <span style="color:#FF6D5D">第三产业：${num3}</span>`
 
+    // getJWDByName 返回的是 [经度, 纬度]，而 L.latLng 需要 [纬度, 经度]
     const p1 = L.latLng(jwd[1], jwd[0])
 
     // 添加图标点
@@ -171,9 +198,11 @@ function getJWDByName(name) {
   return []
 }
 
+// ========== 5. 事件与交互：单击行政区弹出 echarts 图表 ==========
 // ================以下是单击显示的echarst图表的相关代码===============
 let arrYear
 let objCity = {}
+let gdpCharts // 当前打开的 GDP 柱状图实例（弹窗关闭/示例切走时需 dispose）
 
 // 转换值
 function conventChartsData(arrOld) {
@@ -213,25 +242,32 @@ function bindHaihuaiPopup() {
     }
   )
 
-  let gdpCharts
   layerHuaihai.on(mars2d.EventType.popupopen, function (event) {
-    const container = event.popup._container // popup对应的DOM
+    // 依赖 Leaflet 私有成员 popup._container 取弹窗 DOM；SDK 未提供等价公开属性，升级 Leaflet/SDK 需复核
+    const container = event.popup._container
     console.log("图层上打开了popup", container)
 
     const option = getCityChartsOptions(event.layer?.attr)
     if (!option) {
       return
     }
+    // 先释放上一次的实例，避免重复打开弹窗时 echarts 实例泄漏
+    if (gdpCharts) {
+      gdpCharts.dispose()
+    }
     gdpCharts = echarts.init(container.querySelector("#gdpCharts"))
     gdpCharts.setOption(option)
   })
 
   layerHuaihai.on(mars2d.EventType.popupclose, function (event) {
-    const container = event.popup._container // popup对应的DOM
+    // 依赖 Leaflet 私有成员 popup._container；关闭弹窗时释放实例，避免 DOM 移除后实例仍被引用
+    const container = event.popup._container
     console.log("图层上移除了popup", container)
 
-    // gdpCharts.dispose();
-    gdpCharts = null
+    if (gdpCharts) {
+      gdpCharts.dispose()
+      gdpCharts = null
+    }
   })
 }
 

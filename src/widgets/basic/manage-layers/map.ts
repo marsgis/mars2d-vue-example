@@ -14,7 +14,9 @@ export const eventTarget = new mars2d.BaseClass()
 export function onMounted(mapInstance: mars2d.Map): void {
   map = mapInstance // 记录首次创建的map
 
-  map.on("popupopen", function (e) {
+  // 形参显式标注 any：SDK 的 d.ts 中 on() 的 fn 类型是 `((...params) => any) | any`，联合 any 会抹掉上下文类型，
+  // 不标注时 vue-tsc 报 TS7006；这里还要读 Leaflet Popup 的私有成员（_container），因此不用精确事件类型
+  map.on("popupopen", function (e: any) {
     const popupBtn = e.popup._closeButton
     const labels = e.popup._container.getElementsByTagName("label")
     if (popupBtn) {

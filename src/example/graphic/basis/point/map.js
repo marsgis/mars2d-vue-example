@@ -1,3 +1,9 @@
+/**
+ * 示例：Point 像素点
+ * 演示：Point 像素点（pixelSize、填充/描边、文本 label）与图层交互、右键菜单、标绘与批量生成
+ * API：mars2d.graphic.Point、mars2d.layer.GraphicLayer、mars2d.PolyUtil.getGridPoints
+ * 要点：pixelSize 是屏幕像素大小，不随地图缩放；点样式支持 fill/outline 组合；批量生成时 count 是网格点数量
+ */
 import * as mars2d from "mars2d"
 
 export let map // mars2d.Map二维地图对象
@@ -7,6 +13,7 @@ export let graphicLayer
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -24,19 +31,31 @@ export function onMounted(mapInstance) {
   addDemoGraphic3()
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 解绑面板通过 eventTarget 注册的事件，避免旧面板回调残留
+  eventTarget.off()
+  if (graphicLayer) {
+    // 从地图移除矢量图层：像素点及 popup/右键菜单随图层一起释放
+    if (map) {
+      map.removeLayer(graphicLayer, true)
+    }
+    graphicLayer = null
+  }
   map = null
 }
 
+// ========== 3. 矢量对象（演示数据）==========
 function addDemoGraphic1() {
   const graphic = new mars2d.graphic.Point({
     latlng: [31.854628, 117.245425],
     style: {
-      pixelSize: 8,
+      pixelSize: 8, // 点的直径，单位屏幕像素（不随地图缩放）
       color: "#ff0000"
     },
     attr: { remark: "示例1" }
@@ -86,6 +105,7 @@ function addDemoGraphic3() {
   graphicLayer.addGraphic(graphic)
 }
 
+// ========== 4. 面板交互方法 ==========
 export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "point",
@@ -111,7 +131,6 @@ export function addRandomGraphicByCount(count) {
 
   const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
   const result = mars2d.PolyUtil.getGridPoints(bbox, count, 30)
-  console.log("生成的测试网格坐标", result)
 
   for (let j = 0; j < result.points.length; ++j) {
     const latlng = result.points[j]
@@ -128,9 +147,10 @@ export function addRandomGraphicByCount(count) {
     graphicLayer.addGraphic(graphic)
   }
 
-  return count.length
+  return result.points.length // 实际生成的个数（网格按 count 取整，可能少于入参）
 }
 
+// ========== 5. 事件与交互 ==========
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件
@@ -269,10 +289,7 @@ function bindLayerContextMenu() {
 
 // 也可以在单个Graphic上做个性化管理及绑定操作
 function initGraphicManager(graphic) {
-  // 3.在graphic上绑定监听事件
-  // graphic.on(mars2d.EventType.click, function(event) {
-  //   console.log('监听graphic，单击了矢量对象', event)
-  // })
+  // 3.在graphic上绑定监听事件：graphic.on(mars2d.EventType.click, function (event) { ... })
 
   // 绑定Tooltip
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()

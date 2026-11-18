@@ -183,11 +183,3 @@ const submitCenter = () => {
   mapWork.updateMarker(true, formState.jd, formState.wd)
 }
 </script>
-<style scoped lang="less">
-// .decimal-system {
-//   width: 225px;
-// }
-// .degree-minutes {
-//   width: 90px;
-// }
-</style>

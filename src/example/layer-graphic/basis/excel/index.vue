@@ -42,6 +42,4 @@ const onClickImpFile = (info: any) => {
   const item = info.file
   mapWork.openFile(item)
 }
-
 </script>
-<style lang="less"></style>

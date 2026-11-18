@@ -1,34 +1,49 @@
+/**
+ * 示例：强边界图
+ * 演示：用 mapv 的 utilForceEdgeBundling 把 500 条城市间的边捆绑成"强边界"曲线，再叠加一层流动光点动画
+ * API：mars2d.layer.MapVLayer、map.addLayer
+ * 要点：mapv 由示例框架按 example.json 的 libs 配置全局加载（代码里的 this.mapv 即 iframe window 上的 mapv）；node_data 的键必须是字符串 id，edge_data 的 source/target 引用它；城市中心来自 mapv 内置的 utilCityCenter 数据表，不请求外部接口
+ */
 import * as mars2d from "mars2d"
 
-let map
+let map // mars2d.Map二维地图对象
+let mapVLayers = [] // 本示例创建的 MapV 图层（卸载时统一移除，动画随图层停止）
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {}
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  map.container.style.backgroundColor = "#11243C"
-  map.basemap = 2017 // 蓝色底图
-  map.setView([36.64, 108.15], 5)
+  map.container.style.backgroundColor = "#11243C" // 深色背景衬托发光曲线
+  map.basemap = 2017 // 2017 是 config.json 中内置"蓝色地图"的 id
+  map.setView([36.64, 108.15], 5) // Leaflet 的坐标数组顺序是 [纬度, 经度]
 
   showMapVLayer()
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-
 export function onUnmounted() {
+  // MapV 的动画在图层内部持续运行，必须移除图层才会停止
+  if (map) {
+    mapVLayers.forEach((layer) => map.removeLayer(layer))
+  }
+  mapVLayers = []
   map = null
 }
 
+// ========== 3. MapV 图层绘制 ==========
 function showMapVLayer() {
-  const randomCount = 500
+  const randomCount = 500 // 500 条随机边：捆绑计算量与视觉效果比较均衡
 
   const node_data = {
+    // node_data 的键是字符串 id，下面 edge_data 的 source/target 按这个 id 引用
     0: { x: 108.154518, y: 36.643346 },
     1: { x: 121.485124, y: 31.235317 }
   }
@@ -71,6 +86,7 @@ function showMapVLayer() {
 
   // 自定义数据
   for (let i = 1; i < randomCount; i++) {
+    // 城市中心来自 mapv 内置的 utilCityCenter 数据表
     const cityCenter = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
     node_data[i] = {
       x: cityCenter.lng - 5 + Math.random() * 10,
@@ -79,6 +95,7 @@ function showMapVLayer() {
     edge_data.push({ source: ~~(i * Math.random()), target: "0" })
   }
 
+  // 把相近的边捆绑成一股，形成强边界（力导向边捆绑）效果
   const fbundling = this.mapv.utilForceEdgeBundling().nodes(node_data).edges(edge_data)
 
   const results = fbundling()
@@ -117,18 +134,16 @@ function showMapVLayer() {
     methods: {
       click: function (item) {
         console.log("点击了mapv图层", item)
-
       }
     },
     lineWidth: 1.0,
     draw: "simple"
   }
 
-  // 创建MapV图层
   const mapVLayer = new mars2d.layer.MapVLayer(options1, dataSet1)
   map.addLayer(mapVLayer)
+  mapVLayers.push(mapVLayer)
 
-  // 创建MapV图层
   const dataSet2 = new this.mapv.DataSet(timeData)
   const options2 = {
     fillStyle: "rgba(255, 250, 250, 0.9)",
@@ -146,7 +161,8 @@ function showMapVLayer() {
     draw: "simple"
   }
 
-  // 创建MapV图层
+  // 创建流动光点图层
   const mapVLayer2 = new mars2d.layer.MapVLayer(options2, dataSet2)
   map.addLayer(mapVLayer2)
+  mapVLayers.push(mapVLayer2)
 }

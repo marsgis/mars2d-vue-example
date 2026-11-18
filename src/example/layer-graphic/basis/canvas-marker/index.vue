@@ -11,6 +11,9 @@
         <mars-button @click="OnClickShowData2">生成个性绘制</mars-button>
         <mars-button @click="OnClickClearData" danger>清除</mars-button>
     </div>
+    <div class="canvas-marker-collision">
+        <mars-button @click="OnClickToggleCollision">碰撞：{{ collision ? "开" : "关" }}</mars-button>
+    </div>
   </mars-dialog>
 </template>
 
@@ -19,7 +22,8 @@ import { ref } from "vue"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
 
-const txtCount = ref(1)
+const txtCount = ref(1) // 显示数量，单位：万条
+const collision = ref(false)
 
 const OnClickShowData = () => {
   window.$showLoading()
@@ -44,12 +48,17 @@ const OnClickShowData2 = () => {
   const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
   const usedTime = (endTime - startTime) / 1000
-  console.log(usedTime)
 
   $message("共耗时" + usedTime.toFixed(2) + "秒")
 }
 const OnClickClearData = () => {
   mapWork.clearData()
+}
+
+const OnClickToggleCollision = () => {
+  collision.value = !collision.value
+  mapWork.setCollision(collision.value)
+  $message(`点碰撞已${collision.value ? "开启" : "关闭"}`)
 }
 </script>
 
@@ -71,5 +80,9 @@ const OnClickClearData = () => {
   align-items: center;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
+}
+
+.canvas-marker-collision {
+  margin-top: 6px;
 }
 </style>

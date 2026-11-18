@@ -330,6 +330,7 @@ function getColor(level) {
 // 根据经纬度 直径 以及方向计算方法
 function getPoints(center, cradius, startAngle) {
   const points = []
+  // 风圈半径单位是公里，这里粗略按 1 度 ≈ 100 公里换算成经纬度偏移量
   const radius = cradius / 100
   const pointNum = 90
   const endAngle = startAngle + 90

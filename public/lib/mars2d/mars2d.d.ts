@@ -107,6 +107,7 @@ declare const GraphicType: {
   readonly circle: "circle";
   readonly ellipse: "ellipse";
   readonly polyline: "polyline";
+  readonly arcPolyline: "arcPolyline";
   readonly brushLine: "brushLine";
   readonly antPath: "antPath";
   readonly polygon: "polygon";
@@ -160,6 +161,7 @@ declare const LayerType: {
   readonly wfs: "wfs";
   readonly arcgis_feature: "arcgis_feature";
   readonly canvasMarker: "canvasMarker";
+  readonly label: "label";
   readonly cluster: "cluster";
   readonly graticule: "graticule";
   readonly dayNight: "dayNight";
@@ -578,6 +580,13 @@ declare class ToolBar extends L.Control {
      * 获取控件对应的DOM容器
      */
     readonly container: HTMLElement | any;
+    /**
+     * 获取工具栏中某个按钮的 DOM 元素（用于显隐、禁用等二次控制），
+     * 按钮只在 options.item 配置了对应项时才存在
+     * @param {string} name 按钮名称，支持："home"、"location"、"fullscreen"、"clear"
+     * @returns {HTMLElement | undefined} 按钮 DOM；该按钮未创建时返回 undefined
+     */
+    getButton(name: string | any): HTMLElement | undefined | any;
     onAdd(): void | any;
     onLocationFound(): void | any;
     onLocationError(): void | any;
@@ -5098,6 +5107,90 @@ declare namespace PolyDecorator {
 }
 
 /**
+ * 弧线动画 矢量对象（迁移/飞线效果）
+ * 
+ * 以两个端点定义一条弧线，弧线由共享 canvas 效果层绘制（一个地图一个 canvas、一个动画循环），
+ * 因此不产生「基础直线 + 弧线」重叠；支持流动点、拖尾、终点脉冲与终点文字。
+ * 
+ * 坐标使用 SDK 图形的 `[纬度, 经度]`；`latlngs` 建议只传两个端点：
+ * ```js
+ * const arc = new mars2d.graphic.ArcPolyline({
+ *   latlngs: [[31.83, 117.25], [31.83, 116.31]],
+ *   style: {
+ *     color: "#ff3a31",
+ *     arcWidth: 3,
+ *     pulseRadius: 30,
+ *     labels: ["合肥市", "六安市"]
+ *   }
+ * })
+ * graphicLayer.addGraphic(arc)
+ * ```
+ * 
+ * 说明：为保证"弧线就是图形本身"，基础 Polyline 线条默认隐藏（`style.stroke=false`），
+ * 由效果层绘制弧线；视觉与 `thirdParty/polyline-migration`（leaflet.migrationLayer）对齐。
+ * 支持 click/mouseover/mouseout（可继续 bindPopup/bindTooltip），命中容差 `style.hitTolerance`（默认 8px）。
+ * 多条弧线可批量 addGraphic，仍共享同一个 canvas/一个 rAF。
+ * @param {any} options 参数对象，包括以下：
+ * @param {L.LatLng[] | any[][]} options.latlngs 两个端点坐标 `[起点, 终点]`
+ * @param {ArcPolyline.StyleOptions} [options.style] 样式参数
+ * @param {any} [options.attr] 属性信息
+ * @param {boolean} [options.hasEdit] 是否可以编辑
+ * @param {string | number} [options.id] 矢量数据id标识
+ * @param {string | HTMLElement | ((...params: any[]) => any)} [options.popup] 绑定的popup弹窗值
+ * @param {Map.PopupOptions} [options.popupOptions] popup弹窗配置
+ * @param {string | any[] | ((...params: any[]) => any)} [options.tooltip] 绑定的tooltip弹窗值
+ * @param {Map.TooltipOptions} [options.tooltipOptions] tooltip弹窗配置
+ */
+declare class ArcPolyline extends Polyline {
+    constructor(options?: {
+        latlngs: L.LatLng[] | any[][];
+        style?: ArcPolyline.StyleOptions | any;
+        attr?: any;
+        hasEdit?: boolean;
+        id?: string | number;
+        popup?: string | HTMLElement | ((...params: any[]) => any);
+        popupOptions?: Map.PopupOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Map.TooltipOptions;
+      });
+    /**
+     * 获取当前端点（起点、终点）
+     * @returns {L.LatLng[] | null} 端点数组
+     */
+    getEndpoints(): L.LatLng[] | null | any;
+}
+declare namespace ArcPolyline {
+  /**
+   * 弧线动画样式
+   * 
+   * 默认值与 `thirdParty/polyline-migration`（leaflet.migrationLayer）对齐：
+   * 圆弧 factor=1.5、全弧描边、宽发光、50 段渐隐拖尾、白色流动箭头、终点箭头、
+   * 扩散脉冲、起终点文字。
+   */
+  type StyleOptions = any | {
+    color?: string;
+    arcWidth?: number;
+    arrowSize?: number;
+    arcFactor?: number;
+    pulseRadius?: number;
+    pulseBorderWidth?: number;
+    arcLabel?: boolean;
+    arcLabelFont?: string;
+    shadowBlur?: number;
+    pulseShadowBlur?: number;
+    glowWidth?: number;
+    tailWidth?: number;
+    tailPoints?: number;
+    hitTolerance?: number;
+    duration?: number;
+    labels?: string[];
+    showBaseLine?: boolean;
+    stroke?: boolean;
+    pane?: string;
+  };
+}
+
+/**
  * 雨 矢量对象
  * 说明：不支持交互
  * @param {any} options 参数对象，包括以下：
@@ -5210,7 +5303,7 @@ declare namespace Snow {
  * @param {string} [options.pane] 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
  * @param {any} [options.graphicOptions] 默认的 graphic 构造参数，会被合并进 addGraphic/loadGeoJSON 的每一项（可统一指定 renderer、pane、popup 等），具体见各 {@link GraphicType} 矢量数据的构造参数。
  * @example // 方式一：整张地图统一使用 Canvas 渲染器
-const map = new mars2d.Map("mars3dContainer", { renderer: L.canvas() });
+const map = new mars2d.Map("mars2dContainer", { renderer: L.canvas() });
 
 // 方式二：只让本图层的矢量走 Canvas（同一实例可被该图层所有矢量共享）
 const canvasRenderer = L.canvas({ padding: 0.5 });
@@ -5926,11 +6019,20 @@ BusineDataLayer.on('load', function (event) {
 
 /**
  * 大数据Marker点 图层（基于Canvas渲染）
+ * 
+ * 支持屏幕空间碰撞：`collision:true` 时按 `priority` 保留重叠点中的一个，
+ * 只对最终绘制的点响应点击/悬停；`collisionMode:"dim"` 时重叠点降透明度显示。
+ * 碰撞只覆盖本图层（Canvas 点），DOM Marker 不做碰撞。
  * @param {any} options 参数对象，包括以下：
  * @param {string | number} [options.id] 图层id标识
  * @param {string | number} [options.pid] 图层父级的id，一般图层管理中使用
  * @param {string} [options.name] 图层名称
  * @param {string} [options.pane] 指定图层添加到地图的哪个pane的DIV中，用于控制不同层级显示的，优先级高于zIndex。
+ * @param {boolean} [options.collision] 是否对重叠点做屏幕碰撞
+ * @param {number} [options.collisionPadding] 碰撞判定的额外间距（像素）
+ * @param {string} [options.collisionMode] 重叠处理：`hide` 隐藏、`dim` 降低透明度
+ * @param {((...params: any[]) => any) | string | number} [options.priority] 碰撞优先级：函数 `(marker)=>number`、属性名或固定数字；大者优先。缺省用 `attr.priority`/`zIndexOffset`
+ * @param {number[]} [options.collisionSize] 自定义碰撞尺寸 `[width,height]`；`customDraw` 点建议显式指定
  */
 declare class CanvasMarkerLayer extends L.Layer {
     constructor(options?: {
@@ -5938,6 +6040,11 @@ declare class CanvasMarkerLayer extends L.Layer {
         pid?: string | number;
         name?: string;
         pane?: string;
+        collision?: boolean;
+        collisionPadding?: number;
+        collisionMode?: string;
+        priority?: ((...params: any[]) => any) | string | number;
+        collisionSize?: number[];
       });
     /**
      * 将图层从地图上移除
@@ -6018,6 +6125,168 @@ declare class CanvasMarkerLayer extends L.Layer {
      * @returns {CanvasMarkerLayer} 当前对象本身，可以链式调用
      */
     addOnHoverListener(listener: ((...params: any[]) => any) | any): CanvasMarkerLayer | any;
+}
+
+/**
+ * Canvas 文字标注图层
+ * 
+ * 把大量文字绘制到独立 canvas，并用屏幕网格做碰撞检测；与 DOM `Label` 图形相比，
+ * 不受节点数量影响，适合千～万级标签。标签不参与 DOM 可访问性，少量需要 CSS/可访问性
+ * 的标注请继续使用 `Label` 图形。
+ * 
+ * 数据格式（`data` 数组，坐标遵循 SDK 约定 `[纬度, 经度]`）：
+ * ```js
+ * [{ latlng: [31.82, 117.22], text: "合肥", style: { color: "#fff", priority: 10 } }]
+ * ```
+ * 
+ * 也可以传 `sourceLayer`（`GraphicLayer`），从每个图形的 `style.labelStyle` 读取文字：
+ * - 点（Marker/Point/DivGraphic 等）：用图形坐标；
+ * - 线（Polyline）：取线的屏幕长度中点，默认按切线旋转（`rotate:false` 可关闭）；
+ * - 面（Polygon/Rectangle）：取 `graphic.center`，没有时取外环包围盒中心。
+ * 图形 `style.labelStyle.anchor` 可显式指定锚点坐标。
+ * 
+ * 样式从 `defaultLabelStyle` 与每条的 `style` 合并；支持字段见 {@link LabelLayout}：
+ * `text/font/fontSize/fontFamily/color/stroke/strokeColor/strokeWidth/offsetX/offsetY/
+ * align/baseline/lineHeight/padding/background/border/collisionFlg/zIndex/priority/minZoom/maxZoom/rotate/anchor`。
+ * 
+ * 事件：
+ * - `labelclick`：单击命中标签，参数 `{ label, data, graphic, text, latlng, originalEvent }`
+ * - `labelmouseover` / `labelmouseout`：悬停进入/离开标签
+ * @param {any} [options] 参数对象，包括以下：
+ * @param {any[]} [options.data] 标签数据数组，每项 `{ latlng, text, style }`
+ * @param {any} [options.sourceLayer] 从 `GraphicLayer` 读取 `style.labelStyle` 生成标签
+ * @param {any} [options.defaultLabelStyle] 默认标签样式，会被单条 `style` 覆盖
+ * @param {boolean} [options.collision] 是否做碰撞检测（单条可用 `collisionFlg` 覆盖）
+ * @param {number} [options.collisionPadding] 碰撞判定的额外间距（像素）
+ * @param {number} [options.minZoom] 图层级最小显示缩放
+ * @param {number} [options.maxZoom] 图层级最大显示缩放
+ * @param {number} [options.pixelRatio] 画布像素比；默认取 `min(2, devicePixelRatio)`
+ * @param {boolean} [options.interactive] 是否响应标签点击/悬停（不影响地图交互）
+ * @param {((...params: any[]) => any)} [options.onClick] 标签单击回调，参数 `{ label, data, text, latlng, originalEvent }`
+ * @param {((...params: any[]) => any)} [options.onHover] 标签悬停回调，命中时传标签参数、离开时传 `null`
+ * @param {string} [options.pane] 标签画布所在 pane
+ * @param {boolean} [options.show] 是否显示
+ * @param {string | number} [options.id] 图层id标识
+ * @param {string | number} [options.pid] 图层父级的id
+ * @param {string} [options.name] 图层名称
+ */
+declare class LabelLayer extends L.Layer {
+    constructor(options?: {
+        data?: any[];
+        sourceLayer?: any;
+        defaultLabelStyle?: any;
+        collision?: boolean;
+        collisionPadding?: number;
+        minZoom?: number;
+        maxZoom?: number;
+        pixelRatio?: number;
+        interactive?: boolean;
+        onClick?: ((...params: any[]) => any);
+        onHover?: ((...params: any[]) => any);
+        pane?: string;
+        show?: boolean;
+        id?: string | number;
+        pid?: string | number;
+        name?: string;
+      });
+    /**
+     * 是否已添加到地图
+     */
+    readonly isAdded: boolean | any;
+    /**
+     * 对象 pid 标识
+     */
+    pid: string | number | any;
+    /**
+     * 对象 id 标识
+     */
+    id: string | number | any;
+    /**
+     * 名称标识
+     */
+    name: string | any;
+    /**
+     * 显示隐藏状态
+     */
+    show: boolean | any;
+    /**
+     * 已绘制标签数量（最近一次重绘）
+     */
+    readonly drawnCount: number | any;
+    initialize(): void | any;
+    onAdd(): void | any;
+    onRemove(): void | any;
+    /**
+     * 设置标签数据（整体替换）
+     * @param {any[]} data 标签数据数组
+     * @returns {LabelLayer} 当前对象本身，可以链式调用
+     */
+    setData(data: any[] | any): LabelLayer | any;
+    /**
+     * 获取原始标签数据
+     * @returns {any[]} 标签数据数组
+     */
+    getData(): any[] | any;
+    /**
+     * 追加标签数据
+     * @param {any[]} data 标签数据数组
+     * @returns {LabelLayer} 当前对象本身，可以链式调用
+     */
+    addData(data: any[] | any): LabelLayer | any;
+    /**
+     * 清空 data 模式的标签；sourceLayer 的标签由图形自身决定，不受此方法影响
+     * @returns {LabelLayer} 当前对象本身，可以链式调用
+     */
+    clear(): LabelLayer | any;
+    /**
+     * 标签数量
+     * @returns {number} 有效标签数量（已过滤空文本/非法坐标）
+     */
+    getLabelCount(): number | any;
+    /**
+     * 设置标签数据来源图层（读取图形的 style.labelStyle）
+     * @param {any | null} sourceLayer GraphicLayer 实例；传 null 解除绑定
+     * @returns {LabelLayer} 当前对象本身，可以链式调用
+     */
+    setSourceLayer(sourceLayer: any | null): LabelLayer | any;
+    /**
+     * 获取当前数据来源图层
+     * @returns {any | null} GraphicLayer 实例或 null
+     */
+    getSourceLayer(): any | null;
+    /**
+     * 重新计算布局并绘制（视图变化或数据变化后调用）
+     * @returns {LabelLayer} 当前对象本身，可以链式调用
+     */
+    refresh(): LabelLayer | any;
+    /**
+     * 合并构造参数；`defaultLabelStyle` 变化会重新归一化标签
+     * @param {any} options 同当前类构造参数
+     * @returns {LabelLayer} 当前对象本身，可以链式调用
+     */
+    setOptions(options: any): LabelLayer | any;
+    /**
+     * 异步重绘（合并同一帧内的多次数据变更）
+     * @returns {LabelLayer} 当前对象本身，可以链式调用
+     */
+    redraw(): LabelLayer | any;
+    /**
+     * 绑定标签单击事件（等价于 `on("labelclick")`）
+     * @param {((...params: any[]) => any)} listener 回调，参数 `{ label, data, text, latlng, originalEvent }`
+     * @returns {LabelLayer} 当前对象本身，可以链式调用
+     */
+    addOnClickListener(listener: ((...params: any[]) => any) | any): LabelLayer | any;
+    /**
+     * 绑定标签悬停事件（等价于 `on("labelmouseover")`）
+     * @param {((...params: any[]) => any)} listener 回调，参数同 `labelclick`
+     * @returns {LabelLayer} 当前对象本身，可以链式调用
+     */
+    addOnHoverListener(listener: ((...params: any[]) => any) | any): LabelLayer | any;
+    /**
+     * 销毁图层并释放数据/缓存
+     * @returns {LabelLayer} 当前对象本身，可以链式调用
+     */
+    destroy(): LabelLayer | any;
 }
 
 /**
@@ -6269,6 +6538,13 @@ markers.refreshClusters({id_0: myMarker0, id_any: myMarker33});
      */
     readonly isAdded: boolean | any;
     /**
+     * 获取指定标记内的子标记数量：
+     * 普通点返回 1，聚合点返回其聚合的标记数量（来自 leaflet.markercluster 的公开方法）
+     * @param {L.Marker} marker 图层内的标记（普通点或聚合点）
+     * @returns {number} 子标记数量；marker 为空时返回 0
+     */
+    getChildCount(marker: L.Marker | any): number | any;
+    /**
      * 对象的pid标识
      */
     pid: string | number | any;
@@ -6385,7 +6661,7 @@ markers.on('clusterclick', function (a) {
  * 昼夜区域 图层
  * @param {any} options 参数对象，包括以下：
  * @param {Date} [options.time] 当前时间
- * @param {string} [options.fillColor] 填充颜色
+ * @param {string} [options.fillColor] 填充颜色（默认黑色，夜间区域）
  * @param {number} [options.fillOpacity] 填充透明度
  * @param {string | number} [options.id] 图层id标识
  * @param {string | number} [options.pid] 图层父级的id，一般图层管理中使用
@@ -9644,7 +9920,12 @@ declare class Map extends L.Map {
      */
     latLngToAccurateContainerPoint(latlng: L.LatLng | any): L.Point | any;
     /**
-     * 设置Scene场景参数
+     * 设置地图参数
+     * 
+     * 注意：仅部分参数支持创建后运行时修改（crs、zoom、center、minZoom、maxZoom、maxBounds、
+     * contextmenuItems，以及 backgroundColor、scrollWheelZoom 等会立即生效的交互项）；
+     * 其余参数只会合并进 this.options，不会重建控件/图层/处理器，
+     * 例如 dragging、basemaps、operationallayers、control 需在创建地图时传入，或使用对应的实例方法。
      * @param {Map.Options} options 地图参数
      * @returns {Map} 当前对象本身，可以链式调用
      */
@@ -10444,7 +10725,7 @@ declare namespace EchartsLayer {
  * @param {number} [options.zIndex] 用于图层间排序
  * @param {string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any)} [options.popup] 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
  * @param {Map.PopupOptions} [options.popupOptions] popup弹窗时的配置参数
- * @param {any} [highlight] 鼠标移单击后高亮对应的矢量对象的样式
+ * @param {any} [options.highlight] 鼠标单击后高亮对应矢量对象的样式（实现从 options.highlight 读取；原 JSDoc 写成独立参数导致 d.ts 位置错误）
  * @param {string | number} [options.id] 图层id标识
  * @param {string | number} [options.pid] 图层父级的id，一般图层管理中使用
  * @param {string} [options.name] 图层名称
@@ -10468,11 +10749,12 @@ declare class ArcGisDynamicLayer extends L.Layer {
         zIndex?: number;
         popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: Map.PopupOptions;
+        highlight?: any;
         id?: string | number;
         pid?: string | number;
         name?: string;
         pane?: string;
-      }, highlight?: any);
+      });
     /**
      * 在所有其他叠加层下方重绘此层。
      * @returns {ArcGisDynamicLayer} 当前对象本身,可以链式调用
@@ -12250,6 +12532,7 @@ declare namespace graphic {
   export { FeatureGroup }
   export { Point }
   export { Polyline }
+  export { ArcPolyline }
   export { BrushLine }
   export { Polygon }
   export { Circle }
@@ -12340,6 +12623,7 @@ declare namespace layer {
   export { WfsLayer }
   export { HeatLayer }
   export { CanvasMarkerLayer }
+  export { LabelLayer }
   export { BusineDataLayer }
   export { EchartsLayer }
   export { MapVLayer }
@@ -12524,6 +12808,16 @@ declare const LayerUtil: {
    * @returns {L.Layer | any | undefined} 图层类
    */
   getClass: (type: LayerType) => L.Layer | any | undefined;
+  /**
+   * 判断图层是否为创建地图时由配置（basemaps / operationallayers）初始化的图层，
+   * 用于区分“config.json 里配置的初始图层”和“运行过程中 addLayer 新增的图层”。
+   * 
+   * 说明：Map 初始化时会为配置图层打内部标记，运行期新增图层没有该标记；
+   * 这里把判断收敛为公开方法，避免调用方依赖图层上的私有字段。
+   * @param {L.Layer} layer 图层对象
+   * @returns {boolean} true：地图初始化时创建；false：运行期新增或传入为空
+   */
+  isMapInitLayer: (layer: L.Layer) => boolean;
   /**
    * 创建图层工厂方法
    * @param {any} options 图层参数，包括：

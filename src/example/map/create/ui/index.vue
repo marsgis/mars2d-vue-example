@@ -50,7 +50,6 @@
                 <a-radio value="2">2.5D</a-radio>
                 <a-radio value="3">3D</a-radio>
               </a-radio-group>
-              <!-- 已选择：{{ formState.radioVal }} -->
             </a-form-item>
 
             <a-form-item label="鼠标操作">
@@ -141,6 +140,9 @@ import { $message, $notify, $alert } from "@mars/components/mars-ui/index"
 
 const activeKey = ref(["1", "2", "3"])
 
+// 演示用的延时器：卸载时统一清理，避免切走示例后仍对已销毁的面板调用 $message/$hideLoading
+const demoTimers: ReturnType<typeof setTimeout>[] = []
+
 interface FormState {
   url: string
   extent: string
@@ -216,7 +218,6 @@ const onSelectChange = (value: string, data: any) => {
 // 日期切换事件
 const onDateChange = (data: any, value: any) => {
   $message("您选择了日期：" + value)
-  // formState.date = value
 }
 
 // 多选框勾选事件
@@ -274,9 +275,11 @@ const onClickAlert = async () => {
   }
 
   // 两者不能同时创建和销毁，稍微错开下
-  setTimeout(() => {
-    $message("点击了确定按钮") // 异步单击确定后提示
-  }, 500)
+  demoTimers.push(
+    setTimeout(() => {
+      $message("点击了确定按钮") // 异步单击确定后提示
+    }, 500)
+  )
 }
 
 // 按钮点击事件，演示loading持续三秒
@@ -284,13 +287,15 @@ const onClickLoading = async () => {
   $message("演示遮盖loading 持续三秒")
 
   window.$showLoading()
-  setTimeout(() => {
-    // 关闭loading
-    window.$hideLoading()
+  demoTimers.push(
+    setTimeout(() => {
+      // 关闭loading
+      window.$hideLoading()
 
-    // 默认的信息提示
-    $message("演示加载完成提示")
-  }, 3000)
+      // 默认的信息提示
+      $message("演示加载完成提示")
+    }, 3000)
+  )
 }
 
 // 按钮点击事件，演示顶部不遮盖的loading
@@ -298,11 +303,13 @@ const onClickTopLoading = () => {
   $message("演示顶部不遮盖的loading，看上面", "warning")
 
   window.$showLoading("top") // top 调用出现在顶部的加载进度
-  setTimeout(() => {
-    window.$hideLoading("top")
+  demoTimers.push(
+    setTimeout(() => {
+      window.$hideLoading("top")
 
-    $message("演示加载失败提示", "error")
-  }, 3000)
+      $message("演示加载失败提示", "error")
+    }, 3000)
+  )
 }
 
 // ========================= 表格控件相关处理============================
@@ -389,7 +396,8 @@ function initTree() {
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i] // 创建图层
 
-    if (!layer._hasMapInit && layer.pid === -1) {
+    // 公开 API：判断是否为 config.json 初始化时创建的图层（示例运行中新增的图层要归到 99 分组）
+    if (!mapWork.isMapInitLayer(layer) && layer.pid === -1) {
       layer.pid = 99 // 示例中创建的图层都放到99分组下面
     }
 
@@ -525,6 +533,10 @@ function renderChildNode(keys: string[], children: any[]) {
 onBeforeUnmount(() => {
   mapWork.eventTarget.off("drawExtent", onDrawExtent)
   mapWork.eventTarget.off("loadOK", onLoadOK)
+
+  // 清理演示延时器（loading 的 3 秒倒计时等）
+  demoTimers.forEach((timer) => clearTimeout(timer))
+  demoTimers.length = 0
 })
 </script>
 <style lang="less">

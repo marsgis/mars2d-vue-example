@@ -18,17 +18,17 @@ const randomPoints = () => {
   mapWork.randomPoints()
 }
 
-// 随机点
+// 随机线
 const randomPolylines = () => {
   mapWork.randomPolylines()
 }
 
-// 随机点
+// 随机面
 const randomPolygons = () => {
   mapWork.randomPolygons()
 }
 
-// 随机点
+// 清除
 const clearAll = () => {
   mapWork.clearAll()
 }

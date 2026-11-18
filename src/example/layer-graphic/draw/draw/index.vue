@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, markRaw } from "vue"
+import { markRaw, onMounted, onBeforeUnmount } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import DataManage from "@mars/components/mars-sample/data-manage.vue"
 import { useWidget } from "@mars/widgets/common/store/widget"
@@ -102,19 +102,23 @@ const showEditor = (e: any) => {
     })
   }
 }
-mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  // if (enabledEdit.value) {
+
+// 编辑事件回调用具名引用，卸载时才能精确 off（匿名函数 on 之后无法解绑）
+const onGraphicEditorStart = (e: any) => {
   showEditor(e)
-  // }
-})
-// 编辑修改了模型
-mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  showEditor(e)
+}
+const onGraphicEditorStop = () => {
+  disable("graphic-editor")
+}
+
+onMounted(() => {
+  mapWork.eventTarget.on("graphicEditor-start", onGraphicEditorStart)
+  mapWork.eventTarget.on("graphicEditor-stop", onGraphicEditorStop)
 })
 
-// 停止编辑修改模型
-mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  disable("graphic-editor")
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("graphicEditor-start", onGraphicEditorStart)
+  mapWork.eventTarget.off("graphicEditor-stop", onGraphicEditorStop)
 })
 </script>
 

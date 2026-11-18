@@ -98,15 +98,6 @@ const dom = [
     padding-right: 8px;
   }
 
-  :deep(.ant-space) {
-    display: grid;
-    grid-template-columns: 70px repeat(1, 1fr);
-
-    .ant-checkbox + span {
-      padding-inline-end: 0;
-    }
-  }
-
   .graphiclayer-btns {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

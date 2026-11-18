@@ -1,4 +1,5 @@
 <template>
+  <!-- 面板按钮对应 map.js 里「方式2」的两个方法：创建地图后动态叠加 / 移除 MapboxLayer -->
   <div class="map_btn">
     <a-space :size="10">
       <mars-button @click="addLayer">
@@ -28,6 +29,7 @@ onMounted(() => {
   activate("query-poi")
 })
 
+// 叠加/移除都在 map.js 内做判空与去重，面板只负责转发点击
 const addLayer = () => {
   mapWork.addLayer()
 }

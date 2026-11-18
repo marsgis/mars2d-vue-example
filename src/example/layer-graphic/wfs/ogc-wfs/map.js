@@ -1,16 +1,27 @@
+/**
+ * 示例：OGC WFS服务
+ * 演示：用 mars2d.layer.WfsLayer 加载 GeoServer 的 WFS 服务：点图层（基础体育设施，配图标+属性 popup）与规划面图层（按用地编号分级配色），按格网分块请求数据
+ * API：mars2d.layer.WfsLayer（typeNS/typeName/geometryField/styleField）、map.addLayer
+ * 要点：typeNS 是 GeoServer 工作空间名、typeName 是图层名，geometryField 要与服务里的几何字段一致；面数据量大时用 minZoom 限制低层级不请求（本示例 16 级起）；服务在 server.mars2d.cn 在线服务上，需能访问外网
+ */
 import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let wfsLayer // 基础体育设施点图层（onUnmounted 需移除）
+let wfsLayer2 // 规划面图层（onUnmounted 需移除）
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  const wfsLayer = new mars2d.layer.WfsLayer({
+  wfsLayer = new mars2d.layer.WfsLayer({
     name: "基础体育设施",
+    // GeoServer 的 WFS 入口；typeNS 是工作空间名、typeName 是图层名
     url: "http://server.mars2d.cn/geoserver/mars/ows",
     typeNS: "mars",
     typeName: "hfty",
+    // 服务里几何字段的名称，需与 GeoServer 图层的 schema 一致才能解析
     geometryField: "the_geom",
     symbol: {
       styleOptions: {
@@ -22,8 +33,10 @@ export function onMounted(mapInstance) {
       }
     },
     popupOptions: {
+      // 固定弹窗标题，不取要素字段
       title: "合肥市"
     },
+    // field 取要素属性名、name 是显示名；部分 field 带"（"是原始数据字段被截断所致，不能随意改
     popup: [
       { field: "项目名称", name: "项目名称" },
       { field: "建设性质", name: "建设性质" },
@@ -53,11 +66,12 @@ export function onMounted(mapInstance) {
   })
   map.addLayer(wfsLayer)
 
-  const wfsLayer2 = new mars2d.layer.WfsLayer({
+  wfsLayer2 = new mars2d.layer.WfsLayer({
     name: "规划面",
     url: "http://server.mars2d.cn/geoserver/mars/ows",
     typeNS: "mars",
     typeName: "hfgh",
+    // 规划面数据量大：限制 16 级以下不请求，避免缩小时拉取全量数据
     minZoom: 16,
     geometryField: "the_geom",
     symbol: {
@@ -67,6 +81,7 @@ export function onMounted(mapInstance) {
         fillColor: "#0000FF",
         outline: false
       },
+      // 按"用地编号"字段到文件末尾的 styleForType 配色表里取对应填充色
       styleField: "用地编号",
       styleFieldOptions: styleForType
     },
@@ -75,15 +90,31 @@ export function onMounted(mapInstance) {
   map.addLayer(wfsLayer2)
 }
 
+// ========== 2. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
+  if (wfsLayer) {
+    // onUnmounted 里 map 可能已被置空，移除图层前需判空
+    if (map) {
+      map.removeLayer(wfsLayer)
+    }
+    wfsLayer = null
+  }
+  if (wfsLayer2) {
+    if (map) {
+      map.removeLayer(wfsLayer2)
+    }
+    wfsLayer2 = null
+  }
   map = null
 }
 
-// 规划 配色
+// ========== 3. 规划用地配色表 ==========
+// 用地编号 → 填充色，纯数据，放文件末尾避免打断上面的图层主流程；onMounted 在地图初始化完成后才执行，此时常量已求值完毕
 const styleForType = {
   A1: {
     // 行政办公用地

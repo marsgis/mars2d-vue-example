@@ -1,11 +1,18 @@
+/**
+ * 示例：Tooltip 鼠标移入信息窗
+ * 演示：分别在地图、GeoJson图层、Graphic上绑定 Tooltip 提示窗（含按属性配置与局部刷新两种写法）
+ * API：map.openTooltip、layer.bindTooltip、graphic.bindTooltip、L.Tooltip
+ * 要点：Tooltip 的内容支持字符串/HTML/属性模板/函数；interactive:true 时提示窗可交互（才能点内部元素）；局部刷新只改提示窗内部指定 DOM，不要整块重建
+ */
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
 let map
 let graphicLayer // 矢量数据图层
 let geoJsonLayer
-let lastMaplTooltip //
+let lastMaplTooltip // 地图上直接打开的那个 Tooltip 实例
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 12,
@@ -16,6 +23,7 @@ export const eventTarget = new mars2d.BaseClass()
 
 let timeTik = null // tooltip 内时间局部刷新的定时器
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance
@@ -24,35 +32,27 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  /* map.on(mars2d.EventType.tooltipopen, function (event) {
-    const container = event.tooltip._container // tooltip对应的DOM
-    console.log("打开了tooltip(全局监听)", event)
-  })
-  map.on(mars2d.EventType.tooltipclose, function (event) {
-    const container = event.tooltip._container // tooltip对应的DOM
-    console.log("关闭了tooltip(全局监听)", event)
-  }) */
-
   bindLayerDemo()
 }
 
-export function onUnmounted() {
-  removeDemoLayer()
-  map = null
-}
-
+// ========== 3. 面板交互方法 ==========
 export function removeDemoLayer() {
   if (timeTik) {
     clearInterval(timeTik)
     timeTik = null
   }
-  // 关闭弹窗
+  // 关闭地图上直接打开的 Tooltip，避免图层清理后残留提示窗
   if (lastMaplTooltip) {
-    map.closeTooltip(lastMaplTooltip)
+    if (map) {
+      map.closeTooltip(lastMaplTooltip)
+    }
     lastMaplTooltip = null
   }
 
-  graphicLayer.clear()
+  // 清空主图层上的 Graphic，并销毁 GeoJson 图层（销毁时其上的 tooltip 监听一并释放）
+  if (graphicLayer) {
+    graphicLayer.clear()
+  }
 
   if (geoJsonLayer) {
     geoJsonLayer.remove(true)
@@ -97,15 +97,6 @@ export function bindLayerDemo() {
       }, 2000)
     }) */
   })
-
-  /* geoJsonLayer.on(mars2d.EventType.tooltipopen, function (event) {
-    const container = event.tooltip._container // tooltip对应的DOM
-    console.log("图层上打开了tooltip", container)
-  })
-  geoJsonLayer.on(mars2d.EventType.tooltipclose, function (event) {
-    const container = event.tooltip._container // tooltip对应的DOM
-    console.log("图层上移除了tooltip", container)
-  }) */
 }
 
 // 2.在layer图层上预定义tooltip单击弹窗
@@ -157,15 +148,6 @@ export function bindGraphicDemo1() {
 
   // 绑定Tooltip
   graphic.bindTooltip(getInnerHtml, { direction: "right" }).openTooltip()
-
-  /* graphic.on(mars2d.EventType.tooltipopen, function (event) {
-    const container = event.tooltip._container // tooltip对应的DOM
-    console.log("打开了tooltip", container)
-  })
-  graphic.on(mars2d.EventType.tooltipclose, function (event) {
-    const container = event.tooltip._container // tooltip对应的DOM
-    console.log("移除了tooltip", container)
-  }) */
 }
 
 // 3.在graphic数据上绑定Tooltip单击弹窗
@@ -186,7 +168,7 @@ export function bindGraphicDemo2() {
 
   // 刷新局部DOM,不影响tooltip面板的其他控件操作
   graphic.on(mars2d.EventType.tooltipopen, function (event) {
-    const container = event.tooltip._container // tooltip对应的DOM
+    const container = event.tooltip.getElement() // tooltip 对应的 DOM（DivOverlay#getElement 公开方法）
     console.log("打开了tooltip", container)
 
     const tdTime = container.querySelector("#tdTime")
@@ -201,7 +183,7 @@ export function bindGraphicDemo2() {
   })
 
   graphic.on(mars2d.EventType.tooltipclose, function (event) {
-    const container = event.tooltip._container // tooltip对应的DOM
+    const container = event.tooltip.getElement() // tooltip 对应的 DOM
     console.log("移除了tooltip", container)
 
     clearInterval(timeTik)
@@ -213,7 +195,7 @@ export function bindGraphicDemo2() {
             <tr><td >方式：</td><td >可以绑定任意html </td></tr>
             <tr><td >备注：</td><td >我是graphic上绑定的Tooltip</td></tr>
             <tr><td >时间：</td><td id="tdTime"></td></tr>
-            <!-- <tr><td colspan="4" style="text-align:right;cursor: pointer;"><a href="javascript:showXQ()">更多</a></td></tr> -->
+            <tr><td colspan="4" style="text-align:right;cursor: pointer;"><a href="javascript:showXQ()">更多</a></td></tr>
           </table>`
   // 绑定Tooltip
   graphic.bindTooltip(innerHtml, { interactive: true }).openTooltip()
@@ -223,4 +205,16 @@ export function bindGraphicDemo2() {
 function showXQ() {
   const showHistoryLayer = true
   eventTarget.fire("showWebsite", { showHistoryLayer })
+}
+
+// ========== 4. 清理（与 onMounted 对称）==========
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  // 先释放图层与提示窗（含 graphic 上的 tooltip 监听），再断开地图引用
+  removeDemoLayer()
+  graphicLayer = null
+  map = null
 }

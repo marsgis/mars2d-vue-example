@@ -40,10 +40,6 @@ const onBindLayerDemo2 = () => {
   mapWork.bindLayerDemo2()
 }
 
-// const onBindLayerTemplateDemo = () => {
-//   mapWork.bindLayerTemplateDemo()
-// }
-
 const onBindGraphicDemo1 = () => {
   mapWork.bindGraphicDemo1()
 }
@@ -53,13 +49,6 @@ const onBindGraphicDemo2 = () => {
 }
 </script>
 <style scoped lang="less">
-.history-layer {
-  width: 100%;
-  height: 90%;
-  top: 70px;
-  left: 0;
-  overflow: hidden;
-}
 .btn {
   width: 145px;
   &:nth-child(2n-1) {

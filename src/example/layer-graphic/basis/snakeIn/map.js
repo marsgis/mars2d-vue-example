@@ -1,9 +1,16 @@
+/**
+ * 示例：多个线的运动动画(图层级)
+ * 演示：先画社区之间的连线与编号点，再调用 GraphicLayer#snakeIn 让整个图层按顺序"蛇形"生长，并支持暂停/继续/停止
+ * API：mars2d.layer.GraphicLayer、GraphicLayer#snakeIn/snakeOut/snakePause/snakeContinue、map.addLayer
+ * 要点：turf 由示例框架按 example.json 的 libs 配置全局加载（不是 npm 包）；重叠走线用贝塞尔曲线偏移弧度区分；snakeIn 是图层级动画，移除图层即停止
+ */
 import * as mars2d from "mars2d"
 const L = mars2d.L
 
 let map // mars2d.Map二维地图对象
 let graphicLayer
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 14,
@@ -13,6 +20,7 @@ export const mapOptions = {
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -21,6 +29,7 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
+  // 社区之间的路线：相邻两个社区连成一段线
   const arrPath = [
     { name: "汇展园社区", jd: 117.144985, wd: 31.851898 },
     { name: "丰北社区", jd: 117.186699, wd: 31.852336 },
@@ -95,18 +104,25 @@ export function onMounted(mapInstance) {
 
   // map.fitBounds(graphicLayer.getBounds());
 
-  // 开始运动
+  // 开始运动：snakeIn 会按图层内矢量对象的添加顺序依次"生长"出来
   graphicLayer.snakeIn()
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // snakeIn 是图层级动画，从地图移除图层即停止
+  if (map && graphicLayer) {
+    map.removeLayer(graphicLayer)
+    graphicLayer = null
+  }
   map = null
 }
 
+// ========== 4. 内部工具函数 ==========
 // 计算贝塞尔曲线
 function getBezierPoints(startMpt, endMpt, count) {
   if (count === 0) {
@@ -116,12 +132,14 @@ function getBezierPoints(startMpt, endMpt, count) {
   startMpt = L.latLng(startMpt)
   endMpt = L.latLng(endMpt)
 
+  // turf 由 example.json 的 libs 全局加载，这里直接用全局变量
   const start = turf.point([startMpt.lng, startMpt.lat])
   const end = turf.point([endMpt.lng, endMpt.lat])
   const midpoint = turf.midpoint(start, end)
 
+  // 偏移半径取两点距离的 1/20（distanceTo 返回米，除以 1000*20 后单位为公里）
   let distance = startMpt.distanceTo(endMpt) / (1000 * 20)
-  distance = distance * count
+  distance = distance * count // 同一条线重叠越多，弯曲弧度越大，避免完全重合
 
   const bearing = turf.bearing(start, end) + 90
   const destination = turf.destination(midpoint, distance, bearing, { units: "kilometers" })
@@ -133,6 +151,7 @@ function getBezierPoints(startMpt, endMpt, count) {
   return latlngs
 }
 
+// ========== 5. 面板交互方法（动画控制）==========
 export function onClickstart() {
   graphicLayer.snakeIn()
 }

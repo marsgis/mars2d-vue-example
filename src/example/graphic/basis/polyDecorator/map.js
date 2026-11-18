@@ -1,8 +1,15 @@
+/**
+ * 示例：线面装饰点(箭头线)
+ * 演示：PolyDecorator 沿线/面重复绘制装饰符号（箭头、虚线、飞机图标、文字），并在 3 秒后切换样式
+ * API：mars2d.graphic.PolyDecorator、mars2d.graphic.Polyline/Polygon、mars2d.layer.GraphicLayer
+ * 要点：style 可传数组，每项 offset/repeat 控制装饰的起点与重复次数，symbol 支持 arrowHead/dash/marker 等类型；样式延时切换的 setTimeout 必须在 onUnmounted 清理
+ */
 import * as mars2d from "mars2d"
 
 export let map // mars2d.Map二维地图对象
 const L = mars2d.L
 export let graphicLayer
+let decoratorTimers = [] // 样式延时切换的 setTimeout 句柄，卸载时统一清理
 
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars2d.BaseClass()
@@ -11,6 +18,7 @@ export const mapOptions = {
   zoom: 11
 }
 
+// ========== 1. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
@@ -30,6 +38,7 @@ export function onMounted(mapInstance) {
   addGraphic6()
 }
 
+// ========== 2. 矢量对象（演示数据）==========
 // --- 简单箭头 ---
 function addGraphic1() {
   const arrow = new mars2d.graphic.Polyline({
@@ -179,7 +188,8 @@ function addGraphic4() {
   })
   graphicLayer.addGraphic(decorator)
 
-  setTimeout(() => {
+  // 3 秒后切换装饰样式，演示样式动态更新；句柄收集到 decoratorTimers 供 onUnmounted 清理
+  decoratorTimers.push(setTimeout(() => {
     decorator.setStyle([
       {
         symbol: {
@@ -194,7 +204,7 @@ function addGraphic4() {
         }
       }
     ])
-  }, 3000)
+  }, 3000))
 }
 
 function addGraphic5() {
@@ -264,7 +274,8 @@ function addGraphic6() {
   })
   graphicLayer.addGraphic(decorator)
 
-  setTimeout(() => {
+  // 3 秒后把飞机图标样式换成背景色，演示样式动态更新；同样收集定时器句柄
+  decoratorTimers.push(setTimeout(() => {
     decorator.setStyle([
       {
         offset: 0,
@@ -290,9 +301,10 @@ function addGraphic6() {
         }
       }
     ])
-  }, 3000)
+  }, 3000))
 }
 
+// ========== 3. 面板交互方法 ==========
 export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "polyDecorator",
@@ -321,14 +333,31 @@ export function startDrawGraphic() {
   })
 }
 
+// ========== 4. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
+ * 框架在切换示例 / 重新运行 map.js 时调用，必须判空且可重复执行
  * @returns {void} 无
  */
 export function onUnmounted() {
+  // 样式延时切换的定时器可能还在等待，必须清掉，避免回调操作已移除的矢量对象
+  decoratorTimers.forEach((timer) => {
+    clearTimeout(timer)
+  })
+  decoratorTimers = []
+  // 解绑面板通过 eventTarget 注册的事件，避免旧面板回调残留
+  eventTarget.off()
+  if (graphicLayer) {
+    // 从地图移除矢量图层：装饰物及 popup/右键菜单随图层一起释放
+    if (map) {
+      map.removeLayer(graphicLayer, true)
+    }
+    graphicLayer = null
+  }
   map = null
 }
 
+// ========== 5. 事件与交互 ==========
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件
@@ -497,10 +526,7 @@ function bindLayerContextMenu() {
 
 // 也可以在单个Graphic上做个性化管理及绑定操作
 function initGraphicManager(graphic) {
-  // 3.在graphic上绑定监听事件
-  // graphic.on(mars2d.EventType.click, function(event) {
-  //   console.log('监听graphic，单击了矢量对象', event)
-  // })
+  // 3.在graphic上绑定监听事件：graphic.on(mars2d.EventType.click, function (event) { ... })
 
   // 绑定Tooltip
   // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()

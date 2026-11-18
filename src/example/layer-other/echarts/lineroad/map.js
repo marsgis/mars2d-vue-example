@@ -1,10 +1,19 @@
+/**
+ * 示例：道路拥堵图
+ * 演示：用 EchartsLayer 的 lines（polyline 模式）绘制杭州主城区道路，visualMap 按拥堵指数分段着色并显示图例
+ * API：mars2d.layer.EchartsLayer、ECharts visualMap、mars2d.Map#setView
+ * 要点：本文件内嵌约 1 万行道路坐标数据，只读展示、不要手工重排；polyline: true 让每条线路按折线渲染（否则只连首尾两点）；visualMap 的 min/max/splitNumber 控制分段色带，maxOpen: true 表示最大值按开区间处理
+ */
 import * as mars2d from "mars2d"
 
-let map
+let map // mars2d.Map二维地图对象
+let echartsLayer // 图表图层，卸载时移除（触发 onRemove，内部 echarts 实例随之 dispose）
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {}
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -13,15 +22,23 @@ export function onMounted(mapInstance) {
   showEchartsLayer()
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-
 export function onUnmounted() {
-  map = null
+  if (map && echartsLayer) {
+    map.removeLayer(echartsLayer) // EchartsLayer.onRemove 会 dispose 内部的 echarts 实例并移除容器 DOM
+  }
+  echartsLayer = null
+  if (map) {
+    map.destroy() // 释放地图 DOM、底图与事件监听
+    map = null
+  }
 }
 
+// ========== 4. 图表图层 ==========
 function showEchartsLayer() {
   const data = [
     {
@@ -10606,6 +10623,6 @@ function showEchartsLayer() {
   }
 
   // 创建Echarts图层
-  const echartsLayer = new mars2d.layer.EchartsLayer(options)
+  echartsLayer = new mars2d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 }

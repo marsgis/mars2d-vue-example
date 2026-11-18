@@ -1,9 +1,16 @@
+/**
+ * 示例：业务后端数据图层
+ * 演示：用 mars2d.layer.BusineDataLayer 从后端接口取业务数据，按经纬度字段上图，并把数据推给面板生成树
+ * API：mars2d.layer.BusineDataLayer、map.addLayer、layer.on(mars2d.EventType.load)
+ * 要点：数据接口要返回带经纬度字符串的列表，坐标用 formatLatlng 自定义解析（返回 null 的项会被跳过）；styleField/styleFieldOptions 可按属性值批量换样式；数据来自在线接口 data.mars3d.cn
+ */
 import * as mars2d from "mars2d"
 
 export let map // mars2d.Map二维地图对象
 export let graphicLayer // 矢量图层对象
 export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到面板中
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 12,
@@ -12,6 +19,7 @@ export const mapOptions = {
   preferCanvas: true
 }
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -51,7 +59,7 @@ export function onMounted(mapInstance) {
         return [latlng[1], latlng[0]]
       }
     },
-    popup: "all"
+    popup: "all" // 单击矢量对象时弹出全部属性
   })
   map.addLayer(graphicLayer)
 
@@ -65,8 +73,11 @@ export function onMounted(mapInstance) {
   })
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
+  // 解绑面板通过 eventTarget 注册的监听，避免旧面板回调残留
+  eventTarget.off()
   if (map && graphicLayer) {
     // load、click 监听都挂在图层上，移除图层即可一并释放
     map.removeLayer(graphicLayer)
@@ -75,6 +86,8 @@ export function onUnmounted() {
   map = null
 }
 
+// ========== 4. 面板交互方法 ==========
 export function getGraphicById(id) {
-  return graphicLayer.getGraphicById(id)
+  // 图层未创建/已卸载时返回 null，面板点击树节点不会抛错
+  return graphicLayer ? graphicLayer.getGraphicById(id) : null
 }

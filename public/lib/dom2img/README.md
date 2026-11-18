@@ -2,7 +2,7 @@
 DOM 截图 / 图片处理组件合集
 
 ## 简要介绍
-收录多个截图相关组件（html2canvas、dom-to-image-more、gifler、screenShotPlugin 等，各仓库收录以同目录文件与署名声明为准），供 Mars2D 地图快照与出图功能使用。
+收录多个截图相关组件，各仓库收录以同目录文件与署名声明为准），供 Mars2D 地图快照与出图功能使用。
 
 ## 相关地址
 - github地址：https://github.com/niklasvh/html2canvas

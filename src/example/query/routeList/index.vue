@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { onBeforeUnmount, ref } from "vue"
 import * as mapWork from "./map.js"
 
 interface DataItem {
@@ -125,17 +125,17 @@ const selectWayOptions = ref([
 const stratPoint = () => {
   mapWork.stratPoint()
 }
-mapWork.eventTarget.on("star", function (event: any) {
+const onStar = (event: any) => {
   strat.value = event.latlng.lng.toFixed(6) + "," + event.latlng.lat.toFixed(6)
-})
+}
 // 终点POI
 const endPoint = () => {
   mapWork.endPoint()
   wayShow.value = false
 }
-mapWork.eventTarget.on("end", function (event: any) {
+const onEnd = (event: any) => {
   count.value = event.count
-})
+}
 // 开始分析
 const btnAnalyse = () => {
   wayShow.value = false
@@ -144,7 +144,7 @@ const btnAnalyse = () => {
   mapWork.btnAnalyse(selectWay.value)
 }
 
-mapWork.eventTarget.on("analyse", function (event: any) {
+const onAnalyse = (event: any) => {
   wayShow.value = true
 
   dataSource.value.push({
@@ -155,7 +155,12 @@ mapWork.eventTarget.on("analyse", function (event: any) {
     time: event.time,
     graphic: event.id
   })
-})
+}
+
+// 事件订阅：切换示例时面板会重建，必须用同一引用在 onBeforeUnmount 里 off，否则旧回调仍在操作已销毁的对象
+mapWork.eventTarget.on("star", onStar)
+mapWork.eventTarget.on("end", onEnd)
+mapWork.eventTarget.on("analyse", onAnalyse)
 
 // 清除数据
 const removeAll = () => {
@@ -164,6 +169,12 @@ const removeAll = () => {
   count.value = 0
   wayShow.value = false
 }
+
+onBeforeUnmount(() => {
+  mapWork.eventTarget.off("star", onStar)
+  mapWork.eventTarget.off("end", onEnd)
+  mapWork.eventTarget.off("analyse", onAnalyse)
+})
 </script>
 
 <style scoped lang="less">

@@ -1,13 +1,21 @@
+/**
+ * 示例：流出线
+ * 演示：以北京为起点，用 EchartsLayer 的 lines（轨迹线 + 箭头流光）与 effectScatter 绘制各省病人就诊流向图
+ * API：mars2d.layer.EchartsLayer、mars2d.Map#setView
+ * 要点：同一份 convertData 结果被放进「线 / 流动线 / 省份散点」3 个 series，tooltip 里靠 seriesIndex 区分，改 series 顺序时要同步改判断；散点颜色按就诊人次分档（<100 绿、>150 红、其余黄）；coords 是 [[经度, 纬度], [经度, 纬度]]
+ */
 import * as mars2d from "mars2d"
 
-let map
-let echartsLayer
+let map // mars2d.Map二维地图对象
+let echartsLayer // 图表图层，卸载时移除（触发 onRemove，内部 echarts 实例随之 dispose）
 
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   // zoomAnimation: false
 }
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -16,15 +24,23 @@ export function onMounted(mapInstance) {
   showEchartsLayer()
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-
 export function onUnmounted() {
-  map = null
+  if (map && echartsLayer) {
+    map.removeLayer(echartsLayer) // EchartsLayer.onRemove 会 dispose 内部的 echarts 实例并移除容器 DOM
+  }
+  echartsLayer = null
+  if (map) {
+    map.destroy() // 释放地图 DOM、底图与事件监听
+    map = null
+  }
 }
 
+// ========== 4. 图表图层 ==========
 function showEchartsLayer() {
   const geoCoordMap = {
     安徽省: [117.17, 31.52],
@@ -313,6 +329,8 @@ function showEchartsLayer() {
     },
     tooltip: {
       trigger: "item",
+      // 每个省份会生成 线/流动线/散点 3 个 serie，seriesIndex % 3 === 2 的是散点（显示人次），
+      // % 3 === 1 的是流动线（显示起点→终点），其余是轨迹线（不提示）
       formatter: function (params) {
         if (params.seriesIndex === 2 || params.seriesIndex === 5 || params.seriesIndex === 8) {
           return params.name + " " + params.seriesName + " : " + params.data.value[2] + "人次"

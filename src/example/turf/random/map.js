@@ -1,15 +1,24 @@
+/**
+ * 示例：生成随机数据(点线面)
+ * 演示：用 turf.randomPoint/randomLineString/randomPolygon 在固定 bbox 内各生成 100 个随机点/线/面
+ * API：turf.randomPoint、turf.randomLineString、turf.randomPolygon、mars2d.PointTrans.coords2latlngs
+ * 要点：num_vertices 控制每个线/面的顶点数（面至少 3）；max_length/max_radial_length 控制图形尺寸；turf 坐标是 [经度, 纬度]，要转成 graphic 需要的 [纬度, 经度]
+ */
 import * as mars2d from "mars2d"
 
 let map
 let graphicLayer
 let index = 0
 const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
+
+// ========== 1. 地图参数（合并/覆盖 config.json）==========
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   zoom: 11,
   center: { lat: 31.868811, lng: 117.234421 }
 }
 
+// ========== 2. 地图初始化 ==========
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -21,15 +30,20 @@ export function onMounted(mapInstance) {
   randomPoints()
 }
 
+// ========== 3. 清理（与 onMounted 对称）==========
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-
 export function onUnmounted() {
-  map = null
+  if (map) {
+    map.destroy() // 一并释放图层与随机数据
+    map = null
+  }
+  graphicLayer = null
 }
 
+// ========== 4. 颜色与数据范围 ==========
 // 颜色
 function getColor() {
   const i = index++ % colors.length
@@ -38,6 +52,7 @@ function getColor() {
 
 const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 
+// ========== 5. 面板交互方法：随机数据生成 ==========
 export function randomPoints() {
   graphicLayer.clear()
   const points = turf.randomPoint(100, { bbox })
@@ -120,6 +135,7 @@ export function randomPolygons() {
   })
 }
 
+// ========== 6. 清除 ==========
 export function clearAll() {
   graphicLayer.clear()
 }
